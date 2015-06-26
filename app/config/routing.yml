@@ -3,13 +3,10 @@ music_tools_tuning:
     prefix:   /
 
 music_tools_guitar:
-    resource: "@MusicToolsGuitarBundle/Resources/config/routing.yml"
-    prefix:   /
+    resource: "@MusicToolsGuitarBundle/Controller/"
+    type:     annotation
+    prefix:   /guitar
 
 music_tools_note:
     resource: "@MusicToolsNoteBundle/Resources/config/routing.yml"
     prefix:   /
-
-app:
-    resource: "@AppBundle/Controller/"
-    type:     annotation

@@ -1,0 +1,3 @@
+music_tools_guitar_homepage:
+    path:     /hello/{name}
+    defaults: { _controller: MusicToolsGuitarBundle:Default:index }

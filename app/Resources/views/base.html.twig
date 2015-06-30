@@ -1,1 +1,27 @@
 {% extends 'ElorfinUserInterfaceBundle::base.html.twig' %}
+
+{% block title %}Music Tools{% endblock %}
+
+{% block body %}
+    {# Top menu #}
+    {% include 'header.html.twig' %}
+
+    {# Content #}
+    <div class="content container-fluid">
+        {# User messages #}
+        {% for message in app.session.getFlashBag.get('error') %}
+            <div class="alert alert-error">{{ app.translator.trans(message) }}</div>
+        {% endfor %}
+
+        {% for message in app.session.getFlashBag.get('warning') %}
+            <div class="alert alert-warning">{{ app.translator.trans(message) }}</div>
+        {% endfor %}
+
+        {% for message in app.session.getFlashBag.get('success') %}
+            <div class="alert alert-success">{{ app.translator.trans(message) }}</div>
+        {% endfor %}
+
+        {# Page Content #}
+        {% block content %}{% endblock %}
+    </div>
+{% endblock %}

@@ -1,0 +1,18 @@
+# List of bundles mounted in the application
+bundles:
+    # Bundles to load regardless of the environment
+    default:
+        - Symfony\Bundle\FrameworkBundle\FrameworkBundle
+        - Symfony\Bundle\SecurityBundle\SecurityBundle
+        - Symfony\Bundle\TwigBundle\TwigBundle
+        - Symfony\Bundle\MonologBundle\MonologBundle
+        - Symfony\Bundle\AsseticBundle\AsseticBundle
+        - Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle
+        - Doctrine\Bundle\DoctrineBundle\DoctrineBundle
+        - Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle
+
+    # Bundles to load only for `dev` environment
+    dev:
+        - Symfony\Bundle\WebProfilerBundle\WebProfilerBundle
+        - Sensio\Bundle\DistributionBundle\SensioDistributionBundle
+        - Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle

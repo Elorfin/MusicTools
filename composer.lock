@@ -749,12 +749,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Elorfin/LocalizationBundle.git",
-                "reference": "553a75ffa399c90dbc902fa02483c10d5a1c73e8"
+                "reference": "2abce2da86b7ecdfed593619dc65e988d9ea7f51"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Elorfin/LocalizationBundle/zipball/553a75ffa399c90dbc902fa02483c10d5a1c73e8",
-                "reference": "553a75ffa399c90dbc902fa02483c10d5a1c73e8",
+                "url": "https://api.github.com/repos/Elorfin/LocalizationBundle/zipball/2abce2da86b7ecdfed593619dc65e988d9ea7f51",
+                "reference": "2abce2da86b7ecdfed593619dc65e988d9ea7f51",
                 "shasum": ""
             },
             "require": {
@@ -789,7 +789,7 @@
                 "localization",
                 "symfony"
             ],
-            "time": "2015-06-08 19:43:44"
+            "time": "2015-06-30 06:24:22"
         },
         {
             "name": "elorfin/reactor-bundle",
@@ -798,12 +798,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Elorfin/ReactorBundle.git",
-                "reference": "49140483f6f6456e87ca953bc272a124197538fb"
+                "reference": "c8738265209707ec0c54972dc403a996ded89107"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Elorfin/ReactorBundle/zipball/49140483f6f6456e87ca953bc272a124197538fb",
-                "reference": "49140483f6f6456e87ca953bc272a124197538fb",
+                "url": "https://api.github.com/repos/Elorfin/ReactorBundle/zipball/c8738265209707ec0c54972dc403a996ded89107",
+                "reference": "c8738265209707ec0c54972dc403a996ded89107",
                 "shasum": ""
             },
             "require": {
@@ -815,7 +815,7 @@
                 "sensio/generator-bundle": "~2.4",
                 "symfony/monolog-bundle": "~2.5",
                 "symfony/swiftmailer-bundle": "~2.3",
-                "symfony/symfony": "2.7"
+                "symfony/symfony": "~2.7"
             },
             "type": "bundle",
             "autoload": {
@@ -840,7 +840,7 @@
                 "library",
                 "symfony"
             ],
-            "time": "2015-06-07 10:58:43"
+            "time": "2015-06-30 06:23:43"
         },
         {
             "name": "elorfin/user-bundle",
@@ -893,12 +893,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Elorfin/UserInterfaceBundle.git",
-                "reference": "6b1a5bf2188d1088db66079a66a2d8793b5ecb25"
+                "reference": "d35114051f2847bb3558f6f72f45bad54e26cca9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Elorfin/UserInterfaceBundle/zipball/6b1a5bf2188d1088db66079a66a2d8793b5ecb25",
-                "reference": "6b1a5bf2188d1088db66079a66a2d8793b5ecb25",
+                "url": "https://api.github.com/repos/Elorfin/UserInterfaceBundle/zipball/d35114051f2847bb3558f6f72f45bad54e26cca9",
+                "reference": "d35114051f2847bb3558f6f72f45bad54e26cca9",
                 "shasum": ""
             },
             "require": {
@@ -936,7 +936,7 @@
                 "symfony",
                 "ui"
             ],
-            "time": "2015-06-07 10:24:18"
+            "time": "2015-06-30 06:25:00"
         },
         {
             "name": "fortawesome/font-awesome",
@@ -2253,16 +2253,16 @@
         },
         {
             "name": "symfony/symfony",
-            "version": "v2.7.0",
+            "version": "v2.7.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/symfony.git",
-                "reference": "9975b1eca3de4db792a2c3e4e16f676a4aadcd46"
+                "reference": "932b6e7499c670f4db6d0b871477a4a3ca161e74"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/symfony/zipball/9975b1eca3de4db792a2c3e4e16f676a4aadcd46",
-                "reference": "9975b1eca3de4db792a2c3e4e16f676a4aadcd46",
+                "url": "https://api.github.com/repos/symfony/symfony/zipball/932b6e7499c670f4db6d0b871477a4a3ca161e74",
+                "reference": "932b6e7499c670f4db6d0b871477a4a3ca161e74",
                 "shasum": ""
             },
             "require": {
@@ -2371,7 +2371,7 @@
             "keywords": [
                 "framework"
             ],
-            "time": "2015-05-30 16:52:28"
+            "time": "2015-06-11 21:15:28"
         },
         {
             "name": "twbs/bootstrap",

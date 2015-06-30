@@ -1,0 +1,34 @@
+# List of bundles mounted in the application
+bundles:
+    # Bundles to load regardless of the environment
+    default:
+        - Symfony\Bundle\FrameworkBundle\FrameworkBundle
+        - Symfony\Bundle\SecurityBundle\SecurityBundle
+        - Symfony\Bundle\TwigBundle\TwigBundle
+        - Symfony\Bundle\MonologBundle\MonologBundle
+        - Symfony\Bundle\AsseticBundle\AsseticBundle
+        - Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle
+        - Doctrine\Bundle\DoctrineBundle\DoctrineBundle
+        - Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle
+
+        # They need to be loaded by the custom bundles which use them
+        - Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle
+        - JMS\I18nRoutingBundle\JMSI18nRoutingBundle
+        - JMS\TranslationBundle\JMSTranslationBundle
+        - FOS\UserBundle\FOSUserBundle
+
+        - Elorfin\ReactorBundle\ElorfinReactorBundle
+        - Elorfin\UserInterfaceBundle\ElorfinUserInterfaceBundle
+        - Elorfin\LocalizationBundle\ElorfinLocalizationBundle
+        - Elorfin\UserBundle\ElorfinUserBundle
+
+        # Application bundles
+        - MusicTools\NoteBundle\MusicToolsNoteBundle
+        - MusicTools\GuitarBundle\MusicToolsGuitarBundle
+        - MusicTools\TuningBundle\MusicToolsTuningBundle
+
+    # Bundles to load only for `dev` environment
+    dev:
+        - Symfony\Bundle\WebProfilerBundle\WebProfilerBundle
+        - Sensio\Bundle\DistributionBundle\SensioDistributionBundle
+        - Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle

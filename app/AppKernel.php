@@ -1,38 +1,24 @@
 <?php
 
-use Symfony\Component\HttpKernel\Kernel;
-use Symfony\Component\Config\Loader\LoaderInterface;
+use Elorfin\ReactorBundle\Kernel\Kernel;
 
 class AppKernel extends Kernel
 {
-    public function registerBundles()
+    /**
+     * Get file which list of bundles to register in the Application
+     * @return string
+     */
+    public function getBundlesFile()
     {
-        $bundles = array(
-            new Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
-            new Symfony\Bundle\SecurityBundle\SecurityBundle(),
-            new Symfony\Bundle\TwigBundle\TwigBundle(),
-            new Symfony\Bundle\MonologBundle\MonologBundle(),
-            new Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle(),
-            new Symfony\Bundle\AsseticBundle\AsseticBundle(),
-            new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
-            new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
-            new MusicTools\NoteBundle\MusicToolsNoteBundle(),
-            new MusicTools\GuitarBundle\MusicToolsGuitarBundle(),
-            new MusicTools\TuningBundle\MusicToolsTuningBundle(),
-        );
-
-        if (in_array($this->getEnvironment(), array('dev', 'test'))) {
-            $bundles[] = new Symfony\Bundle\DebugBundle\DebugBundle();
-            $bundles[] = new Symfony\Bundle\WebProfilerBundle\WebProfilerBundle();
-            $bundles[] = new Sensio\Bundle\DistributionBundle\SensioDistributionBundle();
-            $bundles[] = new Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle();
-        }
-
-        return $bundles;
+        return $this->getRootDir() . '/config/bundles.yml';
     }
 
-    public function registerContainerConfiguration(LoaderInterface $loader)
+    /**
+     * Get file where application configuration is stored
+     * @return string
+     */
+    public function getConfigurationFile()
     {
-        $loader->load($this->getRootDir().'/config/config_'.$this->getEnvironment().'.yml');
+        return $this->getRootDir() . '/config/config_' . $this->getEnvironment() . '.yml';
     }
 }

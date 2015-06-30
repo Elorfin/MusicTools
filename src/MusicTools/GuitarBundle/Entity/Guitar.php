@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Used to store the configuration of a Guitar
  *
  * @ORM\Entity()
+ * @ORM\Table(name="guitar")
  */
 class Guitar
 {
@@ -44,7 +45,7 @@ class Guitar
      *
      * @ORM\Column(type="integer")
      */
-    protected $strings;
+    protected $strings = 6;
 
     /**
      * Tuning of the Guitar
@@ -53,4 +54,45 @@ class Guitar
     protected $tuning;
 
     protected $user;
+
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    public function getHeadstock()
+    {
+        return $this->headstock;
+    }
+
+    public function setHeadstock($headstock)
+    {
+        $this->headstock = $headstock;
+
+        return $this;
+    }
+
+    public function getStrings()
+    {
+        return $this->strings;
+    }
+
+    public function setStrings($strings)
+    {
+        $this->strings = $strings;
+
+        return $this;
+    }
 }

@@ -76,8 +76,6 @@ class GuitarController extends Controller
             'method' => 'POST',
         ));
 
-        $form->add('submit', 'submit', array('label' => 'Create'));
-
         return $form;
     }
 
@@ -164,8 +162,6 @@ class GuitarController extends Controller
             'action' => $this->generateUrl('guitar_update', array('id' => $entity->getId())),
             'method' => 'PUT',
         ));
-
-        $form->add('submit', 'submit', array('label' => 'Update'));
 
         return $form;
     }

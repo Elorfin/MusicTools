@@ -1,44 +1,31 @@
 {% extends '::base.html.twig' %}
 
 {% block content %}
-    {#<h1 class="page-header">Guitar edit</h1>
-
-    {{ form(edit_form) }}
-
-    <ul class="record_actions">
-        <li>
-            <a href="{{ path('guitar') }}">
-                Back to the list
-            </a>
-        </li>
-        <li>{{ form(delete_form) }}</li>
-    </ul>#}
-
     {{ form_start(edit_form) }}
-    <div class="panel panel-default panel-with-buttons">
-        <div class="panel-heading">
-            <h3 class="panel-title">Guitar edit</h3>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Guitar edit</h3>
+            </div>
+            <div class="panel-body">
+                {{ form_widget(edit_form) }}
+            </div>
         </div>
-        <div class="panel-body">
-            {{ form_widget(edit_form) }}
+
+        <div class="pull-right">
+            <button type="submit" class="btn btn-primary">
+                <span class="fa fa-check"></span>
+                Create
+            </button>
+
+            <a href="{{ path('guitar') }}" class="btn btn-default">
+                <span class="fa fa-times"></span>
+                Cancel
+            </a>
+
+            <a href="" class="btn btn-danger">
+                <span class="fa fa-trash-o"></span>
+                Delete
+            </a>
         </div>
-    </div>
-
-    <div class="panel-buttons pull-right">
-        <button type="submit" class="btn btn-primary">
-            <span class="fa fa-check"></span>
-            Create
-        </button>
-
-        <a href="{{ path('guitar') }}" class="btn btn-default">
-            <span class="fa fa-times"></span>
-            Cancel
-        </a>
-
-        <a href="" class="btn btn-danger">
-            <span class="fa fa-trash-o"></span>
-            Delete
-        </a>
-    </div>
     {{ form_end(edit_form) }}
 {% endblock %}

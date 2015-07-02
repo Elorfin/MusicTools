@@ -14,15 +14,15 @@
     <div class="content container-fluid">
         {# User messages #}
         {% for message in app.session.getFlashBag.get('error') %}
-            <div class="alert alert-error">{{ app.translator.trans(message) }}</div>
+            <div class="alert alert-error">{{ message|trans }}</div>
         {% endfor %}
 
         {% for message in app.session.getFlashBag.get('warning') %}
-            <div class="alert alert-warning">{{ app.translator.trans(message) }}</div>
+            <div class="alert alert-warning">{{ message|trans }}</div>
         {% endfor %}
 
         {% for message in app.session.getFlashBag.get('success') %}
-            <div class="alert alert-success">{{ app.translator.trans(message) }}</div>
+            <div class="alert alert-success">{{ message|trans }}</div>
         {% endfor %}
 
         {# Page Content #}

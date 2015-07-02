@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "aec28974cf6f0a1ef816bcda5afd467e",
+    "hash": "3c950b7b7f3dd30e106cfce38b952180",
     "packages": [
         {
             "name": "behat/transliterator",
@@ -849,12 +849,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Elorfin/UserBundle.git",
-                "reference": "6f790ec1e0f74e2c47bacccae6d60ae50b37fd89"
+                "reference": "7ce3fee731c2cde8bf1b74441b8756d0e968e769"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Elorfin/UserBundle/zipball/6f790ec1e0f74e2c47bacccae6d60ae50b37fd89",
-                "reference": "6f790ec1e0f74e2c47bacccae6d60ae50b37fd89",
+                "url": "https://api.github.com/repos/Elorfin/UserBundle/zipball/7ce3fee731c2cde8bf1b74441b8756d0e968e769",
+                "reference": "7ce3fee731c2cde8bf1b74441b8756d0e968e769",
                 "shasum": ""
             },
             "require": {
@@ -884,7 +884,7 @@
                 "symfony",
                 "user"
             ],
-            "time": "2015-06-26 09:45:50"
+            "time": "2015-07-02 06:30:11"
         },
         {
             "name": "elorfin/user-interface-bundle",

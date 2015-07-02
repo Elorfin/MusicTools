@@ -1,6 +1,13 @@
+# Routes for User management
 fos_user:
     resource: "@FOSUserBundle/Resources/config/routing/all.xml"
 
+# Routes for the public Area
+music_tools_home:
+    resource: "@MusicToolsHomeBundle/Resources/config/routing.yml"
+    prefix:   /
+
+# Routes for the User workspace
 music_tools_song_book:
     resource: "@MusicToolsSongBookBundle/Resources/config/routing.yml"
     prefix:   /my

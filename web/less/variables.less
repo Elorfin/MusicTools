@@ -102,9 +102,9 @@
 @line-height-large:         1.3333333; // extra decimals for Win 8.1 Chrome
 @line-height-small:         1.5;
 
-@border-radius-base:        4px;
-@border-radius-large:       6px;
-@border-radius-small:       3px;
+@border-radius-base:        0px; // Default: 4px
+@border-radius-large:       0px; // Default: 6px
+@border-radius-small:       0px; // Default: 3px
 
 //** Global color for active items (e.g., navs or dropdowns).
 @component-active-color:    #fff;
@@ -150,7 +150,7 @@
 
 @btn-primary-color:              #fff;
 @btn-primary-bg:                 @brand-primary;
-@btn-primary-border:             darken(@btn-primary-bg, 5%);
+@btn-primary-border:             darken(@btn-primary-bg, 7%);
 
 @btn-success-color:              #fff;
 @btn-success-bg:                 @brand-success;
@@ -702,19 +702,19 @@
 //
 //##
 
-@panel-bg:                    #161616;
+@panel-bg:                    rgba(0, 0, 0, 0.25);
 @panel-body-padding:          15px;
 @panel-heading-padding:       10px 15px;
 @panel-footer-padding:        @panel-heading-padding;
 @panel-border-radius:         @border-radius-base;
 
 //** Border color for elements within panels
-@panel-inner-border:          #ddd;
-@panel-footer-bg:             #f5f5f5;
+@panel-inner-border:          transparent;
+@panel-footer-bg:             transparent;
 
 @panel-default-text:          @text-color;
-@panel-default-border:        darken(@panel-bg, 3%);
-@panel-default-heading-bg:    @panel-bg;
+@panel-default-border:        transparent;
+@panel-default-heading-bg:    transparent;
 
 @panel-primary-text:          #fff;
 @panel-primary-border:        @brand-primary;

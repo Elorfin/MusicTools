@@ -1,3 +1,4 @@
-music_tools_song_book_homepage:
-    path:     /hello/{name}
-    defaults: { _controller: MusicToolsSongBookBundle:Default:index }
+music_tools_song:
+    resource: "@MusicToolsSongBookBundle/Controller/"
+    type:     annotation
+    prefix:   /song

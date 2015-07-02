@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "1ad0c8936718c2bdd050c01cb913b499",
+    "hash": "aec28974cf6f0a1ef816bcda5afd467e",
     "packages": [
         {
             "name": "behat/transliterator",
@@ -798,12 +798,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Elorfin/ReactorBundle.git",
-                "reference": "c8738265209707ec0c54972dc403a996ded89107"
+                "reference": "051717e781885ca4aa79dabf0d5d6b99d61153fd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Elorfin/ReactorBundle/zipball/c8738265209707ec0c54972dc403a996ded89107",
-                "reference": "c8738265209707ec0c54972dc403a996ded89107",
+                "url": "https://api.github.com/repos/Elorfin/ReactorBundle/zipball/051717e781885ca4aa79dabf0d5d6b99d61153fd",
+                "reference": "051717e781885ca4aa79dabf0d5d6b99d61153fd",
                 "shasum": ""
             },
             "require": {
@@ -840,7 +840,7 @@
                 "library",
                 "symfony"
             ],
-            "time": "2015-06-30 06:23:43"
+            "time": "2015-06-30 15:32:34"
         },
         {
             "name": "elorfin/user-bundle",
@@ -893,12 +893,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Elorfin/UserInterfaceBundle.git",
-                "reference": "d35114051f2847bb3558f6f72f45bad54e26cca9"
+                "reference": "a0a27d54d90eb465b394386637a04663fedcef7a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Elorfin/UserInterfaceBundle/zipball/d35114051f2847bb3558f6f72f45bad54e26cca9",
-                "reference": "d35114051f2847bb3558f6f72f45bad54e26cca9",
+                "url": "https://api.github.com/repos/Elorfin/UserInterfaceBundle/zipball/a0a27d54d90eb465b394386637a04663fedcef7a",
+                "reference": "a0a27d54d90eb465b394386637a04663fedcef7a",
                 "shasum": ""
             },
             "require": {
@@ -936,7 +936,7 @@
                 "symfony",
                 "ui"
             ],
-            "time": "2015-06-30 06:25:00"
+            "time": "2015-06-30 15:31:29"
         },
         {
             "name": "fortawesome/font-awesome",

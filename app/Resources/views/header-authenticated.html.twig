@@ -1,0 +1,66 @@
+{% macro menuItem(name, label, url) %}
+    {% set current = (name in app.request.get('_route')) %}
+    <li role="presentation" {% if current %}class="active"{% endif %}>
+        <a href="{{ url }}">
+            {{ label|trans }}
+
+            {% if current %}
+                <span class="sr-only">({{ 'link.current'|trans }})</span>
+            {% endif %}
+        </a>
+    </li>
+{% endmacro %}
+
+{% import _self as macros %}
+
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="fa fa-ellipsis-v"></span>
+            </button>
+            <a class="navbar-brand" href="#"><span class="fa fa-music"></span></a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                {{ macros.menuItem('guitar',     'link.guitar',     path('guitar')) }}
+                {{ macros.menuItem('song_book',     'link.song_book',     '') }}
+            </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        <span class="fa fa-user"></span>
+                        {{ app.user.username }}
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="#">
+                                <span class="fa fa-fw fa-user"></span>
+                                my profile
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <span class="fa fa-fw fa-cogs"></span>
+                                my settings
+                            </a>
+                        </li>
+                        <li role="separator" class="divider"></li>
+                        <li>
+                            <a href="{{ path('fos_user_security_logout') }}">
+                                <span class="fa fa-fw fa-sign-out"></span>
+                                logout
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>

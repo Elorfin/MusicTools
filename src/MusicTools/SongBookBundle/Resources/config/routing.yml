@@ -1,0 +1,3 @@
+music_tools_song_book_homepage:
+    path:     /hello/{name}
+    defaults: { _controller: MusicToolsSongBookBundle:Default:index }

@@ -4,7 +4,11 @@
 
 {% block body %}
     {# Top menu #}
-    {% include 'header.html.twig' %}
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+        {% include 'header-authenticated.html.twig' %}
+    {% else %}
+        {% include 'header.html.twig' %}
+    {% endif %}
 
     {# Content #}
     <div class="content container-fluid">

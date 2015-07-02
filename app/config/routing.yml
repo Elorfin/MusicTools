@@ -1,11 +1,18 @@
+fos_user:
+    resource: "@FOSUserBundle/Resources/config/routing/all.xml"
+
+music_tools_song_book:
+    resource: "@MusicToolsSongBookBundle/Resources/config/routing.yml"
+    prefix:   /my
+
 music_tools_tuning:
     resource: "@MusicToolsTuningBundle/Resources/config/routing.yml"
-    prefix:   /
+    prefix:   /my
 
 music_tools_guitar:
     resource: "@MusicToolsGuitarBundle/Resources/config/routing.yml"
-    prefix:   /
+    prefix:   /my
 
 music_tools_note:
     resource: "@MusicToolsNoteBundle/Resources/config/routing.yml"
-    prefix:   /
+    prefix:   /my

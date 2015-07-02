@@ -26,6 +26,7 @@ bundles:
         - MusicTools\NoteBundle\MusicToolsNoteBundle
         - MusicTools\GuitarBundle\MusicToolsGuitarBundle
         - MusicTools\TuningBundle\MusicToolsTuningBundle
+        - MusicTools\SongBookBundle\MusicToolsSongBookBundle
 
     # Bundles to load only for `dev` environment
     dev:

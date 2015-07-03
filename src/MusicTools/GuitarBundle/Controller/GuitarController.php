@@ -13,7 +13,7 @@ use MusicTools\GuitarBundle\Form\GuitarType;
 /**
  * Guitar controller.
  *
- * @Route("/")
+ * @Route("/guitar")
  */
 class GuitarController extends Controller
 {

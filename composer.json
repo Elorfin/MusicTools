@@ -1,5 +1,6 @@
 {
     "name": "axel/music-tools",
+    "description": "Tools to learn music",
     "license": "proprietary",
     "type": "project",
     "autoload": {

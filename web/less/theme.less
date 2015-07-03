@@ -14,6 +14,36 @@ body {
     }
 }
 
+.content {
+    .page-header {
+        border-bottom: none;
+        color: @brand-primary;
+        font-size: 20px;
+        font-weight: 100;
+        padding-bottom: 0;
+
+        &:first-child {
+            margin-top: 0;
+        }
+
+        .icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 15px;
+            border: 2px solid @brand-primary;
+            text-align: center;
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: floor(@grid-gutter-width / 2);
+
+            > .fa {
+                font-size: 18px;
+                margin: 4px 0;
+            }
+        }
+    }
+}
+
 .login-form,
 .register-form {
     background: rgba(0, 0, 0, 0.25);

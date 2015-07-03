@@ -25,6 +25,7 @@ bundles:
         # Application bundles
         - MusicTools\HomeBundle\MusicToolsHomeBundle
         - MusicTools\NoteBundle\MusicToolsNoteBundle
+        - MusicTools\MusicianBundle\MusicToolsMusicianBundle
         - MusicTools\GuitarBundle\MusicToolsGuitarBundle
         - MusicTools\TuningBundle\MusicToolsTuningBundle
         - MusicTools\SongBookBundle\MusicToolsSongBookBundle

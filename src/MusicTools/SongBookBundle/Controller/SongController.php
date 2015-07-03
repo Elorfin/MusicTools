@@ -13,7 +13,7 @@ use MusicTools\SongBookBundle\Form\SongType;
 /**
  * Song controller.
  *
- * @Route("/")
+ * @Route("/song")
  */
 class SongController extends Controller
 {

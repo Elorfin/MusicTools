@@ -1,15 +1,30 @@
 {% extends '::base.html.twig' %}
 
 {% block content %}
-    <h1>Song creation</h1>
+    <h1 class="page-header">
+        <div class="icon">
+            <span class="fa fa-plus"></span>
+        </div>
+        Song creation
+    </h1>
 
-    {{ form(form) }}
+    {{ form_start(form) }}
+        <div class="panel panel-default">
+            <div class="panel-body">
+                {{ form_widget(form) }}
+            </div>
+        </div>
 
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('song') }}">
-            Back to the list
-        </a>
-    </li>
-</ul>
+        <div class="text-right">
+            <button type="submit" class="btn btn-primary">
+                <span class="fa fa-check"></span>
+                Create
+            </button>
+
+            <a href="{{ path('song') }}" class="btn btn-default">
+                <span class="fa fa-times"></span>
+                Cancel
+            </a>
+        </div>
+    {{ form_end(form) }}
 {% endblock %}

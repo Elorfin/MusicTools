@@ -52,13 +52,14 @@ twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
     form_themes: ['bootstrap_3_layout.html.twig']
-
+    form:
+        resources:
+            - 'ElorfinUserInterfaceBundle:Form:fields.html.twig'
 
 # Assetic Configuration (moved into UserInterfaceBundle)
 assetic:
     debug:          "%kernel.debug%"
     use_controller: false
-    bundles:        [ ElorfinUserInterfaceBundle  ]
     filters:
         cssrewrite: ~
         lessphp:

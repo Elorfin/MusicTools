@@ -1,10 +1,10 @@
 <?php
 
-namespace MusicTools\SongBookBundle\Form;
+namespace MusicTools\SongBookBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class SongType extends AbstractType
 {
@@ -18,15 +18,15 @@ class SongType extends AbstractType
             ->add('title')
             ->add('artist')
             ->add('difficulty')
-            ->add('score')
-            ->add('status')
+            ->add('rating', 'score')
+            ->add('mastery')
         ;
     }
     
     /**
-     * @param OptionsResolverInterface $resolver
+     * @param OptionsResolver $resolver
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
             'data_class' => 'MusicTools\SongBookBundle\Entity\Song'

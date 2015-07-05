@@ -1,4 +1,7 @@
 services:
-#    music_tools_musician.example:
-#        class: MusicTools\MusicianBundle\Example
-#        arguments: [@service_id, "plain_value", %parameter%]
+    musician.listener.user:
+        class: MusicTools\MusicianBundle\EventListener\UserListener
+        calls:
+            - [setContainer, ["@service_container"]]
+        tags:
+            - { name: kernel.event_listener, event: fos_user.registration.completed, method: onRegistrationConfirmed }

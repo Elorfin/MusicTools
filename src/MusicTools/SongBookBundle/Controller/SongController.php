@@ -8,7 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use MusicTools\SongBookBundle\Entity\Song;
-use MusicTools\SongBookBundle\Form\SongType;
+use MusicTools\SongBookBundle\Form\Type\SongType;
 
 /**
  * Song controller.
@@ -75,8 +75,6 @@ class SongController extends Controller
             'action' => $this->generateUrl('song_create'),
             'method' => 'POST',
         ));
-
-        $form->add('submit', 'submit', array('label' => 'Create'));
 
         return $form;
     }
@@ -164,8 +162,6 @@ class SongController extends Controller
             'action' => $this->generateUrl('song_update', array('id' => $entity->getId())),
             'method' => 'PUT',
         ));
-
-        $form->add('submit', 'submit', array('label' => 'Update'));
 
         return $form;
     }

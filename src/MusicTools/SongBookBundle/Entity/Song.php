@@ -3,6 +3,7 @@
 namespace MusicTools\SongBookBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Song
@@ -31,30 +32,42 @@ class Song
     /**
      * @var string
      *
-     * @ORM\Column(name="artist", type="string", length=255)
+     * @ORM\Column(name="artist", type="string", length=255, nullable=true)
      */
     private $artist;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="difficulty", type="integer")
+     * @ORM\Column(name="difficulty", type="integer", nullable=true)
+     * @Assert\Range(
+     *      min = 0,
+     *      max = 10
+     * )
      */
-    private $difficulty;
+    private $difficulty = 0;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="score", type="integer")
+     * @ORM\Column(name="rating", type="integer", nullable=true)
+     * @Assert\Range(
+     *      min = 0,
+     *      max = 10
+     * )
      */
-    private $score;
+    private $rating = 0;
 
     /**
-     * @var string
+     * @var integer
      *
-     * @ORM\Column(name="status", type="string", length=255)
+     * @ORM\Column(name="status", type="integer", nullable=true)
+     * @Assert\Range(
+     *      min = 0,
+     *      max = 10
+     * )
      */
-    private $status;
+    private $mastery = 0;
 
 
     /**
@@ -137,48 +150,48 @@ class Song
     }
 
     /**
-     * Set score
+     * Set rating
      *
-     * @param integer $score
+     * @param integer $rating
      * @return Song
      */
-    public function setScore($score)
+    public function setRating($rating)
     {
-        $this->score = $score;
+        $this->rating = $rating;
 
         return $this;
     }
 
     /**
-     * Get score
+     * Get rating
      *
      * @return integer 
      */
-    public function getScore()
+    public function getRating()
     {
-        return $this->score;
+        return $this->rating;
     }
 
     /**
-     * Set status
+     * Set mastery
      *
-     * @param string $status
+     * @param integer $mastery
      * @return Song
      */
-    public function setStatus($status)
+        public function setMastery($mastery)
     {
-        $this->status = $status;
+        $this->mastery = $mastery;
 
         return $this;
     }
 
     /**
-     * Get status
+     * Get mastery
      *
-     * @return string 
+     * @return integer
      */
-    public function getStatus()
+    public function getMastery()
     {
-        return $this->status;
+        return $this->mastery;
     }
 }

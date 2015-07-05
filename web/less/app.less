@@ -1,11 +1,16 @@
+@vendorPath: "../../vendor";
+
 // Bootstrap
-@import "../../vendor/twbs/bootstrap/less/bootstrap";
+@import "@{vendorPath}/twbs/bootstrap/less/bootstrap";
 
 // Font Awesome
 /*@import "../../vendor/fortawesome/font-awesome/less/font-awesome";*/
 
 // Variables (override bootstrap default)
 @import "variables";
+
+// UserInterface
+@import "@{vendorPath}/elorfin/user-interface-bundle/Elorfin/UserInterfaceBundle/Resources/less/app.less";
 
 @import "boilerplate";
 

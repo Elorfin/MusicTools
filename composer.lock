@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "aec28974cf6f0a1ef816bcda5afd467e",
+    "hash": "f05b4c3cdae0c7b97ade1953c406a0a4",
     "packages": [
         {
             "name": "behat/transliterator",
@@ -893,12 +893,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Elorfin/UserInterfaceBundle.git",
-                "reference": "a0a27d54d90eb465b394386637a04663fedcef7a"
+                "reference": "41656810344a2915ba0ab9e3496613b6e7a63534"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Elorfin/UserInterfaceBundle/zipball/a0a27d54d90eb465b394386637a04663fedcef7a",
-                "reference": "a0a27d54d90eb465b394386637a04663fedcef7a",
+                "url": "https://api.github.com/repos/Elorfin/UserInterfaceBundle/zipball/41656810344a2915ba0ab9e3496613b6e7a63534",
+                "reference": "41656810344a2915ba0ab9e3496613b6e7a63534",
                 "shasum": ""
             },
             "require": {
@@ -936,7 +936,7 @@
                 "symfony",
                 "ui"
             ],
-            "time": "2015-06-30 15:31:29"
+            "time": "2015-07-06 06:18:53"
         },
         {
             "name": "fortawesome/font-awesome",

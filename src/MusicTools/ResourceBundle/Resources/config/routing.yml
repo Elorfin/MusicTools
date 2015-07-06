@@ -1,0 +1,3 @@
+music_tools_resource_homepage:
+    path:     /hello/{name}
+    defaults: { _controller: MusicToolsResourceBundle:Default:index }

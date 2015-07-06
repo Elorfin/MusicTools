@@ -39,18 +39,8 @@ class Song
     /**
      * @var integer
      *
-     * @ORM\Column(name="difficulty", type="integer", nullable=true)
-     * @Assert\Range(
-     *      min = 0,
-     *      max = 10
-     * )
-     */
-    private $difficulty = 0;
-
-    /**
-     * @var integer
-     *
      * @ORM\Column(name="rating", type="integer", nullable=true)
+     * @Assert\Type(type="numeric")
      * @Assert\Range(
      *      min = 0,
      *      max = 10
@@ -61,7 +51,8 @@ class Song
     /**
      * @var integer
      *
-     * @ORM\Column(name="status", type="integer", nullable=true)
+     * @ORM\Column(name="mastery", type="integer", nullable=true)
+     * @Assert\Type(type="numeric")
      * @Assert\Range(
      *      min = 0,
      *      max = 10
@@ -124,29 +115,6 @@ class Song
     public function getArtist()
     {
         return $this->artist;
-    }
-
-    /**
-     * Set difficulty
-     *
-     * @param integer $difficulty
-     * @return Song
-     */
-    public function setDifficulty($difficulty)
-    {
-        $this->difficulty = $difficulty;
-
-        return $this;
-    }
-
-    /**
-     * Get difficulty
-     *
-     * @return integer 
-     */
-    public function getDifficulty()
-    {
-        return $this->difficulty;
     }
 
     /**

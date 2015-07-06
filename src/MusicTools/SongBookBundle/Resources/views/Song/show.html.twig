@@ -1,48 +1,35 @@
 {% extends '::base.html.twig' %}
 
 {% block content %}
-    <h1>Song</h1>
+
+
+    <div class="row">
+        <div class="col-md-3 text-center">
+            <div class="text-center big-icon">
+                <span class="fa fa-music"></span>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <h1 class="page-header">{{ entity.title }} <small>{{ entity.artist }}</small></h1>
+            <div class="panel panel-default">
+                <div class="panel-body">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <table class="record_properties">
         <tbody>
             <tr>
-                <th>Id</th>
-                <td>{{ entity.id }}</td>
-            </tr>
-            <tr>
-                <th>Title</th>
-                <td>{{ entity.title }}</td>
-            </tr>
-            <tr>
-                <th>Artist</th>
-                <td>{{ entity.artist }}</td>
-            </tr>
-            <tr>
-                <th>Difficulty</th>
-                <td>{{ entity.difficulty }}</td>
-            </tr>
-            <tr>
-                <th>Score</th>
-                <td>{{ entity.score }}</td>
+                <th>Rating</th>
+                <td>{{ entity.rating }}</td>
             </tr>
             <tr>
                 <th>Status</th>
-                <td>{{ entity.status }}</td>
+                <td>{{ entity.mastery }}</td>
             </tr>
         </tbody>
     </table>
-
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('song') }}">
-            Back to the list
-        </a>
-    </li>
-    <li>
-        <a href="{{ path('song_edit', { 'id': entity.id }) }}">
-            Edit
-        </a>
-    </li>
-    <li>{{ form(delete_form) }}</li>
-</ul>
 {% endblock %}

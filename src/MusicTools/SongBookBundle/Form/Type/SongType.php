@@ -17,9 +17,11 @@ class SongType extends AbstractType
         $builder
             ->add('title')
             ->add('artist')
-            ->add('difficulty')
-            ->add('rating', 'score')
-            ->add('mastery')
+            ->add('rating', 'score', array(
+                'icon'       => 'fa fa-fw fa-lg fa-heart',
+                'icon_empty' => 'fa fa-fw fa-lg fa-heart-o',
+            ))
+            ->add('mastery', 'score')
         ;
     }
     

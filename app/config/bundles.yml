@@ -24,6 +24,7 @@ bundles:
 
         # Application bundles
         - MusicTools\HomeBundle\MusicToolsHomeBundle
+        - MusicTools\ResourceBundle\MusicToolsResourceBundle
         - MusicTools\NoteBundle\MusicToolsNoteBundle
         - MusicTools\MusicianBundle\MusicToolsMusicianBundle
         - MusicTools\GuitarBundle\MusicToolsGuitarBundle

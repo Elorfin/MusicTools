@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "b1a78d0dc0a6524d3e51d89370417aaa",
+    "hash": "f05b4c3cdae0c7b97ade1953c406a0a4",
     "packages": [
         {
             "name": "behat/transliterator",
@@ -893,16 +893,17 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Elorfin/UserInterfaceBundle.git",
-                "reference": "41656810344a2915ba0ab9e3496613b6e7a63534"
+                "reference": "4e5c39ba3f407f6261aa81ea3bdc4945f20bebdc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Elorfin/UserInterfaceBundle/zipball/41656810344a2915ba0ab9e3496613b6e7a63534",
-                "reference": "41656810344a2915ba0ab9e3496613b6e7a63534",
+                "url": "https://api.github.com/repos/Elorfin/UserInterfaceBundle/zipball/4e5c39ba3f407f6261aa81ea3bdc4945f20bebdc",
+                "reference": "4e5c39ba3f407f6261aa81ea3bdc4945f20bebdc",
                 "shasum": ""
             },
             "require": {
                 "elorfin/reactor-bundle": "dev-master",
+                "enyo/dropzone": "~4.0.1",
                 "fortawesome/font-awesome": "~4.3",
                 "mrclay/minify": "~2.2",
                 "natxet/cssmin": "3.0.2",
@@ -936,7 +937,43 @@
                 "symfony",
                 "ui"
             ],
-            "time": "2015-07-06 06:18:53"
+            "time": "2015-07-06 20:28:27"
+        },
+        {
+            "name": "enyo/dropzone",
+            "version": "v4.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/enyo/dropzone.git",
+                "reference": "b82c4797c9237aa5827f4fa97cd8d785ce16acce"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/enyo/dropzone/zipball/b82c4797c9237aa5827f4fa97cd8d785ce16acce",
+                "reference": "b82c4797c9237aa5827f4fa97cd8d785ce16acce",
+                "shasum": ""
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Matias Meno",
+                    "email": "m@tias.me",
+                    "homepage": "http://www.matiasmeno.com"
+                }
+            ],
+            "description": "Handles drag and drop of files for you.",
+            "homepage": "http://www.dropzonejs.com",
+            "keywords": [
+                "drag and drop",
+                "dragndrop",
+                "file upload",
+                "upload"
+            ],
+            "time": "2015-02-09 15:09:05"
         },
         {
             "name": "fortawesome/font-awesome",

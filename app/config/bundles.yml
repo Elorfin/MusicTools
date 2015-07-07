@@ -23,7 +23,6 @@ bundles:
         - Elorfin\UserBundle\ElorfinUserBundle
 
         # Application bundles
-        - MusicTools\ResourceBundle\MusicToolsResourceBundle
         - MusicTools\HomeBundle\MusicToolsHomeBundle
         - MusicTools\ResourceBundle\MusicToolsResourceBundle
         - MusicTools\NoteBundle\MusicToolsNoteBundle

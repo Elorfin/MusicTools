@@ -9,27 +9,38 @@
     </h1>
 
     {{ form_start(edit_form) }}
-        <div class="panel panel-default">
-            <div class="panel-body">
-                {{ form_widget(edit_form) }}
+        <div class="row">
+            <div class="col-md-3">
+                {{ form_row(edit_form.cover) }}
             </div>
-        </div>
 
-        <div class="text-right">
-            <button type="submit" class="btn btn-primary">
-                <span class="fa fa-check"></span>
-                Edit
-            </button>
+            <div class="col-md-9">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        {{ form_row(edit_form.title) }}
+                        {{ form_row(edit_form.artist) }}
+                        {{ form_row(edit_form.rating) }}
+                        {{ form_row(edit_form.mastery) }}
+                    </div>
+                </div>
 
-            <a href="{{ path('song') }}" class="btn btn-default">
-                <span class="fa fa-times"></span>
-                Cancel
-            </a>
+                <div class="text-right">
+                    <button type="submit" class="btn btn-primary">
+                        <span class="fa fa-check"></span>
+                        Edit
+                    </button>
 
-            <a href="" class="btn btn-danger">
-                <span class="fa fa-trash-o"></span>
-                Delete
-            </a>
+                    <a href="{{ path('song') }}" class="btn btn-default">
+                        <span class="fa fa-times"></span>
+                        Cancel
+                    </a>
+
+                    <a href="" class="btn btn-danger">
+                        <span class="fa fa-trash-o"></span>
+                        Delete
+                    </a>
+                </div>
+            </div>
         </div>
     {{ form_end(edit_form) }}
 {% endblock %}

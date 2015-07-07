@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "f05b4c3cdae0c7b97ade1953c406a0a4",
+    "hash": "b1a78d0dc0a6524d3e51d89370417aaa",
     "packages": [
         {
             "name": "behat/transliterator",
@@ -749,12 +749,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Elorfin/LocalizationBundle.git",
-                "reference": "2abce2da86b7ecdfed593619dc65e988d9ea7f51"
+                "reference": "305c96239b555f493b67d9cf2fe37fe1125f2cf3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Elorfin/LocalizationBundle/zipball/2abce2da86b7ecdfed593619dc65e988d9ea7f51",
-                "reference": "2abce2da86b7ecdfed593619dc65e988d9ea7f51",
+                "url": "https://api.github.com/repos/Elorfin/LocalizationBundle/zipball/305c96239b555f493b67d9cf2fe37fe1125f2cf3",
+                "reference": "305c96239b555f493b67d9cf2fe37fe1125f2cf3",
                 "shasum": ""
             },
             "require": {
@@ -789,7 +789,7 @@
                 "localization",
                 "symfony"
             ],
-            "time": "2015-06-30 06:24:22"
+            "time": "2015-07-06 09:47:52"
         },
         {
             "name": "elorfin/reactor-bundle",

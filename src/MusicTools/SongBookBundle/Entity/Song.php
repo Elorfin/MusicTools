@@ -41,10 +41,7 @@ class Song
      *
      * @ORM\Column(name="rating", type="integer", nullable=true)
      * @Assert\Type(type="numeric")
-     * @Assert\Range(
-     *      min = 0,
-     *      max = 10
-     * )
+     * @Assert\Range(min = 0, max = 10)
      */
     private $rating = 0;
 
@@ -53,13 +50,18 @@ class Song
      *
      * @ORM\Column(name="mastery", type="integer", nullable=true)
      * @Assert\Type(type="numeric")
-     * @Assert\Range(
-     *      min = 0,
-     *      max = 10
-     * )
+     * @Assert\Range(min = 0, max = 10)
      */
     private $mastery = 0;
 
+    // Many-to-One image
+    protected $cover;
+
+    protected $lyrics;
+
+    protected $audios;
+
+    protected $videos;
 
     /**
      * Get id

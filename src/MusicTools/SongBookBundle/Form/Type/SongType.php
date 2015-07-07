@@ -22,6 +22,7 @@ class SongType extends AbstractType
                 'icon_empty' => 'fa fa-fw fa-lg fa-heart-o',
             ))
             ->add('mastery', 'score')
+            ->add('cover', 'file', array ('mapped' => false))
         ;
     }
     

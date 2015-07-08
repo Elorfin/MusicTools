@@ -5,7 +5,9 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity
+ * File
+ *
+ * @ORM\MappedSuperclass
  * @ORM\HasLifecycleCallbacks
  */
 class File
@@ -15,38 +17,54 @@ class File
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    public $id;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank
-     */
-    public $name;
+    protected $id;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    public $path;
+    protected $path;
 
     /**
      * @Assert\File(maxSize="6000000")
      */
-    public $file;
+    protected $file;
+
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function getPath()
+    {
+        return $this->path;
+    }
+
+    public function getFile()
+    {
+        return $this->file;
+    }
+
+    public function setFile(\Symfony\Component\HttpFoundation\File\File $file)
+    {
+        $this->file = $file;
+
+        return $this;
+    }
 
     public function getAbsolutePath()
     {
-        return null === $this->path ? null : $this->getUploadRootDir().'/'.$this->path;
+        return null === $this->path ? null : $this->getUploadRootDir() . '/' . $this->path;
     }
 
     public function getWebPath()
     {
-        return null === $this->path ? null : $this->getUploadDir().'/'.$this->path;
+        return null === $this->path ? null : $this->getUploadDir() . '/' . $this->path;
     }
 
     protected function getUploadRootDir()
     {
         // le chemin absolu du répertoire où les documents uploadés doivent être sauvegardés
-        return __DIR__.'/../../../../web/'.$this->getUploadDir();
+        return __DIR__ . '/../../../../web/' . $this->getUploadDir();
     }
 
     protected function getUploadDir()
@@ -64,7 +82,7 @@ class File
     {
         if (null !== $this->file) {
             // faites ce que vous voulez pour générer un nom unique
-            $this->path = sha1(uniqid(mt_rand(), true)).'.'.$this->file->guessExtension();
+            $this->path = sha1(uniqid(mt_rand(), true)) . '.' . $this->file->guessExtension();
         }
     }
 

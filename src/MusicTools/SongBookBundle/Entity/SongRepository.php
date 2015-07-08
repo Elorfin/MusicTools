@@ -12,4 +12,13 @@ use Doctrine\ORM\EntityRepository;
  */
 class SongRepository extends EntityRepository
 {
+    public function findMySongs()
+    {
+
+    }
+
+    public function findUserSongs()
+    {
+
+    }
 }

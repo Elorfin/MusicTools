@@ -3,6 +3,7 @@
 namespace MusicTools\SongBookBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use MusicTools\ResourceBundle\Entity\Image;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -20,21 +21,21 @@ class Song
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
 
     /**
      * @var string
      *
      * @ORM\Column(name="title", type="string", length=255)
      */
-    private $title;
+    protected $title;
 
     /**
      * @var string
      *
      * @ORM\Column(name="artist", type="string", length=255, nullable=true)
      */
-    private $artist;
+    protected $artist;
 
     /**
      * @var integer
@@ -43,7 +44,7 @@ class Song
      * @Assert\Type(type="numeric")
      * @Assert\Range(min = 0, max = 10)
      */
-    private $rating = 0;
+    protected $rating = 0;
 
     /**
      * @var integer
@@ -52,9 +53,15 @@ class Song
      * @Assert\Type(type="numeric")
      * @Assert\Range(min = 0, max = 10)
      */
-    private $mastery = 0;
+    protected $mastery = 0;
 
-    // Many-to-One image
+    /**
+     * Cover of the Song
+     * @var \MusicTools\ResourceBundle\Entity\Image
+     *
+     * @ORM\ManyToOne(targetEntity="MusicTools\ResourceBundle\Entity\Image", cascade={"remove","persist"})
+     * @ORM\JoinColumn(name="cover_id", referencedColumnName="id", nullable=true)
+     */
     protected $cover;
 
     protected $lyrics;
@@ -148,7 +155,7 @@ class Song
      * @param integer $mastery
      * @return Song
      */
-        public function setMastery($mastery)
+    public function setMastery($mastery)
     {
         $this->mastery = $mastery;
 
@@ -163,5 +170,17 @@ class Song
     public function getMastery()
     {
         return $this->mastery;
+    }
+
+    public function getCover()
+    {
+        return $this->cover;
+    }
+
+    public function setCover(Image $cover)
+    {
+        $this->cover = $cover;
+
+        return $this;
     }
 }

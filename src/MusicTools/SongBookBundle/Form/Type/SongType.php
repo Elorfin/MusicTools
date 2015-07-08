@@ -2,6 +2,7 @@
 
 namespace MusicTools\SongBookBundle\Form\Type;
 
+use MusicTools\ResourceBundle\Form\Type\ImageType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -22,7 +23,7 @@ class SongType extends AbstractType
                 'icon_empty' => 'fa fa-fw fa-lg fa-heart-o',
             ))
             ->add('mastery', 'score')
-            ->add('cover', 'file', array ('mapped' => false))
+            ->add('cover', new ImageType())
         ;
     }
     

@@ -1,4 +1,6 @@
 services:
-#    music_tools_resource.example:
-#        class: MusicTools\ResourceBundle\Example
-#        arguments: [@service_id, "plain_value", %parameter%]
+    music_tools_resource.listener.image:
+        class: MusicTools\ResourceBundle\Entity\Listener\ImageListener
+        # arguments: [@service_id, "plain_value", %parameter%]
+        tags:
+            -  { name: doctrine.entity_listener }

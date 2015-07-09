@@ -57,7 +57,7 @@ class ImageType extends AbstractType
 
         /*$file = $data->getFile();*/
 
-        var_dump($data);
-        die();
+        /*var_dump($data);
+        die();*/
     }
 }

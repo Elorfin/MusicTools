@@ -17,6 +17,7 @@ bundles:
         - JMS\TranslationBundle\JMSTranslationBundle
         - FOS\UserBundle\FOSUserBundle
 
+        # Core bundles
         - Elorfin\ReactorBundle\ElorfinReactorBundle
         - Elorfin\UserInterfaceBundle\ElorfinUserInterfaceBundle
         - Elorfin\LocalizationBundle\ElorfinLocalizationBundle

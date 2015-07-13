@@ -2,7 +2,7 @@
 
 namespace MusicTools\SongBookBundle\Controller;
 
-/*use MusicTools\ResourceBundle\Entity\Image;*/
+use MusicTools\ResourceBundle\Entity\Image;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -47,14 +47,15 @@ class SongController extends Controller
     {
         $entity = new Song();
 
-        /*$cover = new Image();*/
-        /*$entity->setCover($cover);*/
+        /*$cover = new Image();
+        $entity->setCover($cover);*/
 
         $form = $this->createCreateForm($entity);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+
             $em->persist($entity);
             $em->flush();
 

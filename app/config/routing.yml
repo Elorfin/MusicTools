@@ -1,7 +1,3 @@
-music_tools_resource:
-    resource: "@MusicToolsResourceBundle/Resources/config/routing.yml"
-    prefix:   /
-
 # Routes for User management
 fos_user:
     resource: "@FOSUserBundle/Resources/config/routing/all.xml"
@@ -14,10 +10,6 @@ music_tools_home:
 # Routes for the User workspace
 music_tools_song_book:
     resource: "@MusicToolsSongBookBundle/Resources/config/routing.yml"
-    prefix:   /my
-
-music_tools_tuning:
-    resource: "@MusicToolsTuningBundle/Resources/config/routing.yml"
     prefix:   /my
 
 music_tools_guitar:

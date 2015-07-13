@@ -1,3 +1,0 @@
-music_tools_tuning_homepage:
-    path:     /hello/{name}
-    defaults: { _controller: MusicToolsTuningBundle:Default:index }

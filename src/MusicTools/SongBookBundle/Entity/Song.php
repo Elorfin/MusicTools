@@ -59,7 +59,7 @@ class Song
      * Cover of the Song
      * @var \MusicTools\ResourceBundle\Entity\Image
      *
-     * @ORM\ManyToOne(targetEntity="MusicTools\ResourceBundle\Entity\Image", cascade={"remove","persist"})
+     * @ORM\ManyToOne(targetEntity="MusicTools\ResourceBundle\Entity\Image", cascade={"remove", "persist"})
      * @ORM\JoinColumn(name="cover_id", referencedColumnName="id", nullable=true)
      */
     protected $cover;

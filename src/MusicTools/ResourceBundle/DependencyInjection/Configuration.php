@@ -1,7 +1,6 @@
 <?php
 
 namespace MusicTools\ResourceBundle\DependencyInjection;
-
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
@@ -12,6 +11,13 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
  */
 class Configuration implements ConfigurationInterface
 {
+    protected $rootDir;
+
+    public function __construct($rootDir)
+    {
+        $this->rootDir = $rootDir;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -20,9 +26,14 @@ class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder();
         $rootNode = $treeBuilder->root('music_tools_resource');
 
-        // Here you should define the parameters that are allowed to
-        // configure your bundle. See the documentation linked above for
-        // more information on that topic.
+        // Define default upload directory
+        $defaultUploadDir = $this->rootDir . DIRECTORY_SEPARATOR . '';
+
+        $rootNode
+            ->children()
+                ->scalarNode('upload_dir')->defaultValue($defaultUploadDir)->end()
+            ->end()
+        ;
 
         return $treeBuilder;
     }

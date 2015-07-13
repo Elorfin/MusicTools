@@ -8,7 +8,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  * File
  *
  * @ORM\MappedSuperclass
- * @ORM\HasLifecycleCallbacks
  */
 abstract class File
 {

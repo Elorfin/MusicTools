@@ -1,8 +1,5 @@
 services:
-    music_tools_resource.listener.image:
-        class: MusicTools\ResourceBundle\Entity\Listener\ImageListener
-        # arguments: [@service_id, "plain_value", %parameter%]
-        tags:
-            -  { name: doctrine.entity_listener, event: prePersist, method: prePersist }
-            -  { name: doctrine.entity_listener, event: preUpdate,  method: preUpdate }
-            -  { name: doctrine.entity_listener, event: postRemove, method: postRemove }
+    music_tools_resource.manager.file:
+        class: MusicTools\ResourceBundle\Manager\FileManager
+        arguments:
+            uploadDir: %upload_dir%

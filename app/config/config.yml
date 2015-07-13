@@ -103,13 +103,11 @@ doctrine:
     orm:
         auto_generate_proxy_classes: "%kernel.debug%"
 
-        # Moved into ReactorBundle
-        entity_listener_resolver: elorfin_reactor.doctrine.entity_listener_resolver
-
-        # Moved into LocalizationBundle
         entity_managers:
             default:
+                # Moved into LocalizationBundle
                 auto_mapping: true
+
                 mappings:
                     gedmo_translatable:
                         type: annotation

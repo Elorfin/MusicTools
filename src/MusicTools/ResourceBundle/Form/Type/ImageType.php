@@ -2,13 +2,11 @@
 
 namespace MusicTools\ResourceBundle\Form\Type;
 
-use MusicTools\ResourceBundle\Entity\Image;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 class ImageType extends AbstractType
 {
@@ -28,10 +26,8 @@ class ImageType extends AbstractType
     {
         $builder
             ->add('file')
-            ->addEventListener(
-                FormEvents::SUBMIT,
-                array($this, 'onSubmit')
-            );
+            ->addEventListener(FormEvents::SUBMIT, array ($this, 'onSubmit'))
+        ;
     }
 
     /**
@@ -39,10 +35,7 @@ class ImageType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        parent::configureOptions($resolver);
-
         $resolver->setDefaults(array(
-            /*'compound' => true,*/
             'data_class' => 'MusicTools\ResourceBundle\Entity\Image'
         ));
     }
@@ -53,11 +46,13 @@ class ImageType extends AbstractType
      */
     public function onSubmit(FormEvent $event)
     {
+        /** @var \MusicTools\ResourceBundle\Entity\Image $data */
         $data = $event->getData();
 
-        /*$file = $data->getFile();*/
+        /** @var \Symfony\Component\HttpFoundation\File\UploadedFile $file */
+        $file = $data->getFile();
 
-        /*var_dump($data);
-        die();*/
+        var_dump($file);
+        die();
     }
 }

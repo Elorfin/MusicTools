@@ -75,8 +75,8 @@ abstract class File
     }
 
     /**
-     * @ORM\PrePersist()
-     * @ORM\PreUpdate()
+     * PrePersist
+     * PreUpdate
      */
     public function preUpload()
     {
@@ -87,8 +87,8 @@ abstract class File
     }
 
     /**
-     * @ORM\PostPersist()
-     * @ORM\PostUpdate()
+     * PostPersist
+     * PostUpdate
      */
     public function upload()
     {
@@ -106,7 +106,7 @@ abstract class File
     }
 
     /**
-     * @ORM\PostRemove()
+     * PostRemove
      */
     public function removeUpload()
     {

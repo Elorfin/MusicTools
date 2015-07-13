@@ -3,4 +3,6 @@ services:
         class: MusicTools\ResourceBundle\Entity\Listener\ImageListener
         # arguments: [@service_id, "plain_value", %parameter%]
         tags:
-            -  { name: doctrine.entity_listener }
+            -  { name: doctrine.entity_listener, event: prePersist, method: prePersist }
+            -  { name: doctrine.entity_listener, event: preUpdate,  method: preUpdate }
+            -  { name: doctrine.entity_listener, event: postRemove, method: postRemove }

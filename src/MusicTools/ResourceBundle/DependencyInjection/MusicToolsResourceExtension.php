@@ -19,10 +19,6 @@ class MusicToolsResourceExtension extends Extension
      */
     public function load(array $configs, ContainerBuilder $container)
     {
-        // Process bundle configuration
-        $configuration = new Configuration($container->getParameter('kernel.root_dir'));
-        $this->processConfiguration($configuration, $configs);
-
         // Load bundle services
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');

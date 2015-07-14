@@ -2,7 +2,6 @@
 
 namespace MusicTools\SongBookBundle\Controller;
 
-use MusicTools\ResourceBundle\Entity\Image;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -46,9 +45,6 @@ class SongController extends Controller
     public function createAction(Request $request)
     {
         $entity = new Song();
-
-        /*$cover = new Image();
-        $entity->setCover($cover);*/
 
         $form = $this->createCreateForm($entity);
         $form->handleRequest($request);

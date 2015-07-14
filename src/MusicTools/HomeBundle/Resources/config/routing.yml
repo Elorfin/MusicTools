@@ -1,3 +1,4 @@
-resource: "@MusicToolsHomeBundle/Controller/"
+music_tools_home:
+    resource: "@MusicToolsHomeBundle/Controller/"
     type:     annotation
     prefix:   /

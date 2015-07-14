@@ -1,4 +1,5 @@
 <?php
+
 namespace MusicTools\ResourceBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -85,6 +86,13 @@ abstract class File
     public function setFile(BaseFile $file)
     {
         $this->file = $file;
+
+        return $this;
+    }
+
+    public function resetFile()
+    {
+        unset($this->file);
 
         return $this;
     }

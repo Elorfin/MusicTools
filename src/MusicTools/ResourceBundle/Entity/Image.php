@@ -13,6 +13,9 @@ use Doctrine\ORM\Mapping as ORM;
 class Image extends File
 {
     /**
+     * Unique identifier of the Image
+     * @var integer
+     *
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")

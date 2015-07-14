@@ -26,7 +26,6 @@ class ImageType extends AbstractType
     {
         $builder
             ->add('file')
-            ->addEventListener(FormEvents::SUBMIT, array ($this, 'onSubmit'))
         ;
     }
 
@@ -38,21 +37,5 @@ class ImageType extends AbstractType
         $resolver->setDefaults(array(
             'data_class' => 'MusicTools\ResourceBundle\Entity\Image'
         ));
-    }
-
-    /**
-     * When data have been validated, upload the file
-     * @param FormEvent $event
-     */
-    public function onSubmit(FormEvent $event)
-    {
-        /** @var \MusicTools\ResourceBundle\Entity\Image $data */
-        $data = $event->getData();
-
-        /** @var \Symfony\Component\HttpFoundation\File\UploadedFile $file */
-        $file = $data->getFile();
-
-        var_dump($file);
-        die();
     }
 }

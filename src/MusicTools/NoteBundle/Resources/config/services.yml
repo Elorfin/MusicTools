@@ -1,4 +1,0 @@
-services:
-#    music_tools_note.example:
-#        class: MusicTools\NoteBundle\Example
-#        arguments: [@service_id, "plain_value", %parameter%]

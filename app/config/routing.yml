@@ -16,10 +16,6 @@ music_tools_guitar:
     resource: "@MusicToolsGuitarBundle/Resources/config/routing.yml"
     prefix:   /my
 
-music_tools_note:
-    resource: "@MusicToolsNoteBundle/Resources/config/routing.yml"
-    prefix:   /my
-
 # Routes for the User community
 music_tools_musician:
     resource: "@MusicToolsMusicianBundle/Resources/config/routing.yml"

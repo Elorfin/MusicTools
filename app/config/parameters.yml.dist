@@ -7,6 +7,8 @@ parameters:
     locale: en
     locales_available: [ en, fr ]
 
+    upload_dir: %kernel.root_dir%/../web/uploads
+
     database_driver:   pdo_mysql
     database_host:     127.0.0.1
     database_port:     ~
@@ -22,4 +24,4 @@ parameters:
     mailer_password:   ~
 
     # A secret key that's used to generate certain security-related tokens
-    secret:            ThisTokenIsNotSoSecretChangeIt
+    secret:            b98e8d4a2470436aa720e77741ae9efa

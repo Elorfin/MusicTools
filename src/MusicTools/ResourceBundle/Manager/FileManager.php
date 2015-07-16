@@ -31,11 +31,6 @@ class FileManager
         $this->uploadDir = $uploadDir;
     }
 
-    public function getUploadDir()
-    {
-        return $this->uploadDir;
-    }
-
     public function getRealPath(File $file)
     {
         $realPath = $this->rootDir . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'web' . DIRECTORY_SEPARATOR . $this->uploadDir . DIRECTORY_SEPARATOR . $file->getPath();

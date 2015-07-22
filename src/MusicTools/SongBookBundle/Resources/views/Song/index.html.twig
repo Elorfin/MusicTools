@@ -1,5 +1,7 @@
 {% extends '::base.html.twig' %}
 
+{% import 'ElorfinUserInterfaceBundle:Show:fields.html.twig' as fields %}
+
 {% block content %}
     <h1 class="page-header">
         Song list
@@ -10,29 +12,51 @@
         </a>
     </h1>
 
-    {% for entity in entities %}
-        <div class="panel panel-default">
-            <div class="panel-body row">
-                <div class="col-md-2 text-center">
-                    {% if entity.cover is not empty %}
-                        <img src="{{ asset(resource_path(entity.cover)) }}" />
-                    {% else %}
-                    <div class="text-center big-icon">
-                        <span class="fa fa-music"></span>
+    <div class="song-list">
+        {% for entity in entities %}
+        <div class="song-item">
+            <a href="{{ path('song_show', { 'id': entity.id }) }}" style="color: inherit;">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-2 col-sm-3 col-xs-4 text-center">
+                                {% if entity.cover is not empty %}
+                                <img src="{{ asset(resource_path(entity.cover)) }}" class="img-responsive" />
+                                {% else %}
+                                <div class="text-center big-icon">
+                                    <span class="fa fa-music"></span>
+                                </div>
+                                {% endif %}
+                            </div>
+
+                            <div class="col-md-10 col-sm-9 col-xs-8">
+                                <h2 class="page-header">
+                                    {{ entity.title }}
+
+                                    {% if entity.artist is defined %}
+                                    <small>{{ entity.artist }}</small>
+                                    {% endif %}
+                                </h2>
+
+                                <div class="row">
+                                    <div class="col-md-6 text-center">
+                                        {{ fields.score_show(entity.rating, 0, 10, 'fa fa-fw fa-lg fa-heart', 'fa fa-fw fa-lg fa-heart-o') }}
+                                    </div>
+                                    <div class="col-md-6 text-center">
+                                        {{ fields.score_show(entity.mastery, 0, 10, 'fa fa-fw fa-lg fa-star', 'fa fa-fw fa-lg fa-star-o') }}
+                                    </div>
+                                </div>
+
+                                {#<a class="btn btn-default" href="{{ path('song_edit', { 'id': entity.id }) }}">
+                                    <span class="fa fa-pencil"></span>
+                                    edit
+                                </a>#}
+                            </div>
+                        </div>
                     </div>
-                    {% endif %}
                 </div>
-
-                <div class="col-md-10">
-                    <h2>{{ entity.title }}</h2>
-                    {% if entity.artist is defined %}
-                    <p>from {{ entity.artist }}</p>
-                    {% endif %}
-
-                    <a href="{{ path('song_show', { 'id': entity.id }) }}">show</a>
-                    <a href="{{ path('song_edit', { 'id': entity.id }) }}">edit</a>
-                </div>
-            </div>
+            </a>
         </div>
-    {% endfor %}
+        {% endfor %}
+    </div>
 {% endblock %}

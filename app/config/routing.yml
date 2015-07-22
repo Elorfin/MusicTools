@@ -1,6 +1,6 @@
 # Routes for User management
-fos_user:
-    resource: "@FOSUserBundle/Resources/config/routing/all.xml"
+elorfin_user:
+    resource: "@ElorfinUserBundle/Resources/config/routing.yml"
 
 # Routes for the public Area
 music_tools_home:

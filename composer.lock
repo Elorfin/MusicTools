@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "e451a39ec477b6f90c30f2b78fd804df",
+    "hash": "559a3222a06cfa97cc7b1d3ef0180d65",
     "packages": [
         {
             "name": "behat/transliterator",
@@ -810,21 +810,21 @@
         },
         {
             "name": "elorfin/localization-bundle",
-            "version": "dev-master",
+            "version": "v1.0.0",
             "target-dir": "Elorfin/LocalizationBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Elorfin/LocalizationBundle.git",
-                "reference": "305c96239b555f493b67d9cf2fe37fe1125f2cf3"
+                "reference": "23a55682d258db2b63024bb44381c0492809f78b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Elorfin/LocalizationBundle/zipball/305c96239b555f493b67d9cf2fe37fe1125f2cf3",
-                "reference": "305c96239b555f493b67d9cf2fe37fe1125f2cf3",
+                "url": "https://api.github.com/repos/Elorfin/LocalizationBundle/zipball/23a55682d258db2b63024bb44381c0492809f78b",
+                "reference": "23a55682d258db2b63024bb44381c0492809f78b",
                 "shasum": ""
             },
             "require": {
-                "elorfin/reactor-bundle": "dev-master",
+                "elorfin/reactor-bundle": "~1.0",
                 "gedmo/doctrine-extensions": "~2.3",
                 "jms/i18n-routing-bundle": "~1.1",
                 "php": ">=5.4.1",
@@ -855,21 +855,21 @@
                 "localization",
                 "symfony"
             ],
-            "time": "2015-07-06 09:47:52"
+            "time": "2015-07-21 10:02:49"
         },
         {
             "name": "elorfin/reactor-bundle",
-            "version": "dev-master",
+            "version": "v1.0.0",
             "target-dir": "Elorfin/ReactorBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Elorfin/ReactorBundle.git",
-                "reference": "24112b4569ddfd3e82d39c985b9050caeb274739"
+                "reference": "7fc03c8feb5f59292eddfcf93579c664cc5f60ef"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Elorfin/ReactorBundle/zipball/24112b4569ddfd3e82d39c985b9050caeb274739",
-                "reference": "24112b4569ddfd3e82d39c985b9050caeb274739",
+                "url": "https://api.github.com/repos/Elorfin/ReactorBundle/zipball/7fc03c8feb5f59292eddfcf93579c664cc5f60ef",
+                "reference": "7fc03c8feb5f59292eddfcf93579c664cc5f60ef",
                 "shasum": ""
             },
             "require": {
@@ -906,26 +906,26 @@
                 "library",
                 "symfony"
             ],
-            "time": "2015-07-13 15:31:16"
+            "time": "2015-07-16 08:00:19"
         },
         {
             "name": "elorfin/user-bundle",
-            "version": "dev-master",
+            "version": "v1.0.0",
             "target-dir": "Elorfin/UserBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Elorfin/UserBundle.git",
-                "reference": "7ce3fee731c2cde8bf1b74441b8756d0e968e769"
+                "reference": "7cc3b0dc16e18ed5b95184251df82020df8c9460"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Elorfin/UserBundle/zipball/7ce3fee731c2cde8bf1b74441b8756d0e968e769",
-                "reference": "7ce3fee731c2cde8bf1b74441b8756d0e968e769",
+                "url": "https://api.github.com/repos/Elorfin/UserBundle/zipball/7cc3b0dc16e18ed5b95184251df82020df8c9460",
+                "reference": "7cc3b0dc16e18ed5b95184251df82020df8c9460",
                 "shasum": ""
             },
             "require": {
-                "elorfin/reactor-bundle": "dev-master",
-                "friendsofsymfony/user-bundle": "dev-master",
+                "elorfin/reactor-bundle": "~1.0",
+                "friendsofsymfony/user-bundle": "~1.3",
                 "php": ">=5.4.1"
             },
             "type": "bundle",
@@ -950,25 +950,25 @@
                 "symfony",
                 "user"
             ],
-            "time": "2015-07-02 06:30:11"
+            "time": "2015-07-21 10:06:54"
         },
         {
             "name": "elorfin/user-interface-bundle",
-            "version": "dev-master",
+            "version": "v1.0.0",
             "target-dir": "Elorfin/UserInterfaceBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Elorfin/UserInterfaceBundle.git",
-                "reference": "4e5c39ba3f407f6261aa81ea3bdc4945f20bebdc"
+                "reference": "4c8527bd3073f2daacaca3093e4927d7ecd9cd33"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Elorfin/UserInterfaceBundle/zipball/4e5c39ba3f407f6261aa81ea3bdc4945f20bebdc",
-                "reference": "4e5c39ba3f407f6261aa81ea3bdc4945f20bebdc",
+                "url": "https://api.github.com/repos/Elorfin/UserInterfaceBundle/zipball/4c8527bd3073f2daacaca3093e4927d7ecd9cd33",
+                "reference": "4c8527bd3073f2daacaca3093e4927d7ecd9cd33",
                 "shasum": ""
             },
             "require": {
-                "elorfin/reactor-bundle": "dev-master",
+                "elorfin/reactor-bundle": "~1.0",
                 "enyo/dropzone": "~4.0.1",
                 "fortawesome/font-awesome": "~4.3",
                 "mrclay/minify": "~2.2",
@@ -1003,7 +1003,7 @@
                 "symfony",
                 "ui"
             ],
-            "time": "2015-07-06 20:28:27"
+            "time": "2015-07-21 10:07:03"
         },
         {
             "name": "enyo/dropzone",
@@ -1091,30 +1091,30 @@
         },
         {
             "name": "friendsofsymfony/user-bundle",
-            "version": "dev-master",
+            "version": "v1.3.6",
+            "target-dir": "FOS/UserBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSUserBundle.git",
-                "reference": "3efbc08a97f218d0a4524dee926fc4381e3d0947"
+                "reference": "2022ac8463a8c50dd631f93a17064bd41795fff2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/3efbc08a97f218d0a4524dee926fc4381e3d0947",
-                "reference": "3efbc08a97f218d0a4524dee926fc4381e3d0947",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/2022ac8463a8c50dd631f93a17064bd41795fff2",
+                "reference": "2022ac8463a8c50dd631f93a17064bd41795fff2",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.2",
-                "symfony/form": "~2.3",
-                "symfony/framework-bundle": "~2.3",
-                "symfony/security-bundle": "~2.3",
-                "symfony/twig-bundle": "~2.3"
+                "symfony/framework-bundle": "~2.1",
+                "symfony/security-bundle": "~2.1"
             },
             "require-dev": {
                 "doctrine/doctrine-bundle": "~1.3",
                 "swiftmailer/swiftmailer": "~4.3|~5",
-                "symfony/validator": "~2.3",
-                "symfony/yaml": "~2.3",
+                "symfony/validator": "~2.1",
+                "symfony/yaml": "~2.1",
+                "twig/twig": "~1.5",
                 "willdurand/propel-typehintable-behavior": "~1.0"
             },
             "suggest": {
@@ -1127,8 +1127,8 @@
                 }
             },
             "autoload": {
-                "psr-4": {
-                    "FOS\\UserBundle\\": ""
+                "psr-0": {
+                    "FOS\\UserBundle": ""
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -1154,7 +1154,7 @@
             "keywords": [
                 "User management"
             ],
-            "time": "2015-06-10 08:27:05"
+            "time": "2015-06-01 00:57:03"
         },
         {
             "name": "gedmo/doctrine-extensions",
@@ -2696,13 +2696,7 @@
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "elorfin/reactor-bundle": 20,
-        "elorfin/user-interface-bundle": 20,
-        "elorfin/localization-bundle": 20,
-        "friendsofsymfony/user-bundle": 20,
-        "elorfin/user-bundle": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

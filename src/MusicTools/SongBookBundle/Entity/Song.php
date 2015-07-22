@@ -2,6 +2,7 @@
 
 namespace MusicTools\SongBookBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use MusicTools\ResourceBundle\Entity\Image;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -38,6 +39,7 @@ class Song
     protected $artist;
 
     /**
+     * Rating of the Song
      * @var integer
      *
      * @ORM\Column(name="rating", type="integer", nullable=true)
@@ -47,6 +49,7 @@ class Song
     protected $rating = 0;
 
     /**
+     * Level of mastery
      * @var integer
      *
      * @ORM\Column(name="mastery", type="integer", nullable=true)
@@ -54,6 +57,14 @@ class Song
      * @Assert\Range(min = 0, max = 10)
      */
     protected $mastery = 0;
+
+    /**
+     * Start date of the learning
+     * @var \DateTime
+     *
+     * @ORM\Column(name="started_at", type="date", nullable=true)
+     */
+    protected $startedAt;
 
     /**
      * Cover of the Song
@@ -64,11 +75,40 @@ class Song
      */
     protected $cover;
 
+    /**
+     * List of Lyrics associated to the Song
+     * @var \Doctrine\Common\Collections\ArrayCollection
+     */
     protected $lyrics;
 
+    /**
+     * List of Audios associated to the Song
+     * @var \Doctrine\Common\Collections\ArrayCollection
+     */
     protected $audios;
 
+    /**
+     * List of Videos associated to the Song
+     * @var \Doctrine\Common\Collections\ArrayCollection
+     */
     protected $videos;
+
+    /**
+     * List of Records associated to the Song
+     * @var \Doctrine\Common\Collections\ArrayCollection
+     */
+    protected $records;
+
+    /**
+     * Entity constructor
+     */
+    public function __construct()
+    {
+        $this->lyrics  = new ArrayCollection();
+        $this->audios  = new ArrayCollection();
+        $this->videos  = new ArrayCollection();
+        $this->records = new ArrayCollection();
+    }
 
     /**
      * Get id
@@ -172,15 +212,84 @@ class Song
         return $this->mastery;
     }
 
+    /**
+     * Get cover
+     * @return Image
+     */
     public function getCover()
     {
         return $this->cover;
     }
 
+    /**
+     * Set cover
+     * @param Image $cover
+     * @return $this
+     */
     public function setCover(Image $cover)
     {
         $this->cover = $cover;
 
+        return $this;
+    }
+
+    public function getAudios()
+    {
+        return $this->audios;
+    }
+
+    public function addAudio()
+    {
+        return $this;
+    }
+
+    public function removeAudio()
+    {
+        return $this;
+    }
+
+    public function getVideos()
+    {
+        return $this->videos;
+    }
+
+    public function addVideo()
+    {
+        return $this;
+    }
+
+    public function removeVideo()
+    {
+        return $this;
+    }
+
+    public function getLyrics()
+    {
+        return $this->lyrics;
+    }
+
+    public function addLyrics()
+    {
+        return $this;
+    }
+
+    public function removeLyrics()
+    {
+        return $this;
+    }
+
+    public function getRecords()
+    {
+        return $this->records;
+    }
+
+    public function addRecord()
+    {
+        return $this;
+    }
+
+    public function removeRecord()
+    {
         return $this;
     }
 }

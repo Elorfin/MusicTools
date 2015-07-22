@@ -11,15 +11,15 @@ use MusicTools\SongBookBundle\Entity\Song;
 use MusicTools\SongBookBundle\Form\Type\SongType;
 
 /**
- * Song controller.
+ * Song controller
  *
  * @Route("/song")
  */
 class SongController extends Controller
 {
-
     /**
      * Lists all Song entities.
+     * @return array
      *
      * @Route("/", name="song")
      * @Method("GET")
@@ -35,8 +35,9 @@ class SongController extends Controller
             'entities' => $entities,
         );
     }
+
     /**
-     * Creates a new Song entity.
+     * Creates a new Song entity
      *
      * @Route("/", name="song_create")
      * @Method("POST")
@@ -67,8 +68,7 @@ class SongController extends Controller
     /**
      * Creates a form to create a Song entity.
      *
-     * @param Song $entity The entity
-     *
+     * @param  Song $entity The entity
      * @return \Symfony\Component\Form\Form The form
      */
     private function createCreateForm(Song $entity)
@@ -152,12 +152,12 @@ class SongController extends Controller
     }
 
     /**
-    * Creates a form to edit a Song entity.
-    *
-    * @param Song $entity The entity
-    *
-    * @return \Symfony\Component\Form\Form The form
-    */
+     * Creates a form to edit a Song entity.
+     *
+     * @param Song $entity The entity
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
     private function createEditForm(Song $entity)
     {
         $form = $this->createForm(new SongType(), $entity, array(
@@ -167,6 +167,7 @@ class SongController extends Controller
 
         return $form;
     }
+
     /**
      * Edits an existing Song entity.
      *
@@ -200,6 +201,7 @@ class SongController extends Controller
             'delete_form' => $deleteForm->createView(),
         );
     }
+
     /**
      * Deletes a Song entity.
      *

@@ -3,19 +3,35 @@
 {% import 'ElorfinUserInterfaceBundle:Show:fields.html.twig' as fields %}
 
 {% block content %}
-    <h1 class="page-header">
-        Song list
+    <h1 class="sr-only">My songbook</h1>
 
-        <a href="{{ path('song_new') }}" class="btn btn-primary btn-xs pull-right">
-            <span class="fa fa-plus"></span>
-            Add a new song
+    <ol class="breadcrumb">
+        <li><a href="#">My songbook</a></li>
+        <li class="active">Data</li>
+    </ol>
+
+    {#<div class="pull-right">
+        <a href="{{ path('song_new') }}" class="btn btn-round btn-primary">
+            <span class="fa fa-fw fa-plus"></span>
+            <span class="sr-only">Add a new song</span>
         </a>
-    </h1>
+
+        <a href="{{ path('song_new') }}" class="btn btn-round btn-default">
+            <span class="fa fa-fw fa-pencil"></span>
+            <span class="sr-only">Add a new song</span>
+        </a>
+
+        <a href="{{ path('song_new') }}" class="btn btn-round btn-danger">
+            <span class="fa fa-fw fa-trash-o"></span>
+            <span class="sr-only">Add a new song</span>
+        </a>
+    </div>#}
+
 
     <div class="song-list">
         {% for entity in entities %}
         <div class="song-item">
-            <a href="{{ path('song_show', { 'id': entity.id }) }}" style="color: inherit;">
+            <a class="" href="{{ path('song_show', { 'id': entity.id }) }}" style="color: inherit;">
                 <div class="panel panel-default">
                     <div class="panel-body">
                         <div class="row">

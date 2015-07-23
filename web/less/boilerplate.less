@@ -2,6 +2,44 @@
     margin-bottom: 0 !important;
 }
 
+.button-round-variant(@color) {
+    color: @color;
+    border-color: @color;
+    background: none;
+    border-radius: 60px;
+    text-align: center;
+
+    padding: @padding-base-vertical;
+
+    &:hover,
+    &:focus,
+    &.active {
+        background: none;
+    }
+}
+
 .btn-round {
-    
+    &.btn-default {
+        .button-round-variant(@text-color);
+    }
+
+    &.btn-primary {
+        .button-round-variant(@brand-primary);
+    }
+
+    &.btn-warning {
+        .button-round-variant(@brand-warning);
+    }
+
+    &.btn-info {
+        .button-round-variant(@brand-info);
+    }
+
+    &.btn-success {
+        .button-round-variant(@brand-success);
+    }
+
+    &.btn-danger {
+        .button-round-variant(@brand-danger);
+    }
 }

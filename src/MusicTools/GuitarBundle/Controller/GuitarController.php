@@ -8,7 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use MusicTools\GuitarBundle\Entity\Guitar;
-use MusicTools\GuitarBundle\Form\GuitarType;
+use MusicTools\GuitarBundle\Form\Type\GuitarType;
 
 /**
  * Guitar controller.

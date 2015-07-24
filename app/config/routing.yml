@@ -7,6 +7,11 @@ music_tools_home:
     resource: "@MusicToolsHomeBundle/Resources/config/routing.yml"
     prefix:   /
 
+# Routes for Theory
+music_tools_theory:
+    resource: "@MusicToolsTheoryBundle/Resources/config/routing.yml"
+    prefix:   /theory
+
 # Routes for the User workspace
 music_tools_song_book:
     resource: "@MusicToolsSongBookBundle/Resources/config/routing.yml"

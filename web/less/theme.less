@@ -1,16 +1,42 @@
+@sidebar-width: 70px;
+
 body {
     padding-top: 70px;
-    background: url("../images/background.jpg") repeat scroll center top;
+    /*background: url("../images/background.jpg") repeat scroll center top;*/
+    background: #202020 !important;
 }
 
-.navbar {
-    .box-shadow(inset 0 0 3px rgba(0, 0, 0, 0.5));
+.header {
+    border: none;
+
+    // .box-shadow(inset 0 0 3px rgba(0, 0, 0, 0.5));
+    .box-shadow(none);
+
+    .navbar-brand {
+        width: @sidebar-width;
+        background-color: #0c0c0c;
+        text-align: center;
+    }
 
     .active {
         > a {
             border-bottom: 1px solid @brand-primary;
             padding-bottom: @navbar-padding-vertical - 1px;
         }
+    }
+}
+
+.sidebar {
+    padding-top: @navbar-height;
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 70px;
+    background: @brand-primary;
+
+    & + .content {
+        margin-left: @sidebar-width;
     }
 }
 
@@ -44,18 +70,7 @@ body {
     }
 }
 
-.login-form,
-.register-form {
-    background: rgba(0, 0, 0, 0.25);
-    padding: @line-height-computed 0;
-    margin-bottom: @line-height-computed;
-
-    h1 {
-        color: @brand-primary;
-    }
-}
-
-.big-icon {
+.big-icon, .user-logo {
     margin: 0 auto;
     vertical-align: middle;
     color: @brand-primary;
@@ -75,8 +90,4 @@ body {
 
 .panel {
     .box-shadow(none);
-}
-
-.dropzone {
-
 }

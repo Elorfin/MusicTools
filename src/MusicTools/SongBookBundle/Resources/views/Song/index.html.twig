@@ -10,11 +10,13 @@
         <li class="active">Data</li>
     </ol>
 
+    <a href="{{ path('song_new') }}" class="btn btn-round btn-primary">
+        <span class="fa fa-fw fa-plus"></span>
+        <span class="sr-only">Add a new song</span>
+    </a>
+
     {#<div class="pull-right">
-        <a href="{{ path('song_new') }}" class="btn btn-round btn-primary">
-            <span class="fa fa-fw fa-plus"></span>
-            <span class="sr-only">Add a new song</span>
-        </a>
+
 
         <a href="{{ path('song_new') }}" class="btn btn-round btn-default">
             <span class="fa fa-fw fa-pencil"></span>

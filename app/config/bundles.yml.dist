@@ -9,7 +9,20 @@ bundles:
         - Symfony\Bundle\AsseticBundle\AsseticBundle
         - Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle
         - Doctrine\Bundle\DoctrineBundle\DoctrineBundle
+        - Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle
         - Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle
+
+        # They need to be loaded by the custom bundles which use them
+        - Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle
+        - JMS\I18nRoutingBundle\JMSI18nRoutingBundle
+        - JMS\TranslationBundle\JMSTranslationBundle
+        - FOS\UserBundle\FOSUserBundle
+
+        # Core bundles
+        - Elorfin\ReactorBundle\ElorfinReactorBundle
+        - Elorfin\UserInterfaceBundle\ElorfinUserInterfaceBundle
+        - Elorfin\LocalizationBundle\ElorfinLocalizationBundle
+        - Elorfin\UserBundle\ElorfinUserBundle
 
     # Bundles to load only for `dev` environment
     dev:

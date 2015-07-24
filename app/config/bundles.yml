@@ -9,6 +9,7 @@ bundles:
         - Symfony\Bundle\AsseticBundle\AsseticBundle
         - Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle
         - Doctrine\Bundle\DoctrineBundle\DoctrineBundle
+        - Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle
         - Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle
 
         # They need to be loaded by the custom bundles which use them
@@ -26,10 +27,11 @@ bundles:
         # Application bundles
         - MusicTools\HomeBundle\MusicToolsHomeBundle
         - MusicTools\ResourceBundle\MusicToolsResourceBundle
-        - MusicTools\NoteBundle\MusicToolsNoteBundle
+        - MusicTools\TheoryBundle\MusicToolsTheoryBundle
         - MusicTools\MusicianBundle\MusicToolsMusicianBundle
-        - MusicTools\GuitarBundle\MusicToolsGuitarBundle
         - MusicTools\TuningBundle\MusicToolsTuningBundle
+        - MusicTools\ScaleBundle\MusicToolsScaleBundle
+        - MusicTools\GuitarBundle\MusicToolsGuitarBundle
         - MusicTools\SongBookBundle\MusicToolsSongBookBundle
 
     # Bundles to load only for `dev` environment

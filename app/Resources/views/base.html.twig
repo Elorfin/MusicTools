@@ -10,6 +10,11 @@
         {% include 'header.html.twig' %}
     {% endif %}
 
+    {# Sidebar #}
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+        {% include 'sidebar.html.twig' %}
+    {% endif %}
+
     {# Content #}
     <div class="content container-fluid">
         {# User messages #}

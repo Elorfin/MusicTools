@@ -1,5 +1,26 @@
+{% macro menuItem(name, icon, label, url) %}
+    {% set current = (name in app.request.get('_route')) %}
+    <li role="presentation" {% if current %}class="active"{% endif %}>
+        <a href="{{ url }}">
+            <span class="fa fa-{{ icon }}"></span>
+
+            <span class="sr-only">
+                {{ label|trans }}
+
+                {% if current %}
+                ({{ 'link.current'|trans }})
+                {% endif %}
+            </span>
+        </a>
+    </li>
+{% endmacro %}
+
+{% import _self as macros %}
+
 <nav class="sidebar">
     <ul>
-        <li></li>
+        {{ macros.menuItem('guitar', 'suitcase',      'link.guitar',    path('guitar')) }}
+        {{ macros.menuItem('song',   'music',          'link.song_book', path('song')) }}
+        {{ macros.menuItem('theory', 'graduation-cap', 'link.theory',    path('theory')) }}
     </ul>
 </nav>

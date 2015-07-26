@@ -1,0 +1,10 @@
+{% extends '::base.html.twig' %}
+
+{% block header_links %}
+    <li role="presentation">
+        <a href="{{ path('song_new') }}">
+            <span class="fa fa-fw fa-pencil"></span>
+            Add a new song
+        </a>
+    </li>
+{% endblock %}

@@ -1,6 +1,8 @@
-{% extends '::base.html.twig' %}
+{% extends 'MusicToolsSongBookBundle::layout.html.twig' %}
 
 {% import 'ElorfinUserInterfaceBundle:Show:fields.html.twig' as fields %}
+
+{% block content_title %}{{ entity.title }} <small>{{ entity.artist }}</small>{% endblock %}
 
 {% block content %}
     <div class="row">
@@ -26,9 +28,6 @@
                     delete
                 </a>
             </div>
-            <h1 class="page-header">
-                {{ entity.title }} <small>{{ entity.artist }}</small>
-            </h1>
 
             <div class="panel panel-default">
                 <div class="panel-body">

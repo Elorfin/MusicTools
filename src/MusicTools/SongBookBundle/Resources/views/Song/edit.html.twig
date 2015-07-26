@@ -1,13 +1,13 @@
-{% extends '::base.html.twig' %}
+{% extends 'MusicToolsSongBookBundle::layout.html.twig' %}
+
+{% block content_title %}
+    <div class="icon">
+        <span class="fa fa-pencil"></span>
+    </div>
+    Edit song <small>{{ entity.title }}</small>
+{% endblock %}
 
 {% block content %}
-    <h1 class="page-header">
-        <div class="icon">
-            <span class="fa fa-pencil"></span>
-        </div>
-        Song edit
-    </h1>
-
     {{ form_start(edit_form) }}
         <div class="row">
             <div class="col-md-3">

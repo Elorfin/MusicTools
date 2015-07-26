@@ -30,6 +30,15 @@
             <div class="alert alert-success">{{ message|trans }}</div>
         {% endfor %}
 
+        <div class="content-header">
+            <h1>{% block content_title %}{% endblock %}</h1>
+
+            <ol class="breadcrumb">
+                <li><a href="#">My songbook</a></li>
+                <li class="active">Data</li>
+            </ol>
+        </div>
+
         {# Page Content #}
         {% block content %}{% endblock %}
     </div>

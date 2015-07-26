@@ -1,0 +1,45 @@
+.sidebar {
+    padding-top: @navbar-height;
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: @sidebar-width;
+    background: @sidebar-bg;
+
+    color: @sidebar-color;
+
+    ul {
+        margin: 0;
+        list-style-type: none;
+        padding: 0;
+        padding-top: @sidebar-padding-vertical;
+
+        .active {
+            a,
+            a:hover,
+            a:focus {
+                color: @sidebar-active-color;
+            }
+        }
+    }
+
+    a {
+        display: block;
+        text-align: center;
+        font-size: 24px;
+        line-height: 1;
+        padding: @sidebar-padding-vertical @sidebar-padding-horizontal;
+        color: @sidebar-color;
+        text-decoration: none;
+
+        &:hover,
+        &:focus {
+            color: @sidebar-hover-color;
+        }
+    }
+
+    & + .content {
+        margin-left: @sidebar-width;
+    }
+}

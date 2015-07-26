@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "f24d4093a8569295b729b7a8aedf9b87",
+    "hash": "a8bbc323f4705b401e73f3fe78b25393",
     "packages": [
         {
             "name": "behat/transliterator",
@@ -976,22 +976,23 @@
         },
         {
             "name": "elorfin/reactor-bundle",
-            "version": "v1.0.0",
+            "version": "v1.0.1",
             "target-dir": "Elorfin/ReactorBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Elorfin/ReactorBundle.git",
-                "reference": "7fc03c8feb5f59292eddfcf93579c664cc5f60ef"
+                "reference": "97dbcb729ae5d90201341079adb7170abd9dedbb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Elorfin/ReactorBundle/zipball/7fc03c8feb5f59292eddfcf93579c664cc5f60ef",
-                "reference": "7fc03c8feb5f59292eddfcf93579c664cc5f60ef",
+                "url": "https://api.github.com/repos/Elorfin/ReactorBundle/zipball/97dbcb729ae5d90201341079adb7170abd9dedbb",
+                "reference": "97dbcb729ae5d90201341079adb7170abd9dedbb",
                 "shasum": ""
             },
             "require": {
                 "doctrine/dbal": "~2.4",
                 "doctrine/doctrine-bundle": "~1.5",
+                "doctrine/doctrine-fixtures-bundle": "~2.2",
                 "doctrine/orm": "~2.4",
                 "php": ">=5.4.1",
                 "sensio/framework-extra-bundle": "~3.0",
@@ -1023,7 +1024,7 @@
                 "library",
                 "symfony"
             ],
-            "time": "2015-07-16 08:00:19"
+            "time": "2015-07-24 08:08:39"
         },
         {
             "name": "elorfin/user-bundle",

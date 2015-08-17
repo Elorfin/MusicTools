@@ -1,0 +1,22 @@
+{% extends '::base.html.twig' %}
+
+{% set header_links = [
+    { label: 'Edit guitar',   icon: 'fa fa-fw fa-pencil',  url: path('guitar_edit', {id: entity.id}) },
+    { label: 'Delete guitar', icon: 'fa fa-fw fa-trash-o', url: '#', class: 'danger' }
+] %}
+
+{% set breadcrumb_links = [
+    { label: 'My guitars', url: path('guitar') },
+    { label: entity.manufacturer ~ ' ' ~ entity.model }
+] %}
+
+{% block content_title %}{{ entity.manufacturer }} <small>{{ entity.model }}</small>{% endblock %}
+
+{% block content %}
+    <div class="panel panel-default">
+        <div class="panel-body">
+            {{ entity.headstock }}
+            {{ entity.strings }}
+        </div>
+    </div>
+{% endblock %}

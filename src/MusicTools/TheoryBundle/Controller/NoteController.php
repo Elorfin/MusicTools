@@ -25,7 +25,7 @@ class NoteController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('MusicToolsGuitarBundle:Note')->findAll();
+        $entities = $em->getRepository('MusicToolsTheoryBundle:Note')->findAll();
 
         return array(
             'entities' => $entities,

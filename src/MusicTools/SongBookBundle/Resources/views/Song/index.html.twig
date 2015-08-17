@@ -1,6 +1,14 @@
-{% extends 'MusicToolsSongBookBundle::layout.html.twig' %}
+{% extends '::base.html.twig' %}
 
 {% import 'ElorfinUserInterfaceBundle:Show:fields.html.twig' as fields %}
+
+{% set header_links = [
+    { label: 'Add a new song', icon: 'fa fa-fw fa-plus', url: path('song_new') }
+] %}
+
+{% set breadcrumb_links = [
+    { label: 'My songbook' }
+] %}
 
 {% block content_title %}My songbook{% endblock %}
 

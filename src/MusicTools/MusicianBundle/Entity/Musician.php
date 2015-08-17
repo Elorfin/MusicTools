@@ -15,7 +15,7 @@ use Elorfin\UserBundle\Entity\User;
 class Musician
 {
     /**
-     * Unique identifier of the Guitar
+     * Unique identifier of the Musician
      * @var integer
      *
      * @ORM\Id

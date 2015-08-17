@@ -2,6 +2,9 @@
 
 {% block title %}Music Tools{% endblock %}
 
+{% set header_links = header_links|default([]) %}
+{% set breadcrumb_links = breadcrumb_links|default([]) %}
+
 {% block body %}
     {# Top menu #}
     {% if is_granted('IS_AUTHENTICATED_FULLY') %}
@@ -19,24 +22,36 @@
     <div class="content container-fluid">
         {# User messages #}
         {% for message in app.session.getFlashBag.get('error') %}
-            <div class="alert alert-error">{{ message|trans }}</div>
+        <div class="alert alert-error">{{ message|trans }}</div>
         {% endfor %}
 
         {% for message in app.session.getFlashBag.get('warning') %}
-            <div class="alert alert-warning">{{ message|trans }}</div>
+        <div class="alert alert-warning">{{ message|trans }}</div>
         {% endfor %}
 
         {% for message in app.session.getFlashBag.get('success') %}
-            <div class="alert alert-success">{{ message|trans }}</div>
+        <div class="alert alert-success">{{ message|trans }}</div>
         {% endfor %}
 
+        {# Page header #}
         <div class="content-header">
+            {# Page title #}
             <h1>{% block content_title %}{% endblock %}</h1>
 
-            <ol class="breadcrumb">
-                <li><a href="#">My songbook</a></li>
-                <li class="active">Data</li>
-            </ol>
+            {# Breadcrumb #}
+            {% if breadcrumb_links is defined and breadcrumb_links is not empty %}
+            {#<ol class="breadcrumb">
+                {% for breadcrumb_link in breadcrumb_links %}
+                    {% if not loop.last %}
+                        &#123;&#35; Add link to page &#35;&#125;
+                        <li><a href="{{ breadcrumb_link.url }}">{{ breadcrumb_link.label|trans }}</a></li>
+                    {% else %}
+                        &#123;&#35; Add page label &#35;&#125;
+                        <li class="active">{{ breadcrumb_link.label|trans }}</li>
+                    {% endif %}
+                {% endfor %}
+            </ol>#}
+            {% endif %}
         </div>
 
         {# Page Content #}

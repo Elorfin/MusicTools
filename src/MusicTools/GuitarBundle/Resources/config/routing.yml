@@ -1,4 +1,0 @@
-music_tools_guitar:
-    resource: "@MusicToolsGuitarBundle/Controller/"
-    type:     annotation
-    prefix:   /

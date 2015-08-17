@@ -3,5 +3,24 @@
 {% block content_title %}<span class="fa fa-fw fa-graduation-cap"></span> Theory{% endblock %}
 
 {% block content %}
+    <div data-ng-app="Guitar" data-ng-cloak="">
+        <neck-representation></neck-representation>
+    </div>
+{% endblock %}
 
+{% block javascripts %}
+    {{ parent() }}
+
+    <script type="text/javascript">
+        var assetDirectory = '{{ asset('bundles') }}';
+    </script>
+
+    {# Angular JS #}
+    {% javascripts debug=false filter='jsmin' output='vendor/angular/angular-js.js'
+        '@ElorfinUserInterfaceBundle/Resources/public/js/angular/angular.min.js'
+        '@ElorfinUserInterfaceBundle/Resources/public/js/angular/angular-touch.min.js'
+        '@MusicToolsInstrumentBundle/Resources/public/js/guitar-neck-widget.js'
+    %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
 {% endblock %}

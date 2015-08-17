@@ -1,11 +1,18 @@
-{% extends 'MusicToolsSongBookBundle::layout.html.twig' %}
+{% extends '::base.html.twig' %}
 
-{% block content_title %}
-    <div class="icon">
-        <span class="fa fa-pencil"></span>
-    </div>
-    Edit song <small>{{ entity.title }}</small>
-{% endblock %}
+{% set header_links = [
+    { label: 'Cancel',      icon: 'fa fa-fw fa-times',   url: path('song_show', { id: entity.id }) },
+    { label: 'Edit song',   icon: 'fa fa-fw fa-check',   url: '' },
+    { label: 'Delete song', icon: 'fa fa-fw fa-trash-o', url: '', class: 'danger' }
+] %}
+
+{% set breadcrumb_links = [
+    { label: 'My songbook', url: path('song') },
+    { label: entity.artist ~ ' - ' ~ entity.title, url: path('song_show', { id: entity.id }) },
+    { label: 'Edit', url: '' }
+] %}
+
+{% block content_title %}Edit song <small>{{ entity.title }}</small>{% endblock %}
 
 {% block content %}
     {{ form_start(edit_form) }}

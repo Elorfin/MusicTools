@@ -1028,17 +1028,17 @@
         },
         {
             "name": "elorfin/user-bundle",
-            "version": "v1.0.0",
+            "version": "v1.0.1",
             "target-dir": "Elorfin/UserBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Elorfin/UserBundle.git",
-                "reference": "7cc3b0dc16e18ed5b95184251df82020df8c9460"
+                "reference": "c8b67b3601a4ba127697c0969a5ddf8808689f77"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Elorfin/UserBundle/zipball/7cc3b0dc16e18ed5b95184251df82020df8c9460",
-                "reference": "7cc3b0dc16e18ed5b95184251df82020df8c9460",
+                "url": "https://api.github.com/repos/Elorfin/UserBundle/zipball/c8b67b3601a4ba127697c0969a5ddf8808689f77",
+                "reference": "c8b67b3601a4ba127697c0969a5ddf8808689f77",
                 "shasum": ""
             },
             "require": {
@@ -1068,7 +1068,7 @@
                 "symfony",
                 "user"
             ],
-            "time": "2015-07-21 10:06:54"
+            "time": "2015-07-24 16:16:01"
         },
         {
             "name": "elorfin/user-interface-bundle",

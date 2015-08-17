@@ -16,7 +16,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 class ProfileController extends Controller
 {
     /**
-     * Lists all Guitar entities.
+     * Lists all Musician entities.
      *
      * @Route("/", name="musician")
      * @Method("GET")

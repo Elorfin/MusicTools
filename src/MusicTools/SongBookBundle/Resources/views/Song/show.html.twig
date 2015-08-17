@@ -1,6 +1,16 @@
-{% extends 'MusicToolsSongBookBundle::layout.html.twig' %}
+{% extends '::base.html.twig' %}
 
 {% import 'ElorfinUserInterfaceBundle:Show:fields.html.twig' as fields %}
+
+{% set header_links = [
+    { label: 'Edit song',   icon: 'fa fa-fw fa-pencil',  url: path('song_edit', {id: entity.id}) },
+    { label: 'Delete song', icon: 'fa fa-fw fa-trash-o', url: '#', class: 'danger' }
+] %}
+
+{% set breadcrumb_links = [
+    { label: 'My songbook', url: path('song') },
+    { label: entity.artist ~ ' - ' ~ entity.title }
+] %}
 
 {% block content_title %}{{ entity.title }} <small>{{ entity.artist }}</small>{% endblock %}
 
@@ -18,17 +28,6 @@
         </div>
 
         <div class="col-md-9">
-            <div class="pull-right">
-                <a class="btn btn-default" href="">
-                    <span class="fa fa-pencil"></span>
-                    edit
-                </a>
-                <a class="btn btn-danger" href="">
-                    <span class="fa fa-trash-o"></span>
-                    delete
-                </a>
-            </div>
-
             <div class="panel panel-default">
                 <div class="panel-body">
                     <div class="row">

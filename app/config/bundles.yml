@@ -31,7 +31,7 @@ bundles:
         - MusicTools\MusicianBundle\MusicToolsMusicianBundle
         - MusicTools\TuningBundle\MusicToolsTuningBundle
         - MusicTools\ScaleBundle\MusicToolsScaleBundle
-        - MusicTools\GuitarBundle\MusicToolsGuitarBundle
+        - MusicTools\InstrumentBundle\MusicToolsInstrumentBundle
         - MusicTools\SongBookBundle\MusicToolsSongBookBundle
 
     # Bundles to load only for `dev` environment

@@ -1,15 +1,18 @@
-{% extends 'MusicToolsSongBookBundle::layout.html.twig' %}
+{% extends '::base.html.twig' %}
 
-{% block content_title %}Add song{% endblock %}
+{% set header_links = [
+    { label: 'Create', icon: 'fa fa-fw fa-check', url: '' },
+    { label: 'Cancel', icon: 'fa fa-fw fa-times', url: path('song') },
+] %}
+
+{% set breadcrumb_links = [
+    { label: 'My songbook', url: path('song') },
+    { label: 'Add a new song', url: '' },
+] %}
+
+{% block content_title %}Add a new song{% endblock %}
 
 {% block content %}
-    <h1 class="page-header">
-        <div class="icon">
-            <span class="fa fa-plus"></span>
-        </div>
-        Add a new song
-    </h1>
-
     {{ form_start(form) }}
         <div class="row">
             <div class="col-md-3">

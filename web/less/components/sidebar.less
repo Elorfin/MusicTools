@@ -13,13 +13,15 @@
         margin: 0;
         list-style-type: none;
         padding: 0;
-        padding-top: @sidebar-padding-vertical;
+        /*padding-top: @sidebar-padding-vertical;*/
 
         .active {
             a,
             a:hover,
             a:focus {
                 color: @sidebar-active-color;
+                border-right: 2px solid @brand-primary;
+                padding-right: @sidebar-padding-horizontal - 2px;
             }
         }
     }

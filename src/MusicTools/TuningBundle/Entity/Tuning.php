@@ -9,4 +9,6 @@ class Tuning
     protected $id;
 
     protected $name;
+
+    protected $category;
 }

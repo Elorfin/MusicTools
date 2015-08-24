@@ -123,9 +123,72 @@ swiftmailer:
     password:  "%mailer_password%"
     spool:     { type: memory }
 
-
 # Moved into UserBundle
 fos_user:
     db_driver: orm
     firewall_name: main
     user_class: Elorfin\UserBundle\Entity\User
+
+# User interface configuration
+elorfin_user_interface:
+    loading_strategy: cdn
+    libraries:
+        # jQuery
+        jquery:
+            include: true
+            path:
+                local:
+                    - { file: bundles/elorfinuserinterface/js/libraries/jquery/jquery.min.js }
+                cdn:   //code.jquery.com/jquery-1.11.3.min.js
+
+        # Bootstrap JS
+        bootstrap_js:
+            include: true
+            path:
+                local:
+                    - { base_path: bootstrap/ }
+                cdn:   https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js
+            plugins:
+                - transition
+                - alert
+                - button
+                - carousel
+                - collapse
+                - dropdown
+                - modal
+                - scrollspy
+                - tab
+                - tooltip
+                - popover
+                - affix
+            configuration:
+                data_api:
+                  - tooltip
+                  - popover
+
+        # Bootstrap CSS
+        bootstrap_css:
+            include: true
+            path:
+                local: ~
+                cdn:   https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css
+            configuration:
+                variables: ~
+
+        # Font Awesome
+        font_awesome:
+            include: true
+            path:
+                local: ~
+                cdn: https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css
+
+        # AngularJS
+        angular:
+            include: true
+            plugins:
+                -
+            configuration:
+                initialize: true
+                app_name: AngularApp
+                app_modules:
+                  - ngRoute

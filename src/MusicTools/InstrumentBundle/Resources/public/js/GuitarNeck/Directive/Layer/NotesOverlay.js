@@ -2,17 +2,15 @@
     'use strict';
 
     angular.module('GuitarNeck')
-        .directive('fretsOverlay', [
+        .directive('notesOverlay', [
             function () {
                 return {
                     restrict: 'E',
-                    template: '<canvas class="frets-overlay"></canvas>',
+                    template: '<canvas class="notes-overlay"></canvas>',
                     replace: true,
                     scope: {
-                        start: '=',
-                        end  : '='
                     },
-                    controller: 'FretsOverlayController',
+                    controller: 'NotesOverlayController',
                     bindToController: true,
                     link: function (scope, element, attrs) {
 

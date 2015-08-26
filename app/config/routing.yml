@@ -1,7 +1,3 @@
-# Routes for User management
-elorfin_user:
-    resource: "@ElorfinUserBundle/Resources/config/routing.yml"
-
 # Routes for the public Area
 music_tools_home:
     resource: "@MusicToolsHomeBundle/Resources/config/routing.yml"
@@ -20,6 +16,11 @@ music_tools_song_book:
 music_tools_instrument:
     resource: "@MusicToolsInstrumentBundle/Resources/config/routing.yml"
     prefix:   /my
+
+# Routes for User management
+elorfin_user:
+    resource: "@ElorfinUserBundle/Resources/config/routing.yml"
+    prefix:   /
 
 # Routes for the User community
 music_tools_musician:

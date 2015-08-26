@@ -19,6 +19,7 @@ class GuitarType extends AbstractType
             ->add('model')
             ->add('headstock')
             ->add('strings')
+            ->add('frets')
         ;
     }
     

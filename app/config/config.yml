@@ -73,6 +73,7 @@ assetic:
             apply_to: '\.js$|\.twigjs$'
 
     assets:
+        # Publish FontAwesome font files
         font-awesome-otf:
             inputs: '%kernel.root_dir%/../vendor/fortawesome/font-awesome/fonts/FontAwesome.otf'
             output: 'fonts/FontAwesome.otf'
@@ -88,6 +89,20 @@ assetic:
         font-awesome-woff:
             inputs: '%kernel.root_dir%/../vendor/fortawesome/font-awesome/fonts/fontawesome-webfont.woff'
             output: 'fonts/fontawesome-webfont.woff'
+
+        # Publish Glyphicon font files
+        glyphicon-eot:
+            inputs: '%kernel.root_dir%/../vendor/twbs/bootstrap/fonts/glyphicons-halflings-regular.eot'
+            output: 'fonts/glyphicons-halflings-regular.eot'
+        glyphicon-svg:
+            inputs: '%kernel.root_dir%/../vendor/twbs/bootstrap/fonts/glyphicons-halflings-regular.svg'
+            output: 'fonts/glyphicons-halflings-regular.svg'
+        glyphicon-ttf:
+            inputs: '%kernel.root_dir%/../vendor/twbs/bootstrap/fonts/glyphicons-halflings-regular.ttf'
+            output: 'fonts/glyphicons-halflings-regular.ttf'
+        glyphicon-woff:
+            inputs: '%kernel.root_dir%/../vendor/twbs/bootstrap/fonts/glyphicons-halflings-regular.woff'
+            output: 'fonts/glyphicons-halflings-regular.woff'
 
 # Doctrine Configuration
 doctrine:
@@ -136,18 +151,18 @@ elorfin_user_interface:
         # jQuery
         jquery:
             include: true
-            path:
-                local:
-                    - { file: bundles/elorfinuserinterface/js/libraries/jquery/jquery.min.js }
-                cdn:   //code.jquery.com/jquery-1.11.3.min.js
+            #path:
+            #    local:
+            #        - { file: bundles/elorfinuserinterface/js/libraries/jquery/jquery.min.js }
+            #    cdn:   //code.jquery.com/jquery-1.11.3.min.js
 
         # Bootstrap JS
         bootstrap_js:
             include: true
-            path:
-                local:
-                    - { base_path: bootstrap/ }
-                cdn:   https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js
+            #path:
+            #    local:
+            #        - { base_path: bootstrap/ }
+            #    cdn:   https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js
             plugins:
                 - transition
                 - alert
@@ -161,34 +176,33 @@ elorfin_user_interface:
                 - tooltip
                 - popover
                 - affix
-            configuration:
-                data_api:
-                  - tooltip
-                  - popover
+            #configuration:
+            #    data_api:
+            #      - tooltip
+            #      - popover
 
         # Bootstrap CSS
         bootstrap_css:
             include: true
-            path:
-                local: ~
-                cdn:   https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css
-            configuration:
-                variables: ~
+            #path:
+            #    local: ~
+            #    cdn:   https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css
+            #configuration:
+            #    variables: ~
 
         # Font Awesome
         font_awesome:
             include: true
-            path:
-                local: ~
-                cdn: https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css
+            #path:
+            #    local: ~
+            #    cdn: https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css
 
         # AngularJS
         angular:
             include: true
             plugins:
-                -
-            configuration:
-                initialize: true
-                app_name: AngularApp
-                app_modules:
-                  - ngRoute
+            #configuration:
+            #    initialize: true
+            #    app_name: AngularApp
+            #    app_modules:
+            #      - ngRoute

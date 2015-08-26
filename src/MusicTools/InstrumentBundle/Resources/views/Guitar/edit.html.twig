@@ -51,7 +51,7 @@
                 Edit
             </button>
 
-            <a href="{{ path('guitar') }}" class="btn btn-default">
+            <a href="{{ path('guitar_show', {id: entity.id}) }}" class="btn btn-default">
                 <span class="fa fa-times"></span>
                 Cancel
             </a>
@@ -69,8 +69,8 @@
 
     {# Angular JS #}
     {% javascripts debug=false filter='jsmin' output='vendor/angular/angular-js.js'
-        '@ElorfinUserInterfaceBundle/Resources/public/js/angular/angular.min.js'
-        '@ElorfinUserInterfaceBundle/Resources/public/js/angular/angular-touch.min.js'
+        '@ElorfinUserInterfaceBundle/Resources/public/js/libraries/angular/angular.min.js'
+        '@ElorfinUserInterfaceBundle/Resources/public/js/libraries/angular/angular-touch.min.js'
         '@MusicToolsInstrumentBundle/Resources/public/js/tuning-widget.js'
     %}
     <script type="text/javascript" src="{{ asset_url }}"></script>

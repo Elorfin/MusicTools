@@ -14,6 +14,7 @@ class FileManager
      * @var string
      */
     protected $rootDir;
+
     /**
      * Directory where are stored the uploaded files
      * @var string

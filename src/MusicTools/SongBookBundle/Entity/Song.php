@@ -4,6 +4,7 @@ namespace MusicTools\SongBookBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use MusicTools\MusicianBundle\Entity\OwnedByMusician;
 use MusicTools\ResourceBundle\Entity\Image;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -13,9 +14,10 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(name="song")
  * @ORM\Entity(repositoryClass="MusicTools\SongBookBundle\Entity\SongRepository")
  */
-class Song
+class Song extends OwnedByMusician
 {
     /**
+     * Unique identifier of the Song
      * @var integer
      *
      * @ORM\Column(name="id", type="integer")
@@ -25,6 +27,7 @@ class Song
     protected $id;
 
     /**
+     * Title of the Song
      * @var string
      *
      * @ORM\Column(name="title", type="string", length=255)
@@ -32,6 +35,7 @@ class Song
     protected $title;
 
     /**
+     * Artist of the Song
      * @var string
      *
      * @ORM\Column(name="artist", type="string", length=255, nullable=true)
@@ -112,7 +116,6 @@ class Song
 
     /**
      * Get id
-     *
      * @return integer 
      */
     public function getId()
@@ -122,7 +125,6 @@ class Song
 
     /**
      * Set title
-     *
      * @param string $title
      * @return Song
      */
@@ -135,7 +137,6 @@ class Song
 
     /**
      * Get title
-     *
      * @return string 
      */
     public function getTitle()
@@ -145,7 +146,6 @@ class Song
 
     /**
      * Set artist
-     *
      * @param string $artist
      * @return Song
      */
@@ -158,7 +158,6 @@ class Song
 
     /**
      * Get artist
-     *
      * @return string 
      */
     public function getArtist()
@@ -168,7 +167,6 @@ class Song
 
     /**
      * Set rating
-     *
      * @param integer $rating
      * @return Song
      */
@@ -181,7 +179,6 @@ class Song
 
     /**
      * Get rating
-     *
      * @return integer 
      */
     public function getRating()
@@ -191,7 +188,6 @@ class Song
 
     /**
      * Set mastery
-     *
      * @param integer $mastery
      * @return Song
      */
@@ -204,7 +200,6 @@ class Song
 
     /**
      * Get mastery
-     *
      * @return integer
      */
     public function getMastery()

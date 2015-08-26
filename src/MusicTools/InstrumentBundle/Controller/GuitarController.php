@@ -165,6 +165,7 @@ class GuitarController extends Controller
 
         return $form;
     }
+
     /**
      * Edits an existing Guitar entity.
      *

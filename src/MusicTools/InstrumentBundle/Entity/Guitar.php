@@ -3,6 +3,7 @@
 namespace MusicTools\InstrumentBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use MusicTools\MusicianBundle\Entity\OwnedByMusician;
 
 /**
  * Guitar Entity
@@ -11,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity()
  * @ORM\Table(name="guitar")
  */
-class Guitar
+class Guitar extends OwnedByMusician implements \JsonSerializable
 {
     /**
      * Unique identifier of the Guitar
@@ -22,6 +23,14 @@ class Guitar
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
+
+    /**
+     * Use Guitar as the default User's guitar
+     * @var boolean
+     *
+     * @ORM\Column(name="use_default", type="boolean", nullable=true)
+     */
+    protected $default = false;
 
     /**
      * Manufacturer of the Guitar
@@ -56,6 +65,14 @@ class Guitar
     protected $strings = 6;
 
     /**
+     * Number of frets
+     * @var integer
+     *
+     * @ORM\Column(type="integer")
+     */
+    protected $frets = 24;
+
+    /**
      * Tuning of the Guitar
      * @var
      */
@@ -68,6 +85,27 @@ class Guitar
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Is default ?
+     * @return boolean
+     */
+    public function isDefault()
+    {
+        return $this->default;
+    }
+
+    /**
+     * Set default
+     * @param  boolean $default
+     * @return \MusicTools\InstrumentBundle\Entity\Guitar
+     */
+    public function setDefault($default)
+    {
+        $this->default = $default;
+
+        return $this;
     }
 
     /**
@@ -124,15 +162,60 @@ class Guitar
         return $this;
     }
 
+    /**
+     * Get number of strings
+     * @return integer
+     */
     public function getStrings()
     {
         return $this->strings;
     }
 
+    /**
+     * Set number of strings
+     * @param  integer $strings
+     * @return \MusicTools\InstrumentBundle\Entity\Guitar
+     */
     public function setStrings($strings)
     {
         $this->strings = $strings;
 
         return $this;
+    }
+
+    /**
+     * Get number of frets
+     * @return integer
+     */
+    public function getFrets()
+    {
+        return $this->frets;
+    }
+
+    /**
+     * Get number of frets
+     * @param  integer $frets
+     * @return \MusicTools\InstrumentBundle\Entity\Guitar
+     */
+    public function setFrets($frets)
+    {
+        $this->frets = $frets;
+
+        return $this;
+    }
+
+    /**
+     * Serialize the Guitar Entity
+     * @return array
+     */
+    public function jsonSerialize()
+    {
+        return array (
+            'id'           => $this->id,
+            'manufacturer' => $this->manufacturer,
+            'default'      => $this->default,
+            'strings'      => $this->strings,
+            'frets'        => $this->frets,
+        );
     }
 }

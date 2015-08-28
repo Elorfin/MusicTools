@@ -5,7 +5,9 @@
         {% if musician.avatar is not empty %}
             <img class="musician-avatar" src="{{ asset(resource_path(musician.avatar)) }}" alt="User avatar" />
         {% else %}
-            <span class="fa fa-user"></span>
+            <div class="musician-avatar no-avatar">
+                <span class="fa fa-user"></span>
+            </div>
         {% endif %}
     </button>
 
@@ -20,6 +22,17 @@
                 </span>
 
                 My profile
+            </a>
+        </li>
+
+        <li>
+            <a href="{{ path('musician_show', { username: app.user.username }) }}">
+                <span class="fa-stack">
+                    <i class="fa fa-circle-thin fa-stack-2x"></i>
+                    <i class="fa fa-gears fa-stack-1x"></i>
+                </span>
+
+                My settings
             </a>
         </li>
 

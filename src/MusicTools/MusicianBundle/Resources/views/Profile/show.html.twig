@@ -1,28 +1,76 @@
 {% extends "::base.html.twig" %}
 
 {% set header_links = [
-    { label: 'Edit profile', icon: 'fa fa-fw fa-pencil',  url: path('musician_edit', {username: entity.username}) }
+    { label: 'Edit profile',  icon: 'fa fa-fw fa-pencil',  url: path('musician_edit', { username: entity.username }) },
+    { label: 'Edit settings', icon: 'fa fa-fw fa-gears',  url: path('musician_edit', { username: entity.username }) }
 ] %}
 
-{% block content_title %}{{ entity.username }}{% endblock %}
+{# Override default header #}
+{% block content_header %}{% endblock %}
 
 {% block content %}
     <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-2 col-md-offset-1">
+            {# Avatar #}
             {% if entity.avatar is not empty %}
-                <img src="{{ asset(resource_path(entity.avatar)) }}" class="img-responsive" />
+                <img src="{{ asset(resource_path(entity.avatar)) }}" class="img-responsive img-circle" style="border: 3px solid #FFA206;"/>
             {% else %}
                 <div class="text-center big-icon">
                     <span class="fa fa-user"></span>
                 </div>
             {% endif %}
+
+            <div style="margin-top: 20px;">
+                {# Location #}
+                <div>
+                {% if entity.location is not empty %}
+                    <span class="fa fa-fw fa-map-marker"></span>
+                    {{ entity.location }}
+                {% endif %}
+                </div>
+
+                {# Las login #}
+                <div>
+                {% if entity.lastLogin is not empty %}
+                    <span class="fa fa-fw fa-clock-o"></span>
+                    Last logged at {{ entity.lastLogin|date('d/m/Y H:i') }}
+                {% endif %}
+                </div>
+            </div>
         </div>
 
-        <div class="col-md-9">
-            <div class="">
+        <div class="col-md-8">
+            {# Username and fullname #}
+            <div class="content-header">
+                <h1>
+                    {{ entity.username }}
 
+                    {% if entity.firstName is not empty or entity.lastName is not empty %}
+                    <small>{{ entity.firstName }} {{ entity.lastName }}</small>
+                    {% endif %}
+                </h1>
             </div>
-            {{ entity.firstName }} {{ entity.lastName }}
+
+            {# Status #}
+            {% if entity.status is not empty %}
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <span class="fa fa-fw fa-comment"></span>
+                    <em>{{ entity.status }}</em>
+                </div>
+            </div>
+            {% endif %}
+
+
+            {# About #}
+            {% if entity.description is not empty %}
+            <h2 class="h4">About me</h2>
+            <div class="panel panel-default">
+                <div class="panel-body text-justify">
+                    {{ entity.description }}
+                </div>
+            </div>
+            {% endif %}
         </div>
     </div>
 {% endblock %}

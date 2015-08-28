@@ -34,6 +34,7 @@
         {% endfor %}
 
         {# Page header #}
+        {% block content_header %}
         <div class="content-header">
             {# Page title #}
             <h1>{% block content_title %}{% endblock %}</h1>
@@ -53,6 +54,7 @@
             </ol>#}
             {% endif %}
         </div>
+        {% endblock %}
 
         {# Page Content #}
         {% block content %}{% endblock %}

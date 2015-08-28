@@ -4,7 +4,7 @@ namespace MusicTools\MusicianBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use MusicTools\ResourceBundle\Entity\Image;
-use Symfony\Component\Security\Core\User\UserInterface;
+use FOS\UserBundle\Model\User;
 
 /**
  * Musician Entity
@@ -91,7 +91,7 @@ class Musician
 
     /**
      * User linked to the Musician
-     * @var \Symfony\Component\Security\Core\User\UserInterface
+     * @var \FOS\UserBundle\Model\User
      *
      * @ORM\OneToOne(targetEntity="Elorfin\UserBundle\Entity\User")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
@@ -286,10 +286,10 @@ class Musician
 
     /**
      * Set User
-     * @param  \Symfony\Component\Security\Core\User\UserInterface $user
+     * @param  \FOS\UserBundle\Model\User $user
      * @return \MusicTools\MusicianBundle\Entity\Musician
      */
-    public function setUser(UserInterface $user)
+    public function setUser(User $user)
     {
         $this->user = $user;
 
@@ -303,5 +303,10 @@ class Musician
     public function getUsername()
     {
         return $this->user->getUsername();
+    }
+
+    public function getLastLogin()
+    {
+        return $this->user->getLastLogin();
     }
 }

@@ -1,20 +1,40 @@
 .musician-dropdown {
     &.navbar-brand {
-        padding: 8px 13px;
+        padding: 10px 15px;
     }
 
     .musician-avatar {
-        padding: 2px;
+        border: 2px solid transparent;
         width: 42px;
         height: 42px;
         border-radius: 21px;
+        overflow: hidden;
         .box-shadow(0 0 3px rgba(0, 0, 0, 0.5));
+
+        &.no-avatar {
+            vertical-align: bottom;
+            background: #777777;
+            color: #161616;
+            padding: 0;
+            border: 2px solid #777;
+
+            > .fa {
+                text-align: center;
+                vertical-align: bottom;
+                font-size: 40px;
+                padding-top: 2px;
+            }
+        }
     }
 
     &.open {
         .musician-avatar {
             padding: 0;
             border: 2px solid @brand-primary;
+
+            &.no-avatar {
+                background: @brand-primary;
+            }
         }
     }
 
@@ -43,8 +63,8 @@
         a {
             padding: 5px 15px;
 
-            > .label {
-                font-size: 16px;
+            .fa {
+                color: darken(@dropdown-link-color, 25%);
             }
         }
     }
@@ -57,7 +77,7 @@
         margin-bottom: (@line-height-computed / 2) - 1;
         margin-left: 10px;
         margin-right: 5px;
-        padding-left: 15px;
+        padding-left: 20px;
         padding-top: 0;
         padding-bottom: 0;
         font-size: @font-size-large;

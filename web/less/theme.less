@@ -23,12 +23,12 @@ body {
     position: relative;
     height: 100%;
     overflow-y: auto;
+    padding-top: floor(@grid-gutter-width / 2);
     background: url("../images/background.jpg") repeat scroll center top;
 
     .box-shadow(0 0 3px rgba(0, 0, 0, 0.5));
 
     .content-header {
-        padding-top: floor(@grid-gutter-width / 2);
         margin-bottom: @line-height-computed;
 
         h1 {

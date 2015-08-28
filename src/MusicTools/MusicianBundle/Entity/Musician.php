@@ -3,8 +3,8 @@
 namespace MusicTools\MusicianBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Elorfin\UserBundle\Entity\User;
 use MusicTools\ResourceBundle\Entity\Image;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * Musician Entity
@@ -91,7 +91,7 @@ class Musician
 
     /**
      * User linked to the Musician
-     * @var \Elorfin\UserBundle\Entity\User
+     * @var \Symfony\Component\Security\Core\User\UserInterface
      *
      * @ORM\OneToOne(targetEntity="Elorfin\UserBundle\Entity\User")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
@@ -286,10 +286,10 @@ class Musician
 
     /**
      * Set User
-     * @param  \Elorfin\UserBundle\Entity\User $user
+     * @param  \Symfony\Component\Security\Core\User\UserInterface $user
      * @return \MusicTools\MusicianBundle\Entity\Musician
      */
-    public function setUser(User $user)
+    public function setUser(UserInterface $user)
     {
         $this->user = $user;
 

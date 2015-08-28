@@ -28,7 +28,10 @@ class ProfileController extends Controller
      */
     public function indexAction()
     {
-        $entities = $this->container->get('doctrine.orm.entity_manager')->getRepository('MusicToolsMusicianBundle:Musician')->findAll();
+        // Get current User logged in session
+        $user = $this->container->get('security.token_storage')->getToken()->getUser();
+
+        $entities = $this->container->get('doctrine.orm.entity_manager')->getRepository('MusicToolsMusicianBundle:Musician')->findAllExceptMe($user);
 
         return array (
             'entities' => $entities,

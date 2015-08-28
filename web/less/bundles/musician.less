@@ -1,0 +1,67 @@
+.musician-dropdown {
+    &.navbar-brand {
+        padding: 8px 13px;
+    }
+
+    .musician-avatar {
+        padding: 2px;
+        width: 42px;
+        height: 42px;
+        border-radius: 21px;
+        .box-shadow(0 0 3px rgba(0, 0, 0, 0.5));
+    }
+
+    &.open {
+        .musician-avatar {
+            padding: 0;
+            border: 2px solid @brand-primary;
+        }
+    }
+
+    .dropdown-toggle {
+        padding: 0;
+        z-index: 10;
+        border: none;
+        background: none;
+        display: block;
+        position: relative;
+
+        &:focus,
+        &:active {
+            padding: 0; /* Remove button 3D push effect */
+        }
+    }
+
+    .dropdown-menu {
+        z-index: 5;
+        top: 15px;
+        left: 50%;
+        margin: 0;
+        padding-top: 0;
+        border-radius: 3px;
+
+        a {
+            padding: 5px 15px;
+
+            > .label {
+                font-size: 16px;
+            }
+        }
+    }
+
+    .dropdown-header {
+        height: 40px;
+        line-height: 40px;
+        display: block;
+        vertical-align: middle;
+        margin-bottom: (@line-height-computed / 2) - 1;
+        margin-left: 10px;
+        margin-right: 5px;
+        padding-left: 15px;
+        padding-top: 0;
+        padding-bottom: 0;
+        font-size: @font-size-large;
+        font-weight: 900;
+        border-bottom: 1px dashed @brand-primary;
+    }
+}

@@ -4,6 +4,7 @@ namespace MusicTools\MusicianBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
 use MusicTools\MusicianBundle\Entity\Musician;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * Class MusicianRepository
@@ -12,11 +13,17 @@ class MusicianRepository extends EntityRepository
 {
     /**
      * Find all Musician except the specified one (used to list Users without display the current User in it)
-     * @param Musician $musician
+     * @param $user
+     * @return array
      */
-    public function findAllExceptMe(Musician $musician)
+    public function findAllExceptMe(UserInterface $user)
     {
-        return $this->createQueryBuilder('m');
+        return $this->createQueryBuilder('m')
+            ->where('m.user != :user')
+            ->setParameter('user', $user)
+            ->getQuery()
+            ->getResult()
+        ;
     }
 
     /**

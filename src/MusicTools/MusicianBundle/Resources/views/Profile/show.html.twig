@@ -1,9 +1,12 @@
 {% extends "::base.html.twig" %}
 
-{% set header_links = [
-    { label: 'Edit profile',  icon: 'fa fa-fw fa-pencil',  url: path('musician_edit', { username: entity.username }) },
-    { label: 'Edit settings', icon: 'fa fa-fw fa-gears',  url: path('musician_edit', { username: entity.username }) }
-] %}
+{% if isCurrent %}
+    {# Add edit links if this is the profile of the current User #}
+    {% set header_links = [
+        { label: 'Edit profile',  icon: 'fa fa-fw fa-pencil',  url: path('musician_edit', { username: entity.username }) },
+        { label: 'Edit settings', icon: 'fa fa-fw fa-gears',  url: path('musician_edit', { username: entity.username }) }
+    ] %}
+{% endif %}
 
 {# Override default header #}
 {% block content_header %}{% endblock %}
@@ -13,7 +16,7 @@
         <div class="col-md-2 col-md-offset-1">
             {# Avatar #}
             {% if entity.avatar is not empty %}
-                <img src="{{ asset(resource_path(entity.avatar)) }}" class="img-responsive img-circle" style="border: 3px solid #FFA206;"/>
+                <img src="{{ asset(resource_path(entity.avatar)) }}" class="img-responsive img-circle img-shadow" style="border: 3px solid #FFA206;"/>
             {% else %}
                 <div class="text-center big-icon">
                     <span class="fa fa-user"></span>
@@ -61,6 +64,11 @@
             </div>
             {% endif %}
 
+            {# Counts #}
+            <div>
+                {{ counts.songs }}
+                {{ counts.guitars }}
+            </div>
 
             {# About #}
             {% if entity.description is not empty %}

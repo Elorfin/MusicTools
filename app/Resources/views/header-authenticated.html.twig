@@ -12,7 +12,11 @@
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="header-navbar">
+            {# Guitar menu #}
+            <guitar-menu class="nav navbar-nav"></guitar-menu>
+
             <ul class="nav navbar-nav navbar-right">
+                {# Collect header links of the current view #}
                 {% for header_link in header_links %}
                 <li role="presentation" class="nav-link-{{ header_link.class|default('default') }}">
                     <a href="{{ header_link.url }}">
@@ -25,28 +29,6 @@
                 </li>
                 {% endfor %}
             </ul>
-
-            {#<ul class="nav navbar-nav navbar-right">
-                <li class="dropdown active">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                        <span class="fa fa-user"></span>
-                        {{ app.user.username }}
-                        <span class="caret"></span>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <a href="#"><span class="fa fa-fw fa-user"></span> my profile</a>
-                        </li>
-                        <li>
-                            <a href="#"><span class="fa fa-fw fa-cogs"></span> my settings</a>
-                        </li>
-                        <li role="separator" class="divider"></li>
-                        <li>
-                            <a href="{{ path('fos_user_security_logout') }}"><span class="fa fa-fw fa-sign-out"></span> logout</a>
-                        </li>
-                    </ul>
-                </li>
-            </ul>#}
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
 </nav>

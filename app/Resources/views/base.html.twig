@@ -1,9 +1,21 @@
 {% extends 'ElorfinUserInterfaceBundle::base.html.twig' %}
 
+{% block stylesheets %}
+    {{ parent() }}
+
+    {% stylesheets debug=false filter='cssrewrite,cssmin' output='css/music-font.min.css'
+        'fonts/MusicFont/less/music-font.less'
+    %}
+    <link rel="stylesheet" media="screen" type="text/css" href="{{ asset_url }}" />
+    {% endstylesheets %}
+{% endblock %}
+
 {% block title %}Music Tools{% endblock %}
 
 {% set header_links = header_links|default([]) %}
 {% set breadcrumb_links = breadcrumb_links|default([]) %}
+
+{% block angular_app %}data-ng-app="MusicTools" data-ng-cloak=""{% endblock %}
 
 {% block body %}
     {# Top menu #}
@@ -19,7 +31,8 @@
     {% endif %}
 
     {# Content #}
-    <div class="content container-fluid">
+    {% block content_container %}
+    <div class="content container-fluid {% block content_class %}{% endblock %}">
         {# User messages #}
         {% for message in app.session.getFlashBag.get('error') %}
         <div class="alert alert-error">{{ message|trans }}</div>
@@ -59,4 +72,32 @@
         {# Page Content #}
         {% block content %}{% endblock %}
     </div>
+    {% endblock %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script type="text/javascript">
+        var assetDirectory = '{{ asset('bundles') }}';
+    </script>
+
+    {# Angular JS #}
+    {% javascripts debug=false filter='jsmin' output='vendor/angular/angular-js.js'
+        '@ElorfinUserInterfaceBundle/Resources/public/js/libraries/angular/angular.min.js'
+        '@ElorfinUserInterfaceBundle/Resources/public/js/libraries/angular/angular-touch.min.js'
+        '@MusicToolsInstrumentBundle/Resources/public/js/Guitar/*'
+        '@MusicToolsInstrumentBundle/Resources/public/js/Guitar/Directive/*'
+        '@MusicToolsInstrumentBundle/Resources/public/js/GuitarNeck/*'
+        '@MusicToolsInstrumentBundle/Resources/public/js/GuitarNeck/Directive/*'
+    %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+
+    <script type="text/javascript">
+        angular.module('MusicTools', [
+            'Guitar',
+            'GuitarNeck'
+        ]);
+    </script>
 {% endblock %}

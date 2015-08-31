@@ -1,4 +1,4 @@
 music_tools_musician:
     resource: "@MusicToolsMusicianBundle/Controller/"
     type:     annotation
-    prefix:   /
+    prefix:   /musician

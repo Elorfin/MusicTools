@@ -2,7 +2,7 @@
     {% set current = (name in app.request.get('_route')) %}
     <li role="presentation" {% if current %}class="active"{% endif %}>
         <a href="{{ url }}">
-            <span class="fa fa-{{ icon }}"></span>
+            <span class="{{ icon }}"></span>
 
             <span class="sr-only">
                 {{ label|trans }}
@@ -19,9 +19,9 @@
 
 <nav class="sidebar">
     <ul>
-        {{ macros.menuItem('guitar',   'suitcase',       'link.instrument', path('guitar')) }}
-        {{ macros.menuItem('song',     'music',          'link.song_book',  path('song')) }}
-        {{ macros.menuItem('theory',   'graduation-cap', 'link.theory',     path('theory')) }}
-        {{ macros.menuItem('musician', 'users',          'link.musician',   path('musician')) }}
+        {{ macros.menuItem('guitar',   'music-icon music-icon-guitar-headstock',       'link.instrument', path('guitar')) }}
+        {{ macros.menuItem('song',     'fa fa-music',          'link.song_book',  path('song')) }}
+        {{ macros.menuItem('theory',   'fa fa-graduation-cap', 'link.theory',     path('theory')) }}
+        {{ macros.menuItem('musician', 'fa fa-users',          'link.musician',   path('musician')) }}
     </ul>
 </nav>

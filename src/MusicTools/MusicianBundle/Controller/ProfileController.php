@@ -3,7 +3,6 @@
 namespace MusicTools\MusicianBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Elorfin\UserBundle\Entity\User;
 use MusicTools\MusicianBundle\Entity\Musician;
 use MusicTools\MusicianBundle\Form\Type\MusicianType;
@@ -15,9 +14,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 /**
  * Profile controller.
  *
- * @Route("/musician")
+ * @Route("/")
  */
-class ProfileController extends Controller
+class ProfileController extends AbstractMusicianController
 {
     /**
      * Lists all Musician entities.
@@ -50,16 +49,23 @@ class ProfileController extends Controller
         // Get Musician entity from the User object
         $entity = $this->getMusicianFromUser($user);
 
-        // Check if the showed Musician is the current logged User
+        // Check if the showed Musician is the current logged User (to display edit links or not)
         $isCurrentMusician = false;
         $currentUser = $this->container->get('security.token_storage')->getToken()->getUser();
         if ($user->getId() === $currentUser->getId()) {
             $isCurrentMusician = true;
         }
 
+        $repo = $this->container->get('doctrine.orm.entity_manager')->getRepository('MusicToolsMusicianBundle:Musician');
+
         return array (
             'entity'    => $entity,
             'isCurrent' => $isCurrentMusician,
+            'counts' => array (
+                'songs'   => $repo->countSongs($entity),
+                'guitars' => $repo->countGuitars($entity),
+                'friends' => $repo->countFriends($entity),
+            ),
         );
     }
 
@@ -127,24 +133,5 @@ class ProfileController extends Controller
             'entity'    => $entity,
             'edit_form' => $editForm->createView(),
         );
-    }
-
-    /**
-     * Get the Musician entity from the User
-     * @param  User $user
-     * @return \MusicTools\MusicianBundle\Entity\Musician
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
-     */
-    private function getMusicianFromUser(User $user)
-    {
-        $entity = $this->container->get('doctrine.orm.entity_manager')->getRepository('MusicToolsMusicianBundle:Musician')->findOneByUser(array (
-            'user' => $user
-        ));
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Musician entity.');
-        }
-
-        return $entity;
     }
 }

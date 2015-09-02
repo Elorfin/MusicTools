@@ -17,7 +17,6 @@ use MusicTools\InstrumentBundle\Form\Type\GuitarType;
  */
 class GuitarController extends Controller
 {
-
     /**
      * Lists all Instrument entities.
      *
@@ -153,7 +152,6 @@ class GuitarController extends Controller
     * Creates a form to edit a Guitar entity.
     *
     * @param Guitar $entity The entity
-    *
     * @return \Symfony\Component\Form\Form The form
     */
     private function createEditForm(Guitar $entity)
@@ -228,8 +226,7 @@ class GuitarController extends Controller
     /**
      * Creates a form to delete a Guitar entity by id.
      *
-     * @param mixed $id The entity id
-     *
+     * @param  integer $id The entity id
      * @return \Symfony\Component\Form\Form The form
      */
     private function createDeleteForm($id)

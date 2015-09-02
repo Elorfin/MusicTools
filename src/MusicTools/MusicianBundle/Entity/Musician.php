@@ -90,6 +90,13 @@ class Musician
     protected $gender;
 
     /**
+     * Website of the Musician
+     * @var string
+     * @ORM\Column(type="string", nullable=true)
+     */
+    protected $website;
+
+    /**
      * User linked to the Musician
      * @var \FOS\UserBundle\Model\User
      *
@@ -271,6 +278,27 @@ class Musician
     public function setGender($gender)
     {
         $this->gender = $gender;
+
+        return $this;
+    }
+
+    /**
+     * Get website
+     * @return string
+     */
+    public function getWebsite()
+    {
+        return $this->website;
+    }
+
+    /**
+     * Set website
+     * @param  string $website
+     * @return \MusicTools\MusicianBundle\Entity\Musician
+     */
+    public function setWebsite($website)
+    {
+        $this->website = $website;
 
         return $this;
     }

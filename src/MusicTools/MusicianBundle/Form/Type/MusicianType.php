@@ -30,6 +30,7 @@ class MusicianType extends AbstractType
             ))
             ->add('birthDate', 'birthday')
             ->add('location')
+            ->add('website')
             ->add('avatar', new ImageType())
         ;
     }

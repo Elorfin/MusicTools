@@ -17,6 +17,11 @@ music_tools_instrument:
     resource: "@MusicToolsInstrumentBundle/Resources/config/routing.yml"
     prefix:   /my
 
+# Routes for UserInterface management
+elorfin_user_interface:
+    resource: "@ElorfinUserInterfaceBundle/Resources/config/routing.yml"
+    prefix:   /
+
 # Routes for User management
 elorfin_user:
     resource: "@ElorfinUserBundle/Resources/config/routing.yml"

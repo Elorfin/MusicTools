@@ -36,6 +36,21 @@ class SongController extends Controller
         );
     }
 
+    public function sheetMusicAction()
+    {
+
+    }
+
+    public function mediasAction()
+    {
+
+    }
+
+    public function recordsAction()
+    {
+
+    }
+
     /**
      * Creates a new Song entity
      *
@@ -155,7 +170,6 @@ class SongController extends Controller
      * Creates a form to edit a Song entity.
      *
      * @param Song $entity The entity
-     *
      * @return \Symfony\Component\Form\Form The form
      */
     private function createEditForm(Song $entity)
@@ -232,7 +246,6 @@ class SongController extends Controller
      * Creates a form to delete a Song entity by id.
      *
      * @param mixed $id The entity id
-     *
      * @return \Symfony\Component\Form\Form The form
      */
     private function createDeleteForm($id)

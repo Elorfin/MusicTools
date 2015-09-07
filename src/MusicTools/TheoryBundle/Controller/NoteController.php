@@ -10,14 +10,14 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 /**
  * Note controller.
  *
- * @Route("/note")
+ * @Route("/")
  */
 class NoteController extends Controller
 {
     /**
      * Lists all Interval entities.
      *
-     * @Route("/", name="note")
+     * @Route("/note", name="theory_note", options={"expose"=true})
      * @Method("GET")
      * @Template()
      */
@@ -25,7 +25,7 @@ class NoteController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('MusicToolsTheoryBundle:Note')->findAll();
+        $entities = $em->getRepository('MusicToolsTheoryBundle:Note')->findBy(array(), array('value' => 'ASC'));
 
         return array(
             'entities' => $entities,

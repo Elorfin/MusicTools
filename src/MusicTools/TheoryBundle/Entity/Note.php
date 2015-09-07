@@ -10,8 +10,11 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity()
  * @ORM\Table(name="music_note")
  */
-class Note
+class Note implements \JsonSerializable
 {
+    const DISPLAY_SHARP = 'sharpName';
+    const DISPLAY_FLAT  = 'flatName';
+
     /**
      * Unique identifier of the Note
      * @var integer
@@ -23,12 +26,20 @@ class Note
     protected $id;
 
     /**
-     * Name of the Note
+     * Sharp Name of the Note
      * @var string
      *
-     * @ORM\Column(type="string", length=10)
+     * @ORM\Column(name="sharp_name", type="string", length=10)
      */
-    protected $name;
+    protected $sharpName;
+
+    /**
+     * Flat Name of the Note
+     * @var string
+     *
+     * @ORM\Column(name="flat_name", type="string", length=10)
+     */
+    protected $flatName;
 
     /**
      * Is the Note accidental ?
@@ -37,6 +48,22 @@ class Note
      * @ORM\Column(type="boolean")
      */
     protected $accidental = false;
+
+    /**
+     * Note relative value to A
+     * @var integer
+     *
+     * @ORM\Column(name="note_value", type="integer")
+     */
+    protected $value;
+
+    /**
+     * Color of the Note
+     * @var string
+     *
+     * @ORM\Column(type="string")
+     */
+    protected $color;
 
     /**
      * Previous note
@@ -67,28 +94,61 @@ class Note
 
     /**
      * Get name
+     * @param  string $displayType
      * @return string
      */
-    public function getName()
+    public function getName($displayType = self::DISPLAY_SHARP)
     {
-        return $this->name;
+        $property = self::DISPLAY_SHARP;
+
+        return $this->$property;
     }
 
     /**
-     * Set name
-     * @param string $name
-     * @return $this
+     * Get sharp name
+     * @return string
      */
-    public function setName($name)
+    public function getSharpName()
     {
-        $this->name = $name;
+        return $this->sharpName;
+    }
+
+    /**
+     * Set sharp name
+     * @param string $sharpName
+     * @return \MusicTools\TheoryBundle\Entity\Note
+     */
+    public function setSharpName($sharpName)
+    {
+        $this->sharpName = $sharpName;
+
+        return $this;
+    }
+
+    /**
+     * Get flat name
+     * @return string
+     */
+    public function getFlatName()
+    {
+        return $this->flatName;
+    }
+
+    /**
+     * Set flat name
+     * @param string $flatName
+     * @return \MusicTools\TheoryBundle\Entity\Note
+     */
+    public function setFlatName($flatName)
+    {
+        $this->flatName = $flatName;
 
         return $this;
     }
 
     /**
      * Is accidental ?
-     * @return bool
+     * @return boolean
      */
     public function isAccidental()
     {
@@ -98,11 +158,53 @@ class Note
     /**
      * Set accidental
      * @param boolean $accidental
-     * @return $this
+     * @return \MusicTools\TheoryBundle\Entity\Note
      */
     public function setAccidental($accidental)
     {
         $this->accidental = $accidental;
+
+        return $this;
+    }
+
+    /**
+     * Get value
+     * @return integer
+     */
+    public function getValue()
+    {
+        return $this->value;
+    }
+
+    /**
+     * Set value
+     * @param  integer $value
+     * @return \MusicTools\TheoryBundle\Entity\Note
+     */
+    public function setValue($value)
+    {
+        $this->value = $value;
+
+        return $this;
+    }
+
+    /**
+     * Get color
+     * @return string
+     */
+    public function getColor()
+    {
+        return $this->color;
+    }
+
+    /**
+     * Set color
+     * @param  string $color
+     * @return \MusicTools\TheoryBundle\Entity\Note
+     */
+    public function setColor($color)
+    {
+        $this->color = $color;
 
         return $this;
     }
@@ -155,5 +257,49 @@ class Note
         }
 
         return $this;
+    }
+
+    /**
+     * Add Interval to the Note
+     * @param  \MusicTools\TheoryBundle\Entity\Interval $interval
+     * @return \MusicTools\TheoryBundle\Entity\Note
+     */
+    public function addInterval(Interval $interval)
+    {
+        $value = $interval->getValue();
+
+        return $this->addSemitone($value);
+    }
+
+    /**
+     * Add semitones to the Note
+     * @param  number $count
+     * @return \MusicTools\TheoryBundle\Entity\Note
+     */
+    public function addSemitone($count)
+    {
+        $newValue = ($this->value + $count) % 12;
+
+        $next = $this;
+        for ($i = 0; $i < $newValue; $i++) {
+            $next = $next->getNext();
+        }
+
+        return $next;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function jsonSerialize()
+    {
+        return array (
+            'id'         => $this->id,
+            'sharpName'  => $this->sharpName,
+            'flatName'   => $this->flatName,
+            'accidental' => $this->accidental,
+            'value'      => $this->value,
+            'color'      => $this->color,
+        );
     }
 }

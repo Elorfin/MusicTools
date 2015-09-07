@@ -10,10 +10,33 @@
     color: @sidebar-color;
 
     ul {
+        position: relative;
         margin: 0;
         list-style-type: none;
-        padding: 0;
-        /*padding-top: @sidebar-padding-vertical;*/
+        padding: 6px 0;
+
+        &:first-child {
+            padding-top: 7px;
+        }
+
+        &:first-child:before,
+        &:after {
+            border: 1px solid #202020;
+            left: 10px;
+            box-shadow: 0 0 3px rgba(0, 0, 0, 0.75);
+            content: " ";
+            display: block;
+            position: absolute;
+            right: 10px;
+        }
+
+        &:before {
+            top: 0;
+        }
+
+        &:after {
+            bottom: -1px;
+        }
 
         .active {
             a,

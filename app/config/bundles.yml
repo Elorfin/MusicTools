@@ -17,6 +17,7 @@ bundles:
         - JMS\I18nRoutingBundle\JMSI18nRoutingBundle
         - JMS\TranslationBundle\JMSTranslationBundle
         - FOS\UserBundle\FOSUserBundle
+        - FOS\JsRoutingBundle\FOSJsRoutingBundle
 
         # Core bundles
         - Elorfin\ReactorBundle\ElorfinReactorBundle

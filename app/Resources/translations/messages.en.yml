@@ -1,6 +1,9 @@
 link.instrument: my instruments
-link.song_book: my songbook
-link.theory: theory
-link.musician: musicians
-link.login: login
-link.register: register
+link.song_book:  my songbook
+link.theory:     theory
+link.musician:   musicians
+link.announce:   announces
+link.game:       games
+link.forum:      forum
+link.login:      login
+link.register:   register

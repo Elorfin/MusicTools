@@ -21,7 +21,16 @@
     <ul>
         {{ macros.menuItem('guitar',   'music-icon music-icon-guitar-headstock',       'link.instrument', path('guitar')) }}
         {{ macros.menuItem('song',     'fa fa-music',          'link.song_book',  path('song')) }}
-        {{ macros.menuItem('theory',   'fa fa-graduation-cap', 'link.theory',     path('theory')) }}
-        {{ macros.menuItem('musician', 'fa fa-users',          'link.musician',   path('musician')) }}
+    </ul>
+
+    <ul>
+        {{ macros.menuItem('theory', 'fa fa-graduation-cap', 'link.theory', path('theory')) }}
+        {{ macros.menuItem('game',   'fa fa-gamepad',        'link.game',   '#') }}
+    </ul>
+
+    <ul>
+        {{ macros.menuItem('musician', 'fa fa-users',    'link.musician', path('musician')) }}
+        {{ macros.menuItem('forum',    'fa fa-comments', 'link.forum', '#') }}
+        {{ macros.menuItem('announce', 'fa fa-bullhorn', 'link.announce', '#') }}
     </ul>
 </nav>

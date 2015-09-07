@@ -44,5 +44,5 @@
     // Inject controller object into Angular
     angular
         .module('GuitarNeck')
-        .controller('GuitarService', GuitarService);
+        .factory('GuitarService', GuitarService);
 })();

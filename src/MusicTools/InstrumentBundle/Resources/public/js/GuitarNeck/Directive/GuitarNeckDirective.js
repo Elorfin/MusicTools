@@ -458,12 +458,7 @@
         addSemitone: function (reference, semitones) {
             var newValue = (reference.value + semitones) % 12;
 
-
-            console.log('calculated = ' + newValue);
-
-            var note = this.get(newValue);
-
-            return note;
+            return this.get(newValue);
         }
     };
 })();

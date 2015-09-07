@@ -12,7 +12,7 @@
         "php": ">=5.3.9",
         "sensio/distribution-bundle": "~4.0",
         "incenteev/composer-parameter-handler": "~2.0",
-
+        "friendsofsymfony/jsrouting-bundle": "~1.5",
         "elorfin/reactor-bundle": "~1.0",
         "elorfin/user-interface-bundle": "~1.0",
         "elorfin/user-bundle": "~1.0",

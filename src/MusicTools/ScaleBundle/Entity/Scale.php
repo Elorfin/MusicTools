@@ -3,6 +3,7 @@
 namespace MusicTools\ScaleBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Elorfin\ReactorBundle\Entity\UniqueIdentifiableTrait;
 
 /**
  * Scale Entity
@@ -13,14 +14,9 @@ use Doctrine\ORM\Mapping as ORM;
 class Scale
 {
     /**
-     * Unique identifier of the Scale
-     * @var integer
-     *
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * Add Identifiable behavior
      */
-    protected $id;
+    use UniqueIdentifiableTrait;
 
     /**
      * Name of the Scale

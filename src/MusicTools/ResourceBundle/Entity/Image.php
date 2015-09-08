@@ -3,6 +3,7 @@
 namespace MusicTools\ResourceBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Elorfin\ReactorBundle\Entity\UniqueIdentifiableTrait;
 
 /**
  * Image
@@ -13,12 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Image extends File
 {
     /**
-     * Unique identifier of the Image
-     * @var integer
-     *
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * Add Identifiable behavior
      */
-    protected $id;
+    use UniqueIdentifiableTrait;
 }

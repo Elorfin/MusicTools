@@ -5,11 +5,9 @@ namespace MusicTools\MusicianBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Used for all entities which belongs to a Musician
- *
- * @ORM\MappedSuperclass()
+ * Add Ownable behavior to Entity
  */
-abstract class OwnedByMusician
+trait OwnableTrait
 {
     /**
      * Musician owner
@@ -32,7 +30,7 @@ abstract class OwnedByMusician
     /**
      * Set owner
      * @param  \MusicTools\MusicianBundle\Entity\Musician $owner
-     * @return \MusicTools\MusicianBundle\Entity\OwnedByMusician
+     * @return $this
      */
     public function setOwner(Musician $owner)
     {

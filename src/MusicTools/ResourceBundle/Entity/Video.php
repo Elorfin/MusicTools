@@ -3,6 +3,7 @@
 namespace MusicTools\ResourceBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Elorfin\ReactorBundle\Entity\UniqueIdentifiableTrait;
 
 /**
  * Video
@@ -13,12 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Video extends File
 {
     /**
-     * Unique identifier of the Video
-     * @var integer
-     *
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * Add Identifiable behavior
      */
-    protected $id;
+    use UniqueIdentifiableTrait;
 }

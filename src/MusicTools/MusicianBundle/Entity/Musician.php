@@ -3,6 +3,7 @@
 namespace MusicTools\MusicianBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Elorfin\ReactorBundle\Entity\UniqueIdentifiableTrait;
 use MusicTools\ResourceBundle\Entity\Image;
 use FOS\UserBundle\Model\User;
 
@@ -16,14 +17,9 @@ use FOS\UserBundle\Model\User;
 class Musician
 {
     /**
-     * Unique identifier of the Musician
-     * @var integer
-     *
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * Add Identifiable behavior
      */
-    protected $id;
+    use UniqueIdentifiableTrait;
 
     /**
      * Avatar of the Musician
@@ -104,15 +100,6 @@ class Musician
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
     protected $user;
-
-    /**
-     * Get id
-     * @return integer
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
 
     /**
      * Get avatar

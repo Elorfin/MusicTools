@@ -3,6 +3,7 @@
 namespace MusicTools\TheoryBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Elorfin\ReactorBundle\Entity\UniqueIdentifiableTrait;
 
 /**
  * Note Entity
@@ -16,14 +17,9 @@ class Note implements \JsonSerializable
     const DISPLAY_FLAT  = 'flatName';
 
     /**
-     * Unique identifier of the Note
-     * @var integer
-     *
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * Add Identifiable behavior
      */
-    protected $id;
+    use UniqueIdentifiableTrait;
 
     /**
      * Sharp Name of the Note

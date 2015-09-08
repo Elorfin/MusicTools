@@ -3,6 +3,7 @@
 namespace MusicTools\TuningBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Elorfin\ReactorBundle\Entity\UniqueIdentifiableTrait;
 use MusicTools\TheoryBundle\Entity\Note;
 
 /**
@@ -14,14 +15,9 @@ use MusicTools\TheoryBundle\Entity\Note;
 class StringTuning
 {
     /**
-     * Unique identifier of the StringTuning
-     * @var integer
-     *
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * Add Identifiable behavior
      */
-    protected $id;
+    use UniqueIdentifiableTrait;
 
     /**
      * Number of the String
@@ -48,15 +44,6 @@ class StringTuning
      * @ORM\JoinColumn(name="note_id", referencedColumnName="id")
      */
     protected $note;
-
-    /**
-     * Get id
-     * @return integer
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
 
     /**
      * Get number

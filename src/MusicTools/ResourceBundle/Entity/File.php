@@ -3,6 +3,7 @@
 namespace MusicTools\ResourceBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Elorfin\ReactorBundle\Entity\UniqueIdentifiableTrait;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\HttpFoundation\File\File as BaseFile;
 
@@ -13,16 +14,6 @@ use Symfony\Component\HttpFoundation\File\File as BaseFile;
  */
 abstract class File
 {
-    /**
-     * Unique identifier of the File
-     * @var integer
-     *
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    protected $id;
-
     /**
      * Path of the File
      * @var string
@@ -61,15 +52,6 @@ abstract class File
     public function __construct()
     {
         $this->createdAt = $this->updatedAt = new \DateTime();
-    }
-
-    /**
-     * Get id
-     * @return integer
-     */
-    public function getId()
-    {
-        return $this->id;
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace MusicTools\MusicianBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Elorfin\ReactorBundle\Entity\UniqueIdentifiableTrait;
 
 /**
  * MusicianFriendship Entity
@@ -18,14 +19,9 @@ class MusicianFriendship
     const STATUS_REJECTED = 0;
 
     /**
-     * Unique identifier of the MusicianFriendship
-     * @var integer
-     *
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * Add Identifiable behavior
      */
-    protected $id;
+    use UniqueIdentifiableTrait;
 
     /**
      * First member of the friendship link

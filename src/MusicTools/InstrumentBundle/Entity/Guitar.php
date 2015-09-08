@@ -3,7 +3,8 @@
 namespace MusicTools\InstrumentBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use MusicTools\MusicianBundle\Entity\OwnedByMusician;
+use Elorfin\ReactorBundle\Entity\UniqueIdentifiableTrait;
+use MusicTools\MusicianBundle\Entity\OwnableTrait;
 
 /**
  * Guitar Entity
@@ -12,17 +13,17 @@ use MusicTools\MusicianBundle\Entity\OwnedByMusician;
  * @ORM\Entity()
  * @ORM\Table(name="guitar")
  */
-class Guitar extends OwnedByMusician implements \JsonSerializable
+class Guitar implements \JsonSerializable
 {
     /**
-     * Unique identifier of the Guitar
-     * @var integer
-     *
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * Add Identifiable behavior
      */
-    protected $id;
+    use UniqueIdentifiableTrait;
+
+    /**
+     * Add Ownable behavior
+     */
+    use OwnableTrait;
 
     /**
      * Use Guitar as the default User's guitar
@@ -77,15 +78,6 @@ class Guitar extends OwnedByMusician implements \JsonSerializable
      * @var
      */
     protected $tuning;
-
-    /**
-     * Get id
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
 
     /**
      * Is default ?

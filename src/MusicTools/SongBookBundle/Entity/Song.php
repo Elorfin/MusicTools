@@ -2,29 +2,33 @@
 
 namespace MusicTools\SongBookBundle\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\ORM\Mapping as ORM;
-use MusicTools\MusicianBundle\Entity\OwnedByMusician;
-use MusicTools\ResourceBundle\Entity\Image;
+use Doctrine\ORM\Mapping                    as ORM;
+use Elorfin\ReactorBundle\Entity\UniqueIdentifiableTrait;
+use Gedmo\Mapping\Annotation                as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
+
+use Doctrine\Common\Collections\ArrayCollection;
+use MusicTools\ResourceBundle\Entity\Image;
+use MusicTools\MusicianBundle\Entity\OwnableTrait;
 
 /**
  * Song
  *
  * @ORM\Table(name="song")
  * @ORM\Entity(repositoryClass="MusicTools\SongBookBundle\Entity\SongRepository")
+ * @Gedmo\Loggable
  */
-class Song extends OwnedByMusician
+class Song
 {
     /**
-     * Unique identifier of the Song
-     * @var integer
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * Add Identifiable behavior
      */
-    protected $id;
+    use UniqueIdentifiableTrait;
+
+    /**
+     * Add Ownable behavior
+     */
+    use OwnableTrait;
 
     /**
      * Title of the Song
@@ -112,15 +116,6 @@ class Song extends OwnedByMusician
         $this->audios  = new ArrayCollection();
         $this->videos  = new ArrayCollection();
         $this->records = new ArrayCollection();
-    }
-
-    /**
-     * Get id
-     * @return integer 
-     */
-    public function getId()
-    {
-        return $this->id;
     }
 
     /**

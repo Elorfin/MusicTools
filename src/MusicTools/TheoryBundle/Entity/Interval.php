@@ -3,6 +3,7 @@
 namespace MusicTools\TheoryBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Elorfin\ReactorBundle\Entity\UniqueIdentifiableTrait;
 
 /**
  * Interval Entity
@@ -13,14 +14,9 @@ use Doctrine\ORM\Mapping as ORM;
 class Interval
 {
     /**
-     * Unique identifier of the Interval
-     * @var integer
-     *
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * Add Identifiable behavior
      */
-    protected $id;
+    use UniqueIdentifiableTrait;
 
     /**
      * Name of the Interval
@@ -45,15 +41,6 @@ class Interval
      * @ORM\Column(type="integer")
      */
     protected $value;
-
-    /**
-     * Get id
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
 
     /**
      * Get name

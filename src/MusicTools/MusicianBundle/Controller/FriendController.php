@@ -7,6 +7,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
+use MusicTools\MusicianBundle\Entity\Musician;
+
 /**
  * Friend controller.
  *
@@ -16,6 +18,7 @@ class FriendController extends AbstractMusicianController
 {
     /**
      * Lists Friends of a musician
+     * @param  \MusicTools\MusicianBundle\Entity\Musician $musician
      * @return array
      *
      * @Route("/", name="musician_friendship")
@@ -31,6 +34,7 @@ class FriendController extends AbstractMusicianController
 
     /**
      * Creates a new Friend request
+     * @param  \MusicTools\MusicianBundle\Entity\Musician $musician
      * @return array
      *
      * @Route("/", name="musician_friendship_request")
@@ -39,6 +43,24 @@ class FriendController extends AbstractMusicianController
      */
     public function requestAction(Musician $musician)
     {
+        return array (
 
+        );
+    }
+
+    /**
+     * Deletes a Friend
+     * @param  \MusicTools\MusicianBundle\Entity\Musician $musician
+     * @return array
+     *
+     * @Route("/", name="musician_friendship_delete")
+     * @Method("GET")
+     * @Template()
+     */
+    public function deleteAction(Musician $musician)
+    {
+        return array (
+
+        );
     }
 }

@@ -26,6 +26,7 @@ bundles:
         - Elorfin\UserBundle\ElorfinUserBundle
 
         # Application bundles
+        - MusicTools\AdministrationBundle\MusicToolsAdministrationBundle
         - MusicTools\HomeBundle\MusicToolsHomeBundle
         - MusicTools\ResourceBundle\MusicToolsResourceBundle
         - MusicTools\TheoryBundle\MusicToolsTheoryBundle

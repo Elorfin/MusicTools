@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "2ef4eb7580f8b58c16b0dd7b0f366f09",
+    "hash": "6843275bc8b5b75412439faa297905ca",
     "packages": [
         {
             "name": "behat/transliterator",
@@ -973,17 +973,17 @@
         },
         {
             "name": "elorfin/reactor-bundle",
-            "version": "v1.0.1",
+            "version": "v1.0.2",
             "target-dir": "Elorfin/ReactorBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Elorfin/ReactorBundle.git",
-                "reference": "97dbcb729ae5d90201341079adb7170abd9dedbb"
+                "reference": "bf290506bf21f9c26a662d62bb616db5eb6cadc6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Elorfin/ReactorBundle/zipball/97dbcb729ae5d90201341079adb7170abd9dedbb",
-                "reference": "97dbcb729ae5d90201341079adb7170abd9dedbb",
+                "url": "https://api.github.com/repos/Elorfin/ReactorBundle/zipball/bf290506bf21f9c26a662d62bb616db5eb6cadc6",
+                "reference": "bf290506bf21f9c26a662d62bb616db5eb6cadc6",
                 "shasum": ""
             },
             "require": {
@@ -1021,7 +1021,7 @@
                 "library",
                 "symfony"
             ],
-            "time": "2015-07-24 08:08:39"
+            "time": "2015-09-08 09:31:55"
         },
         {
             "name": "elorfin/user-bundle",

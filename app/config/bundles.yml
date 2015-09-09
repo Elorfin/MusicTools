@@ -37,6 +37,8 @@ bundles:
         - MusicTools\SongBookBundle\MusicToolsSongBookBundle
         - MusicTools\BadgeBundle\MusicToolsBadgeBundle
         - MusicTools\GameBundle\MusicToolsGameBundle
+        - MusicTools\ForumBundle\MusicToolsForumBundle
+        - MusicTools\AdvertisementBundle\MusicToolsAdvertisementBundle
 
     # Bundles to load only for `dev` environment
     dev:

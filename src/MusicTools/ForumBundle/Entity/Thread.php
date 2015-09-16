@@ -4,6 +4,7 @@ namespace MusicTools\ForumBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Elorfin\ReactorBundle\Entity\NameableTrait;
 use Elorfin\ReactorBundle\Entity\UniqueIdentifiableTrait;
 
 /**
@@ -18,6 +19,11 @@ class Thread
      * Add Identifiable behavior
      */
     use UniqueIdentifiableTrait;
+
+    /**
+     * Add Nameable behavior
+     */
+    use NameableTrait;
 
     /**
      * Forum belongs the thread

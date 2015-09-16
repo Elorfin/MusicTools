@@ -1,0 +1,57 @@
+{% extends '::base.html.twig' %}
+
+{% set header_links = [
+    { label: 'Add a new advertisement', icon: 'fa fa-fw fa-plus', url: path('song_new') }
+] %}
+
+{% block content_title %}My community <small>Advertisements</small>{% endblock %}
+
+{% block content %}
+    {#<h2>They propose...</h2>#}
+
+    <div class="advertisement-section-list" style="display: table; width: 100%; position: relative;">
+        <div class="" style="display: table-row; width: 100%;">
+        <a href="" class="advertisement-section" style="display: table-cell; height: 100%; position: relative; width: 33.3%;">
+            <div class="panel panel-default">
+                <img class="img-responsive" src="{{ asset('bundles/musictoolsadvertisement/images/amplifier-768536_640.jpg') }}" />
+                <div class="panel-body">
+                    <h3 style="margin-top: 0;">Equipment</h3>
+                    <p>Post quorum necem nihilo lenius ferociens Gallus ut leo cadaveribus pastus multa huius modi scrutabatur. quae singula narrare non refert, me professione modum, quod evitandum est, excedamus.</p>
+                </div>
+            </div>
+        </a>
+
+        <a href="" class="advertisement-section" style="display: table-cell; height: 100%; position: relative; width: 33.3%;">
+            <div class="panel panel-default">
+                <img class="img-responsive" src="{{ asset('bundles/musictoolsadvertisement/images/music-780588_640.jpg') }}" />
+                <div class="panel-body">
+                    <h3 style="margin-top: 0;">Lessons</h3>
+                    <p>Et quoniam apud eos ut in capite mundi morborum acerbitates celsius dominantur, ad quos vel sedandos omnis professio medendi torpescit, excogitatum est adminiculum sospitale nequi amicum perferentem similia videat, additumque est cautionibus paucis remedium aliud satis validum, ut famulos percontatum missos quem ad modum valeant noti hac aegritudine colligati, non ante recipiant domum quam lavacro purgaverint corpus. ita etiam alienis oculis visa metuitur labes.</p>
+                </div>
+            </div>
+        </a>
+
+        <a href="" class="advertisement-section" style="display: table-cell; height: 100%; position: relative; width: 33.3%;">
+            <div class="panel panel-default">
+                <img class="img-responsive" src="{{ asset('bundles/musictoolsadvertisement/images/music-691012_640.jpg') }}" />
+                <div class="panel-body">
+                    <h3 style="margin-top: 0;">Band</h3>
+                    <p>Sed tamen haec cum ita tutius observentur, quidam vigore artuum inminuto rogati ad nuptias ubi aurum dextris manibus cavatis offertur, inpigre vel usque Spoletium pergunt. haec nobilium sunt instituta.</p>
+                </div>
+            </div>
+        </a>
+        </div>
+    </div>
+
+    {#<h2>They are looking for...</h2>#}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+        });
+    </script>
+{% endblock %}

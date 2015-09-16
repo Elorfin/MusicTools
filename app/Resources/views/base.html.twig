@@ -97,6 +97,11 @@
         '@MusicToolsInstrumentBundle/Resources/public/js/Guitar/Directive/*'
         '@MusicToolsInstrumentBundle/Resources/public/js/GuitarNeck/*'
         '@MusicToolsInstrumentBundle/Resources/public/js/GuitarNeck/Directive/*'
+
+        '@MusicToolsSongBookBundle/Resources/public/js/SheetMusic/*'
+        '@MusicToolsSongBookBundle/Resources/public/js/SheetMusic/Controller/*'
+        '@MusicToolsSongBookBundle/Resources/public/js/SheetMusic/Directive/*'
+
     %}
     <script type="text/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}
@@ -107,7 +112,8 @@
 
             'Note',
             'Guitar',
-            'GuitarNeck'
+            'GuitarNeck',
+            'SheetMusic'
         ]);
     </script>
 {% endblock %}

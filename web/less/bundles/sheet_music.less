@@ -1,4 +1,6 @@
 .sheet-music {
+    padding-bottom: @navbar-height;
+
     .alphaTab {
         display: table;
         margin: 0 auto;
@@ -10,6 +12,10 @@
         border-radius: 1px;
         margin: 0 auto 20px auto;
         display: table;
+    }
+
+    .sheet-music-controls {
+
     }
 
     .cf:before,
@@ -26,8 +32,6 @@
         *zoom: 1;
     }
 
-    .button { font-size:14px; }
-
     #alphaTabScore { margin: 0 auto; width: 700px; text-align:left; }
 
     .samples { position:absolute; width: 800px;}
@@ -37,11 +41,6 @@
         margin: 0;
     }
 
-    #layoutButtons {
-        vertical-align: middle;
-    }
-
-
     .barCursor {
         opacity: 0.25;
         background:#FFF200;
@@ -50,55 +49,5 @@
     .beatCursor {
         opacity: 0.75;
         background:#4040FF;
-    }
-
-    #controls {
-        position:fixed;
-        bottom:0;
-        height:35px;
-        left:0;
-        right:0;
-        background:#2E2E2E;
-        padding:10px;
-        z-index:2000;
-        text-align:center;
-    }
-
-    #loadingInfo {
-        position:absolute;
-        left:10px;
-        top:10px;
-        color:#FFF;
-        font-weight:bold;
-    }
-
-    #sfInfo {
-        position:absolute;
-        right:10px;
-        top:10px;
-        color:#FFF;
-        font-weight:bold;
-    }
-
-    button[disabled] {
-        color:#929292;
-    }
-
-    .play::before {
-        content: '\25B6';
-        display: inline-block;
-        margin-right: 5px;
-    }
-
-    .pause::before {
-        content: 'll';
-        display: inline-block;
-        margin-right: 5px;
-        font-weight:bold;
-    }
-    #stop::before {
-        content: '\25A0';
-        display: inline-block;
-        margin-right: 5px;
     }
 }

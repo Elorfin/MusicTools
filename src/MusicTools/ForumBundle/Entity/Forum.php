@@ -4,6 +4,8 @@ namespace MusicTools\ForumBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Elorfin\ReactorBundle\Entity\DescribableTrait;
+use Elorfin\ReactorBundle\Entity\NameableTrait;
 use Elorfin\ReactorBundle\Entity\UniqueIdentifiableTrait;
 
 /**
@@ -20,16 +22,14 @@ class Forum
     use UniqueIdentifiableTrait;
 
     /**
-     * Name of the Forum
-     * @var string
+     * Add Nameable behavior
      */
-    protected $name;
+    use NameableTrait;
 
     /**
-     * Description of the Forum
-     * @var string
+     * Add Describable behavior
      */
-    protected $description;
+    use DescribableTrait;
 
     /**
      * Threads of the Forum
@@ -43,23 +43,6 @@ class Forum
     public function __construct()
     {
         $this->threads = new ArrayCollection();
-    }
-
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    public function setName($name)
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    public function getDescription()
-    {
-
     }
 
     /**

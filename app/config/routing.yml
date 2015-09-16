@@ -31,3 +31,11 @@ elorfin_user:
 music_tools_musician:
     resource: "@MusicToolsMusicianBundle/Resources/config/routing.yml"
     prefix:   /my/community
+
+music_tools_forum:
+    resource: "@MusicToolsForumBundle/Resources/config/routing.yml"
+    prefix:   /my/community
+
+music_tools_advertisement:
+    resource: "@MusicToolsAdvertisementBundle/Resources/config/routing.yml"
+    prefix:   /my/community

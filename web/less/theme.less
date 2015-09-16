@@ -9,17 +9,21 @@ body {
     padding-top: @navbar-height;
 }
 
-/*.navbar {
-    .active {
-        > a {
-            border-bottom: 1px solid @brand-primary;
-            padding-bottom: @navbar-padding-vertical - 1px;
-        }
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+    font-variant: small-caps;
+
+    small {
+        font-variant: normal;
     }
-}*/
+}
 
 .dropdown-menu {
     .box-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
+
+    .divider {
+        margin: 5px 0;
+    }
 }
 
 .content {
@@ -29,10 +33,6 @@ body {
     overflow-y: auto;
     padding-top: floor(@grid-gutter-width / 2);
     background: url("../images/background.jpg") repeat scroll center top;
-
-    /*&.mCS_no_scrollbar {
-        padding-right: floor(@grid-gutter-width / 2);
-    }*/
 
     .box-shadow(0 0 3px rgba(0, 0, 0, 0.5));
 
@@ -101,8 +101,4 @@ body {
 
 .panel {
     .box-shadow(none);
-}
-
-.dropdown-menu .divider {
-    margin: 5px 0;
 }

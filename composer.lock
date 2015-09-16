@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "984f9c90a036ba3a6e5d09506c55e043",
+    "hash": "2ef4eb7580f8b58c16b0dd7b0f366f09",
     "packages": [
         {
             "name": "behat/transliterator",
@@ -2762,16 +2762,16 @@
         },
         {
             "name": "twig/twig",
-            "version": "v1.21.2",
+            "version": "v1.22.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "ddce1136beb8db29b9cd7dffa8ab518b978c9db3"
+                "reference": "204a6c94907c2c2225322c267e09adbb2b1c04fd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/ddce1136beb8db29b9cd7dffa8ab518b978c9db3",
-                "reference": "ddce1136beb8db29b9cd7dffa8ab518b978c9db3",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/204a6c94907c2c2225322c267e09adbb2b1c04fd",
+                "reference": "204a6c94907c2c2225322c267e09adbb2b1c04fd",
                 "shasum": ""
             },
             "require": {
@@ -2784,7 +2784,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.21-dev"
+                    "dev-master": "1.22-dev"
                 }
             },
             "autoload": {
@@ -2819,7 +2819,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2015-09-09 05:28:51"
+            "time": "2015-09-13 17:12:38"
         },
         {
             "name": "werkint/jsmin",

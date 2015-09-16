@@ -3,6 +3,8 @@
 namespace MusicTools\ForumBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Elorfin\ReactorBundle\Entity\DescribableTrait;
+use Elorfin\ReactorBundle\Entity\NameableTrait;
 use Elorfin\ReactorBundle\Entity\UniqueIdentifiableTrait;
 
 /**
@@ -17,6 +19,16 @@ class Post
      * Add Identifiable behavior
      */
     use UniqueIdentifiableTrait;
+
+    /**
+     * Add Nameable behavior
+     */
+    use NameableTrait;
+
+    /**
+     * Add Describable behavior
+     */
+    use DescribableTrait;
 
     /**
      * Thread belongs the Message

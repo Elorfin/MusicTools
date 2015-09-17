@@ -60,7 +60,7 @@
                             });
 
                             sheetMusicCtrl.player.component.On('readyForPlay', function(r) {
-                                sheetMusicCtrl.player.ready = r;
+                                /*sheetMusicCtrl.player.ready = r;*/
                                 updateControls();
 
                                 scope.$apply();

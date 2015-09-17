@@ -104,22 +104,6 @@
             </ul>
 
             <sheet-music data-file="{{ asset('bundles/musictoolssongbook/libraries/alphaTab/Samples/JavaScript/files/AsILayDying-Reinvention.gpx') }}"></sheet-music>
-
-            {#<div class="sheet-music">#}
-                {#<div class="alphaTab" data-file="{{ asset('bundles/musictoolssongbook/libraries/alphaTab/Samples/JavaScript/files/AsILayDying-Reinvention.gpx') }}" data-tracks="3"></div>#}
-{#                <div id="controls">
-                    <div id="loadingInfo">Player not ready</div>
-                    <div id="sfInfo">Loading Soundfont <span class="progress"></span></div>
-                    <button class="button play" disabled="disabled" id="playPause">Play</button>
-                    <button class="button" disabled="disabled" id="stop">Stop</button>
-
-                    <div class="button-group" id="layoutButtons">
-                        <button class="button active" disabled="disabled" id="page" data-layout="page" data-scrollmode="vertical">Page</button>
-                        <button class="button" disabled="disabled" id="horizontalBarwise" data-layout="horizontal" data-scrollmode="horizontal-bar">Horizontal (Barwise)</button>
-                        <button class="button" disabled="disabled" id="horizontalOffscreen" data-layout="horizontal" data-scrollmode="horizontal-offscreen">Horizontal (Offscreen)</button>
-                    </div>
-                </div>#}
-            {#</div>#}
         </div>
     </div>
 {% endblock %}
@@ -137,11 +121,4 @@
     %}
     <script type="text/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}
-
-    <script type="text/javascript">
-        $(document).ready(function() {
-
-
-        });
-    </script>
 {% endblock %}

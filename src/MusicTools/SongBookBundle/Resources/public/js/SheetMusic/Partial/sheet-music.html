@@ -1,23 +1,23 @@
 <div class="sheet-music">
-    <div class="alphaTab" data-file="{{ sheetMusicCtrl.file }}" data-tracks="1"></div>
+    <div class="alphaTab" data-file="{{ sheetMusicCtrl.file }}" data-tracks="1" data-ng-show="sheetMusicCtrl.player.ready"></div>
 
-    <div class="" data-ng-if="">
+    <div class="text-center" data-ng-if="!sheetMusicCtrl.player.ready">
+        <span class="fa-stack fa-2x">
+            <span class="fa fa-circle-o-notch fa-spin fa-stack-2x"></span>
+            <span class="fa fa-music fa-stack-1x"></span>
+        </span>
         Load tab
     </div>
 
-    <div class="" data-ng-if="">
+    <!--<div class="" data-ng-if="">
         Load player
-    </div>
+    </div>-->
     <!--<div class="sheet-music-controls">
         <div id="controls">
             <div id="loadingInfo">Player not ready</div>
             <div id="sfInfo">Loading Soundfont <span class="progress"></span></div>
-
-            <button class="button play" disabled="disabled" id="playPause">Play</button>
-            <button class="button" disabled="disabled" id="stop">Stop</button>
         </div>
     </div>-->
-
 
     <nav class="sheet-music-controls navbar navbar-default navbar-fixed-bottom" data-ng-show="sheetMusicCtrl.player.ready">
         <div class="container-fluid">
@@ -55,7 +55,13 @@
                 </li>
             </ul>
 
-            <ul class="nav navbar-nav navbar-right">
+            <ul class="nav navbar-nav navbar-right"><li>
+                <a href="#">
+                    <span class="fa fa-fw fa-cogs"></span>
+                    <span class="sr-only">settings</span>
+                </a>
+            </li>
+
                 <li>
                     <a href="#">
                         <span class="fa fa-fw fa-expand"></span>

@@ -4,6 +4,7 @@ namespace MusicTools\ScaleBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Elorfin\ReactorBundle\Entity\UniqueIdentifiableTrait;
+use Elorfin\ReactorBundle\Entity\NameableTrait;
 
 /**
  * Scale Entity
@@ -19,10 +20,7 @@ class Scale
     use UniqueIdentifiableTrait;
 
     /**
-     * Name of the Scale
-     * @var string
-     *
-     * @ORM\Column(type="string")
+     * Add Nameable behavior
      */
-    protected $name;
+    use NameableTrait;
 }

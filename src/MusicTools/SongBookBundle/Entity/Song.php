@@ -84,6 +84,14 @@ class Song
     protected $cover;
 
     /**
+     * Scores of the Song
+     * @var \Doctrine\Common\Collections\ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="MusicTools\SongBookBundle\Entity\SheetMusic", mappedBy="song")
+     */
+    protected $scores;
+
+    /**
      * List of Lyrics associated to the Song
      * @var \Doctrine\Common\Collections\ArrayCollection
      */
@@ -112,6 +120,7 @@ class Song
      */
     public function __construct()
     {
+        $this->scores  = new ArrayCollection();
         $this->lyrics  = new ArrayCollection();
         $this->audios  = new ArrayCollection();
         $this->videos  = new ArrayCollection();
@@ -219,6 +228,45 @@ class Song
     public function setCover(Image $cover)
     {
         $this->cover = $cover;
+
+        return $this;
+    }
+
+    /**
+     * Get scores
+     * @return ArrayCollection
+     */
+    public function getScores()
+    {
+        return $this->scores;
+    }
+
+    /**
+     * Add score
+     * @param  \MusicTools\SongBookBundle\Entity\SheetMusic $score
+     * @return $this
+     */
+    public function addScore(SheetMusic $score)
+    {
+        if (!$this->scores->contains($score)) {
+            $this->scores->add($score);
+            $score->setSong($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Remove score
+     * @param  \MusicTools\SongBookBundle\Entity\SheetMusic $score
+     * @return $this
+     */
+    public function removeScore(SheetMusic $score)
+    {
+        if ($this->scores->contains($score)) {
+            $this->scores->removeElement($score);
+            $score->setSong(null);
+        }
 
         return $this;
     }

@@ -28,9 +28,9 @@ class LoadTuningData implements FixtureInterface
             $stringTuning = new StringTuning();
             $stringTuning->setNumber($index + 1);
 
-            $noteRepo->findByName()
+            $noteRepo->findByName();
 
-            $stringTunign->setNote();
+            $stringTuning->setNote();
         }
 
         $powerCategory = new TuningCategory();

@@ -1,8 +1,8 @@
 {% extends '::base.html.twig' %}
 
 {% set header_links = [
-    { label: 'Cancel',        icon: 'fa fa-fw fa-times',   url: path('guitar_show', { id: entity.id }) },
     { label: 'Edit guitar',   icon: 'fa fa-fw fa-check',   url: '' },
+    { label: 'Cancel',        icon: 'fa fa-fw fa-times',   url: path('guitar_show', { id: entity.id }) },
     { label: 'Delete guitar', icon: 'fa fa-fw fa-trash-o', url: '', class: 'danger' }
 ] %}
 
@@ -12,7 +12,7 @@
     { label: 'Edit', url: '' }
 ] %}
 
-{% block content_title %}Edit guitar <small>{{ entity.manufacturer }}</small>{% endblock %}
+{% block content_title %}Edit guitar <small>{{ entity.manufacturer ~ ' ' ~ entity.model }}</small>{% endblock %}
 
 {% block content %}
     {{ form_start(edit_form) }}

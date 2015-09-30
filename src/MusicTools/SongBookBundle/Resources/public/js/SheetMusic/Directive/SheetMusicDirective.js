@@ -82,25 +82,9 @@
                         function updateControls() {
                             if(!sheetMusicCtrl.player.ready) {
                                 $('#loadingInfo').show()
-                                $('#controls button').attr('disabled', 'disabled');
                             }
                             else {
                                 $('#loadingInfo').hide()
-                                $('#playPause').removeAttr('disabled');
-                                switch (sheetMusicCtrl.player.state) {
-                                    case 0: // stopped
-                                        $('#playPause').text('Play').removeClass('pause').addClass('play');
-                                        $('#stop').attr('disabled', 'disabled');
-                                        break;
-                                    case 1: // playing
-                                        $('#playPause').text('Pause').removeClass('play').addClass('pause');
-                                        $('#stop').removeAttr('disabled');
-                                        break;
-                                    case 2: // paused
-                                        $('#playPause').text('Play').removeClass('pause').addClass('play');
-                                        $('#stop').removeAttr('disabled');
-                                        break;
-                                }
                             }
                         }
                     }

@@ -12,8 +12,9 @@
                         fretFirst: '=',
                         fretLast : '='
                     },
-                    /*controller: 'FretsOverlayController',
-                    bindToController: true,*/
+                    controller: 'FretsLayerController',
+                    controllerAs: 'fretsLayerController',
+                    bindToController: true,
                     link: function (scope, element, attrs) {
                         // Get the canvas element and context
                     }

@@ -1,115 +1,119 @@
 (function () {
     'use strict';
 
-    angular
-        .module('Note')
-        .factory('NoteService', [
-            '$http',
-            '$q',
-            function ($http, $q){
-                /**
-                 * Note Service
-                 * @constructor
-                 */
-                var NoteService = function () {
+    /**
+     * Note Service
+     * @constructor
+     */
+    var NoteService = function NoteService($http, $q) {
+        this.services['$http'] = $http;
+        this.services['$q']    = $q;
+    };
 
-                };
+    NoteService.prototype.constructor = NoteService;
 
-                NoteService.prototype = {
-                    displayFlat: false,
+    /**
+     * List of dependencies of the Service
+     * @type {Object}
+     */
+    NoteService.prototype.services = {};
 
-                    /**
-                     * Current selected guitar
-                     * @var {Array} notes
-                     */
-                    notes: [],
+    /**
+     * Display alteration with flat instead of sharp
+     * @type {boolean}
+     */
+    NoteService.prototype.displayFlat = false;
 
-                    /**
-                     * Current selected guitar
-                     * @var {Object} current
-                     */
-                    current: null,
+    /**
+     * Current selected guitar
+     * @var {Array} notes
+     */
+    NoteService.prototype.notes = [];
 
-                    /**
-                     * Get the current selected Note
-                     * @returns {Object}
-                     */
-                    getCurrent: function getCurrent() {
-                        return this.current;
-                    },
+    /**
+     * Current selected note
+     * @var {Object} current
+     */
+    NoteService.prototype.current = null;
 
-                    /**
-                     * Set the current selected Note
-                     * @param {Object} note
-                     */
-                    setCurrent: function setCurrent(note) {
-                        this.current = note;
-                    },
+    /**
+     * Get the current selected Note
+     * @returns {Object}
+     */
+    NoteService.prototype.getCurrent = function getCurrent() {
+        return this.current;
+    };
 
-                    setDisplayFlat: function setDisplayFlat() {
+    /**
+     * Set the current selected Note
+     * @param {Object} note
+     */
+    NoteService.prototype.setCurrent = function setCurrent(note) {
+        this.current = note;
+    };
 
-                    },
+    NoteService.prototype.setDisplayFlat = function setDisplayFlat() {
 
-                    /**
-                     * List all Notes
-                     * @returns {Object}
-                     */
-                    all: function all() {
-                        if (0 !== this.notes.length) {
-                            // Return local list of Notes
-                            return this.notes
-                        } else {
-                            // Load Notes from AJAX
-                            return this.find();
-                        }
-                    },
+    };
 
-                    find: function find() {
-                        var deferred = $q.defer();
+    /**
+     * List all Notes
+     * @returns {Object}
+     */
+    NoteService.prototype.all = function all() {
+        if (0 !== this.notes.length) {
+            // Return local list of Notes
+            return this.notes
+        } else {
+            // Load Notes from AJAX
+            return this.find();
+        }
+    };
 
-                        $http
-                            .get(Routing.generate('theory_note', { _format: 'json' }), {})
+    NoteService.prototype.find = function find() {
+        var deferred = this.services.$q.defer();
 
-                            .success(function (response) {
-                                this.notes = response;
+        this.services.$http
+            .get(Routing.generate('theory_note', { _format: 'json' }), {})
 
-                                this.apply(function (note) {
-                                    if (this.displayFlat) {
-                                        
-                                    }
-                                }.bind(this));
+            .success(function (response) {
+                this.notes = response;
 
-                                deferred.resolve(response);
-                            }.bind(this))
-                            .error(function (response) {
-                                deferred.reject(response);
-                            });
+                this.apply(function (note) {
+                    if (this.displayFlat) {
 
-                        return deferred.promise;
-                    },
-
-                    get: function get(value) {
-                        return this.notes.find(function findByValue(element) {
-                            return value == element.value;
-                        });
-                    },
-
-                    addSemitone: function addSemitone(reference, semitones) {
-                        var newValue = (reference.value + semitones) % 12;
-
-                        return this.get(newValue);
-                    },
-
-                    apply: function apply(callback) {
-                        if (typeof callback === 'function') {
-                            for (var i = 0; i < this.notes.length; i++) {
-                                callback(this.notes[i]);
-                            }
-                        }
                     }
-                };
+                }.bind(this));
 
-                return new NoteService();
+                deferred.resolve(response);
+            }.bind(this))
+            .error(function (response) {
+                deferred.reject(response);
+            });
+
+        return deferred.promise;
+    };
+
+    NoteService.prototype.get = function get(value) {
+        return this.notes.find(function findByValue(element) {
+            return value == element.value;
+        });
+    };
+
+    NoteService.prototype.addSemitone = function addSemitone(reference, semitones) {
+        var newValue = (reference.value + semitones) % 12;
+
+        return this.get(newValue);
+    };
+
+    NoteService.prototype.apply = function apply(callback) {
+        if (typeof callback === 'function') {
+            for (var i = 0; i < this.notes.length; i++) {
+                callback(this.notes[i]);
             }
-        ]);
+        }
+    };
+
+    // Inject Service into AngularJS
+    angular.module('Note').service('NoteService', [ '$http', '$q', NoteService ]);
 })();

@@ -4,7 +4,7 @@
     angular.module('Note')
         .directive('noteSelector', [
             'NoteService',
-            function (NoteService) {
+            function NoteSelectorService(NoteService) {
                 return {
                     restrict: 'E',
                     templateUrl: assetDirectory + '/musictoolstheory/js/Note/Partial/selector.html',
@@ -12,8 +12,9 @@
                     scope: {
 
                     },
-                    /*controller: 'FretsOverlayController',
-                     bindToController: true,*/
+                    controller: function NoteSelectorController() {},
+                    controllerAs: 'noteSelectorCtrl',
+                    bindToController: true,
                     link: function (scope, element, attrs) {
                         NoteService.all().then(function (data) {
                             scope.notes = data;

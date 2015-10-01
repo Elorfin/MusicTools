@@ -17,7 +17,7 @@
 
                 return {
                     restrict: 'E',
-                    templateUrl: assetDirectory + '/musictoolsinstrument/partials/guitar-neck-widget.html',
+                    templateUrl: assetDirectory + '/musictoolsinstrument/js/GuitarNeck/Partial/guitar-neck-widget.html',
                     replace: true,
                     scope: {
 

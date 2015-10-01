@@ -4,6 +4,7 @@ namespace MusicTools\TheoryBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Elorfin\ReactorBundle\Entity\UniqueIdentifiableTrait;
+use Elorfin\ReactorBundle\Entity\NameableTrait;
 
 /**
  * Interval Entity
@@ -19,12 +20,9 @@ class Interval
     use UniqueIdentifiableTrait;
 
     /**
-     * Name of the Interval
-     * @var string
-     *
-     * @ORM\Column(type="string")
+     * Add Nameable behavior
      */
-    protected $name;
+    use NameableTrait;
 
     /**
      * Symbol of the Interval
@@ -41,27 +39,6 @@ class Interval
      * @ORM\Column(type="integer")
      */
     protected $value;
-
-    /**
-     * Get name
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * Set name
-     * @param string $name
-     * @return $this
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-
-        return $this;
-    }
 
     /**
      * Get symbol

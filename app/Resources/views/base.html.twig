@@ -3,7 +3,7 @@
 {% block stylesheets %}
     {{ parent() }}
 
-    {% stylesheets debug=false filter='cssrewrite,cssmin' output='css/music-font.min.css'
+    {% stylesheets debug=false filter='cssrewrite,cssmin' output='dist/css/music-font.min.css'
         'fonts/MusicFont/less/music-font.less'
     %}
     <link rel="stylesheet" media="screen" type="text/css" href="{{ asset_url }}" />
@@ -85,7 +85,7 @@
     </script>
 
     {# Angular JS #}
-    {% javascripts debug=false filter='jsmin' output='vendor/angular/angular.min.js'
+    {% javascripts debug=false filter='jsmin' output='dist/js/angular.min.js'
         '@ElorfinUserInterfaceBundle/Resources/public/libraries/angular/angular.min.js'
         '@ElorfinUserInterfaceBundle/Resources/public/libraries/angular/angular-touch.min.js'
         '@ElorfinUserInterfaceBundle/Resources/public/libraries/angular/angular-touch.min.js'

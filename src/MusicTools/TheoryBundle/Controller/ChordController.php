@@ -8,16 +8,16 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 /**
- * Interval controller.
+ * Chord controller.
  *
- * @Route("/interval")
+ * @Route("/")
  */
-class IntervalController extends Controller
+class ChordController extends Controller
 {
     /**
-     * Lists all Interval entities.
+     * Lists all Chord entities.
      *
-     * @Route("/", name="theory_interval")
+     * @Route("/chord", name="theory_chord", options={"expose"=true})
      * @Method("GET")
      * @Template()
      */
@@ -25,7 +25,7 @@ class IntervalController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('MusicToolsTheoryBundle:Interval')->findBy(array(), array('value' => 'ASC'));
+        $entities = $em->getRepository('MusicToolsTheoryBundle:Chord')->findAll();
 
         return array(
             'entities' => $entities,

@@ -77,33 +77,33 @@ assetic:
         # Publish FontAwesome font files
         font-awesome-otf:
             inputs: '%kernel.root_dir%/../vendor/fortawesome/font-awesome/fonts/FontAwesome.otf'
-            output: 'fonts/FontAwesome.otf'
+            output: 'dist/fonts/FontAwesome.otf'
         font-awesome-eot:
             inputs: '%kernel.root_dir%/../vendor/fortawesome/font-awesome/fonts/fontawesome-webfont.eot'
-            output: 'fonts/fontawesome-webfont.eot'
+            output: 'dist/fonts/fontawesome-webfont.eot'
         font-awesome-svg:
             inputs: '%kernel.root_dir%/../vendor/fortawesome/font-awesome/fonts/fontawesome-webfont.svg'
-            output: 'fonts/fontawesome-webfont.svg'
+            output: 'dist/fonts/fontawesome-webfont.svg'
         font-awesome-ttf:
             inputs: '%kernel.root_dir%/../vendor/fortawesome/font-awesome/fonts/fontawesome-webfont.ttf'
-            output: 'fonts/fontawesome-webfont.ttf'
+            output: 'dist/fonts/fontawesome-webfont.ttf'
         font-awesome-woff:
             inputs: '%kernel.root_dir%/../vendor/fortawesome/font-awesome/fonts/fontawesome-webfont.woff'
-            output: 'fonts/fontawesome-webfont.woff'
+            output: 'dist/fonts/fontawesome-webfont.woff'
 
         # Publish Glyphicon font files
         glyphicon-eot:
             inputs: '%kernel.root_dir%/../vendor/twbs/bootstrap/fonts/glyphicons-halflings-regular.eot'
-            output: 'fonts/glyphicons-halflings-regular.eot'
+            output: 'dist/fonts/glyphicons-halflings-regular.eot'
         glyphicon-svg:
             inputs: '%kernel.root_dir%/../vendor/twbs/bootstrap/fonts/glyphicons-halflings-regular.svg'
-            output: 'fonts/glyphicons-halflings-regular.svg'
+            output: 'dist/fonts/glyphicons-halflings-regular.svg'
         glyphicon-ttf:
             inputs: '%kernel.root_dir%/../vendor/twbs/bootstrap/fonts/glyphicons-halflings-regular.ttf'
-            output: 'fonts/glyphicons-halflings-regular.ttf'
+            output: 'dist/fonts/glyphicons-halflings-regular.ttf'
         glyphicon-woff:
             inputs: '%kernel.root_dir%/../vendor/twbs/bootstrap/fonts/glyphicons-halflings-regular.woff'
-            output: 'fonts/glyphicons-halflings-regular.woff'
+            output: 'dist/fonts/glyphicons-halflings-regular.woff'
 
 # Doctrine Configuration
 doctrine:

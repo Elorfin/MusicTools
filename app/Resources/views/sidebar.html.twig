@@ -1,7 +1,7 @@
 {% macro menuItem(name, icon, label, url) %}
     {% set current = (name in app.request.get('_route')) %}
     <li role="presentation" {% if current %}class="active"{% endif %}>
-        <a href="{{ url }}">
+        <a href="{{ url }}" data-toggle="tooltip" data-placement="right" title="{{ label|trans }}">
             <span class="{{ icon }}"></span>
 
             <span class="sr-only">
@@ -20,8 +20,8 @@
 <nav class="sidebar">
     {# Library links #}
     <ul>
-        {{ macros.menuItem('guitar', 'music-icon music-icon-guitar-headstock', 'link.instrument', path('guitar')) }}
-        {{ macros.menuItem('song',   'music-icon music-icon-music-folder',                            'link.song_book',  path('song'))   }}
+        {{ macros.menuItem('instrument', 'music-icon music-icon-guitar-headstock', 'link.instrument', path('instrument')) }}
+        {{ macros.menuItem('song',       'music-icon music-icon-music-folder',     'link.song_book',  path('song'))       }}
     </ul>
 
     {# Theory links #}
@@ -32,8 +32,8 @@
 
     {# Community links #}
     <ul>
-        {{ macros.menuItem('musician', 'fa fa-users',    'link.musician', path('musician'))      }}
-        {{ macros.menuItem('forum',    'fa fa-comments', 'link.forum',    path('forum'))         }}
+        {{ macros.menuItem('musician',      'fa fa-users',    'link.musician',      path('musician'))      }}
+        {{ macros.menuItem('forum',         'fa fa-comments', 'link.forum',         path('forum'))         }}
         {{ macros.menuItem('advertisement', 'fa fa-bullhorn', 'link.advertisement', path('advertisement')) }}
     </ul>
 </nav>

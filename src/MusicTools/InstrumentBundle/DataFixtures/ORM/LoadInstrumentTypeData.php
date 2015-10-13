@@ -18,27 +18,33 @@ class LoadInstrumentTypeData implements FixtureInterface
     {
         $types = array (
             array (
-                'name'    => 'Electric Guitar',
-                'strings' => 6,
-                'frets'   => 24
+                'name'  => 'Guitar',
+                'icon'  => 'instrument/guitar.png',
+                'class' => '\\MusicTools\\InstrumentBundle\\Entity\\Guitar',
             ),
 
             array (
-                'name'    => 'Acoustic Guitar',
-                'strings' => 6,
-                'frets'   => 19
+                'name'  => 'Ukulele',
+                'icon'  => 'instrument/ukulele.png',
+                'class' => '\\MusicTools\\InstrumentBundle\\Entity\\Guitar',
             ),
 
             array (
-                'name'    => 'Bass',
-                'strings' => 4,
-                'frets'   => 24
+                'name'  => 'Bass',
+                'icon'  => 'instrument/bass.png',
+                'class' => '\\MusicTools\\InstrumentBundle\\Entity\\Guitar',
             ),
 
             array (
-                'name'    => 'Soprano Ukulele',
-                'strings' => 4,
-                'frets'   => 12
+                'name'  => 'Flute',
+                'icon'  => 'instrument/flute.png',
+                'class' => '\\MusicTools\\InstrumentBundle\\Entity\\Flute',
+            ),
+
+            array (
+                'name'  => 'Piano',
+                'icon'  => 'instrument/piano.png',
+                'class' => '\\MusicTools\\InstrumentBundle\\Entity\\Piano',
             ),
         );
 
@@ -46,8 +52,8 @@ class LoadInstrumentTypeData implements FixtureInterface
             $typeEntity = new InstrumentType();
 
             $typeEntity->setName($type['name']);
-            $typeEntity->setStrings($type['strings']);
-            $typeEntity->setFrets($type['frets']);
+            $typeEntity->setIcon($type['icon']);
+            $typeEntity->setClass($type['class']);
 
             $manager->persist($typeEntity);
         }

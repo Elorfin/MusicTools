@@ -1,0 +1,35 @@
+{% extends '::base.html.twig' %}
+
+{% block content_title %}Add a new instrument{% endblock %}
+
+{% block content %}
+    {# Wizard breadcrumb #}
+    <ul class="wizard-breadcrumbs">
+        {# Step 1 - Choose the Instrument Type #}
+        <li class="wizard-breadcrumbs-item{% if current_step is not defined or 1 == current_step %} active {% elseif 1 < current_step %} done{% endif %}">
+            {# For steps which are done, replace the number by a tick #}
+            {% if 1 < current_step %}
+            <span class="fa fa-check"></span>
+            {% else %}
+            1
+            {% endif %}
+        </li>
+
+        <li class="wizard-breadcrumbs-item{% if current_step is defined and 2 == current_step %} active {% elseif 2 < current_step %} done{% endif %}">
+            {% if 2 < current_step %}
+                <span class="fa fa-check"></span>
+            {% else %}
+                2
+            {% endif %}
+        </li>
+
+        {# Step 3 - Fill information about the instrument #}
+        <li class="wizard-breadcrumbs-item{% if current_step is defined and 3 == current_step %} active{% endif %}">
+            3
+        </li>
+    </ul>
+
+    <h2>{% block wizard_step_title %}{% endblock %}</h2>
+
+    {% block wizard_content %}{% endblock %}
+{% endblock %}

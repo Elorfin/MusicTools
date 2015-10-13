@@ -13,7 +13,7 @@ use Elorfin\ReactorBundle\Entity\UniqueIdentifiableTrait;
  * @ORM\Entity()
  * @ORM\Table(name="instrument_type")
  */
-class InstrumentType extends AbstractStringInstrument
+class InstrumentType
 {
     /**
      * Add Identifiable behavior
@@ -25,11 +25,62 @@ class InstrumentType extends AbstractStringInstrument
      */
     use NameableTrait;
 
+    /**
+     * @var string
+     * @ORM\Column(type="string")
+     */
     protected $icon;
 
     /**
-     * Tuning of the Instrument
-     * @var
+     * @var string
+     * @ORM\Column(type="string")
      */
-    protected $tuning;
+    protected $class;
+
+    public function __toString()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Get icon
+     * @return string
+     */
+    public function getIcon()
+    {
+        return $this->icon;
+    }
+
+    /**
+     * Set icon
+     * @param  string $icon
+     * @return $this
+     */
+    public function setIcon($icon)
+    {
+        $this->icon = $icon;
+
+        return $this;
+    }
+
+    /**
+     * Get class
+     * @return string
+     */
+    public function getClass()
+    {
+        return $this->class;
+    }
+
+    /**
+     * Set class
+     * @param  string $class
+     * @return $this
+     */
+    public function setClass($class)
+    {
+        $this->class = $class;
+
+        return $this;
+    }
 }

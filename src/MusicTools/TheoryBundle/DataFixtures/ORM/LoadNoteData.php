@@ -18,78 +18,90 @@ class LoadNoteData implements FixtureInterface
     {
         // C
         $noteC = new Note();
+        $noteC->setSharpName('C');
+        $noteC->setFlatName('C');
         $noteC->setValue(3);
-        $noteC->setName('C');
 
         // C♯ / D♭
         $noteCSharp = new Note();
-        $noteCSharp->setName('C♯ / D♭');
+        $noteC->setSharpName('C♯');
+        $noteC->setFlatName('D♭');
         $noteC->setValue(4);
         $noteCSharp->setAccidental(true);
         $noteCSharp->setPrevious($noteC);
 
         // D
         $noteD = new Note();
-        $noteD->setName('D');
-        $noteC->setValue(5);
+        $noteD->setSharpName('D');
+        $noteD->setFlatName('D');
+        $noteD->setValue(5);
         $noteD->setPrevious($noteCSharp);
 
         // D♯ / E♭
         $noteDSharp = new Note();
-        $noteDSharp->setName('D♯ / E♭');
-        $noteC->setValue(6);
+        $noteDSharp->setSharpName('D♯');
+        $noteDSharp->setFlatName('E♭');
+        $noteDSharp->setValue(6);
         $noteDSharp->setAccidental(true);
         $noteDSharp->setPrevious($noteD);
 
         // E
         $noteE = new Note();
-        $noteE->setName('E');
-        $noteC->setValue(7);
+        $noteE->setSharpName('E');
+        $noteE->setFlatName('E');
+        $noteE->setValue(7);
         $noteE->setPrevious($noteDSharp);
 
         // F
         $noteF = new Note();
-        $noteF->setName('F');
-        $noteC->setValue(8);
+        $noteF->setSharpName('F');
+        $noteF->setFlatName('F');
+        $noteF->setValue(8);
         $noteF->setPrevious($noteE);
 
         // F♯ / G♭
         $noteFSharp = new Note();
-        $noteFSharp->setName('F♯ / G♭');
-        $noteC->setValue(9);
+        $noteFSharp->setSharpName('F♯');
+        $noteFSharp->setFlatName('G♭');
+        $noteFSharp->setValue(9);
         $noteFSharp->setAccidental(true);
         $noteFSharp->setPrevious($noteF);
 
         // G
         $noteG = new Note();
-        $noteG->setName('G');
-        $noteC->setValue(10);
+        $noteG->setSharpName('G');
+        $noteG->setFlatName('G');
+        $noteG->setValue(10);
         $noteG->setPrevious($noteFSharp);
 
         // G♯ / A♭
         $noteGSharp = new Note();
-        $noteGSharp->setName('G♯ / A♭');
-        $noteC->setValue(11);
+        $noteGSharp->setSharpName('G♯');
+        $noteGSharp->setFlatName('A♭');
+        $noteGSharp->setValue(11);
         $noteGSharp->setAccidental(true);
         $noteGSharp->setPrevious($noteG);
 
         // A
         $noteA = new Note();
-        $noteA->setName('A');
+        $noteA->setSharpName('A');
+        $noteA->setFlatName('A');
         $noteA->setValue(0);
         $noteA->setPrevious($noteGSharp);
 
         // A♯ / B♭
         $noteASharp = new Note();
-        $noteASharp->setName('A♯ / B♭');
-        $noteC->setValue(1);
+        $noteASharp->setSharpName('A♯');
+        $noteASharp->setFlatName('B♭');
+        $noteASharp->setValue(1);
         $noteASharp->setAccidental(true);
         $noteASharp->setPrevious($noteA);
 
         // B
         $noteB = new Note();
-        $noteB->setName('B');
-        $noteC->setValue(2);
+        $noteB->setSharpName('B');
+        $noteB->setFlatName('B');
+        $noteB->setValue(2);
         $noteB->setPrevious($noteASharp);
         $noteB->setNext($noteC);
 

@@ -1,18 +1,10 @@
-(function () {
-    'use strict';
+var GuitarNeckController = function GuitarNeckController() {
 
-    var GuitarNeckController = function () {
+};
 
-    };
+GuitarNeckController.prototype.height = 300;
 
-    GuitarNeckController.prototype = {
-        constructor: GuitarNeckController,
-
-        guitar: null
-    };
-
-    // Inject controller into Angular
-    angular
-        .module('GuitarNeck')
-        .controller('GuitarNeckController', GuitarNeckController);
-});
+// Inject controller into Angular
+angular
+    .module('GuitarNeck')
+    .controller('GuitarNeckController', GuitarNeckController);

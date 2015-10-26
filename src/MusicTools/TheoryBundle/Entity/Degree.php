@@ -1,7 +1,26 @@
 <?php
+
+namespace MusicTools\TheoryBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Elorfin\ReactorBundle\Entity\UniqueIdentifiableTrait;
+use Elorfin\ReactorBundle\Entity\NameableTrait;
+
 /**
- * Created by PhpStorm.
- * User: axel
- * Date: 24/07/15
- * Time: 11:10
- */ 
+ * Degree Entity
+ *
+ * @ORM\Entity()
+ * @ORM\Table(name="theory_degree")
+ */
+class Degree
+{
+    /**
+     * Add Identifiable behavior
+     */
+    use UniqueIdentifiableTrait;
+
+    /**
+     * Add Nameable behavior
+     */
+    use NameableTrait;
+}

@@ -10,7 +10,7 @@ use Elorfin\ReactorBundle\Entity\NameableTrait;
  * Interval Entity
  *
  * @ORM\Entity()
- * @ORM\Table(name="music_interval")
+ * @ORM\Table(name="theory_interval")
  */
 class Interval
 {

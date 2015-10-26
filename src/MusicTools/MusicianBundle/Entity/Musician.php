@@ -4,7 +4,7 @@ namespace MusicTools\MusicianBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Elorfin\ReactorBundle\Entity\UniqueIdentifiableTrait;
-use MusicTools\ResourceBundle\Entity\Image;
+use Elorfin\ResourceBundle\Entity\Image;
 use FOS\UserBundle\Model\User;
 
 /**
@@ -23,9 +23,9 @@ class Musician
 
     /**
      * Avatar of the Musician
-     * @var \MusicTools\ResourceBundle\Entity\Image
+     * @var \Elorfin\ResourceBundle\Entity\Image
      *
-     * @ORM\ManyToOne(targetEntity="MusicTools\ResourceBundle\Entity\Image", cascade={"remove", "persist"})
+     * @ORM\ManyToOne(targetEntity="Elorfin\ResourceBundle\Entity\Image", cascade={"remove", "persist"})
      * @ORM\JoinColumn(name="avatar_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
      */
     protected $avatar;
@@ -103,7 +103,7 @@ class Musician
 
     /**
      * Get avatar
-     * @return \MusicTools\ResourceBundle\Entity\Image
+     * @return \Elorfin\ResourceBundle\Entity\Image
      */
     public function getAvatar()
     {
@@ -112,7 +112,7 @@ class Musician
 
     /**
      * Set avatar
-     * @param  \MusicTools\ResourceBundle\Entity\Image $avatar
+     * @param  \Elorfin\ResourceBundle\Entity\Image $avatar
      * @return \MusicTools\MusicianBundle\Entity\Musician
      */
     public function setAvatar(Image $avatar)

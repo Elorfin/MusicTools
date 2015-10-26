@@ -4,7 +4,7 @@ namespace MusicTools\SongBookBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Elorfin\ReactorBundle\Entity\UniqueIdentifiableTrait;
-use MusicTools\ResourceBundle\Entity\File;
+use Elorfin\ResourceBundle\Entity\File;
 
 /**
  * SheetMusic

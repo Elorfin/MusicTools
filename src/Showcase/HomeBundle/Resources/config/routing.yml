@@ -1,0 +1,4 @@
+showcase_home:
+    resource: "@ShowcaseHomeBundle/Controller/"
+    type:     annotation
+    prefix:   /

@@ -14,31 +14,26 @@ bundles:
 
         # They need to be loaded by the custom bundles which use them
         - Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle
-        - JMS\I18nRoutingBundle\JMSI18nRoutingBundle
-        - JMS\TranslationBundle\JMSTranslationBundle
         - FOS\UserBundle\FOSUserBundle
         - FOS\JsRoutingBundle\FOSJsRoutingBundle
 
         # Core bundles
         - Elorfin\ReactorBundle\ElorfinReactorBundle
         - Elorfin\UserInterfaceBundle\ElorfinUserInterfaceBundle
-        - Elorfin\LocalizationBundle\ElorfinLocalizationBundle
         - Elorfin\UserBundle\ElorfinUserBundle
+        - Elorfin\ResourceBundle\ElorfinResourceBundle
 
         # Application bundles
-        - MusicTools\AdministrationBundle\MusicToolsAdministrationBundle
-        - MusicTools\HomeBundle\MusicToolsHomeBundle
-        - MusicTools\ResourceBundle\MusicToolsResourceBundle
+        - Showcase\HomeBundle\ShowcaseHomeBundle
         - MusicTools\TheoryBundle\MusicToolsTheoryBundle
         - MusicTools\MusicianBundle\MusicToolsMusicianBundle
-        - MusicTools\TuningBundle\MusicToolsTuningBundle
-        - MusicTools\ScaleBundle\MusicToolsScaleBundle
         - MusicTools\InstrumentBundle\MusicToolsInstrumentBundle
         - MusicTools\SongBookBundle\MusicToolsSongBookBundle
         - MusicTools\BadgeBundle\MusicToolsBadgeBundle
         - MusicTools\GameBundle\MusicToolsGameBundle
         - MusicTools\ForumBundle\MusicToolsForumBundle
         - MusicTools\AdvertisementBundle\MusicToolsAdvertisementBundle
+        - MusicTools\LessonBundle\MusicToolsLessonBundle
 
     # Bundles to load only for `dev` environment
     dev:

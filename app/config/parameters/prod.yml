@@ -1,0 +1,10 @@
+imports:
+    - { resource: common.yml }
+
+parameters:
+    # Framework cache
+    framework_cache_validation: validator.mapping.cache.apc
+    framework_cache_serializer: serializer.mapping.cache.apc
+
+    # Doctrine cache
+    doctrine_cache_driver: apc

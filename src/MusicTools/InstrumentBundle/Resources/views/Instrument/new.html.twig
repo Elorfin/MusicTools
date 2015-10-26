@@ -1,32 +1,57 @@
 {% extends '::base.html.twig' %}
 
-{% set header_links = [
-    { label: 'Create', icon: 'fa fa-fw fa-check', url: '' },
-    { label: 'Cancel', icon: 'fa fa-fw fa-times', url: path('instrument') },
-] %}
-
-{% set breadcrumb_links = [
-    { label: 'My guitars', url: path('instrument') },
-    { label: 'Add a new guitar', url: '' },
-] %}
-
 {% block content_title %}Add a new instrument{% endblock %}
 
 {% block content %}
-    {{ form_start(form) }}
-    <div class="row">
-        <div class="col-md-12">
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    {{ form_widget(form) }}
-                </div>
-            </div>
-        </div>
+    {# Wizard breadcrumb #}
+    <ul class="wizard-breadcrumbs">
+        {% for index, step in createFlow.config %}
+            {# Get state of the step (done, active, to do, error) #}
+            {% set stepState = null %}
+            {% if createFlow.currentStepNumber == index %}
+                {% if stepHasErrors %}
+                    {% set stepState = 'has-errors' %}
+                {% else %}
+                    {% set stepState = 'active' %}
+                {% endif %}
+            {% elseif createFlow.currentStepNumber > index %}
+                {% set stepState = 'done' %}
+            {% endif %}
 
-        <div class="col-md-12 text-right">
+            {# Display Step item in breadcrumb #}
+            <li class="wizard-breadcrumbs-item {{ stepState }}">
+                {# For steps which are done, replace the number by a tick #}
+                {% if 'done' == stepState %}
+                    <span class="fa fa-check"></span>
+                {% elseif 'has-errors' == stepState %}
+                    <span class="fa fa-times"></span>
+                {% else %}
+                    {{ index + 1 }}
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+
+    {# Wizard step title #}
+    <h2>{{ createFlow.currentStepNumber + 1 }}. {{ createFlow.currentStepName|trans }}</h2>
+
+    {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+        {{ form_widget(form) }}
+        {#<div class="row instrument-types">
+            {% for type in types %}
+                <div class="col-md-2 text-center">
+                    <div class="instrument-type-item">
+                        <object type="img/svg+xml" width="100%" data="{{ asset('bundles/musictoolsinstrument/images/' ~ type.icon) }}"></object>
+                    </div>
+                    <p>{{ type.name }}</p>
+                </div>
+            {% endfor %}
+        </div>#}
+
+        <div class="text-right">
             <button type="submit" class="btn btn-primary">
-                <span class="fa fa-check"></span>
-                Create
+                Next
+                <span class="fa fa-arrow-right"></span>
             </button>
 
             <a href="{{ path('instrument') }}" class="btn btn-default">
@@ -34,6 +59,5 @@
                 Cancel
             </a>
         </div>
-    </div>
     {{ form_end(form) }}
 {% endblock %}

@@ -1,0 +1,104 @@
+# Assetic Configuration (moved into UserInterfaceBundle)
+assetic:
+    debug:          "%kernel.debug%"
+    use_controller: "%kernel.debug%"
+    filters:
+        cssrewrite:
+            apply_to: '\.css$|\.less$'
+        lessphp:
+            file:     '%kernel.root_dir%/../vendor/oyejorge/less.php/lessc.inc.php'
+            apply_to: '\.less$'
+        cssmin:
+            file:     '%kernel.root_dir%/../vendor/natxet/CssMin/src/CssMin.php'
+            apply_to: '\.css$|\.less$'
+        jsmin:
+            file:     '%kernel.root_dir%/../vendor/werkint/jsmin/JsMin/Minify.php'
+            apply_to: '\.js$|\.twigjs$'
+
+    # Configure project Assets
+    assets:
+        # Angular JS
+        angular_js:
+            inputs:
+                - '@ElorfinUserInterfaceBundle/Resources/public/libraries/angular/angular.min.js'
+                - '@ElorfinUserInterfaceBundle/Resources/public/libraries/angular/angular-touch.min.js'
+            combine: true
+            output: 'dist/js/angular.min.js'
+            filters:
+                - jsmin
+
+        # JQuery
+        jquery:
+            inputs: '@ElorfinUserInterfaceBundle/Resources/public/libraries/jquery/jquery.min.js'
+            output: 'dist/js/jquery.min.js'
+            filters:
+                - jsmin
+
+        # Bootstrap JS files
+        bootstrap_js:
+            inputs:
+                - '%kernel.root_dir%/../vendor/twbs/bootstrap/js/transition.js'
+                - '%kernel.root_dir%/../vendor/twbs/bootstrap/js/alert.js'
+                - '%kernel.root_dir%/../vendor/twbs/bootstrap/js/button.js'
+                - '%kernel.root_dir%/../vendor/twbs/bootstrap/js/carousel.js'
+                - '%kernel.root_dir%/../vendor/twbs/bootstrap/js/collapse.js'
+                - '%kernel.root_dir%/../vendor/twbs/bootstrap/js/dropdown.js'
+                - '%kernel.root_dir%/../vendor/twbs/bootstrap/js/modal.js'
+                - '%kernel.root_dir%/../vendor/twbs/bootstrap/js/scrollspy.js'
+                - '%kernel.root_dir%/../vendor/twbs/bootstrap/js/tab.js'
+                - '%kernel.root_dir%/../vendor/twbs/bootstrap/js/tooltip.js'
+                - '%kernel.root_dir%/../vendor/twbs/bootstrap/js/popover.js'
+                - '%kernel.root_dir%/../vendor/twbs/bootstrap/js/affix.js'
+            combine: true
+            output: 'dist/js/bootstrap.min.js'
+            filters:
+                - jsmin
+
+        # Bootstrap CSS files
+        bootstrap_css:
+            inputs: '%kernel.root_dir%/../vendor/twbs/bootstrap/less/bootstrap.less'
+            output: 'dist/css/bootstrap.min.css'
+            filters:
+                - cssrewrite
+                - lessphp
+                - cssmin
+
+        # Glyphicon font files
+        glyphicon_eot:
+            inputs: '%kernel.root_dir%/../vendor/twbs/bootstrap/fonts/glyphicons-halflings-regular.eot'
+            output: 'dist/fonts/glyphicons-halflings-regular.eot'
+        glyphicon_svg:
+            inputs: '%kernel.root_dir%/../vendor/twbs/bootstrap/fonts/glyphicons-halflings-regular.svg'
+            output: 'dist/fonts/glyphicons-halflings-regular.svg'
+        glyphicon_ttf:
+            inputs: '%kernel.root_dir%/../vendor/twbs/bootstrap/fonts/glyphicons-halflings-regular.ttf'
+            output: 'dist/fonts/glyphicons-halflings-regular.ttf'
+        glyphicon_woff:
+            inputs: '%kernel.root_dir%/../vendor/twbs/bootstrap/fonts/glyphicons-halflings-regular.woff'
+            output: 'dist/fonts/glyphicons-halflings-regular.woff'
+
+        # FontAwesome CSS
+        font_awesome_css:
+            inputs: '%kernel.root_dir%/../vendor/fortawesome/font-awesome/less/font-awesome.less'
+            output: 'dist/css/font-awesome.min.css'
+            filters:
+                - cssrewrite
+                - lessphp
+                - cssmin
+
+        # FontAwesome font files
+        font_awesome_otf:
+            inputs: '%kernel.root_dir%/../vendor/fortawesome/font-awesome/fonts/FontAwesome.otf'
+            output: 'dist/fonts/FontAwesome.otf'
+        font_awesome_eot:
+            inputs: '%kernel.root_dir%/../vendor/fortawesome/font-awesome/fonts/fontawesome-webfont.eot'
+            output: 'dist/fonts/fontawesome-webfont.eot'
+        font_awesome_svg:
+            inputs: '%kernel.root_dir%/../vendor/fortawesome/font-awesome/fonts/fontawesome-webfont.svg'
+            output: 'dist/fonts/fontawesome-webfont.svg'
+        font_awesome_ttf:
+            inputs: '%kernel.root_dir%/../vendor/fortawesome/font-awesome/fonts/fontawesome-webfont.ttf'
+            output: 'dist/fonts/fontawesome-webfont.ttf'
+        font_awesome_woff:
+            inputs: '%kernel.root_dir%/../vendor/fortawesome/font-awesome/fonts/fontawesome-webfont.woff'
+            output: 'dist/fonts/fontawesome-webfont.woff'

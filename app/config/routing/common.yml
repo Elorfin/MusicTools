@@ -1,0 +1,24 @@
+# Routes for the public area
+showcase:
+    resource: components/showcase.yml
+    prefix:   /
+
+# Routes for the workspace area
+workspace:
+    resource: components/workspace.yml
+    prefix:   /ws
+
+# Routes for the administration area
+administration:
+    resource: components/administration.yml
+    prefix:   /admin
+
+# Routes which are not specific to an area
+elorfin_user_interface:
+    resource: "@ElorfinUserInterfaceBundle/Resources/config/routing.yml"
+    prefix:   /
+
+# Routes for User management
+elorfin_user:
+    resource: "@ElorfinUserBundle/Resources/config/routing.yml"
+    prefix:   /

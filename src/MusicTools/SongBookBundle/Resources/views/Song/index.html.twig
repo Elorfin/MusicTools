@@ -58,6 +58,10 @@
                 </div>
             </a>
         </div>
+        {% else %}
+        <div class="empty-list">
+            {{ 'no_song_found'|trans }}
+        </div>
         {% endfor %}
     </div>
 {% endblock %}

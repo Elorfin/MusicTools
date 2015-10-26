@@ -109,3 +109,39 @@ h2, .h2 {
 .panel {
     .box-shadow(none);
 }
+
+.empty-list {
+    font-style: italic;
+    text-align: center;
+}
+
+.login-form,
+.register-form {
+    background: rgba(0, 0, 0, 0.25);
+    padding: @line-height-computed 0;
+    margin-bottom: @line-height-computed;
+
+    h1 {
+        color: @brand-primary;
+    }
+}
+
+.section-header {
+    text-align: center;
+
+    h1 {
+        display: inline-block;
+        position: relative;
+        text-align: center;
+        text-shadow: 0 0 5px rgba(0, 0, 0, 1);
+        font-size: 22px;
+
+        &:before {
+
+        }
+
+        &:after {
+
+        }
+    }
+}

@@ -8,7 +8,7 @@ use Gedmo\Mapping\Annotation                as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use MusicTools\ResourceBundle\Entity\Image;
+use Elorfin\ResourceBundle\Entity\Image;
 use MusicTools\MusicianBundle\Entity\OwnableTrait;
 
 /**
@@ -76,9 +76,9 @@ class Song
 
     /**
      * Cover of the Song
-     * @var \MusicTools\ResourceBundle\Entity\Image
+     * @var \Elorfin\ResourceBundle\Entity\Image
      *
-     * @ORM\ManyToOne(targetEntity="MusicTools\ResourceBundle\Entity\Image", cascade={"remove", "persist"})
+     * @ORM\ManyToOne(targetEntity="Elorfin\ResourceBundle\Entity\Image", cascade={"remove", "persist"})
      * @ORM\JoinColumn(name="cover_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
      */
     protected $cover;

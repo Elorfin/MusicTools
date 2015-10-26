@@ -63,7 +63,7 @@ class ProfileController extends AbstractMusicianController
             'isCurrent' => $isCurrentMusician,
             'counts' => array (
                 'songs'   => $repo->countSongs($entity),
-                'guitars' => $repo->countGuitars($entity),
+                'guitars' => 0,
                 'friends' => $repo->countFriends($entity),
             ),
         );

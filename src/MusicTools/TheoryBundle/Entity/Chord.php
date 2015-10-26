@@ -10,7 +10,7 @@ use Elorfin\ReactorBundle\Entity\NameableTrait;
  * Chord Entity
  *
  * @ORM\Entity()
- * @ORM\Table(name="music_chord")
+ * @ORM\Table(name="theory_chord")
  */
 class Chord
 {
@@ -23,4 +23,8 @@ class Chord
      * Add Nameable behavior
      */
     use NameableTrait;
+
+    protected $root;
+
+    protected $category;
 }

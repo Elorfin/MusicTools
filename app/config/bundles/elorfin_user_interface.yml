@@ -1,0 +1,28 @@
+# User interface configuration
+elorfin_user_interface:
+    loading_strategy: local
+    libraries:
+        # jQuery
+        jquery:
+            include: true
+            cdn:     //code.jquery.com/jquery-1.11.3.min.js
+
+        # Bootstrap JS
+        bootstrap_js:
+            include: true
+            cdn:     https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js
+
+        # Bootstrap CSS
+        bootstrap_css:
+            include: false
+            cdn:     https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css
+
+        # Font Awesome
+        font_awesome:
+            include: true
+            cdn:     https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css
+
+        # AngularJS
+        angular_js:
+            include: true
+            cdn:     https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js

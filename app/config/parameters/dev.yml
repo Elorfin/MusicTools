@@ -1,0 +1,10 @@
+imports:
+    - { resource: common.yml }
+
+parameters:
+    # Framework cache
+    framework_cache_validation: ~
+    framework_cache_serializer: ~
+
+    # Doctrine cache
+    doctrine_cache_driver: array

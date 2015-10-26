@@ -26,8 +26,9 @@
 
     {# Theory links #}
     <ul>
-        {{ macros.menuItem('theory', 'fa fa-graduation-cap', 'link.theory', path('theory')) }}
-        {{ macros.menuItem('game',   'fa fa-gamepad',        'link.game',   '#')            }}
+        {{ macros.menuItem('theory', 'fa fa-book',           'link.theory', path('theory')) }}
+        {{ macros.menuItem('lesson', 'fa fa-graduation-cap', 'link.lesson', path('lesson')) }}
+        {{ macros.menuItem('game',   'fa fa-gamepad',        'link.game',   path('game'))   }}
     </ul>
 
     {# Community links #}

@@ -3,8 +3,15 @@
 {% block stylesheets %}
     {{ parent() }}
 
-    {% stylesheets debug=false filter='cssrewrite,cssmin' output='dist/css/music-font.min.css'
+    {% stylesheets output='dist/css/music-font.min.css'
         'fonts/MusicFont/less/music-font.less'
+    %}
+    <link rel="stylesheet" media="screen" type="text/css" href="{{ asset_url }}" />
+    {% endstylesheets %}
+
+    {# Application styles #}
+    {% stylesheets output='dist/css/app.css'
+        'less/app.less'
     %}
     <link rel="stylesheet" media="screen" type="text/css" href="{{ asset_url }}" />
     {% endstylesheets %}
@@ -12,7 +19,7 @@
 
 {% block title %}Music Tools{% endblock %}
 
-{% set header_links = header_links|default([]) %}
+{% set header_links     = header_links|default([]) %}
 {% set breadcrumb_links = breadcrumb_links|default([]) %}
 
 {% block angular_app %}data-ng-app="MusicTools" data-ng-cloak=""{% endblock %}
@@ -32,7 +39,7 @@
 
     {# Content #}
     {% block content_container %}
-    <div class="content  {% block content_class %}{% endblock %}" data-scrollable="" style="position: relative;">
+    <div class="content {% block content_class %}{% endblock %}" data-scrollable="" style="position: relative;">
         <div class="container-fluid">
             {# User messages #}
             {% for message in app.session.getFlashBag.get('error') %}
@@ -85,10 +92,7 @@
     </script>
 
     {# Angular JS #}
-    {% javascripts debug=false filter='jsmin' output='dist/js/angular.min.js'
-        '@ElorfinUserInterfaceBundle/Resources/public/libraries/angular/angular.min.js'
-        '@ElorfinUserInterfaceBundle/Resources/public/libraries/angular/angular-touch.min.js'
-        '@ElorfinUserInterfaceBundle/Resources/public/libraries/angular/angular-touch.min.js'
+    {% javascripts output='dist/js/workspace.min.js'
         '@ElorfinUserInterfaceBundle/Resources/public/js/ScrollableDirective.js'
         '@MusicToolsTheoryBundle/Resources/public/js/Note/*'
         '@MusicToolsTheoryBundle/Resources/public/js/Note/Service/*'

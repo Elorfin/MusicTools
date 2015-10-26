@@ -9,7 +9,7 @@ use MusicTools\MusicianBundle\Entity\OwnableTrait;
 
 /**
  * Guitar Entity
- * Used to store the configuration of an Instrument
+ * Used to store the common configuration of all types of instrument
  *
  * @ORM\Entity()
  * @ORM\Table(name="instrument")
@@ -114,7 +114,7 @@ class Instrument
     /**
      * Set manufacturer
      * @param string $manufacturer
-     * @return $this
+     * @return \MusicTools\InstrumentBundle\Entity\Instrument
      */
     public function setManufacturer($manufacturer)
     {
@@ -135,7 +135,7 @@ class Instrument
     /**
      * Set model
      * @param string $model
-     * @return $this
+     * @return \MusicTools\InstrumentBundle\Entity\Instrument
      */
     public function setModel($model)
     {

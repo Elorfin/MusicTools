@@ -23,6 +23,7 @@ bundles:
         - Elorfin\UserInterfaceBundle\ElorfinUserInterfaceBundle
         - Elorfin\LocalizationBundle\ElorfinLocalizationBundle
         - Elorfin\UserBundle\ElorfinUserBundle
+        - Elorfin\ResourceBundle\ElorfinResourceBundle
 
     # Bundles to load only for `dev` environment
     dev:

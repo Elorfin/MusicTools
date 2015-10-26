@@ -9,7 +9,7 @@ use Elorfin\ReactorBundle\Entity\UniqueIdentifiableTrait;
  * Note Entity
  *
  * @ORM\Entity()
- * @ORM\Table(name="music_note")
+ * @ORM\Table(name="theory_note")
  */
 class Note implements \JsonSerializable
 {

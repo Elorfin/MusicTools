@@ -19,6 +19,6 @@ class AppKernel extends Kernel
      */
     public function getConfigurationFile()
     {
-        return $this->getRootDir() . '/config/config_' . $this->getEnvironment() . '.yml';
+        return $this->getRootDir() . '/config/environments/' . $this->getEnvironment() . '.yml';
     }
 }

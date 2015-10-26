@@ -1,6 +1,7 @@
 link.instrument: mes instruments
-link.song_book: my songbook
-link.theory: théorie
-link.musician: musiciens
-link.login: se connecter
-link.register: s'inscrire
+link.song_book:  my songbook
+link.theory:     théorie
+link.musician:   musiciens
+link.login:      se connecter
+link.register:   s'inscrire
+link.lesson:     cours

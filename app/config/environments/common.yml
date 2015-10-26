@@ -1,0 +1,29 @@
+imports:
+    # Bundles configuration
+    - { resource: ../bundles/assetic.yml }
+    - { resource: ../bundles/doctrine.yml }
+    - { resource: ../bundles/elorfin_user_interface.yml }
+    - { resource: ../bundles/fos_user.yml }
+    - { resource: ../bundles/framework.yml }
+    - { resource: ../bundles/monolog.yml }
+    - { resource: ../bundles/stof_doctrine_extensions.yml }
+    - { resource: ../bundles/swiftmailer.yml }
+    - { resource: ../bundles/twig.yml }
+
+    # Application services
+    - { resource: ../services/security.yml }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -21,12 +21,14 @@ class LoadNoteData implements FixtureInterface
         $noteC->setSharpName('C');
         $noteC->setFlatName('C');
         $noteC->setValue(3);
+        $noteC->setColor('#006cb7');
 
         // C♯ / D♭
         $noteCSharp = new Note();
-        $noteC->setSharpName('C♯');
-        $noteC->setFlatName('D♭');
-        $noteC->setValue(4);
+        $noteCSharp->setSharpName('C♯');
+        $noteCSharp->setFlatName('D♭');
+        $noteCSharp->setValue(4);
+        $noteCSharp->setColor('#008e83');
         $noteCSharp->setAccidental(true);
         $noteCSharp->setPrevious($noteC);
 
@@ -35,6 +37,7 @@ class LoadNoteData implements FixtureInterface
         $noteD->setSharpName('D');
         $noteD->setFlatName('D');
         $noteD->setValue(5);
+        $noteD->setColor('#00854a');
         $noteD->setPrevious($noteCSharp);
 
         // D♯ / E♭
@@ -42,6 +45,7 @@ class LoadNoteData implements FixtureInterface
         $noteDSharp->setSharpName('D♯');
         $noteDSharp->setFlatName('E♭');
         $noteDSharp->setValue(6);
+        $noteDSharp->setColor('#7fb439');
         $noteDSharp->setAccidental(true);
         $noteDSharp->setPrevious($noteD);
 
@@ -50,6 +54,7 @@ class LoadNoteData implements FixtureInterface
         $noteE->setSharpName('E');
         $noteE->setFlatName('E');
         $noteE->setValue(7);
+        $noteE->setColor('#fdb813');
         $noteE->setPrevious($noteDSharp);
 
         // F
@@ -57,6 +62,7 @@ class LoadNoteData implements FixtureInterface
         $noteF->setSharpName('F');
         $noteF->setFlatName('F');
         $noteF->setValue(8);
+        $noteF->setColor('#584742');
         $noteF->setPrevious($noteE);
 
         // F♯ / G♭
@@ -64,6 +70,7 @@ class LoadNoteData implements FixtureInterface
         $noteFSharp->setSharpName('F♯');
         $noteFSharp->setFlatName('G♭');
         $noteFSharp->setValue(9);
+        $noteFSharp->setColor('#c15e20');
         $noteFSharp->setAccidental(true);
         $noteFSharp->setPrevious($noteF);
 
@@ -72,6 +79,7 @@ class LoadNoteData implements FixtureInterface
         $noteG->setSharpName('G');
         $noteG->setFlatName('G');
         $noteG->setValue(10);
+        $noteG->setColor('#f58220');
         $noteG->setPrevious($noteFSharp);
 
         // G♯ / A♭
@@ -79,6 +87,7 @@ class LoadNoteData implements FixtureInterface
         $noteGSharp->setSharpName('G♯');
         $noteGSharp->setFlatName('A♭');
         $noteGSharp->setValue(11);
+        $noteGSharp->setColor('#f04e46');
         $noteGSharp->setAccidental(true);
         $noteGSharp->setPrevious($noteG);
 
@@ -87,6 +96,7 @@ class LoadNoteData implements FixtureInterface
         $noteA->setSharpName('A');
         $noteA->setFlatName('A');
         $noteA->setValue(0);
+        $noteA->setColor('#8f0000');
         $noteA->setPrevious($noteGSharp);
 
         // A♯ / B♭
@@ -94,6 +104,7 @@ class LoadNoteData implements FixtureInterface
         $noteASharp->setSharpName('A♯');
         $noteASharp->setFlatName('B♭');
         $noteASharp->setValue(1);
+        $noteASharp->setColor('#a23e97');
         $noteASharp->setAccidental(true);
         $noteASharp->setPrevious($noteA);
 
@@ -102,6 +113,7 @@ class LoadNoteData implements FixtureInterface
         $noteB->setSharpName('B');
         $noteB->setFlatName('B');
         $noteB->setValue(2);
+        $noteB->setColor('#6a489d');
         $noteB->setPrevious($noteASharp);
         $noteB->setNext($noteC);
 

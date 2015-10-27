@@ -2,6 +2,6 @@ imports:
     - { resource: common.yml }
 
 bundles:
-    - Symfony\Bundle\WebProfilerBundle\WebProfilerBundle
-    - Sensio\Bundle\DistributionBundle\SensioDistributionBundle
-    - Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle
+    Symfony\Bundle\WebProfilerBundle\WebProfilerBundle        : true
+    Sensio\Bundle\DistributionBundle\SensioDistributionBundle : true
+    Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle       : true

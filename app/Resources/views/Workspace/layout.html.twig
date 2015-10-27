@@ -3,14 +3,14 @@
 {% block stylesheets %}
     {{ parent() }}
 
-    {% stylesheets debug=false filter='cssrewrite' output='dist/css/music-font.min.css'
+    {% stylesheets output='dist/css/music-font.min.css'
         'fonts/MusicFont/less/music-font.less'
     %}
     <link rel="stylesheet" media="screen" type="text/css" href="{{ asset_url }}" />
     {% endstylesheets %}
 
     {# Application styles #}
-    {% stylesheets debug=false filter='lessphp,cssrewrite,cssmin' output='dist/css/app.css'
+    {% stylesheets output='dist/css/app.css'
         'less/app.less'
     %}
     <link rel="stylesheet" media="screen" type="text/css" href="{{ asset_url }}" />
@@ -39,7 +39,7 @@
 
     {# Content #}
     {% block content_container %}
-    <div class="content {% block content_class %}{% endblock %}" data-scrollable="" style="position: relative;">
+    <div class="content {% block content_class %}{% endblock %}" data-scrollable="">
         <div class="container-fluid">
             {# Page header #}
             {% block content_header %}
@@ -64,7 +64,7 @@
     </script>
 
     {# Angular JS #}
-    {% javascripts debug=false filter='jsmin' output='dist/js/workspace.min.js'
+    {% javascripts output='dist/js/workspace.min.js'
         '@ElorfinUserInterfaceBundle/Resources/public/js/ScrollableDirective.js'
         '@MusicToolsTheoryBundle/Resources/public/js/Note/*'
         '@MusicToolsTheoryBundle/Resources/public/js/Note/Service/*'

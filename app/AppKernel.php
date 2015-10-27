@@ -2,15 +2,18 @@
 
 use Elorfin\ReactorBundle\Kernel\Kernel;
 
+/**
+ * Application Kernel
+ */
 class AppKernel extends Kernel
 {
     /**
-     * Get file which list of bundles to register in the Application
+     * Get file which list the bundles to register in the Application
      * @return string
      */
     public function getBundlesFile()
     {
-        return $this->getRootDir() . '/config/bundles.yml';
+        return $this->getRootDir() . '/config/kernel/' . $this->getEnvironment() . '.yml';
     }
 
     /**

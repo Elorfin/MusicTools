@@ -1,34 +1,34 @@
 # List of bundles mounted in the application
 bundles:
-    - Symfony\Bundle\FrameworkBundle\FrameworkBundle
-    - Symfony\Bundle\SecurityBundle\SecurityBundle
-    - Symfony\Bundle\TwigBundle\TwigBundle
-    - Symfony\Bundle\MonologBundle\MonologBundle
-    - Symfony\Bundle\AsseticBundle\AsseticBundle
-    - Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle
-    - Doctrine\Bundle\DoctrineBundle\DoctrineBundle
-    - Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle
-    - Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle
+    Symfony\Bundle\FrameworkBundle\FrameworkBundle                : true
+    Symfony\Bundle\SecurityBundle\SecurityBundle                  : true
+    Symfony\Bundle\TwigBundle\TwigBundle                          : true
+    Symfony\Bundle\MonologBundle\MonologBundle                    : true
+    Symfony\Bundle\AsseticBundle\AsseticBundle                    : true
+    Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle            : true
+    Doctrine\Bundle\DoctrineBundle\DoctrineBundle                 : true
+    Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle         : true
+    Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle : true
 
     # They need to be loaded by the custom bundles which use them
-    - Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle
-    - FOS\UserBundle\FOSUserBundle
-    - FOS\JsRoutingBundle\FOSJsRoutingBundle
+    Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle    : true
+    FOS\UserBundle\FOSUserBundle                                  : true
+    FOS\JsRoutingBundle\FOSJsRoutingBundle                        : true
 
     # Core bundles
-    - Elorfin\ReactorBundle\ElorfinReactorBundle
-    - Elorfin\UserInterfaceBundle\ElorfinUserInterfaceBundle
-    - Elorfin\UserBundle\ElorfinUserBundle
-    - Elorfin\ResourceBundle\ElorfinResourceBundle
+    Elorfin\ReactorBundle\ElorfinReactorBundle                    : true
+    Elorfin\UserInterfaceBundle\ElorfinUserInterfaceBundle        : true
+    Elorfin\UserBundle\ElorfinUserBundle                          : true
+    Elorfin\ResourceBundle\ElorfinResourceBundle                  : true
 
     # Application bundles
-    - Showcase\HomeBundle\ShowcaseHomeBundle
-    - MusicTools\TheoryBundle\MusicToolsTheoryBundle
-    - MusicTools\MusicianBundle\MusicToolsMusicianBundle
-    - MusicTools\InstrumentBundle\MusicToolsInstrumentBundle
-    - MusicTools\SongBookBundle\MusicToolsSongBookBundle
-    - MusicTools\BadgeBundle\MusicToolsBadgeBundle
-    - MusicTools\GameBundle\MusicToolsGameBundle
-    - MusicTools\ForumBundle\MusicToolsForumBundle
-    - MusicTools\AdvertisementBundle\MusicToolsAdvertisementBundle
-    - MusicTools\LessonBundle\MusicToolsLessonBundle
+    Showcase\HomeBundle\ShowcaseHomeBundle                        : true
+    MusicTools\TheoryBundle\MusicToolsTheoryBundle                : true
+    MusicTools\MusicianBundle\MusicToolsMusicianBundle            : true
+    MusicTools\InstrumentBundle\MusicToolsInstrumentBundle        : true
+    MusicTools\SongBookBundle\MusicToolsSongBookBundle            : true
+    MusicTools\BadgeBundle\MusicToolsBadgeBundle                  : true
+    MusicTools\GameBundle\MusicToolsGameBundle                    : true
+    MusicTools\ForumBundle\MusicToolsForumBundle                  : true
+    MusicTools\AdvertisementBundle\MusicToolsAdvertisementBundle  : true
+    MusicTools\LessonBundle\MusicToolsLessonBundle                : true

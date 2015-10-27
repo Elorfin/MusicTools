@@ -39,7 +39,7 @@
 
     {# Content #}
     {% block content_container %}
-    <div class="content {% block content_class %}{% endblock %}" data-scrollable="" style="position: relative;">
+    <div class="content {% block content_class %}{% endblock %}" data-scrollable="">
         <div class="container-fluid">
             {# User messages #}
             {% for message in app.session.getFlashBag.get('error') %}

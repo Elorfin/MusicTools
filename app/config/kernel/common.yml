@@ -18,7 +18,6 @@ bundles:
     Elorfin\ResourceBundle\ElorfinResourceBundle                  : true
 
     # Application bundles
-    Showcase\HomeBundle\ShowcaseHomeBundle                        : true
     MusicTools\TheoryBundle\MusicToolsTheoryBundle                : true
     MusicTools\MusicianBundle\MusicToolsMusicianBundle            : true
     MusicTools\InstrumentBundle\MusicToolsInstrumentBundle        : true

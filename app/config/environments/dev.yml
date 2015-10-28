@@ -1,9 +1,8 @@
 imports:
     # Application parameters
-    - { resource: "../parameters/dev.yml" }
+    - { resource: ../parameters/dev.yml }
 
     - { resource: common.yml }
-    - { resource: ../bundles/web_profiler.yml }
 
 # Override monolog configuration for Development
 monolog:

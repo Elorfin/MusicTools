@@ -1,6 +1,6 @@
 imports:
     # Application parameters
-    - { resource: "../parameters/prod.yml" }
+    - { resource: ../parameters/prod.yml }
 
     - { resource: common.yml }
 

@@ -25,8 +25,7 @@ framework:
 
     # Templating configuration
     templating:
-        engines:             [ "twig" ]
-        # assets_version:      "%app_version%"
+        engines:             [ "php" ]
 
     trusted_proxies:         ~
 

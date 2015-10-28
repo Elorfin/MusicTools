@@ -2,9 +2,7 @@
 bundles:
     Symfony\Bundle\FrameworkBundle\FrameworkBundle                : true
     Symfony\Bundle\SecurityBundle\SecurityBundle                  : true
-    Symfony\Bundle\TwigBundle\TwigBundle                          : true
     Symfony\Bundle\MonologBundle\MonologBundle                    : true
-    Symfony\Bundle\AsseticBundle\AsseticBundle                    : true
     Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle            : true
     Doctrine\Bundle\DoctrineBundle\DoctrineBundle                 : true
     Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle         : true
@@ -13,11 +11,9 @@ bundles:
     # They need to be loaded by the custom bundles which use them
     Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle    : true
     FOS\UserBundle\FOSUserBundle                                  : true
-    FOS\JsRoutingBundle\FOSJsRoutingBundle                        : true
 
     # Core bundles
     Elorfin\ReactorBundle\ElorfinReactorBundle                    : true
-    Elorfin\UserInterfaceBundle\ElorfinUserInterfaceBundle        : true
     Elorfin\UserBundle\ElorfinUserBundle                          : true
     Elorfin\ResourceBundle\ElorfinResourceBundle                  : true
 

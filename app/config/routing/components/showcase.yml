@@ -1,4 +1,0 @@
-# Routes for the public Area
-music_tools_home:
-    resource: "@ShowcaseHomeBundle/Resources/config/routing.yml"
-    prefix:   /

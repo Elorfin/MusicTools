@@ -1,0 +1,5 @@
+my_instruments:      My instruments
+choose_type:         Choose the type of the Instrument you want to create
+choose_model:        Choose a preconfigured model
+fill_info:           Fill information
+no_instrument_found: No instrument found.

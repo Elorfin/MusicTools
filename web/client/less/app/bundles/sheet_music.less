@@ -1,0 +1,53 @@
+.sheet-music {
+    padding-bottom: @navbar-height;
+
+    .alphaTab {
+        display: table;
+        margin: 0 auto;
+    }
+
+    .alphaTabSurface {
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+        background:#F2F2F2;
+        border-radius: 1px;
+        margin: 0 auto 20px auto;
+        display: table;
+    }
+
+    .sheet-music-controls {
+
+    }
+
+    .cf:before,
+    .cf:after {
+        content: " ";
+        display: table;
+    }
+
+    .cf:after {
+        clear: both;
+    }
+
+    .cf {
+        *zoom: 1;
+    }
+
+    #alphaTabScore { margin: 0 auto; width: 700px; text-align:left; }
+
+    .samples { position:absolute; width: 800px;}
+    .group { position: absolute; top: 50px; left: 0; right: 0; display:none;}
+
+    #alphaTabHorizontal .alphaTabSurface {
+        margin: 0;
+    }
+
+    .barCursor {
+        opacity: 0.25;
+        background:#FFF200;
+    }
+
+    .beatCursor {
+        opacity: 0.75;
+        background:#4040FF;
+    }
+}

@@ -1,0 +1,4 @@
+music_tools_game:
+    resource: "@MusicToolsGameBundle/Controller/"
+    type:     annotation
+    prefix:   /

@@ -1,0 +1,4 @@
+music_tools_instrument:
+    resource: "@MusicToolsInstrumentBundle/Controller/"
+    type:     annotation
+    prefix:   /

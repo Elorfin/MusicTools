@@ -1,0 +1,27 @@
+{% extends '::base.html.twig' %}
+
+{% block content_title %}Theory <small>Intervals</small>{% endblock %}
+
+{% block content %}
+    <div class="panel panel-default">
+        <table class="table table-hover table-stripped">
+            <thead>
+                <tr>
+                    <th>Semitones</th>
+                    <th>Name</th>
+                    <th>Symbol</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for entity in entities %}
+                <tr>
+                    <td>{{ entity.value }}</td>
+                    <td>{{ entity.name }}</td>
+                    <td>{{ entity.symbol }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

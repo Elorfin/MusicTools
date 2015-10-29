@@ -1,0 +1,5 @@
+my_instruments:      Mes instruments
+choose_type:         Choisir le type d'instrument à créer
+choose_model:        Choisir un modèle
+fill_info:           Saisir les informations à propos de l'instrument
+no_instrument_found: Aucun instrument trouvé.

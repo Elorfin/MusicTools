@@ -1,0 +1,4 @@
+music_tools_forum:
+    resource: "@MusicToolsForumBundle/Controller/"
+    type:     annotation
+    prefix:   /

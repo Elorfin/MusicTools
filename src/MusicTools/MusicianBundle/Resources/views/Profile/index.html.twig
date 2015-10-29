@@ -1,0 +1,35 @@
+{% extends '::base.html.twig' %}
+
+{% block content_title %}My community <small>Musicians</small>{% endblock %}
+
+{% block content %}
+    <div class="musician-list">
+        {% for entity in entities %}
+            <div class="musician-item">
+                <a class="" href="{{ path('musician_show', { username: entity.username }) }}" style="color: inherit;">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-2 col-sm-3 col-xs-4 text-center">
+                                    {% if entity.avatar is not empty %}
+                                        <img src="{{ asset(resource_path(entity.avatar)) }}" class="img-responsive" />
+                                    {% else %}
+                                        <div class="text-center big-icon">
+                                            <span class="fa fa-music"></span>
+                                        </div>
+                                    {% endif %}
+                                </div>
+
+                                <div class="col-md-10 col-sm-9 col-xs-8">
+                                    <h2 class="page-header">
+                                        {{ entity.username }}
+                                    </h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

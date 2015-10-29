@@ -1,0 +1,86 @@
+/**
+ * List of Songs
+ */
+.song-list {
+    .song-item {
+
+    }
+}
+
+/**
+ * Form of a Song
+ */
+.song-form {
+
+}
+
+/**
+ * Show a Song
+ */
+.song-show {
+
+}
+
+.song-resource-menu {
+    margin-bottom: 20px;
+    padding: 0;
+    width: 100%;
+
+    position: relative;
+    overflow: hidden;
+
+    &:after {
+        content: " ";
+        box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.75);
+        width: 100%;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        overflow: hidden;
+        height: 1px;
+        bottom: -3px;
+    }
+
+    li {
+        list-style-type: none;
+        display: inline-block;
+        opacity: 0.5;
+        text-align: left;
+
+        a {
+            display: block;
+            padding: @padding-base-vertical @padding-base-horizontal;
+
+            &:hover,
+            &:focus {
+                color: @brand-primary;
+            }
+        }
+
+        &.active,
+        &:hover {
+            opacity: 1;
+        }
+
+        &.active {
+            a {
+                padding-bottom: @padding-base-vertical - 2;
+                border-bottom: 2px solid @brand-primary;
+            }
+        }
+
+        .resource-item {
+            display: inline-block;
+            vertical-align: middle;
+
+            b {
+                display: block;
+                color: @brand-primary;
+            }
+
+            small {
+                color: @text-color;
+            }
+        }
+    }
+}

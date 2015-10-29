@@ -1,0 +1,6 @@
+imports:
+    - { resource: common.yml }
+
+bundles:
+    Sensio\Bundle\DistributionBundle\SensioDistributionBundle : true
+    Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle       : true

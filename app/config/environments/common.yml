@@ -1,0 +1,26 @@
+imports:
+    # Bundles configuration
+    - { resource: ../bundles/doctrine.yml }
+    - { resource: ../bundles/fos_user.yml }
+    - { resource: ../bundles/framework.yml }
+    - { resource: ../bundles/monolog.yml }
+    - { resource: ../bundles/stof_doctrine_extensions.yml }
+    - { resource: ../bundles/swiftmailer.yml }
+
+    # Application services
+    - { resource: ../services/security.yml }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

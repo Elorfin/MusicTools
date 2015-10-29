@@ -1,0 +1,4 @@
+music_tools_theory:
+    resource: "@MusicToolsTheoryBundle/Controller/"
+    type:     annotation
+    prefix:   /

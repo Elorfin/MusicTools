@@ -1,0 +1,38 @@
+{% extends '::base.html.twig' %}
+
+{% set header_links = [
+    { label: 'Cancel',       icon: 'fa fa-fw fa-times', url: path('musician_show', { username: entity.username }) },
+    { label: 'Edit profile', icon: 'fa fa-fw fa-check', url: '' },
+] %}
+
+{% block content_title %}Edit profile{% endblock %}
+
+{% block content %}
+    {{ form_start(edit_form) }}
+        <div class="row">
+            <div class="col-md-3">
+                {{ form_widget(edit_form.avatar) }}
+            </div>
+            <div class="col-md-9">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        {{ form_widget(edit_form) }}
+                    </div>
+                </div>
+
+                <div class="text-right">
+                    <button type="submit" class="btn btn-primary">
+                        <span class="fa fa-check"></span>
+                        Edit
+                    </button>
+
+                    <a href="{{ path('musician_show', {username: entity.username}) }}" class="btn btn-default">
+                        <span class="fa fa-times"></span>
+                        Cancel
+                    </a>
+                </div>
+            </div>
+        </div>
+    {{ form_end(edit_form) }}
+{% endblock %}
+

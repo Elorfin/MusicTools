@@ -1,4 +1,0 @@
-music_tools_advertisement:
-    resource: "@MusicToolsAdvertisementBundle/Controller/"
-    type:     annotation
-    prefix:   /

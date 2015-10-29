@@ -1,8 +1,0 @@
-# moved into LocalizationBundle
-stof_doctrine_extensions:
-    default_locale: %locale%
-    translation_fallback: true
-    orm:
-        default:
-            translatable: true
-            loggable:     true

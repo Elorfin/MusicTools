@@ -1,0 +1,104 @@
+<layout-page>
+    <!-- Header buttons -->
+    <layout-page-buttons>
+        <layout-page-button class="nav-link-danger">
+            <a href="">
+                <span class="fa fa-fw fa-trash-o"></span>
+                Delete
+            </a>
+        </layout-page-button>
+
+        <layout-page-button class="nav-link-default">
+            <a href="#/songs/{{ songShowCtrl.entity.id }}/edit">
+                <span class="fa fa-fw fa-pencil"></span>
+                Edit
+            </a>
+        </layout-page-button>
+    </layout-page-buttons>
+
+    <div class="row">
+        <!-- Song cover -->
+        <div class="col-md-3 text-center">
+            <!--{% if entity.cover is not empty %}
+            <img src="{{ asset(resource_path(entity.cover)) }}" class="img-responsive img-shadow" style="margin-bottom: 20px;"/>
+            {% else %}
+            <div class="text-center big-icon">
+                <span class="fa fa-music"></span>
+            </div>
+            {% endif %}
+
+            <div class="row">
+                <div class="col-md-12 text-center" style="margin-bottom: 20px;">
+                    Rating
+                    {{ fields.score_show(entity.rating, 0, 10, 'fa fa-fw fa-lg fa-heart', 'fa fa-fw fa-lg fa-heart-o') }}
+                </div>
+                <div class="col-md-12 text-center" style="margin-bottom: 20px;">
+                    Mastery
+                    {{ fields.score_show(entity.mastery, 0, 10, 'fa fa-fw fa-lg fa-star', 'fa fa-fw fa-lg fa-star-o') }}
+                </div>
+            </div>-->
+        </div>
+
+        <div class="col-md-9">
+            <div class="content-header">
+                <h1>{{ songShowCtrl.entity.title }} <small data-ng-if="null !== songShowCtrl.entity.artist">{{ songShowCtrl.entity.artist }}</small></h1>
+            </div>
+
+            <ul class="song-resource-menu text-center">
+                <li role="presentation" class="active">
+                    <a href="#">
+                        <span class="fa-stack fa-lg">
+                            <i class="fa fa-circle-thin fa-stack-2x"></i>
+                            <i class="fa fa-music fa-stack-1x"></i>
+                        </span>
+
+                        <span class="resource-item">
+                            <b>sheet music</b>
+                            <small>1 element</small>
+                        </span>
+                    </a>
+                </li>
+                <li role="presentation">
+                    <a href="#">
+                        <span class="fa-stack fa-lg">
+                            <i class="fa fa-circle-thin fa-stack-2x"></i>
+                            <i class="fa fa-file-sound-o fa-stack-1x"></i>
+                        </span>
+
+                        <span class="resource-item">
+                            <b>medias</b>
+                            <small>2 elements</small>
+                        </span>
+                    </a>
+                </li>
+                <li role="presentation">
+                    <a href="#">
+                        <span class="fa-stack fa-lg">
+                            <i class="fa fa-circle-thin fa-stack-2x"></i>
+                            <i class="fa fa-microphone fa-stack-1x"></i>
+                        </span>
+
+                        <span class="resource-item">
+                            <b>records</b>
+                            <small>2 elements</small>
+                        </span>
+                    </a>
+                </li>
+                <li role="presentation">
+                    <a href="#">
+                        <span class="fa-stack fa-lg">
+                            <i class="fa fa-circle-thin fa-stack-2x"></i>
+                            <i class="fa fa-info fa-stack-1x"></i>
+                        </span>
+
+                        <span class="resource-item">
+                            <b>information</b>
+                        </span>
+                    </a>
+                </li>
+            </ul>
+
+            <sheet-music data-file="{{ asset('bundles/musictoolssongbook/libraries/alphaTab/Samples/JavaScript/files/AsILayDying-Reinvention.gpx') }}"></sheet-music>
+        </div>
+    </div>
+</layout-page>

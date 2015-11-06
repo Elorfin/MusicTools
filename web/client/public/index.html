@@ -22,25 +22,12 @@
         <layout-sidebar></layout-sidebar>
 
         <!-- Content -->
-        <div class="content {% block content_class %}{% endblock %}" data-scrollable="">
-            <div class="container-fluid">
-                <!-- Page header -->
-                <div class="content-header">
-                    <!-- Page title -->
-                    <h1>{% block content_title %}{% endblock %}</h1>
-                </div>
-
-                <!-- Page Content -->
-                <div data-ng-view=""></div>
-            </div>
-        </div>
+        <div class="content" data-ng-view="" data-scrollable=""></div>
 
         <!-- Libraries (see Gruntfile.js to know what's included in js/lib.js) -->
-        <!--<script type="text/javascript" src="js/lib.js"></script>-->
         <script type="text/javascript" src="js/lib.min.js"></script>
 
         <!-- AngularJS App -->
-        <!--<script type="text/javascript" src="js/app.js"></script>-->
         <script type="text/javascript" src="js/app.min.js"></script>
     </body>
 </html>

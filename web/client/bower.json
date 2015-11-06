@@ -14,6 +14,11 @@
         "angular": "latest",
         "angular-route": "latest",
         "angular-animate": "latest",
-        "angular-bootstrap": "latest"
+        "angular-resource": "latest",
+        "angular-sanitize": "latest",
+        "angular-bootstrap": "latest",
+        "angular-translate": "latest",
+        "angular-loading-bar": "latest",
+        "ng-file-upload": "latest"
     }
 }

@@ -6,7 +6,7 @@ music_tools_instrument:
 # Routes for SongBook
 music_tools_song_book:
     resource: "@MusicToolsSongBookBundle/Resources/config/routing.yml"
-    prefix:   /song_book
+    prefix:   /
 
 # Routes for Theory
 music_tools_theory:

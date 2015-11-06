@@ -18,7 +18,7 @@ use MusicTools\MusicianBundle\Entity\OwnableTrait;
  * @ORM\Entity(repositoryClass="MusicTools\SongBookBundle\Entity\SongRepository")
  * @Gedmo\Loggable
  */
-class Song
+class Song implements \JsonSerializable
 {
     /**
      * Add Identifiable behavior
@@ -329,5 +329,14 @@ class Song
     public function removeRecord()
     {
         return $this;
+    }
+
+    public function jsonSerialize()
+    {
+        return array (
+            'id'     => $this->id,
+            'title'  => $this->title,
+            'artist' => $this->artist,
+        );
     }
 }

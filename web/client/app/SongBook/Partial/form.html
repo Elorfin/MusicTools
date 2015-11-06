@@ -1,0 +1,99 @@
+<layout-page>
+    <!-- Title of the page -->
+    <layout-page-title>
+        My songbook
+
+        <!-- New element -->
+        <small data-ng-if="songFormCtrl.isNew()">New</small>
+
+        <!-- Edit element -->
+        <small data-ng-if="!songFormCtrl.isNew()">Edit</small>
+    </layout-page-title>
+
+    <!-- Header buttons -->
+    <layout-page-buttons>
+        <!-- Delete button while editing -->
+        <layout-page-button data-ng-if="!songFormCtrl.isNew()" class="nav-link-danger">
+            <a href="">
+                <span class="fa fa-fw fa-trash-o"></span>
+                Delete
+            </a>
+        </layout-page-button>
+
+        <!-- Validate form -->
+        <layout-page-button class="nav-link-default">
+            <!--data-ng-click="songFormCtrl.validate()"-->
+            <a href="" ng-click="uploadPic(picFile)">
+                <span class="fa fa-fw fa-check"></span>
+                <span data-ng-if="songFormCtrl.isNew()">Create</span>
+                <span data-ng-if="!songFormCtrl.isNew()">Edit</span>
+            </a>
+        </layout-page-button>
+
+        <!-- Cancel -->
+        <layout-page-button class="nav-link-default">
+            <a href="#/songs">
+                <span class="fa fa-fw fa-times"></span>
+                Cancel
+            </a>
+        </layout-page-button>
+    </layout-page-buttons>
+
+    <!-- Form -->
+    <div class="row">
+        <div class="col-md-3">
+            <!--<input type="file" data-ngf-select="" data-ng-model="songFormCtrl.entity.cover" name="file" accept="image/*" data-ngf-max-size="2MB" />
+            <img ng-show="songFormCtrl.entity.cover.$valid" ngf-thumbnail="songFormCtrl.entity.cover" class="thumb" />-->
+
+            <fieldset>
+                Photo:
+                <input type="file" ngf-select ng-model="picFile" name="file"
+                       accept="image/*" ngf-max-size="2MB" required>
+                <i ng-show="myForm.file.$error.required">*required</i><br>
+                <i ng-show="myForm.file.$error.maxSize">File too large
+                    {{picFile.size / 1000000|number:1}}MB: max 2M</i>
+                <img ng-show="myForm.file.$valid" ngf-thumbnail="picFile" class="thumb"> <button ng-click="picFile = null" ng-show="picFile">Remove</button>
+                <br>
+                <button ng-disabled="!myForm.$valid"
+                        >Submit</button>
+                  <span class="progress" ng-show="picFile.progress >= 0">
+                    <div style="width:{{ picFile.progress }}%"
+                         ng-bind="picFile.progress + '%'"></div>
+                  </span>
+                <span ng-show="picFile.result">Upload Successful</span>
+                <span class="err" ng-show="errorMsg">{{errorMsg}}</span>
+            </fieldset>
+        </div>
+
+        <div class="col-md-9">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label for="song_title" class="control-label">Title</label>
+                        <input type="text" class="form-control" name="song_title" id="song_title" data-ng-model="songFormCtrl.entity.title" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="song_artist" class="control-label">Artist</label>
+                        <input type="text" class="form-control" name="song_artist" id="song_artist" data-ng-model="songFormCtrl.entity.artist" />
+                    </div>
+
+                    <!--{{ form_row(form.rating) }}-->
+                    <!--{{ form_row(form.mastery) }}-->
+                </div>
+            </div>
+
+            <!--<div class="text-right">
+                <button type="submit" class="btn btn-primary">
+                    <span class="fa fa-check"></span>
+                    Create
+                </button>
+
+                <a href="{{ path('song') }}" class="btn btn-default">
+                    <span class="fa fa-times"></span>
+                    Cancel
+                </a>
+            </div>-->
+        </div>
+    </div>
+</layout-page>

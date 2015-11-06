@@ -1,0 +1,40 @@
+<layout-page>
+    <!-- Title of the page -->
+    <layout-page-title>My songbook</layout-page-title>
+
+    <!-- Header buttons -->
+    <layout-page-buttons>
+        <layout-page-button class="nav-link-default">
+            <a href="#/songs/new">
+                <span class="fa fa-fw fa-plus"></span>
+                Add a new song
+            </a>
+        </layout-page-button>
+    </layout-page-buttons>
+
+    <div class="song-list">
+        <div class="panel panel-default" data-ng-repeat="entity in songListCtrl.entities" data-ng-if="songListCtrl.entities.length !== 0">
+            <div class="panel-body">
+                <h2 class="page-header">
+                    {{ entity.title }}
+
+                    <small data-ng-if="null !== entity.artist">{{ entity.artist }}</small>
+                </h2>
+
+                <a class="btn btn-round btn-default" href="#/songs/{{ entity.id }}">
+                    <span class="fa fa-fw fa-eye"></span>
+                    <span class="sr-only">show</span>
+                </a>
+
+                <a class="btn btn-round btn-default" href="#/songs/{{ entity.id }}/edit">
+                    <span class="fa fa-fw fa-pencil"></span>
+                    <span class="sr-only">edit</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="empty-list" data-ng-if="songListCtrl.entities.length === 0">
+            no_song_found
+        </div>
+    </div>
+</layout-page>

@@ -1,0 +1,30 @@
+.nav-link-variant(@color) {
+    > a {
+        color: @color;
+
+        &:hover,
+        &:focus {
+            color: darken(@color, 10%);
+            background-color: transparent;
+        }
+    }
+}
+
+.navbar {
+    border: none;
+    background: none;
+
+    .nav {
+        > .nav-link-success {
+            .nav-link-variant(@brand-success);
+        }
+
+        > .nav-link-primary {
+            .nav-link-variant(@brand-primary);
+        }
+
+        > .nav-link-danger {
+            .nav-link-variant(@brand-danger);
+        }
+    }
+}

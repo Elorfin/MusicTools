@@ -2,111 +2,37 @@
 
 namespace MusicTools\SongBookBundle\Controller;
 
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use FOS\RestBundle\Routing\ClassResourceInterface;
 use MusicTools\SongBookBundle\Entity\Song;
 use MusicTools\SongBookBundle\Form\Type\SongType;
+use Symfony\Component\HttpFoundation\Request;
 
-/**
- * Song controller
- *
- * @Route("/song")
- */
-class SongController extends Controller
+class SongController extends Controller implements ClassResourceInterface
 {
     /**
-     * Lists all Song entities.
+     * "get_songs"     [GET] /songs
+     *
      * @return array
-     *
-     * @Route("/", name="song")
-     * @Method("GET")
-     * @Template()
      */
-    public function indexAction()
+    public function cgetAction()
     {
-        $em = $this->getDoctrine()->getManager();
+        $entities = $this->container->get('doctrine.orm.entity_manager')->getRepository('MusicToolsSongBookBundle:Song')->findAll();
 
-        $entities = $em->getRepository('MusicToolsSongBookBundle:Song')->findAll();
-
-        return array(
-            'entities' => $entities,
-        );
-    }
-
-    public function sheetMusicAction()
-    {
-
-    }
-
-    public function mediasAction()
-    {
-
-    }
-
-    public function recordsAction()
-    {
-
+        return $entities;
     }
 
     /**
-     * Creates a new Song entity
+     * "new_songs"     [GET] /songs/new
      *
-     * @Route("/", name="song_create")
-     * @Method("POST")
-     * @Template("MusicToolsSongBookBundle:Song:new.html.twig")
-     */
-    public function createAction(Request $request)
-    {
-        $entity = new Song();
-
-        $form = $this->createCreateForm($entity);
-        $form->handleRequest($request);
-
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-
-            $em->persist($entity);
-            $em->flush();
-
-            return $this->redirect($this->generateUrl('song_show', array('id' => $entity->getId())));
-        }
-
-        return array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
-        );
-    }
-
-    /**
-     * Creates a form to create a Song entity.
-     *
-     * @param  Song $entity The entity
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createCreateForm(Song $entity)
-    {
-        $form = $this->createForm(new SongType(), $entity, array(
-            'action' => $this->generateUrl('song_create'),
-            'method' => 'POST',
-        ));
-
-        return $form;
-    }
-
-    /**
-     * Displays a form to create a new Song entity.
-     *
-     * @Route("/new", name="song_new")
-     * @Method("GET")
-     * @Template()
+     * @return array
      */
     public function newAction()
     {
         $entity = new Song();
-        $form   = $this->createCreateForm($entity);
+        $form   = $form = $this->createForm(new SongType(), $entity, array(
+            'method' => 'POST',
+        ));
 
         return array(
             'entity' => $entity,
@@ -114,147 +40,98 @@ class SongController extends Controller
         );
     }
 
-    /**
-     * Finds and displays a Song entity.
-     *
-     * @Route("/{id}", name="song_show")
-     * @Method("GET")
-     * @Template()
-     */
-    public function showAction($id)
+    // "post_songs"    [POST] /songs
+    public function postAction(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
+        /*echo "<pre>";
+        var_dump($_FILES);
 
-        $entity = $em->getRepository('MusicToolsSongBookBundle:Song')->find($id);
+        var_dump($_REQUEST);
+        die();*/
 
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Song entity.');
-        }
-
-        $deleteForm = $this->createDeleteForm($id);
-
-        return array(
-            'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),
-        );
-    }
-
-    /**
-     * Displays a form to edit an existing Song entity.
-     *
-     * @Route("/{id}/edit", name="song_edit")
-     * @Method("GET")
-     * @Template()
-     */
-    public function editAction($id)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('MusicToolsSongBookBundle:Song')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Song entity.');
-        }
-
-        $editForm = $this->createEditForm($entity);
-        $deleteForm = $this->createDeleteForm($id);
-
-        return array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        );
-    }
-
-    /**
-     * Creates a form to edit a Song entity.
-     *
-     * @param Song $entity The entity
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createEditForm(Song $entity)
-    {
-        $form = $this->createForm(new SongType(), $entity, array(
-            'action' => $this->generateUrl('song_update', array('id' => $entity->getId())),
-            'method' => 'PUT',
+        $entity = new Song();
+        $form = $form = $this->createForm(new SongType(), $entity, array(
+            'method' => 'POST',
         ));
 
-        return $form;
+        $form->handleRequest($request);
+        if ($form->isValid()) {
+            // Save entity
+            $this->container->get('doctrine.orm.entity_manager')->persist($entity);
+            $this->container->get('doctrine.orm.entity_manager')->flush();
+        }
+
+        return array(
+            'entity' => $entity,
+            'form'   => $form->createView(),
+        );
     }
 
-    /**
-     * Edits an existing Song entity.
-     *
-     * @Route("/{id}", name="song_update")
-     * @Method("PUT")
-     * @Template("MusicToolsSongBookBundle:Song:edit.html.twig")
-     */
-    public function updateAction(Request $request, $id)
+    // "get_song"      [GET] /songs/{id}
+    public function getAction($id)
     {
-        $em = $this->getDoctrine()->getManager();
+        $entity = $this->getEntity($id);
 
-        $entity = $em->getRepository('MusicToolsSongBookBundle:Song')->find($id);
+        return $entity;
+    }
+
+    // "edit_song"     [GET] /songs/{id}/edit
+    public function editAction($id)
+    {
+        $entity = $this->getEntity($id);
+        $form = $form = $this->createForm(new SongType(), $entity, array(
+            'method' => 'POST',
+        ));
+
+        return array(
+            'entity' => $entity,
+            'form'   => $form->createView(),
+        );
+    }
+
+    // "put_song"      [PUT] /songs/{id}
+    public function putAction($id, Request $request)
+    {
+        $entity = $this->getEntity($id);
+        $form = $form = $this->createForm(new SongType(), $entity, array(
+            'method' => 'POST',
+        ));
+
+        $form->handleRequest($request);
+        if ($form->isValid()) {
+            // Save entity
+            $this->container->get('doctrine.orm.entity_manager')->persist($entity);
+            $this->container->get('doctrine.orm.entity_manager')->flush();
+        }
+
+        return array(
+            'entity' => $entity,
+            'form'   => $form->createView(),
+        );
+    }
+
+    // "remove_song"   [GET] /songs/{id}/remove
+    public function removeAction($slug)
+    {
+
+    }
+
+    // "delete_song"   [DELETE] /songs/{id}
+    public function deleteAction($slug)
+    {
+
+    }
+
+    private function getEntity($id)
+    {
+        $entity = $this->container->get('doctrine.orm.entity_manager')->getRepository('MusicToolsSongBookBundle:Song')->findOneBy( array (
+            'id' => $id,
+        ));
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Song entity.');
         }
 
-        $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createEditForm($entity);
-        $editForm->handleRequest($request);
-
-        if ($editForm->isValid()) {
-            $em->flush();
-
-            return $this->redirect($this->generateUrl('song_edit', array('id' => $id)));
-        }
-
-        return array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        );
-    }
-
-    /**
-     * Deletes a Song entity.
-     *
-     * @Route("/{id}", name="song_delete")
-     * @Method("DELETE")
-     */
-    public function deleteAction(Request $request, $id)
-    {
-        $form = $this->createDeleteForm($id);
-        $form->handleRequest($request);
-
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('MusicToolsSongBookBundle:Song')->find($id);
-
-            if (!$entity) {
-                throw $this->createNotFoundException('Unable to find Song entity.');
-            }
-
-            $em->remove($entity);
-            $em->flush();
-        }
-
-        return $this->redirect($this->generateUrl('song'));
-    }
-
-    /**
-     * Creates a form to delete a Song entity by id.
-     *
-     * @param mixed $id The entity id
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createDeleteForm($id)
-    {
-        return $this->createFormBuilder()
-            ->setAction($this->generateUrl('song_delete', array('id' => $id)))
-            ->setMethod('DELETE')
-            ->add('submit', 'submit', array('label' => 'Delete'))
-            ->getForm()
-        ;
+        return $entity;
     }
 }

@@ -6,6 +6,7 @@ imports:
     - { resource: ../bundles/monolog.yml }
     - { resource: ../bundles/stof_doctrine_extensions.yml }
     - { resource: ../bundles/swiftmailer.yml }
+    - { resource: ../bundles/fos_rest.yml }
 
     # Application services
     - { resource: ../services/security.yml }

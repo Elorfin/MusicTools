@@ -5,6 +5,6 @@
 angular.module('MusicTools').config([
     '$routeProvider',
     function MusicToolsConfig($routeProvider) {
-
+        // Bind errors routes
     }
 ]);

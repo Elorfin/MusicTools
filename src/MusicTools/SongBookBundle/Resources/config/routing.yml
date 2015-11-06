@@ -1,4 +1,3 @@
 music_tools_song:
-    resource: "@MusicToolsSongBookBundle/Controller/"
-    type:     annotation
-    prefix:   /
+    resource: MusicTools\SongBookBundle\Controller\SongController
+    type:     rest

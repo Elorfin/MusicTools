@@ -20,7 +20,13 @@ module.exports = function (grunt) {
                     'bower_components/angular/angular.js',
                     'bower_components/angular-route/angular-route.js',
                     'bower_components/angular-animate/angular-animate.js',
-                    'bower_components/angular-bootstrap/ui-bootstrap-tpls.js'
+                    'bower_components/angular-sanitize/angular-sanitize.js',
+                    'bower_components/angular-resource/angular-resource.js',
+                    'bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
+                    'bower_components/angular-translate/angular-translate.js',
+                    'bower_components/angular-loading-bar/build/loading-bar.js',
+                    'bower_components/ng-file-upload/ng-file-upload-shim.js',
+                    'bower_components/ng-file-upload/ng-file-upload.js'
                 ],
                 dest: '<%= distFolder %>/js/lib.js'
             },
@@ -31,7 +37,13 @@ module.exports = function (grunt) {
                     'bower_components/angular/angular.min.js',
                     'bower_components/angular-route/angular-route.min.js',
                     'bower_components/angular-animate/angular-animate.min.js',
-                    'bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js'
+                    'bower_components/angular-sanitize/angular-sanitize.min.js',
+                    'bower_components/angular-resource/angular-resource.min.js',
+                    'bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js',
+                    'bower_components/angular-translate/angular-translate.min.js',
+                    'bower_components/angular-loading-bar/build/loading-bar.min.js',
+                    'bower_components/ng-file-upload/ng-file-upload-shim.min.js',
+                    'bower_components/ng-file-upload/ng-file-upload.min.js'
                 ],
                 dest: '<%= distFolder %>/js/lib.min.js'
             },
@@ -50,11 +62,11 @@ module.exports = function (grunt) {
                     // Load app root file when all other modules are loaded
                     'app/app.js',
 
-                    // Load routes
-                    'app/**/routes.js',
-
                     // Load src code
-                    'app/**/*.js'
+                    'app/**/*.js',
+
+                    // Load routes
+                    'app/**/routes.js'
 
                 ],
                 dest: '<%= distFolder %>/js/app.js'

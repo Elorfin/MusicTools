@@ -18,11 +18,11 @@ class SongType extends AbstractType
         $builder
             ->add('title')
             ->add('artist')
-            ->add('rating', 'score', array(
+            /*->add('rating', 'score', array(
                 'icon'       => 'fa fa-fw fa-lg fa-heart',
                 'icon_empty' => 'fa fa-fw fa-lg fa-heart-o',
-            ))
-            ->add('mastery', 'score')
+            ))*/
+            /*->add('mastery', 'score')*/
             ->add('cover', new ImageType())
         ;
     }
@@ -33,6 +33,7 @@ class SongType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
+            'csrf_protection' => false,
             'data_class' => 'MusicTools\SongBookBundle\Entity\Song'
         ));
     }

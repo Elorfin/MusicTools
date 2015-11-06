@@ -7,7 +7,7 @@ framework:
     validation:
         cache: %framework_cache_validation%
     serializer:
-        enabled: true
+        enabled: false
         cache:   %framework_cache_serializer%
 
     # Security token

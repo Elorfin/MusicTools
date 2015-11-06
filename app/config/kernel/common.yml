@@ -11,6 +11,7 @@ bundles:
 
     # They need to be loaded by the custom bundles which use them
     Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle    : true
+    JMS\SerializerBundle\JMSSerializerBundle                      : true
     FOS\RestBundle\FOSRestBundle                                  : true
     FOS\UserBundle\FOSUserBundle                                  : true
 

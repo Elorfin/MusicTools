@@ -15,6 +15,9 @@
     </head>
 
     <body>
+        <!-- Alerts -->
+        <alerts></alerts>
+
         <!-- Header -->
         <layout-header></layout-header>
 
@@ -22,12 +25,16 @@
         <layout-sidebar></layout-sidebar>
 
         <!-- Content -->
-        <div class="content" data-ng-view="" data-scrollable=""></div>
+        <div class="content" data-layout-scrollable="">
+            <div data-ng-view=""></div>
+        </div>
 
         <!-- Libraries (see Gruntfile.js to know what's included in js/lib.js) -->
-        <script type="text/javascript" src="js/lib.min.js"></script>
+        <!--<script type="text/javascript" src="js/lib.min.js"></script>-->
+        <script type="text/javascript" src="js/lib.js"></script>
 
         <!-- AngularJS App -->
-        <script type="text/javascript" src="js/app.min.js"></script>
+        <!--<script type="text/javascript" src="js/app.min.js"></script>-->
+        <script type="text/javascript" src="js/app.js"></script>
     </body>
 </html>

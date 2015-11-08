@@ -14,12 +14,13 @@ angular
         'ngFileUpload',
         'ui.bootstrap',
         'pascalprecht.translate',
-        /*'ui.scrollable',*/
         'angular-loading-bar',
 
         // Core modules
         'Utilities',
         'Layout',
+        'Form',
+        'Alert',
 
         // App modules
         'Advertisement',

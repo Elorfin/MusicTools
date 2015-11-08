@@ -14,6 +14,7 @@
 
     <div class="song-list">
         <div class="panel panel-default" data-ng-repeat="entity in songListCtrl.entities" data-ng-if="songListCtrl.entities.length !== 0">
+            <img src="" data-ng-if="entity.cover && entity.cover.path" data-ng-src="{{ entity.cover.path|resource_path }}"/>
             <div class="panel-body">
                 <h2 class="page-header">
                     {{ entity.title }}

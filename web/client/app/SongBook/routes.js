@@ -27,10 +27,23 @@ angular.module('SongBook').config([
                 controller:   'SongFormController',
                 controllerAs: 'songFormCtrl',
                 resolve: {
-                    entity: [
-                        'Song',
-                        function entityResolver(Song) {
-                            return new Song();
+                    form: [
+                        'ApiService',
+                        '$http',
+                        '$q',
+                        function formResolver(ApiService, $http, $q) {
+                            var deferred = $q.defer();
+
+                            $http
+                                .get(ApiService.getServer() + '/songs/new')
+                                .success(function (response) {
+                                    deferred.resolve(response);
+                                })
+                                .error(function (response) {
+                                    deferred.reject(response);
+                                });
+
+                            return deferred.promise;
                         }
                     ]
                 }
@@ -58,11 +71,24 @@ angular.module('SongBook').config([
                 controller:   'SongFormController',
                 controllerAs: 'songFormCtrl',
                 resolve: {
-                    entity: [
+                    form: [
+                        'ApiService',
                         '$route',
-                        'Song',
-                        function entityResolver($route, Song) {
-                            return Song.get({ id: $route.current.params.id });
+                        '$http',
+                        '$q',
+                        function formResolver(ApiService, $route, $http, $q) {
+                            var deferred = $q.defer();
+
+                            $http
+                                .get(ApiService.getServer() + '/songs/' + $route.current.params.id + '/edit')
+                                .success(function (response) {
+                                    deferred.resolve(response);
+                                })
+                                .error(function (response) {
+                                    deferred.reject(response);
+                                });
+
+                            return deferred.promise;
                         }
                     ]
                 }

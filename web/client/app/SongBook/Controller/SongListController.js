@@ -3,8 +3,6 @@
  * @constructor
  */
 var SongListController = function SongListControllerConstructor(entities) {
-    console.log(entities.length);
-
     this.entities = entities;
 };
 

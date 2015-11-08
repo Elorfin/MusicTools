@@ -1,0 +1,38 @@
+.file-upload-dropbox {
+    min-height: 300px;
+    width: 100%;
+    border: 4px dashed rgba(0, 0, 0, 0.5);
+    border-radius: 4px;
+    padding: floor(@grid-gutter-width / 2);
+
+    &.dragover {
+        border-color: @brand-primary;
+
+        .dropbox-info {
+            color: @brand-primary;
+        }
+    }
+
+    .dropbox-info {
+        color: rgba(0, 0, 0, 0.5);
+        text-align: center;
+        font-size: 22px;
+
+        .fa {
+
+            display: block;
+            font-size: 140px;
+            padding: 25px;
+        }
+    }
+
+    .dropbox-thumb {
+        position: relative;
+
+        .btn {
+            position: absolute;
+            top: 0;
+            right: 0;
+        }
+    }
+}

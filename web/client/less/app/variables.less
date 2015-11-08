@@ -15,9 +15,9 @@
 @gray-lighter:           lighten(@gray-base, 93.5%); // #eee
 
 @brand-primary:         #ffa206;
-@brand-success:         #5cb85c;
-@brand-info:            #5bc0de;
-@brand-warning:         #f0ad4e;
+@brand-success:         #255950;
+@brand-info:            #1A3D59;
+@brand-warning:         #BD781E;
 @brand-danger:          #601C22;
 
 
@@ -495,17 +495,17 @@
 //
 //## Define colors for form feedback states and, by default, alerts.
 
-@state-success-text:             #3c763d;
-@state-success-bg:               #dff0d8;
-@state-success-border:           darken(spin(@state-success-bg, -10), 5%);
+@state-success-text:             @text-color;
+@state-success-bg:               @brand-success;
+@state-success-border:           @state-success-bg;
 
-@state-info-text:                #31708f;
-@state-info-bg:                  #d9edf7;
-@state-info-border:              darken(spin(@state-info-bg, -10), 7%);
+@state-info-text:                @text-color;
+@state-info-bg:                  @brand-info;
+@state-info-border:              @state-info-bg;
 
-@state-warning-text:             #8a6d3b;
-@state-warning-bg:               #fcf8e3;
-@state-warning-border:           darken(spin(@state-warning-bg, -10), 5%);
+@state-warning-text:             @text-color;
+@state-warning-bg:               @brand-warning;
+@state-warning-border:           @state-warning-bg;
 
 @state-danger-text:              @text-color;
 @state-danger-bg:                @brand-danger;

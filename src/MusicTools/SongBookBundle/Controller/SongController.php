@@ -133,10 +133,17 @@ class SongController extends Controller implements ClassResourceInterface
             // Save entity
             $this->container->get('doctrine.orm.entity_manager')->persist($entity);
             $this->container->get('doctrine.orm.entity_manager')->flush();
+
+            return array(
+                'entity' => $entity,
+            );
         }
+
+        $errors = $form->getErrors();
 
         return array(
             'entity' => $entity,
+            'errors' => $errors,
             'form'   => $form->createView(),
         );
     }

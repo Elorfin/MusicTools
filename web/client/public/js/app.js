@@ -5,11 +5,25 @@
  * Advertisement Module
  */
 angular.module('Advertisement', []);
+// File : app/Alert/module.js
+/**
+ * Alert Module
+ * Manages User messages
+ */
+angular.module('Alert', []);
 // File : app/Badge/module.js
 /**
  * Badge Module
  */
 angular.module('Badge', []);
+// File : app/Form/module.js
+/**
+ * Form Module
+ * Contains all the tools for building Forms
+ */
+angular.module('Form', [
+    'pascalprecht.translate'
+]);
 // File : app/Forum/module.js
 /**
  * Forum Module
@@ -106,12 +120,13 @@ angular
         'ngFileUpload',
         'ui.bootstrap',
         'pascalprecht.translate',
-        /*'ui.scrollable',*/
         'angular-loading-bar',
 
         // Core modules
         'Utilities',
         'Layout',
+        'Form',
+        'Alert',
 
         // App modules
         'Advertisement',
@@ -161,6 +176,106 @@ angular.module('Advertisement').config([
 
     }
 ]);
+// File : app/Alert/Directive/AlertsDirective.js
+/**
+ * Alerts Directive
+ * Renders user messages
+ */
+angular
+    .module('Alert')
+    .directive('alerts', [
+        function AlertsDirective() {
+            return {
+                restrict: 'E',
+                templateUrl: '../app/Alert/Partial/alerts.html',
+                replace: true,
+                controllerAs: 'alertsCtrl',
+                controller: [
+                    'AlertService',
+                    function AlertsController(AlertService) {
+                        // Expose service to template
+                        this.alerts      = AlertService.getAlerts();
+                        this.removeAlert = function removeAlert(alert) {
+                            AlertService.removeAlert(alert, true);
+                        };
+                    }
+                ]
+            };
+        }
+    ]);
+// File : app/Alert/Service/AlertService.js
+/**
+ * Alert Service
+ * @constructor
+ */
+var AlertService = function AlertServiceConstructor($timeout) {
+    this.$timeout = $timeout;
+};
+
+/**
+ * List of all current active alerts
+ * @param alert
+ */
+AlertService.prototype.alerts = [];
+
+/**
+ * Display duration for the alert which are configured to be auto-hidden
+ * @type {number}
+ */
+AlertService.prototype.displayDuration = 1000;
+
+/**
+ * Get active alerts
+ * @returns {Array}
+ */
+AlertService.prototype.getAlerts = function getAlerts() {
+    return this.alerts;
+};
+
+/**
+ * Add an alert in the alerts stack
+ * @param {string}  type
+ * @param {string}  message
+ * @param {boolean} [autoHide]
+ */
+AlertService.prototype.addAlert = function addAlert(type, message, autoHide) {
+    var newAlert = {
+        type     : type,
+        message  : message
+    };
+
+    // Configure auto hide if needed
+    if (autoHide) {
+        newAlert.timeout = this.$timeout(function () {
+            this.removeAlert(newAlert);
+        }.bind(this), this.displayDuration);
+    }
+
+    // Add to the stack
+    this.alerts.push(newAlert);
+};
+
+/**
+ * Remove an alert from the alerts stack
+ * @param {Object}  alert
+ * @param {boolean} [clearTimeout]
+ */
+AlertService.prototype.removeAlert = function removeAlert(alert, clearTimeout) {
+    var pos = this.alerts.indexOf(alert);
+    if (-1 !== pos) {
+        var alert = this.alerts.splice(pos, 1);
+
+        // Clear timeout if needed
+        if (alert.timeout && clearTimeout) {
+            this.$timeout.cancel(alert.timeout);
+        }
+    }
+};
+
+// Register service into AngularJS
+angular
+    .module('Alert')
+    .service('AlertService', [ '$timeout', AlertService ]);
 // File : app/Badge/routes.js
 /**
  * Badge routes
@@ -171,6 +286,188 @@ angular.module('Badge').config([
 
     }
 ]);
+// File : app/Form/Controller/FormComponentController.js
+/**
+ * Form Component controller
+ * @constructor
+ */
+var FormComponentController = function FormComponentControllerConstructor() {
+
+};
+
+/**
+ * Form definition object
+ * @type {Object}
+ */
+FormComponentController.prototype.formDef = {};
+
+FormComponentController.prototype.getValidHTMLMethod = function getValidHTMLMethod() {
+    if ('GET' == this.formDef.vars.method || 'POST' == this.formDef.vars.method) {
+        var method = this.formDef.vars.method;
+    } else {
+        var method = 'POST';
+    }
+
+    return method;
+};
+
+FormComponentController.prototype.getNotRenderedChildren = function getNotRenderedChildren() {
+    var notRendered = {};
+    angular.forEach(this.formDef.children, function filterChildren(value, key) {
+        if (!value.rendered) {
+            notRendered[key] = value;
+        }
+    });
+    return notRendered;
+};
+
+FormComponentController.prototype.submit = function formSubmit() {
+
+};
+
+// Register controller into angular
+angular
+    .module('Form')
+    .controller('FormComponentController', [ FormComponentController ]);
+
+// File : app/Form/Controller/FormWidgetController.js
+/**
+ * Form Widget controller
+ * @constructor
+ */
+var FormWidgetController = function FormWidgetControllerConstructor() {
+    /*console.log(this.formDef);*/
+};
+
+/**
+ * Form definition object
+ * @type {Object}
+ */
+FormWidgetController.prototype.formDef = null;
+
+FormWidgetController.prototype.getValidHTMLMethod = function getValidHTMLMethod() {
+    if ('GET' == this.formDef.vars.method || 'POST' == this.formDef.vars.method) {
+        var method = this.formDef.vars.method;
+    } else {
+        var method = 'POST';
+    }
+
+    return method;
+};
+
+// Register controller into angular
+angular
+    .module('Form')
+    .controller('FormWidgetController', [ FormWidgetController ]);
+
+// File : app/Form/Directive/FormComponentDirective.js
+/**
+ * Form Component Directive
+ */
+angular
+    .module('Form')
+    .directive('formComponent', [
+        function FormComponentDirective() {
+            return {
+                restrict: 'E',
+                templateUrl: '../app/Form/Partial/form.html',
+                replace: true,
+                transclude: true,
+                scope: {
+                    formDef: '='
+                },
+                controller: 'FormComponentController',
+                controllerAs: 'formComponentCtrl',
+                bindToController: true
+            };
+        }
+    ]);
+// File : app/Form/Directive/FormErrorsDirective.js
+/**
+ * Form Errors Directive
+ */
+angular
+    .module('Form')
+    .directive('formErrors', [
+        function FormErrorsDirective() {
+            return {
+                restrict: 'E',
+                templateUrl: '../app/Form/Partial/form-errors.html',
+                replace: true,
+                scope: {
+                    formDef: '='
+                },
+                controller: function FormErrorsController() {
+
+                },
+                controllerAs: 'formErrorsCtrl',
+                bindToController: true
+            };
+        }
+    ]);
+// File : app/Form/Directive/FormLabelDirective.js
+/**
+ * Form Label Directive
+ */
+angular
+    .module('Form')
+    .directive('formLabel', [
+        function FormLabelDirective() {
+            return {
+                restrict: 'E',
+                templateUrl: '../app/Form/Partial/form-label.html',
+                replace: true,
+                scope: {
+                    formDef: '='
+                }
+            };
+        }
+    ]);
+// File : app/Form/Directive/FormRowDirective.js
+/**
+ * Form Row Directive
+ */
+angular
+    .module('Form')
+    .directive('formRow', [
+        function FormRowDirective() {
+            return {
+                restrict: 'E',
+                templateUrl: '../app/Form/Partial/form-row.html',
+                replace: true,
+                scope: {
+                    formDef: '='
+                },
+                controller: function FormRowController() {
+
+                },
+                controllerAs: 'formRowCtrl',
+                bindToController: true
+            };
+        }
+    ]);
+// File : app/Form/Directive/FormWidgetDirective.js
+/**
+ * Form Widget Directive
+ */
+angular
+    .module('Form')
+    .directive('formWidget', [
+        function FormWidgetDirective() {
+            return {
+                restrict: 'E',
+                templateUrl: '../app/Form/Partial/form-widget.html',
+                replace: true,
+                transclude: true,
+                scope: {
+                    formDef: '='
+                }
+                /*controller: 'FormWidgetController',
+                controllerAs: 'formWidgetCtrl',
+                bindToController: true,*/
+            };
+        }
+    ]);
 // File : app/Forum/routes.js
 /**
  * Forum routes
@@ -970,9 +1267,16 @@ angular.module('Instrument').config([
  * Base Form controller
  * @constructor
  */
-var BaseFormController = function BaseFormControllerContructor(entity) {
-    this.entity = entity;
+var BaseFormController = function BaseFormControllerConstructor(form) {
+    this.form   = form.form;
+    this.entity = form.entity;
 };
+
+/**
+ * Current form
+ * @type {Object}
+ */
+BaseFormController.prototype.form = null;
 
 /**
  * Current Entity
@@ -1003,7 +1307,7 @@ BaseFormController.prototype.validate = function () {
 // Register controller into angular
 angular
     .module('Layout')
-    .controller('BaseFormController', [ 'entity', BaseFormController ]);
+    .controller('BaseFormController', [ 'form', BaseFormController ]);
 
 // File : app/Layout/Directive/Header/HeaderDirective.js
 /**
@@ -1012,7 +1316,7 @@ angular
 angular
     .module('Layout')
     .directive('layoutHeader', [
-        function () {
+        function LayoutHeaderDirective() {
             return {
                 restrict: 'E',
                 templateUrl: '../app/Layout/Partial/Header/navbar.html',
@@ -1031,7 +1335,7 @@ angular
 angular
     .module('Layout')
     .directive('layoutPageButton', [
-        function () {
+        function LayoutPageButtonDirective() {
             return {
                 restrict: 'E',
                 template: '<li role="presentation" data-ng-transclude=""></li>',
@@ -1051,7 +1355,7 @@ angular
 angular
     .module('Layout')
     .directive('layoutPageButtons', [
-        function () {
+        function LayoutPageButtonsDirective() {
             return {
                 restrict: 'E',
                 template: '<nav class="page-buttons navbar navbar-default"><ul class=" nav navbar-nav" data-ng-transclude=""></ul></nav>',
@@ -1071,10 +1375,10 @@ angular
 angular
     .module('Layout')
     .directive('layoutPage', [
-        function () {
+        function LayoutPageDirective() {
             return {
                 restrict: 'E',
-                templateUrl: '../app/Layout/Partial/Page/page.html',
+                template: '<div class="container-fluid" data-ng-transclude=""></div>',
                 replace: true,
                 transclude: true
             };
@@ -1087,7 +1391,7 @@ angular
 angular
     .module('Layout')
     .directive('layoutPageTitle', [
-        function () {
+        function LayoutPageTitleDirective() {
             return {
                 restrict: 'E',
                 templateUrl: '../app/Layout/Partial/Page/title.html',
@@ -1102,6 +1406,95 @@ angular
             };
         }
     ]);
+// File : app/Layout/Directive/ScrollableDirective.js
+/**
+ * Scrollable Directive
+ */
+angular
+    .module('Layout')
+    .directive('layoutScrollable', [
+        '$document',
+        function ScrollableDirective ($document) {
+            // Set some default options
+            var options = {
+                scrollInertia: 100,
+                scrollButtons:{
+                    enable: false
+                },
+                theme: 'dark-3',
+                scrollAmount: 80,
+                axis: 'y',
+                contentTouchScroll: true,
+                autoHideScrollbar: false
+            };
+
+            return {
+                restrict: 'EA',
+                replace: true,
+                transclude: true,
+                template: '<div class="scrollable" data-ng-transclude=""></div>',
+                scope: {
+                    options : '=options'
+                },
+                link: function (scope, element) {
+                    if (scope.options) {
+                        angular.extend(options, scope.options);
+                    }
+
+                    var $element = $(element);
+
+                    initScrollbar();
+
+                    function initScrollbar() {
+                        // Create object
+                        $element.ready(function () {
+                            $element.mCustomScrollbar(options);
+                        });
+
+                        // Add events
+                        $(window).on('resize', function () {
+                            $element.mCustomScrollbar('update');
+                        });
+
+                        $document.on('hover', $element, function () {
+                            $document.data({ "keyboard-input" : "enabled" });
+                            $(this).addClass("keyboard-input");
+                        });
+
+                        $document.on('mouseout', $element, function () {
+                            $document.data({ "keyboard-input" : "disabled" });
+                            $(this).removeClass("keyboard-input");
+                        });
+
+                        $document.on('keydown', function () {
+                            if ($(this).data("keyboard-input")==="enabled") {
+                                var activeElem = $(".keyboard-input");
+
+                                var top = parseFloat($(".keyboard-input .mCSB_container").position().top);
+                                var activeElemPos = Math.abs(top);
+                                var pixelsToScroll = 80;
+
+                                if (e.which === 38) { //scroll up
+                                    e.preventDefault();
+                                    if (pixelsToScroll>activeElemPos) {
+                                        activeElem.mCustomScrollbar("scrollTo","top");
+                                    }
+                                    else {
+                                        activeElem.mCustomScrollbar("scrollTo",(activeElemPos-pixelsToScroll),{scrollInertia:400,scrollEasing:"easeOutCirc"});
+                                    }
+                                }
+                                else if (e.which===40) { //scroll down
+                                    e.preventDefault();
+                                    activeElem.mCustomScrollbar("scrollTo",(activeElemPos+pixelsToScroll),{scrollInertia:400,scrollEasing:"easeOutCirc"});
+                                }
+                            }
+                        });
+                    }
+                }
+            };
+        }
+    ]);
+
 // File : app/Layout/Directive/Sidebar/SidebarDirective.js
 /**
  * Sidebar of the application
@@ -1337,42 +1730,11 @@ angular.module('SheetMusic').controller('SheetMusicController', SheetMusicContro
  * Form controller for Songs
  * @constructor
  */
-var SongFormController = function SongFormController(entity, Upload, ApiService, $timeout, $scope) {
+var SongFormController = function SongFormController(form, Upload, ApiService, $timeout) {
     BaseFormController.apply(this, arguments);
 
-    /*this.uploadService = Upload;*/
-
-    $scope.uploadPic = function(file) {
-        var method = this.isNew() ? 'POST' : 'PUT';
-        var url    = this.isNew() ? ApiService.getServer() + '/songs' : ApiService.getServer() + '/songs/' + this.entity.id;
-        file.upload = Upload.upload({
-            url: url,
-            method: method,
-            data: {
-                musictools_songbookbundle_song: {
-                    title: this.entity.title,
-                    artist: this.entity.artist,
-
-                        cover: {
-                            file: file
-                        }
-                }
-
-            }
-        });
-
-        file.upload.then(function (response) {
-            $timeout(function () {
-                file.result = response.data;
-            });
-        }, function (response) {
-            if (response.status > 0)
-                $scope.errorMsg = response.status + ': ' + response.data;
-        }, function (evt) {
-            // Math.min is to fix IE which reports 200% sometimes
-            file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
-        });
-    }.bind(this);
+    this.uploadService = Upload;
+    this.apiService    = ApiService;
 };
 
 // Extends BaseFormController
@@ -1380,34 +1742,41 @@ SongFormController.prototype             = Object.create(BaseFormController.prot
 SongFormController.prototype.constructor = SongFormController;
 
 SongFormController.prototype.validate = function () {
-    /*this.uploadCover(this.entity.cover);*/
+    var method = 'POST';
+    var url    = this.apiService.getServer() + '/songs';
+    if (!this.isNew()) {
+        method = 'PUT';
+        url   += '/' + this.entity.id;
+    }
 
-    BaseFormController.validate.apply(this, arguments);
-};
+    // Build request
+    var requestConfig = {
+        url: url,
+        method: method,
+        data: {
+            musictools_songbookbundle_song: this.entity
+        }
+    };
 
-SongFormController.prototype.uploadCover = function uploadCover(file) {
-    /*file.upload = this.uploadService.upload({
-        url: 'https://angular-file-upload-cors-srv.appspot.com/upload',
-        data: { file: file, username: $scope.username }
-    });
+    // Call server
+    this.uploadService.upload(requestConfig).then(
+        // Success callback
+        function (resp) {
+            if (resp.data.form) {
+                angular.merge(this.form, resp.data.form);
+            }
+        }.bind(this),
+        // Error callback
+        function (resp) {
 
-    file.upload.then(function (response) {
-        $timeout(function () {
-            file.result = response.data;
-        });
-    }, function (response) {
-        if (response.status > 0)
-            $scope.errorMsg = response.status + ': ' + response.data;
-    }, function (evt) {
-        // Math.min is to fix IE which reports 200% sometimes
-        file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
-    });*/
+        }
+    );
 };
 
 // Register controller into angular
 angular
     .module('SongBook')
-    .controller('SongFormController', [ 'entity', 'Upload', 'ApiService', '$timeout', '$scope', SongFormController ]);
+    .controller('SongFormController', [ 'form', 'Upload', 'ApiService', '$timeout', SongFormController ]);
 
 // File : app/SongBook/Controller/SongListController.js
 /**
@@ -1415,8 +1784,6 @@ angular
  * @constructor
  */
 var SongListController = function SongListControllerConstructor(entities) {
-    console.log(entities.length);
-
     this.entities = entities;
 };
 
@@ -1504,10 +1871,23 @@ angular.module('SongBook').config([
                 controller:   'SongFormController',
                 controllerAs: 'songFormCtrl',
                 resolve: {
-                    entity: [
-                        'Song',
-                        function entityResolver(Song) {
-                            return new Song();
+                    form: [
+                        'ApiService',
+                        '$http',
+                        '$q',
+                        function formResolver(ApiService, $http, $q) {
+                            var deferred = $q.defer();
+
+                            $http
+                                .get(ApiService.getServer() + '/songs/new')
+                                .success(function (response) {
+                                    deferred.resolve(response);
+                                })
+                                .error(function (response) {
+                                    deferred.reject(response);
+                                });
+
+                            return deferred.promise;
                         }
                     ]
                 }
@@ -1535,11 +1915,24 @@ angular.module('SongBook').config([
                 controller:   'SongFormController',
                 controllerAs: 'songFormCtrl',
                 resolve: {
-                    entity: [
+                    form: [
+                        'ApiService',
                         '$route',
-                        'Song',
-                        function entityResolver($route, Song) {
-                            return Song.get({ id: $route.current.params.id });
+                        '$http',
+                        '$q',
+                        function formResolver(ApiService, $route, $http, $q) {
+                            var deferred = $q.defer();
+
+                            $http
+                                .get(ApiService.getServer() + '/songs/' + $route.current.params.id + '/edit')
+                                .success(function (response) {
+                                    deferred.resolve(response);
+                                })
+                                .error(function (response) {
+                                    deferred.reject(response);
+                                });
+
+                            return deferred.promise;
                         }
                     ]
                 }
@@ -1947,6 +2340,21 @@ angular.module('User').config([
             });
     }
 ]);
+// File : app/Utilities/Filter/ResourcePathFilter.js
+/**
+ * Resource Path filter
+ */
+angular
+    .module('Utilities')
+    .filter('resource_path', [
+        'ApiService',
+        function (ApiService) {
+            return function (path) {
+                return ApiService.getServer() + '/' + path;
+            };
+        }
+    ]
+);
 // File : app/Utilities/Service/ApiService.js
 /**
  * API Service

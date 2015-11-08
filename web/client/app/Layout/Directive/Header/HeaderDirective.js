@@ -4,7 +4,7 @@
 angular
     .module('Layout')
     .directive('layoutHeader', [
-        function () {
+        function LayoutHeaderDirective() {
             return {
                 restrict: 'E',
                 templateUrl: '../app/Layout/Partial/Header/navbar.html',

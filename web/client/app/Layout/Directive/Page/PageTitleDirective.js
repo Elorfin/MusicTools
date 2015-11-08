@@ -4,7 +4,7 @@
 angular
     .module('Layout')
     .directive('layoutPageTitle', [
-        function () {
+        function LayoutPageTitleDirective() {
             return {
                 restrict: 'E',
                 templateUrl: '../app/Layout/Partial/Page/title.html',

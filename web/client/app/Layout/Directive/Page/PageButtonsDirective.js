@@ -4,7 +4,7 @@
 angular
     .module('Layout')
     .directive('layoutPageButtons', [
-        function () {
+        function LayoutPageButtonsDirective() {
             return {
                 restrict: 'E',
                 template: '<nav class="page-buttons navbar navbar-default"><ul class=" nav navbar-nav" data-ng-transclude=""></ul></nav>',

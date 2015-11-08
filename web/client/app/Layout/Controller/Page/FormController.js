@@ -2,9 +2,16 @@
  * Base Form controller
  * @constructor
  */
-var BaseFormController = function BaseFormControllerContructor(entity) {
-    this.entity = entity;
+var BaseFormController = function BaseFormControllerConstructor(form) {
+    this.form   = form.form;
+    this.entity = form.entity;
 };
+
+/**
+ * Current form
+ * @type {Object}
+ */
+BaseFormController.prototype.form = null;
 
 /**
  * Current Entity
@@ -35,4 +42,4 @@ BaseFormController.prototype.validate = function () {
 // Register controller into angular
 angular
     .module('Layout')
-    .controller('BaseFormController', [ 'entity', BaseFormController ]);
+    .controller('BaseFormController', [ 'form', BaseFormController ]);

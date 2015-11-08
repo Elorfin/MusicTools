@@ -4,7 +4,7 @@
 angular
     .module('Layout')
     .directive('layoutPageButton', [
-        function () {
+        function LayoutPageButtonDirective() {
             return {
                 restrict: 'E',
                 template: '<li role="presentation" data-ng-transclude=""></li>',

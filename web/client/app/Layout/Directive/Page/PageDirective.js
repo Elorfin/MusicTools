@@ -4,10 +4,10 @@
 angular
     .module('Layout')
     .directive('layoutPage', [
-        function () {
+        function LayoutPageDirective() {
             return {
                 restrict: 'E',
-                templateUrl: '../app/Layout/Partial/Page/page.html',
+                template: '<div class="container-fluid" data-ng-transclude=""></div>',
                 replace: true,
                 transclude: true
             };

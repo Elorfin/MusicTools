@@ -1421,7 +1421,6 @@ angular
                 scrollButtons:{
                     enable: false
                 },
-                theme: 'dark-3',
                 scrollAmount: 80,
                 axis: 'y',
                 contentTouchScroll: true,
@@ -1787,7 +1786,11 @@ var SongListController = function SongListControllerConstructor(entities) {
     this.entities = entities;
 };
 
-SongFormController.prototype.entities = [];
+SongListController.prototype.entities = [];
+
+SongListController.prototype.sortBy = 'title';
+
+SongListController.prototype.sortReverse = false;
 
 // Register controller into angular
 angular
@@ -2350,7 +2353,7 @@ angular
         'ApiService',
         function (ApiService) {
             return function (path) {
-                return ApiService.getServer() + '/' + path;
+                return ApiService.getResourcePath() + path;
             };
         }
     ]
@@ -2361,18 +2364,17 @@ angular
  * @returns {ApiService}
  * @constructor
  */
-var ApiService = function ApiService() {
+var ApiService = function ApiServiceConstructor() {
 
-    return this;
 };
-
-ApiService.prototype.constructor = ApiService;
 
 /**
  * Server base path
  * @type {String}
  */
 ApiService.prototype.server = '/MusicTools/web/app_dev.php';
+
+ApiService.prototype.resourcePath = '/MusicTools/web/';
 
 /**
  * Get server
@@ -2381,6 +2383,10 @@ ApiService.prototype.server = '/MusicTools/web/app_dev.php';
 ApiService.prototype.getServer = function getServer() {
     return this.server;
 };
+
+ApiService.prototype.getResourcePath = function getResourcePath() {
+    return this.resourcePath;
+}
 
 // Inject Service into AngularJS
 angular

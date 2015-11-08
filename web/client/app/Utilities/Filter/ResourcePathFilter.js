@@ -7,7 +7,7 @@ angular
         'ApiService',
         function (ApiService) {
             return function (path) {
-                return ApiService.getServer() + '/' + path;
+                return ApiService.getResourcePath() + path;
             };
         }
     ]

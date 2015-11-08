@@ -1,0 +1,34 @@
+.alerts {
+    position: absolute;
+    z-index: 10;
+    padding: 10px floor(@grid-gutter-width / 2);
+    right: 0;
+    top: 0;
+
+    .alert {
+        .box-shadow(0 0 3px rgba(0, 0, 0, 0.5));
+        margin-bottom: 10px;
+        cursor: pointer;
+        padding: 0;
+        border: none;
+
+        position: relative;
+
+        .fa {
+            height: 100%;
+            position: absolute;
+            width: 40px;
+            font-size: 24px;
+            line-height: 100%;
+            padding: 8px 0;
+            opacity: 0.25;
+            background: #000;
+        }
+
+        .fa + span {
+            padding: 10px;
+            display: inline-block;
+            margin-left: 40px;
+        }
+    }
+}

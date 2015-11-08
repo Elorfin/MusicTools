@@ -12,7 +12,6 @@ angular
                 scrollButtons:{
                     enable: false
                 },
-                theme: 'dark-3',
                 scrollAmount: 80,
                 axis: 'y',
                 contentTouchScroll: true,

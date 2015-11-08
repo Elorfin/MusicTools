@@ -3,12 +3,9 @@
  * @returns {ApiService}
  * @constructor
  */
-var ApiService = function ApiService() {
+var ApiService = function ApiServiceConstructor() {
 
-    return this;
 };
-
-ApiService.prototype.constructor = ApiService;
 
 /**
  * Server base path

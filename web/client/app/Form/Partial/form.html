@@ -1,0 +1,17 @@
+<form
+       name="{{ formComponentCtrl.formDef.vars.full_name }}"
+         id="{{ formComponentCtrl.formDef.vars.id }}"
+      class="row"
+     action="{{ formComponentCtrl.formDef.vars.action }}"
+     method="{{ formComponentCtrl.getValidHTMLMethod() }}"
+    enctype="">
+
+    <form-errors data-form-def="formComponentCtrl.formDef"></form-errors>
+
+    <!-- Add method in hidden field form HTTP methods which are not supported by HTML -->
+    <input type="hidden" name="_method" value="{{ formComponentCtrl.formDef.vars.method }}" />
+
+    <div data-ng-transclude=""></div>
+
+    <form-row data-form-def="childDef" data-ng-repeat="(childName, childDef) in formComponentCtrl.getNotRenderedChildren()"></form-row>
+</form>

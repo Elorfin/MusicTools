@@ -3,10 +3,10 @@
 namespace MusicTools\SongBookBundle\Entity;
 
 use Doctrine\ORM\Mapping                    as ORM;
-use Elorfin\ReactorBundle\Entity\UniqueIdentifiableTrait;
 use Gedmo\Mapping\Annotation                as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
 
+use Elorfin\ReactorBundle\Entity\UniqueIdentifiableTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Elorfin\ResourceBundle\Entity\Image;
 use MusicTools\MusicianBundle\Entity\OwnableTrait;
@@ -18,7 +18,7 @@ use MusicTools\MusicianBundle\Entity\OwnableTrait;
  * @ORM\Entity(repositoryClass="MusicTools\SongBookBundle\Entity\SongRepository")
  * @Gedmo\Loggable
  */
-class Song implements \JsonSerializable
+class Song
 {
     /**
      * Add Identifiable behavior
@@ -35,6 +35,7 @@ class Song implements \JsonSerializable
      * @var string
      *
      * @ORM\Column(name="title", type="string", length=255)
+     * @Assert\NotBlank()
      */
     protected $title;
 
@@ -329,14 +330,5 @@ class Song implements \JsonSerializable
     public function removeRecord()
     {
         return $this;
-    }
-
-    public function jsonSerialize()
-    {
-        return array (
-            'id'     => $this->id,
-            'title'  => $this->title,
-            'artist' => $this->artist,
-        );
     }
 }

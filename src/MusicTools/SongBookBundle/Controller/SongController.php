@@ -8,9 +8,13 @@ use MusicTools\SongBookBundle\Entity\Song;
 use MusicTools\SongBookBundle\Form\Type\SongType;
 use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * Song CRUD Controller
+ */
 class SongController extends Controller implements ClassResourceInterface
 {
     /**
+     * List all Songs
      * "get_songs"     [GET] /songs
      *
      * @return array
@@ -23,6 +27,20 @@ class SongController extends Controller implements ClassResourceInterface
     }
 
     /**
+     * Display a Song entity
+     * "get_song"      [GET] /songs/{id}
+     * @param $id
+     * @return mixed
+     */
+    public function getAction($id)
+    {
+        $entity = $this->getEntity($id);
+
+        return $entity;
+    }
+
+    /**
+     * Display new Song form
      * "new_songs"     [GET] /songs/new
      *
      * @return array
@@ -40,15 +58,15 @@ class SongController extends Controller implements ClassResourceInterface
         );
     }
 
-    // "post_songs"    [POST] /songs
+    /**
+     * Create a new Song
+     * "post_songs"    [POST] /songs
+     *
+     * @param Request $request
+     * @return array
+     */
     public function postAction(Request $request)
     {
-        /*echo "<pre>";
-        var_dump($_FILES);
-
-        var_dump($_REQUEST);
-        die();*/
-
         $entity = new Song();
         $form = $form = $this->createForm(new SongType(), $entity, array(
             'method' => 'POST',
@@ -59,28 +77,34 @@ class SongController extends Controller implements ClassResourceInterface
             // Save entity
             $this->container->get('doctrine.orm.entity_manager')->persist($entity);
             $this->container->get('doctrine.orm.entity_manager')->flush();
+
+            return array (
+                'entity' => $entity,
+            );
         }
+
+        $errors = $form->getErrors();
+
 
         return array(
             'entity' => $entity,
+            'errors' => $form,
             'form'   => $form->createView(),
         );
     }
 
-    // "get_song"      [GET] /songs/{id}
-    public function getAction($id)
-    {
-        $entity = $this->getEntity($id);
-
-        return $entity;
-    }
-
-    // "edit_song"     [GET] /songs/{id}/edit
+    /**
+     * Display edit Song form
+     * "edit_song"     [GET] /songs/{id}/edit
+     *
+     * @param  integer $id
+     * @return array
+     */
     public function editAction($id)
     {
         $entity = $this->getEntity($id);
         $form = $form = $this->createForm(new SongType(), $entity, array(
-            'method' => 'POST',
+            'method' => 'PUT',
         ));
 
         return array(
@@ -89,12 +113,19 @@ class SongController extends Controller implements ClassResourceInterface
         );
     }
 
-    // "put_song"      [PUT] /songs/{id}
+    /**
+     * Edit a Song
+     * "put_song"      [PUT] /songs/{id}
+     *
+     * @param  integer $id
+     * @param  Request $request
+     * @return array
+     */
     public function putAction($id, Request $request)
     {
         $entity = $this->getEntity($id);
         $form = $form = $this->createForm(new SongType(), $entity, array(
-            'method' => 'POST',
+            'method' => 'PUT',
         ));
 
         $form->handleRequest($request);
@@ -110,18 +141,25 @@ class SongController extends Controller implements ClassResourceInterface
         );
     }
 
-    // "remove_song"   [GET] /songs/{id}/remove
-    public function removeAction($slug)
+    /**
+     * Delete a Song
+     * "delete_song"   [DELETE] /songs/{id}
+     *
+     * @param  integer $id
+     * @return array
+     */
+    public function deleteAction($id)
     {
 
     }
 
-    // "delete_song"   [DELETE] /songs/{id}
-    public function deleteAction($slug)
-    {
-
-    }
-
+    /**
+     * Retrieve a Song entity
+     *
+     * @param  integer $id
+     * @return \MusicTools\SOngBookBundle\Entity\Song
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+     */
     private function getEntity($id)
     {
         $entity = $this->container->get('doctrine.orm.entity_manager')->getRepository('MusicToolsSongBookBundle:Song')->findOneBy( array (

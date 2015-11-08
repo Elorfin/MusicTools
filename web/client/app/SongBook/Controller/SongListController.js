@@ -6,7 +6,11 @@ var SongListController = function SongListControllerConstructor(entities) {
     this.entities = entities;
 };
 
-SongFormController.prototype.entities = [];
+SongListController.prototype.entities = [];
+
+SongListController.prototype.sortBy = 'title';
+
+SongListController.prototype.sortReverse = false;
 
 // Register controller into angular
 angular

@@ -1,7 +1,4 @@
 <layout-page>
-    <!-- Title of the page -->
-    <layout-page-title>My songbook</layout-page-title>
-
     <!-- Header buttons -->
     <layout-page-buttons>
         <layout-page-button class="nav-link-default">
@@ -12,13 +9,47 @@
         </layout-page-button>
     </layout-page-buttons>
 
-    <div class="song-list">
-        <div class="panel panel-default" data-ng-repeat="entity in songListCtrl.entities" data-ng-if="songListCtrl.entities.length !== 0">
-            <img src="" data-ng-if="entity.cover && entity.cover.path" data-ng-src="{{ entity.cover.path|resource_path }}"/>
-            <div class="panel-body">
+    <!-- Title of the page -->
+    <layout-page-title>
+        My songbook
+
+        <div class="list-sort-by" data-uib-dropdown="">
+            <!-- Information about the list -->
+            <b>{{ songListCtrl.entities.length }}</b> songs, sorted by
+
+            <!-- Choose field for sort by -->
+            <a href id="list-sort-by-dropdown" data-uib-dropdown-toggle="">
+                {{ songListCtrl.sortBy }}
+            </a>
+            <ul class="uib-dropdown-menu" aria-labelledby="simple-dropdown">
+                <li data-ng-class="{ 'active': 'title' === songListCtrl.sortBy }">
+                    <a href="" data-ng-click="songListCtrl.sortBy = 'title'">title</a>
+                </li>
+                <li data-ng-class="{ 'active': 'artist' === songListCtrl.sortBy }">
+                    <a href="" data-ng-click="songListCtrl.sortBy = 'artist'">artist</a>
+                </li>
+            </ul>
+
+            <!-- Choose sort direction -->
+            <a href="" data-ng-click="songListCtrl.sortReverse = !songListCtrl.sortReverse">
+                <span class="fa fa-fw" data-ng-class="{'fa-caret-down': !songListCtrl.sortReverse, 'fa-caret-up': songListCtrl.sortReverse}"></span>
+            </a>
+        </div>
+    </layout-page-title>
+
+    <!-- List -->
+    <div class="song-list col-md-12">
+        <!-- List item -->
+        <div class="song-item panel panel-default row" data-ng-class="{ 'panel-last': $last }" data-ng-repeat="entity in songListCtrl.entities|orderBy:songListCtrl.sortBy:songListCtrl.sortReverse" data-ng-if="songListCtrl.entities.length !== 0">
+            <!-- Image -->
+            <div class="cover col-md-1 col-sm-2 col-xs-3">
+                <img class="img-responsive" data-ng-src="{{ (entity.cover.path || 'uploads/no-cover.png')|resource_path }}" />
+            </div>
+
+            <!-- Info -->
+            <div class="col-md-11 col-sm-10 col-xs-9 panel-body">
                 <h2 class="page-header">
                     {{ entity.title }}
-
                     <small data-ng-if="null !== entity.artist">{{ entity.artist }}</small>
                 </h2>
 

@@ -42,10 +42,16 @@
     <!-- Form -->
     <form-component data-form-def="songFormCtrl.form">
         <div class="col-md-3">
-            <div data-ngf-drop="" data-ng-model="songFormCtrl.entity.cover.file" class="file-upload-dropbox" accept="image/*" ngf-max-size="2MB">
+            <div data-ngf-drop="" data-ng-model="songFormCtrl.entity.cover.file" class="file-upload-dropbox" accept="image/*" data-ngf-max-size="2MB">
                 <div class="dropbox-info" data-ng-hide="songFormCtrl.entity.cover.file">
-                    <span class="fa fa-music"></span>
                     Cover of the album
+
+                    <img class="img-responsive" data-ng-src="{{ 'uploads/no-cover.png'|resource_path }}" />
+
+                    <a href="" role="button" class="btn btn-block btn-default" data-ngf-select="" data-ng-model="songFormCtrl.entity.cover.file">
+                        <span class="fa fa-upload"></span>
+                        Choose a file
+                    </a>
                 </div>
 
                 <div class="dropbox-thumb">

@@ -50,6 +50,9 @@ angular
                 }
             }
 
+            // Enable pluralization for translator
+            $translateProvider.addInterpolation('$translateMessageFormatInterpolation');
+
             // Set the default lang
             $translateProvider.preferredLanguage('en');
 

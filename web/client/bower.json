@@ -18,6 +18,8 @@
         "angular-sanitize": "latest",
         "angular-bootstrap": "latest",
         "angular-translate": "latest",
+        "messageformat": "latest",
+        "angular-translate-interpolation-messageformat": "latest",
         "angular-loading-bar": "latest",
         "ng-file-upload": "latest",
         "malihu-custom-scrollbar-plugin": "latest"

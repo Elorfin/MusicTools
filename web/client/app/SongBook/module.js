@@ -4,7 +4,8 @@
 angular
     .module('SongBook', [
         'ngResource',
-        'ngFileUpload'
+        'ngFileUpload',
+        'Utilities'
     ])
     .config([
         '$translateProvider',

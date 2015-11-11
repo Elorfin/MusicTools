@@ -1,0 +1,39 @@
+.dropdown-menu {
+    left: 1px;
+    border-top: none;
+    border-radius: 0 0 3px 3px;
+
+    > li {
+        position: relative;
+        border-top: 1px dashed #0c0c0c;
+
+        &:last-child {
+            border-bottom: 1px dashed #0c0c0c;
+        }
+
+        .fa-check {
+            position: absolute;
+            right: 15px;
+            padding: 3px;
+
+            color: darken(@dropdown-bg, 2%);
+        }
+
+        &.active {
+            a {
+                color: @brand-primary;
+                background: @dropdown-bg;
+            }
+
+            a:hover,
+            a:focus {
+                color: @brand-primary;
+                background: @dropdown-link-hover-bg;
+            }
+
+            .fa-check {
+                color: @brand-primary;
+            }
+        }
+    }
+}

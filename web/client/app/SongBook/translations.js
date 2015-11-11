@@ -18,6 +18,6 @@ songBookTranslations['en'] = {
  * Language = FR
  */
 songBookTranslations['fr'] = {
-    song: 'morceau{PLURAL, select, true{x}}',
+    song: 'morceau{COUNT, plural, =0{} one{} other{x}}',
     no_song_found: 'Aucun morceau trouvé.'
 };

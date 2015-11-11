@@ -10,31 +10,10 @@
     </layout-page-buttons>
 
     <!-- Title of the page -->
-    <layout-page-title>
+    <layout-page-title id="song-list">
         My songbook
 
-        <div class="list-sort-by" data-uib-dropdown="">
-            <!-- Information about the list -->
-            <b>{{ songListCtrl.entities.length }}</b> songs, sorted by
-
-            <!-- Choose field for sort by -->
-            <a href id="list-sort-by-dropdown" data-uib-dropdown-toggle="">
-                {{ songListCtrl.sortBy }}
-            </a>
-            <ul class="uib-dropdown-menu" aria-labelledby="simple-dropdown">
-                <li data-ng-class="{ 'active': 'title' === songListCtrl.sortBy }">
-                    <a href="" data-ng-click="songListCtrl.sortBy = 'title'">title</a>
-                </li>
-                <li data-ng-class="{ 'active': 'artist' === songListCtrl.sortBy }">
-                    <a href="" data-ng-click="songListCtrl.sortBy = 'artist'">artist</a>
-                </li>
-            </ul>
-
-            <!-- Choose sort direction -->
-            <a href="" data-ng-click="songListCtrl.sortReverse = !songListCtrl.sortReverse">
-                <span class="fa fa-fw" data-ng-class="{'fa-caret-down': !songListCtrl.sortReverse, 'fa-caret-up': songListCtrl.sortReverse}"></span>
-            </a>
-        </div>
+        <layout-list-sorter data-count="songListCtrl.entities.length" data-current="songListCtrl.sortBy" data-reverse="songListCtrl.sortReverse" data-fields="songListCtrl.sortFields"></layout-list-sorter>
     </layout-page-title>
 
     <!-- List -->

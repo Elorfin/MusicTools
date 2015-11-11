@@ -70,7 +70,8 @@ angular.module('SheetMusic', []);
 angular
     .module('SongBook', [
         'ngResource',
-        'ngFileUpload'
+        'ngFileUpload',
+        'Utilities'
     ])
     .config([
         '$translateProvider',
@@ -155,6 +156,9 @@ angular
                     $translateProvider.translations(lang, appTranslations[lang]);
                 }
             }
+
+            // Enable pluralization for translator
+            $translateProvider.addInterpolation('$translateMessageFormatInterpolation');
 
             // Set the default lang
             $translateProvider.preferredLanguage('en');
@@ -1328,6 +1332,80 @@ angular
             };
         }
     ]);
+// File : app/Layout/Directive/ListSorterDirective.js
+/**
+ * Widget to sort lists
+ */
+angular
+    .module('Layout')
+    .directive('layoutListSorter', [
+        function LayoutListSorterDirective() {
+            return {
+                restrict: 'E',
+                templateUrl: '../app/Layout/Partial/list-sorter.html',
+                replace: true,
+                scope: {
+                    /**
+                     * Number of elements in the list
+                     */
+                    count: '=',
+
+                    /**
+                     * Current field to sort by
+                     */
+                    current: '=',
+
+                    /**
+                     * Reverse direction of the sort (if true, ascendant, else descendant)
+                     */
+                    reverse: '=',
+
+                    /**
+                     * Usable fields for sort
+                     */
+                    fields: '='
+                },
+                controllerAs: 'listSorterCtrl',
+                bindToController: true,
+                controller: function LayoutListSorterController () {
+                    /**
+                     * Get the type of the current sort field
+                     * @returns {string}
+                     */
+                    this.getSortType = function getSortType() {
+                        var type = null;
+
+                        switch (this.fields[this.current]) {
+                            case 'string':
+                                type = 'string';
+                                break;
+
+                            case 'number':
+                                type = 'number';
+                                break;
+                        }
+
+                        return type;
+                    };
+
+                    /**
+                     * Set current sort field
+                     * @param {string} current
+                     */
+                    this.setCurrent = function setCurrent(current) {
+                        this.current = current;
+                    };
+
+                    /**
+                     * Toggle direction of the sort
+                     */
+                    this.toggleReverse = function toggleReverse() {
+                        this.reverse = !this.reverse;
+                    };
+                }
+            };
+        }
+    ]);
 // File : app/Layout/Directive/Page/PageButtonDirective.js
 /**
  * Header of the application
@@ -1501,7 +1579,7 @@ angular
 angular
     .module('Layout')
     .directive('layoutSidebar', [
-        function () {
+        function LayoutSidebarDirective() {
             return {
                 restrict: 'E',
                 templateUrl: '../app/Layout/Partial/Sidebar/sidebar.html',
@@ -1521,7 +1599,7 @@ angular
     .module('Layout')
     .directive('layoutSidebarItem', [
         '$route',
-        function ($route) {
+        function LayoutSidebarItemDirective($route) {
             return {
                 restrict: 'E',
                 templateUrl: '../app/Layout/Partial/Sidebar/sidebar-item.html',
@@ -1786,11 +1864,33 @@ var SongListController = function SongListControllerConstructor(entities) {
     this.entities = entities;
 };
 
+/**
+ * List of entities
+ * @type {Array}
+ */
 SongListController.prototype.entities = [];
 
+/**
+ * Default field to sort by
+ * @type {string}
+ */
 SongListController.prototype.sortBy = 'title';
 
+/**
+ * Reverse direction of the sort
+ * @type {boolean}
+ */
 SongListController.prototype.sortReverse = false;
+
+/**
+ * Usable fields for sort
+ * @type {Object}
+ */
+SongListController.prototype.sortFields = {
+    title : 'string',
+    artist: 'string',
+    score:  'number'
+};
 
 // Register controller into angular
 angular
@@ -1844,6 +1944,67 @@ angular
             });
         }]
     );
+// File : app/SongBook/Resource/SongResource.js
+/**
+ * Song Resource
+ * @constructor
+ */
+var SongResource = function SongResourceController(ApiService) {
+
+};
+
+/**
+ * Unique identifier of the resource
+ * @type {string}
+ */
+SongResource.prototype.identifier = 'id';
+
+/**
+ * Name of the Resource (used as translation key)
+ * @type {string}
+ */
+SongResource.prototype.name = 'song';
+
+/**
+ * API path of the resource
+ * @type {string}
+ */
+SongResource.prototype.path = 'songs';
+
+/**
+ * List of Resource elements
+ * @type {Array}
+ */
+SongResource.prototype.elements = [];
+
+/**
+ * Get the list of elements
+ * @param queryParams
+ */
+SongResource.prototype.query = function query(queryParams) {
+
+};
+
+/**
+ * Count elements
+ * @returns {Number}
+ */
+SongResource.prototype.count = function count() {
+    return this.elements.length;
+};
+
+/**
+ * Get an element using its identifier
+ * @param identifierValue
+ */
+SongResource.prototype.get = function get(identifierValue) {
+
+};
+
+// Register service into Angular JS
+angular
+    .module('SongBook')
+    .service('SongResource', [ 'ApiService', SongResource ]);
 // File : app/SongBook/routes.js
 /**
  * SongBook routes
@@ -1953,13 +2114,17 @@ var songBookTranslations = {};
  * Language = EN
  */
 songBookTranslations['en'] = {
+    song: 'song{COUNT, plural, =0{} one{} other{s}}',
     no_song_found: 'No song found.'
 };
+
+
 
 /**
  * Language = FR
  */
 songBookTranslations['fr'] = {
+    song: 'morceau{PLURAL, select, true{x}}',
     no_song_found: 'Aucun morceau trouvé.'
 };
 // File : app/Theory/Directive/NoteDisplaySwitchDirective.js

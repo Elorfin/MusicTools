@@ -5,7 +5,7 @@ angular
     .module('Layout')
     .directive('layoutSidebarItem', [
         '$route',
-        function ($route) {
+        function LayoutSidebarItemDirective($route) {
             return {
                 restrict: 'E',
                 templateUrl: '../app/Layout/Partial/Sidebar/sidebar-item.html',

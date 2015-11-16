@@ -1313,6 +1313,90 @@ angular
     .module('Layout')
     .controller('BaseFormController', [ 'form', BaseFormController ]);
 
+// File : app/Layout/Directive/Field/ScoreFieldDirective.js
+/**
+ * Score Field
+ */
+angular
+    .module('Layout')
+    .directive('scoreField', [
+        function ScoreFieldDirective() {
+            return {
+                restrict: 'E',
+                templateUrl: '../app/Layout/Partial/Field/score-field.html',
+                replace: true,
+                scope: {
+                    /**
+                     * Model variable
+                     */
+                    model: '=',
+
+                    /**
+                     * Name to use for form element
+                     */
+                    name: '@',
+
+                    /**
+                     * Icon of the field
+                     */
+                    icon: '@',
+
+                    /**
+                     * Enable editable features
+                     */
+                    editable: '@',
+
+                    /**
+                     * Min value of the field
+                     */
+                    min: '@',
+
+                    /**
+                     * Max value of the field
+                     */
+                    max: '@',
+
+                    /**
+                     * Step between values
+                     */
+                    step: '@'
+                },
+                controllerAs: 'scoreFieldCtrl',
+                bindToController: true,
+                controller: function ScoreFieldController () {
+                    /**
+                     * Default options
+                     * @type {Object}
+                     */
+                    var _defaults = {
+                        editable: false,
+                        step    : 1,
+                        min     : 0,
+                        max     : 10,
+                        icon    : 'fa fa-star'
+                    };
+
+                    // Set default vars
+                    for (var prop in _defaults) {
+                        if (_defaults.hasOwnProperty(prop) && undefined == this[prop]) {
+                            this[prop] = _defaults[prop];
+                        }
+                    }
+
+                    // Initialize value if empty
+                    if (null == this.model) {
+                        this.model = this.min;
+                    }
+
+                    // Create array of values for ng-repeat
+                    this.values = [];
+                    for (var i = this.min + 1; i <= this.max; i += this.step) {
+                        this.values.push(i);
+                    }
+                }
+            };
+        }
+    ]);
 // File : app/Layout/Directive/Header/HeaderDirective.js
 /**
  * Header of the application
@@ -1838,13 +1922,13 @@ SongFormController.prototype.validate = function () {
     // Call server
     this.uploadService.upload(requestConfig).then(
         // Success callback
-        function (resp) {
+        function onServerSuccess(resp) {
             if (resp.data.form) {
                 angular.merge(this.form, resp.data.form);
             }
         }.bind(this),
         // Error callback
-        function (resp) {
+        function onServerError(resp) {
 
         }
     );
@@ -1887,9 +1971,10 @@ SongListController.prototype.sortReverse = false;
  * @type {Object}
  */
 SongListController.prototype.sortFields = {
-    title : 'string',
-    artist: 'string',
-    score:  'number'
+    title :  'string',
+    artist:  'string',
+    rating:  'number',
+    mastery: 'number'
 };
 
 // Register controller into angular
@@ -1950,7 +2035,7 @@ angular
  * @constructor
  */
 var SongResource = function SongResourceController(ApiService) {
-
+    this.apiService = ApiService;
 };
 
 /**
@@ -1998,6 +2083,22 @@ SongResource.prototype.count = function count() {
  * @param identifierValue
  */
 SongResource.prototype.get = function get(identifierValue) {
+
+};
+
+/**
+ * Update an element
+ * @param {number} identifiedValue
+ * @param {Object} element
+ */
+SongResource.prototype.update = function update(identifiedValue, element) {
+
+};
+
+/**
+ * Create a new element
+ */
+SongResource.prototype.create = function create() {
 
 };
 
@@ -2114,8 +2215,10 @@ var songBookTranslations = {};
  * Language = EN
  */
 songBookTranslations['en'] = {
-    song: 'song{COUNT, plural, =0{} one{} other{s}}',
-    no_song_found: 'No song found.'
+    my_songbook_title : 'My Songbook',
+    song              : 'song{COUNT, plural, =0{} one{} other{s}}',
+    no_song_found     : 'No song found.',
+    new_song          : 'Add a new song'
 };
 
 
@@ -2124,8 +2227,10 @@ songBookTranslations['en'] = {
  * Language = FR
  */
 songBookTranslations['fr'] = {
-    song: 'morceau{PLURAL, select, true{x}}',
-    no_song_found: 'Aucun morceau trouvé.'
+    my_songbook_title : 'Mon livre de chansons',
+    song              : 'morceau{COUNT, plural, =0{} one{} other{x}}',
+    no_song_found     : 'Aucun morceau trouvé.',
+    new_song          : 'Ajouter une chanson'
 };
 // File : app/Theory/Directive/NoteDisplaySwitchDirective.js
 angular

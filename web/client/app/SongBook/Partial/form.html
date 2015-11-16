@@ -22,7 +22,6 @@
 
         <!-- Validate form -->
         <layout-page-button class="nav-link-default">
-            <!--data-ng-click="songFormCtrl.validate()"-->
             <a href="" data-ng-click="songFormCtrl.validate()">
                 <span class="fa fa-fw fa-check"></span>
                 <span data-ng-if="songFormCtrl.isNew()">Create</span>
@@ -42,11 +41,13 @@
     <!-- Form -->
     <form-component data-form-def="songFormCtrl.form">
         <div class="col-md-3">
-            <div data-ngf-drop="" data-ng-model="songFormCtrl.entity.cover.file" class="file-upload-dropbox" accept="image/*" data-ngf-max-size="2MB">
+            <!-- Cover -->
+            <fieldset data-ngf-drop="" data-ng-model="songFormCtrl.entity.cover.file" class="file-upload-dropbox" accept="image/*" data-ngf-max-size="2MB" style="margin-bottom: 30px;">
+                <legend>Cover</legend>
                 <div class="dropbox-info" data-ng-hide="songFormCtrl.entity.cover.file">
-                    Cover of the album
+                    <!--<span class="dropbox-info-name">Cover of the album</span>-->
 
-                    <img class="img-responsive" data-ng-src="{{ 'uploads/no-cover.png'|resource_path }}" />
+                    <img class="img-responsive img-shadow" data-ng-src="{{ 'uploads/no-cover.png'|resource_path }}" />
 
                     <a href="" role="button" class="btn btn-block btn-default" data-ngf-select="" data-ng-model="songFormCtrl.entity.cover.file">
                         <span class="fa fa-upload"></span>
@@ -59,38 +60,42 @@
 
                     <a href="" role="button" class="btn btn-danger" data-ng-click="songFormCtrl.entity.cover.file = null" data-ng-show="songFormCtrl.entity.cover.file">
                         <span class="fa fa-trash-o"></span>
-                        <span class="sr-only">Remove upload file</span>
+                        <span class="sr-only">Remove uploaded file</span>
                     </a>
                 </div>
-            </div>
+            </fieldset>
 
-            <i ng-show="myForm.file.$error.required">*required</i><br>
-            <i ng-show="myForm.file.$error.maxSize">File too large {{picFile.size / 1000000|number:1}}MB: max 2M</i>
+            <!--Rating-->
+            <fieldset class="text-center" style="margin-bottom: 30px;">
+                <legend>Rating</legend>
+                <score-field data-model="songFormCtrl.entity.rating" data-icon="fa fa-star"></score-field>
+            </fieldset>
 
-            <br>
-
-            <span class="progress" ng-show="picFile.progress >= 0">
-                <div style="width:{{ picFile.progress }}%" ng-bind="picFile.progress + '%'"></div>
-            </span>
-
-            <span ng-show="picFile.result">Upload Successful</span>
-            <span class="err" ng-show="errorMsg">{{errorMsg}}</span>
+            <!--Mastery-->
+            <fieldset class="text-center" style="margin-bottom: 30px;">
+                <legend>Mastery</legend>
+                <score-field data-model="songFormCtrl.entity.mastery" data-icon="music-icon music-icon-note"></score-field>
+            </fieldset>
         </div>
 
         <div class="col-md-9">
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <div class="form-group">
-                        <label for="song_title" class="control-label">Title</label>
-                        <input type="text" class="form-control" name="song_title" id="song_title" data-ng-model="songFormCtrl.entity.title" />
-                    </div>
+            <fieldset>
+                <legend>Information</legend>
 
-                    <div class="form-group">
-                        <label for="song_artist" class="control-label">Artist</label>
-                        <input type="text" class="form-control" name="song_artist" id="song_artist" data-ng-model="songFormCtrl.entity.artist" />
+                <div class="panel panel-default panel-last">
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <label for="song_title" class="control-label">Title</label>
+                            <input type="text" class="form-control" name="song_title" id="song_title" data-ng-model="songFormCtrl.entity.title" />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="song_artist" class="control-label">Artist</label>
+                            <input type="text" class="form-control" name="song_artist" id="song_artist" data-ng-model="songFormCtrl.entity.artist" />
+                        </div>
                     </div>
                 </div>
-            </div>
+            </fieldset>
         </div>
     </form-component>
 </layout-page>

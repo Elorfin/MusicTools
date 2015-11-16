@@ -3,7 +3,7 @@
  * @constructor
  */
 var SongResource = function SongResourceController(ApiService) {
-
+    this.apiService = ApiService;
 };
 
 /**
@@ -51,6 +51,22 @@ SongResource.prototype.count = function count() {
  * @param identifierValue
  */
 SongResource.prototype.get = function get(identifierValue) {
+
+};
+
+/**
+ * Update an element
+ * @param {number} identifiedValue
+ * @param {Object} element
+ */
+SongResource.prototype.update = function update(identifiedValue, element) {
+
+};
+
+/**
+ * Create a new element
+ */
+SongResource.prototype.create = function create() {
 
 };
 

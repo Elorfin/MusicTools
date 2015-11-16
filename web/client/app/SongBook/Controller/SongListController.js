@@ -29,9 +29,10 @@ SongListController.prototype.sortReverse = false;
  * @type {Object}
  */
 SongListController.prototype.sortFields = {
-    title : 'string',
-    artist: 'string',
-    score:  'number'
+    title :  'string',
+    artist:  'string',
+    rating:  'number',
+    mastery: 'number'
 };
 
 // Register controller into angular

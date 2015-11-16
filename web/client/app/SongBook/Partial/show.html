@@ -17,28 +17,33 @@
     </layout-page-buttons>
 
     <div class="row">
-        <!-- Song cover -->
         <div class="col-md-3 text-center">
-            <img class="img-responsive img-shadow" data-ng-src="{{ (songShowCtrl.entity.cover.path || 'uploads/no-cover.png')|resource_path }}" />
+            <!-- Cover -->
+            <img class="img-responsive img-shadow" data-ng-src="{{ (songShowCtrl.entity.cover.path || 'uploads/no-cover.png')|resource_path }}" style="margin-bottom: 30px;" />
 
-            <!-- <div class="row">
-                <div class="col-md-12 text-center" style="margin-bottom: 20px;">
-                    Rating
-                    {{ fields.score_show(entity.rating, 0, 10, 'fa fa-fw fa-lg fa-heart', 'fa fa-fw fa-lg fa-heart-o') }}
-                </div>
-                <div class="col-md-12 text-center" style="margin-bottom: 20px;">
-                    Mastery
-                    {{ fields.score_show(entity.mastery, 0, 10, 'fa fa-fw fa-lg fa-star', 'fa fa-fw fa-lg fa-star-o') }}
-                </div>
-            </div>-->
+            <!--Rating-->
+            <fieldset class="text-center" style="margin-bottom: 30px;">
+                <legend>Rating</legend>
+                <score-field data-model="songShowCtrl.entity.rating" data-icon="fa fa-star"></score-field>
+            </fieldset>
+
+            <!--Mastery-->
+            <fieldset class="text-center" style="margin-bottom: 30px;">
+                <legend>Mastery</legend>
+                <score-field data-model="songShowCtrl.entity.mastery" data-icon="music-icon music-icon-note"></score-field>
+            </fieldset>
         </div>
 
         <div class="col-md-9">
             <div class="content-header">
-                <h1>{{ songShowCtrl.entity.title }} <small data-ng-if="null !== songShowCtrl.entity.artist">{{ songShowCtrl.entity.artist }}</small></h1>
+                <h1>
+                    {{ songShowCtrl.entity.title }}
+                    <small data-ng-if="null !== songShowCtrl.entity.artist">{{ songShowCtrl.entity.artist }}</small>
+                </h1>
             </div>
 
             <ul class="song-resource-menu text-center">
+                <!-- Sheet music -->
                 <li role="presentation" class="active">
                     <a href="#">
                         <span class="fa-stack fa-lg">
@@ -52,6 +57,8 @@
                         </span>
                     </a>
                 </li>
+
+                <!-- Medias -->
                 <li role="presentation">
                     <a href="#">
                         <span class="fa-stack fa-lg">
@@ -65,6 +72,8 @@
                         </span>
                     </a>
                 </li>
+
+                <!-- Records -->
                 <li role="presentation">
                     <a href="#">
                         <span class="fa-stack fa-lg">
@@ -78,6 +87,8 @@
                         </span>
                     </a>
                 </li>
+
+                <!-- Information -->
                 <li role="presentation">
                     <a href="#">
                         <span class="fa-stack fa-lg">

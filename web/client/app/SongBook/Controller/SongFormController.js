@@ -33,13 +33,13 @@ SongFormController.prototype.validate = function () {
     // Call server
     this.uploadService.upload(requestConfig).then(
         // Success callback
-        function (resp) {
+        function onServerSuccess(resp) {
             if (resp.data.form) {
                 angular.merge(this.form, resp.data.form);
             }
         }.bind(this),
         // Error callback
-        function (resp) {
+        function onServerError(resp) {
 
         }
     );

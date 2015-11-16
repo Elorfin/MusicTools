@@ -1,8 +1,11 @@
+/**
+ * File upload
+ */
 .file-upload-dropbox {
     min-height: 300px;
     width: 100%;
-    border: 4px dashed rgba(0, 0, 0, 0.5);
-    border-radius: 4px;
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    border-radius: @border-radius-base;
     padding: floor(@grid-gutter-width / 2);
 
     &.dragover {
@@ -17,13 +20,22 @@
         color: rgba(0, 0, 0, 0.5);
         text-align: center;
         font-size: 22px;
+        position: relative;
 
-        /*.fa {
+        .dropbox-info-name {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            text-align: center;
+            padding-top: 5px;
+        }
 
-            display: block;
-            font-size: 140px;
-            padding: 25px;
-        }*/
+        .btn {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+        }
     }
 
     .dropbox-thumb {
@@ -33,6 +45,33 @@
             position: absolute;
             top: 0;
             right: 0;
+        }
+    }
+
+    .img-responsive {
+        width: 100%; /* Fix a bug in firefox : responsiveness does not work in <fieldset> */
+    }
+}
+
+/**
+ * Score field
+ */
+.score-field {
+    vertical-align: middle;
+    > button {
+        padding: 0 ;
+        background: transparent;
+        border: none;
+        border-radius: 0;
+        color: fadeOut(@gray, 75%);
+
+        .value-icon {
+            font-size: 20px;
+        }
+
+        &.selected {
+            color: @brand-primary;
+            text-shadow: 0px 0px 5px rgba(0, 0, 0, 0.75);
         }
     }
 }

@@ -137,6 +137,23 @@ module.exports = function (grunt) {
                 flatten: true,
                 filter: 'isFile'
             }
+        },
+
+        // Watcher
+        watch: {
+            js: {
+                files: [
+                    'app/**/*.js'
+                ],
+                tasks: ['concat', 'uglify']
+            },
+
+            less: {
+                files: [
+                    'less/**/*.less'
+                ],
+                tasks: [ 'less' ]
+            }
         }
     });
 
@@ -145,6 +162,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-less');
+    grunt.loadNpmTasks('grunt-contrib-watch');
 
     // Register our own custom task alias.
     grunt.registerTask('build', ['copy', 'concat', 'uglify', 'less']);

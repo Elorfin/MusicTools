@@ -9,6 +9,7 @@ body {
     padding-top: @navbar-height;
 }
 
+// Change selection color
 ::selection {
     background: black; /* WebKit/Blink Browsers */
     color: @text-color;
@@ -16,6 +17,15 @@ body {
 ::-moz-selection {
     background: black; /* Gecko Browsers */
     color: @text-color;
+}
+
+// Remove outline on link and buttons
+a,
+button,
+input[type=button],
+input[type=submit],
+input[type=reset] {
+    outline: 0 !important;
 }
 
 h1, h2, h3, h4, h5, h6,

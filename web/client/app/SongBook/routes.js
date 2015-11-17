@@ -13,9 +13,9 @@ angular.module('SongBook').config([
                 resolve: {
                     entities: [
                         '$route',
-                        'Song',
-                        function entitiesResolver($route, Song) {
-                            return Song.query();
+                        'SongResource',
+                        function entitiesResolver($route, SongResource) {
+                            return SongResource.query();
                         }
                     ]
                 }

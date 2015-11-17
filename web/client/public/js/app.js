@@ -1266,6 +1266,21 @@ angular.module('Instrument').config([
             });
     }
 ]);
+// File : app/Layout/Controller/Modal/ConfirmModalController.js
+/**
+ * Confirm Modal controller
+ * @constructor
+ */
+var ConfirmModalController = function ConfirmModalControllerConstructor($uibModalInstance) {
+    this.instance = $uibModalInstance;
+};
+
+
+// Register controller into angular
+angular
+    .module('Layout')
+    .controller('ConfirmModalController', [ '$uibModalInstance', ConfirmModalController ]);
+
 // File : app/Layout/Controller/Page/FormController.js
 /**
  * Base Form controller
@@ -1944,7 +1959,11 @@ angular
  * List controller for Songs
  * @constructor
  */
-var SongListController = function SongListControllerConstructor(entities) {
+var SongListController = function SongListControllerConstructor($uibModal, entities) {
+    this.services = {};
+
+    this.services['$uibModal'] = $uibModal;
+
     this.entities = entities;
 };
 
@@ -1977,10 +1996,24 @@ SongListController.prototype.sortFields = {
     mastery: 'number'
 };
 
+SongListController.prototype.removeSong = function removeSong(song) {
+    // Display confirm callback
+    var modalInstance = this.services.$uibModal.open({
+        templateUrl : '../app/Layout/Partial/Modal/confirm.html',
+        controller  : 'ConfirmModalController'
+    });
+
+    modalInstance.result.then(function (selectedItem) {
+        /*$scope.selected = selectedItem;*/
+    }, function () {
+        /*$log.info('Modal dismissed at: ' + new Date());*/
+    });
+};
+
 // Register controller into angular
 angular
     .module('SongBook')
-    .controller('SongListController', [ 'entities', SongListController ]);
+    .controller('SongListController', [ '$uibModal', 'entities', SongListController ]);
 
 // File : app/SongBook/Controller/SongShowController.js
 /**
@@ -2030,19 +2063,16 @@ angular
         }]
     );
 // File : app/SongBook/Resource/SongResource.js
-/**
- * Song Resource
- * @constructor
- */
-var SongResource = function SongResourceController(ApiService) {
-    this.apiService = ApiService;
-};
+var SongResource = function SongResourceConstructor($http, $q, ApiService, AlertService) {
+    // Initialize service container
+    this.services = {};
 
-/**
- * Unique identifier of the resource
- * @type {string}
- */
-SongResource.prototype.identifier = 'id';
+    // Store services
+    this.services['$http'] = $http;
+    this.services['$q']    = $q;
+    this.services['api']   = ApiService;
+    this.services['alert'] = AlertService;
+};
 
 /**
  * Name of the Resource (used as translation key)
@@ -2051,61 +2081,136 @@ SongResource.prototype.identifier = 'id';
 SongResource.prototype.name = 'song';
 
 /**
- * API path of the resource
+ * Path of the API resource
  * @type {string}
  */
-SongResource.prototype.path = 'songs';
+SongResource.prototype.basePath = '/songs';
 
 /**
- * List of Resource elements
+ * Field to use as identifier for the API
+ * @type {string}
+ */
+SongResource.prototype.identifier = 'id';
+
+/**
+ * List of elements
  * @type {Array}
  */
 SongResource.prototype.elements = [];
 
 /**
- * Get the list of elements
- * @param queryParams
+ * Force the refresh of the elements list
+ * @type {boolean}
  */
-SongResource.prototype.query = function query(queryParams) {
+SongResource.prototype.refreshElements = false;
 
+/**
+ * List existing resources filtered by `queryParams`
+ * @param   {Object}  [queryParams] - The parameters used to filter the list of elements
+ * @param   {boolean} [refresh]     - If true, a new request will be sent to the server to grab the list even if it's already loaded
+ * @returns {Array}                 - The list of available resources
+ */
+SongResource.prototype.query = function queryResources(queryParams, refresh) {
+    if (!this.elements || this.elements.length === 0 || this.refreshElements || this.refresh) {
+        // Load data from server
+        var deferred = this.services.$q.defer(); // Initialize promise
+        this.elements = deferred.promise;
+
+        // Call API
+        this.services.$http
+            .get(this.services.api.getServer() + this.basePath)
+
+            // Success callback
+            .success(function onServerSuccess(response) {
+                this.refreshElements = false;
+
+                deferred.resolve(response);
+            }.bind(this))
+
+            // Error callback
+            .error(function onServerError(response) {
+                deferred.reject(response);
+            });
+    }
+
+    return this.elements;
 };
 
 /**
  * Count elements
- * @returns {Number}
+ * @returns {Number} - The number of resources in the list
  */
-SongResource.prototype.count = function count() {
+SongResource.prototype.count = function countResources() {
     return this.elements.length;
 };
 
 /**
- * Get an element using its identifier
- * @param identifierValue
+ * Find an existing entity
+ * @param   {number} identifier - The identifier of the resource to search
+ * @returns {Object}            - The resource found
  */
-SongResource.prototype.get = function get(identifierValue) {
+SongResource.prototype.get = function getResource(identifier) {
+    return {};
+};
+
+/**
+ * Save a resource
+ * @param {object} resource - The resource to save
+ */
+SongResource.prototype.save = function saveResource(resource) {
+    if (resource[this.identifier]) {
+        // Identifier field is NOT empty => so it's an existing resource
+        this.update(resource);
+    } else {
+        // Identifier field is empty => so it's a new resource
+        this.new(resource);
+    }
+};
+
+/**
+ * Create a new resource
+ * @param {Object} resource - The resource to create
+ */
+SongResource.prototype.new = function newResource(resource) {
 
 };
 
 /**
- * Update an element
- * @param {number} identifiedValue
- * @param {Object} element
+ * Get definition of the form for new Resource
  */
-SongResource.prototype.update = function update(identifiedValue, element) {
+SongResource.prototype.newForm = function newFormResource() {
 
 };
 
 /**
- * Create a new element
+ * Update an existing resource
+ * @param {Object} resource - The resource to update
  */
-SongResource.prototype.create = function create() {
+SongResource.prototype.update = function updateResource(resource) {
+
+};
+
+/**
+ * Get definition of the form for existing Resource
+ * @param {Object} resource - The resource to edit
+ */
+SongResource.prototype.editForm = function editFormResource(resource) {
+
+};
+
+/**
+ * Remove a resource
+ * @param {Object} resource - The resource to remove
+ */
+SongResource.prototype.remove = function removeResource(resource) {
 
 };
 
 // Register service into Angular JS
 angular
     .module('SongBook')
-    .service('SongResource', [ 'ApiService', SongResource ]);
+    .service('SongResource', [ '$http', '$q', 'ApiService', 'AlertService', SongResource ]);
+
 // File : app/SongBook/routes.js
 /**
  * SongBook routes
@@ -2122,9 +2227,9 @@ angular.module('SongBook').config([
                 resolve: {
                     entities: [
                         '$route',
-                        'Song',
-                        function entitiesResolver($route, Song) {
-                            return Song.query();
+                        'SongResource',
+                        function entitiesResolver($route, SongResource) {
+                            return SongResource.query();
                         }
                     ]
                 }
@@ -2215,10 +2320,22 @@ var songBookTranslations = {};
  * Language = EN
  */
 songBookTranslations['en'] = {
+    // D
+    delete_song       : 'Delete song',
+
+    // E
+    edit_song         : 'Edit song',
+
+    // M
     my_songbook_title : 'My Songbook',
-    song              : 'song{COUNT, plural, =0{} one{} other{s}}',
+
+    // N
+    new_song          : 'Add a new song',
     no_song_found     : 'No song found.',
-    new_song          : 'Add a new song'
+
+    // S
+    show_song         : 'Show song',
+    song              : 'song{COUNT, plural, =0{} one{} other{s}}'
 };
 
 
@@ -2227,10 +2344,22 @@ songBookTranslations['en'] = {
  * Language = FR
  */
 songBookTranslations['fr'] = {
+    // D
+    delete_song       : 'Supprimer le morceau',
+
+    // E
+    edit_song         : 'Editer le morceau',
+
+    // M
     my_songbook_title : 'Mon livre de chansons',
-    song              : 'morceau{COUNT, plural, =0{} one{} other{x}}',
+
+    // N
+    new_song          : 'Ajouter une chanson',
     no_song_found     : 'Aucun morceau trouvé.',
-    new_song          : 'Ajouter une chanson'
+
+    // S
+    show_song         : 'Voir le morceau',
+    song              : 'morceau{COUNT, plural, =0{} one{} other{x}}'
 };
 // File : app/Theory/Directive/NoteDisplaySwitchDirective.js
 angular
@@ -2613,6 +2742,21 @@ angular.module('User').config([
             });
     }
 ]);
+// File : app/Utilities/Filter/AssetPathFilter.js
+/**
+ * Asset Path filter
+ */
+angular
+    .module('Utilities')
+    .filter('asset_path', [
+        'ApiService',
+        function (ApiService) {
+            return function (path) {
+                return ApiService.getAssetPath() + path;
+            };
+        }
+    ]
+    );
 // File : app/Utilities/Filter/ResourcePathFilter.js
 /**
  * Resource Path filter
@@ -2642,9 +2786,11 @@ var ApiService = function ApiServiceConstructor() {
  * Server base path
  * @type {String}
  */
-ApiService.prototype.server = '/MusicTools/web/app_dev.php';
+ApiService.prototype.server       = '/MusicTools/web/app_dev.php';
 
 ApiService.prototype.resourcePath = '/MusicTools/web/';
+
+ApiService.prototype.assetPath    = '/MusicTools/web/client/public/';
 
 /**
  * Get server
@@ -2656,7 +2802,11 @@ ApiService.prototype.getServer = function getServer() {
 
 ApiService.prototype.getResourcePath = function getResourcePath() {
     return this.resourcePath;
-}
+};
+
+ApiService.prototype.getAssetPath = function getAssetPath() {
+    return this.assetPath;
+};
 
 // Inject Service into AngularJS
 angular

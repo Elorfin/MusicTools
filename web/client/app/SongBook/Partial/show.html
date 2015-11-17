@@ -16,10 +16,10 @@
         </layout-page-button>
     </layout-page-buttons>
 
-    <div class="row">
+    <div class="song-show row">
         <div class="col-md-3 text-center">
             <!-- Cover -->
-            <img class="img-responsive img-shadow" data-ng-src="{{ (songShowCtrl.entity.cover.path || 'uploads/no-cover.png')|resource_path }}" style="margin-bottom: 30px;" />
+            <img class="img-responsive img-shadow" data-ng-src="{{ entity.cover.path ? (entity.cover.path|resource_path) : ('images/no-cover.png'|asset_path) }}" style="margin-bottom: 30px;" />
 
             <!--Rating-->
             <fieldset class="text-center" style="margin-bottom: 30px;">

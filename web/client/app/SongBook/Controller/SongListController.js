@@ -2,7 +2,11 @@
  * List controller for Songs
  * @constructor
  */
-var SongListController = function SongListControllerConstructor(entities) {
+var SongListController = function SongListControllerConstructor($uibModal, entities) {
+    this.services = {};
+
+    this.services['$uibModal'] = $uibModal;
+
     this.entities = entities;
 };
 
@@ -35,7 +39,21 @@ SongListController.prototype.sortFields = {
     mastery: 'number'
 };
 
+SongListController.prototype.removeSong = function removeSong(song) {
+    // Display confirm callback
+    var modalInstance = this.services.$uibModal.open({
+        templateUrl : '../app/Layout/Partial/Modal/confirm.html',
+        controller  : 'ConfirmModalController'
+    });
+
+    modalInstance.result.then(function (selectedItem) {
+        /*$scope.selected = selectedItem;*/
+    }, function () {
+        /*$log.info('Modal dismissed at: ' + new Date());*/
+    });
+};
+
 // Register controller into angular
 angular
     .module('SongBook')
-    .controller('SongListController', [ 'entities', SongListController ]);
+    .controller('SongListController', [ '$uibModal', 'entities', SongListController ]);

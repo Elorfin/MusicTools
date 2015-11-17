@@ -11,9 +11,11 @@ var ApiService = function ApiServiceConstructor() {
  * Server base path
  * @type {String}
  */
-ApiService.prototype.server = '/MusicTools/web/app_dev.php';
+ApiService.prototype.server       = '/MusicTools/web/app_dev.php';
 
 ApiService.prototype.resourcePath = '/MusicTools/web/';
+
+ApiService.prototype.assetPath    = '/MusicTools/web/client/public/';
 
 /**
  * Get server
@@ -25,7 +27,11 @@ ApiService.prototype.getServer = function getServer() {
 
 ApiService.prototype.getResourcePath = function getResourcePath() {
     return this.resourcePath;
-}
+};
+
+ApiService.prototype.getAssetPath = function getAssetPath() {
+    return this.assetPath;
+};
 
 // Inject Service into AngularJS
 angular

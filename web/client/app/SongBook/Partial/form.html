@@ -39,15 +39,13 @@
     </layout-page-buttons>
 
     <!-- Form -->
-    <form-component data-form-def="songFormCtrl.form">
+    <form-component class="song-form" data-form-def="songFormCtrl.form">
         <div class="col-md-3">
             <!-- Cover -->
             <fieldset data-ngf-drop="" data-ng-model="songFormCtrl.entity.cover.file" class="file-upload-dropbox" accept="image/*" data-ngf-max-size="2MB" style="margin-bottom: 30px;">
                 <legend>Cover</legend>
                 <div class="dropbox-info" data-ng-hide="songFormCtrl.entity.cover.file">
-                    <!--<span class="dropbox-info-name">Cover of the album</span>-->
-
-                    <img class="img-responsive img-shadow" data-ng-src="{{ 'uploads/no-cover.png'|resource_path }}" />
+                    <img class="img-responsive img-shadow" data-ng-src="{{ 'images/no-cover.png'|asset_path }}" />
 
                     <a href="" role="button" class="btn btn-block btn-default" data-ngf-select="" data-ng-model="songFormCtrl.entity.cover.file">
                         <span class="fa fa-upload"></span>

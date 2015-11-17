@@ -3,9 +3,64 @@
  */
 .song-list {
     .song-item {
+        position: relative;
+
         .cover {
             padding-left: 0;
             padding-right: 0;
+        }
+
+        .song-item-btn-group {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            font-size: 0;
+
+            .btn {
+                font-size: @font-size-base;
+                position: relative;
+                margin-right: 24px;
+
+                &:last-child {
+                    margin-right: 0;
+
+                    &:after {
+                        border: none;
+                    }
+                }
+            }
+
+            .btn:before {
+                content: " ";
+                position: absolute;
+                width: 0;
+                height: 0;
+                left: -24px;
+                top: 0;
+                border-style: solid;
+                border-width: 0 0 36px 24px;
+                border-color: transparent transparent @btn-default-bg transparent;
+            }
+
+            .btn:after {
+                content: " ";
+                position: absolute;
+                width: 0;
+                height: 0;
+                right: -24px;
+                top: 0;
+                border-style: solid;
+                border-width: 36px 24px 0 0;
+                border-color: @btn-default-bg transparent transparent transparent;
+            }
+
+            .btn-danger:before {
+                border-color: transparent transparent @btn-danger-bg transparent;
+            }
+
+            .btn-danger:after {
+                border-color: @btn-danger-bg transparent transparent transparent;
+            }
         }
     }
 }

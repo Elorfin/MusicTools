@@ -1,11 +1,11 @@
 angular
     .module('Theory')
     .directive('noteSelector', [
-        'NoteService',
-        function NoteSelectorService(NoteService) {
+        'NoteResource',
+        function NoteSelectorService(NoteResource) {
             return {
                 restrict: 'E',
-                templateUrl: assetDirectory + '/musictoolstheory/js/Note/Partial/selector.html',
+                templateUrl: '../app/Theory/Partial/Note/selector.html',
                 replace: true,
                 scope: {
 
@@ -14,9 +14,7 @@ angular
                 controllerAs: 'noteSelectorCtrl',
                 bindToController: true,
                 link: function (scope, element, attrs) {
-                    NoteService.all().then(function (data) {
-                        scope.notes = data;
-                    });
+                    scope.notes = NoteResource.query();
 
                     /*$(document).keydown(function(e) {
                         switch(e.which) {

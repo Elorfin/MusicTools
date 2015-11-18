@@ -5,13 +5,13 @@ angular
             return {
                 restrict: 'A',
                 controller: [
-                    'NoteService',
-                    function NoteDisplaySwitchController(NoteService) {
-                        this.displayFlat = NoteService.isDisplayFlat();
+                    'NoteResource',
+                    function NoteDisplaySwitchController(NoteResource) {
+                        this.displayFlat = NoteResource.isDisplayFlat();
 
                         this.switchDisplay = function switchDisplay() {
                             this.displayFlat = !this.displayFlat;
-                            NoteService.setDisplayFlat(this.displayFlat);
+                            NoteResource.setDisplayFlat(this.displayFlat);
                         }
                     }
                 ],

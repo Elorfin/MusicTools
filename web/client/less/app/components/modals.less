@@ -1,7 +1,7 @@
 .modal {
     .modal-dialog {
         // Vertically center the modals
-        max-height: calc(100% - 100px);
+        max-height: 100%;
         position: fixed;
         top: 50%;
         transform: translate(0, -50%) !important;
@@ -26,8 +26,10 @@
         }
 
         .modal-content {
+            max-height: 100%;
             background: none;
             margin: auto;
+            overflow-y: auto;
             .box-shadow(none);
         }
     }

@@ -28,6 +28,7 @@ angular
         'Forum',
         'Game',
         'Instrument',
+        'GuitarNeck',
         'Lesson',
         'SongBook',
         'Theory',
@@ -36,7 +37,7 @@ angular
 
         /*'Note',
         'Guitar',
-        'GuitarNeck',
+
         'SheetMusic'*/
     ])
     .config([

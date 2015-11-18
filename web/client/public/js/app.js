@@ -35,13 +35,11 @@ angular.module('Forum', []);
  */
 angular.module('Game', []);
 // File : app/GuitarNeck/module.js
-(function () {
-    'use strict';
-
-    angular.module('GuitarNeck', [
-        'Guitar'
-    ]);
-})();
+/**
+ * Guitar Neck
+ */
+angular
+    .module('GuitarNeck', []);
 // File : app/Instrument/module.js
 /**
  * Instrument Module
@@ -135,6 +133,7 @@ angular
         'Forum',
         'Game',
         'Instrument',
+        'GuitarNeck',
         'Lesson',
         'SongBook',
         'Theory',
@@ -143,7 +142,7 @@ angular
 
         /*'Note',
         'Guitar',
-        'GuitarNeck',
+
         'SheetMusic'*/
     ])
     .config([
@@ -170,6 +169,285 @@ angular
             cfpLoadingBarProvider.includeSpinner = false;
         }
     ]);
+// File : app/Utilities/Filter/AssetPathFilter.js
+/**
+ * Asset Path filter
+ */
+angular
+    .module('Utilities')
+    .filter('asset_path', [
+        'ApiService',
+        function (ApiService) {
+            return function (path) {
+                return ApiService.getAssetPath() + path;
+            };
+        }
+    ]
+    );
+// File : app/Utilities/Filter/ResourcePathFilter.js
+/**
+ * Resource Path filter
+ */
+angular
+    .module('Utilities')
+    .filter('resource_path', [
+        'ApiService',
+        function (ApiService) {
+            return function (path) {
+                return ApiService.getResourcePath() + path;
+            };
+        }
+    ]
+);
+// File : app/Utilities/Resource/ApiResource.js
+var ApiResource = function ApiResourceConstructor($http, $q, ApiService, AlertService) {
+    // Initialize service container
+    this.services = {};
+
+    // Store services
+    this.services['$http'] = $http;
+    this.services['$q']    = $q;
+    this.services['api']   = ApiService;
+    this.services['alert'] = AlertService;
+
+    // Validate required properties
+    if (null === this.name) {
+        console.error('An ApiResource must have a property `name`.');
+    }
+
+    if (null === this.path) {
+        console.error('An ApiResource must have a property `path`.');
+    }
+};
+
+// Set up dependency injection
+ApiResource.$inject = ['$http', '$q', 'ApiService', 'AlertService'];
+
+/**
+ * Name of the Resource (used as translation key)
+ * @type {string}
+ */
+ApiResource.prototype.name = null;
+
+/**
+ * Path of the API resource
+ * @type {string}
+ */
+ApiResource.prototype.path = null;
+
+/**
+ * Field to use as identifier for the API
+ * @type {string}
+ */
+ApiResource.prototype.identifier = 'id';
+
+/**
+ * List of elements
+ * @type {Array}
+ */
+ApiResource.prototype.elements = [];
+
+/**
+ * Force the refresh of the elements list
+ * @type {boolean}
+ */
+ApiResource.prototype.refreshElements = false;
+
+/**
+ * List existing resources filtered by `queryParams`
+ * @param   {Object}  [queryParams] - The parameters used to filter the list of elements
+ * @param   {boolean} [refresh]     - If true, a new request will be sent to the server to grab the list even if it's already loaded
+ * @returns {Array}                 - The list of available resources
+ */
+ApiResource.prototype.query = function queryResources(queryParams, refresh) {
+    if (!this.elements || this.elements.length === 0 || this.refreshElements || this.refresh) {
+        // Load data from server
+        var deferred = this.services.$q.defer(); // Initialize promise
+        this.elements = deferred.promise;
+
+        // Call API
+        this.services.$http
+            .get(this.services.api.getServer() + this.path)
+
+            // Success callback
+            .success(function onServerSuccess(response) {
+                this.refreshElements = false;
+                this.elements = response;
+
+                deferred.resolve(response);
+            }.bind(this))
+
+            // Error callback
+            .error(function onServerError(response) {
+                deferred.reject(response);
+            });
+    }
+
+    return this.elements;
+};
+
+/**
+ * Count elements
+ * @returns {Number} - The number of resources in the list
+ */
+ApiResource.prototype.count = function countResources() {
+    return this.elements.length;
+};
+
+/**
+ * Find an existing entity
+ * @param   {number} identifier - The identifier of the resource to search
+ * @returns {Object}            - The resource found
+ */
+ApiResource.prototype.get = function getResource(identifier) {
+    return {};
+};
+
+/**
+ * Save a resource
+ * @param {object} resource - The resource to save
+ */
+ApiResource.prototype.save = function saveResource(resource) {
+    if (resource[this.identifier]) {
+        // Identifier field is NOT empty => so it's an existing resource
+        this.update(resource);
+    } else {
+        // Identifier field is empty => so it's a new resource
+        this.new(resource);
+    }
+};
+
+/**
+ * Create a new resource
+ * @param {Object} resource - The resource to create
+ */
+ApiResource.prototype.new = function newResource(resource) {
+
+};
+
+/**
+ * Get definition of the form for new Resource
+ */
+ApiResource.prototype.newForm = function newFormResource() {
+
+};
+
+/**
+ * Update an existing resource
+ * @param {Object} resource - The resource to update
+ */
+ApiResource.prototype.update = function updateResource(resource) {
+
+};
+
+/**
+ * Get definition of the form for existing Resource
+ * @param {Object} resource - The resource to edit
+ */
+ApiResource.prototype.editForm = function editFormResource(resource) {
+
+};
+
+/**
+ * Remove a resource
+ * @param {Object} resource - The resource to remove
+ */
+ApiResource.prototype.remove = function removeResource(resource) {
+
+};
+
+/**
+ * Apply a callback to all resources
+ * @param   {Function} callback - The callback to apply
+ */
+ApiResource.prototype.apply = function apply(callback) {
+    if (typeof callback === 'function') {
+        for (var i = 0; i < this.elements.length; i++) {
+            callback(this.elements[i]);
+        }
+    }
+};
+
+// Register service into Angular JS
+angular
+    .module('Utilities')
+    .service('ApiResource', ApiResource);
+
+// File : app/Utilities/Service/ApiService.js
+/**
+ * API Service
+ * @returns {ApiService}
+ * @constructor
+ */
+var ApiService = function ApiServiceConstructor() {
+
+};
+
+/**
+ * Server base path
+ * @type {String}
+ */
+ApiService.prototype.server       = '/MusicTools/web/app_dev.php';
+
+ApiService.prototype.resourcePath = '/MusicTools/web/';
+
+ApiService.prototype.assetPath    = '/MusicTools/web/client/public/';
+
+/**
+ * Get server
+ * @returns {String}
+ */
+ApiService.prototype.getServer = function getServer() {
+    return this.server;
+};
+
+ApiService.prototype.getResourcePath = function getResourcePath() {
+    return this.resourcePath;
+};
+
+ApiService.prototype.getAssetPath = function getAssetPath() {
+    return this.assetPath;
+};
+
+// Inject Service into AngularJS
+angular
+    .module('Utilities')
+    .service('ApiService', [ ApiService ]);
+// File : app/Utilities/Service/SoundService.js
+/**
+ * API Service
+ * @returns {ApiService}
+ * @constructor
+ */
+var SoundService = function SoundServiceConstructor() {
+
+};
+
+/**
+ * Get server
+ * @returns {String}
+ */
+SoundService.prototype.playFrequency = function playFrequency(frequency, autoplay, duration) {
+    var context = new AudioContext();
+
+    var oscillator = context.createOscillator();
+
+    oscillator.type = 2;
+    oscillator.frequency.value = 500;
+    oscillator.connect(context.destination);
+
+    if (autoplay) {
+        oscillator.start(0);
+        oscillator.stop(duration);
+    }
+
+    return oscillator;
+};
+
+// Inject Service into AngularJS
+angular
+    .module('Utilities')
+    .service('SoundService', [ SoundService ]);
 // File : app/Advertisement/routes.js
 /**
  * Advertisement routes
@@ -1032,7 +1310,7 @@ angular
 
             return {
                 restrict: 'E',
-                templateUrl: assetDirectory + '/musictoolsinstrument/js/GuitarNeck/Partial/GuitarNeck.html',
+                templateUrl: '../app/GuitarNeck/Partial/GuitarNeck.html',
                 replace: true,
                 scope: {
                     guitar: '=?'
@@ -1055,7 +1333,7 @@ angular
         function FretLayerDirective($window) {
             return {
                 restrict: 'E',
-                templateUrl: assetDirectory + '/musictoolsinstrument/js/GuitarNeck/Partial/Layer/FretLayer.html',
+                templateUrl: '../app/GuitarNeck/Partial/Layer/FretLayer.html',
                 replace: true,
                 scope: {
                     /**
@@ -1121,7 +1399,7 @@ angular
         function NoteLayerDirective($window) {
             return {
                 restrict: 'E',
-                templateUrl: assetDirectory + '/musictoolsinstrument/js/GuitarNeck/Partial/Layer/NoteLayer.html',
+                templateUrl: '../app/GuitarNeck/Partial/Layer/NoteLayer.html',
                 replace: true,
                 scope: {
 
@@ -1150,7 +1428,7 @@ angular
         function StringLayerDirective($window) {
             return {
                 restrict: 'E',
-                templateUrl: assetDirectory + '/musictoolsinstrument/js/GuitarNeck/Partial/Layer/StringLayer.html',
+                templateUrl: '../app/GuitarNeck/Partial/Layer/StringLayer.html',
                 replace: true,
                 scope: {
                     strings: '=?'
@@ -2064,16 +2342,14 @@ angular
         }]
     );
 // File : app/SongBook/Resource/SongResource.js
-var SongResource = function SongResourceConstructor($http, $q, ApiService, AlertService) {
-    // Initialize service container
-    this.services = {};
-
-    // Store services
-    this.services['$http'] = $http;
-    this.services['$q']    = $q;
-    this.services['api']   = ApiService;
-    this.services['alert'] = AlertService;
+var SongResource = function SongResourceConstructor() {
+    // Call parent constructor
+    ApiResource.apply(this, arguments);
 };
+
+// Extends ApiResource
+SongResource.prototype = Object.create(ApiResource.prototype);
+SongResource.$inject = ApiResource.$inject;
 
 /**
  * Name of the Resource (used as translation key)
@@ -2085,132 +2361,12 @@ SongResource.prototype.name = 'song';
  * Path of the API resource
  * @type {string}
  */
-SongResource.prototype.basePath = '/songs';
-
-/**
- * Field to use as identifier for the API
- * @type {string}
- */
-SongResource.prototype.identifier = 'id';
-
-/**
- * List of elements
- * @type {Array}
- */
-SongResource.prototype.elements = [];
-
-/**
- * Force the refresh of the elements list
- * @type {boolean}
- */
-SongResource.prototype.refreshElements = false;
-
-/**
- * List existing resources filtered by `queryParams`
- * @param   {Object}  [queryParams] - The parameters used to filter the list of elements
- * @param   {boolean} [refresh]     - If true, a new request will be sent to the server to grab the list even if it's already loaded
- * @returns {Array}                 - The list of available resources
- */
-SongResource.prototype.query = function queryResources(queryParams, refresh) {
-    if (!this.elements || this.elements.length === 0 || this.refreshElements || this.refresh) {
-        // Load data from server
-        var deferred = this.services.$q.defer(); // Initialize promise
-        this.elements = deferred.promise;
-
-        // Call API
-        this.services.$http
-            .get(this.services.api.getServer() + this.basePath)
-
-            // Success callback
-            .success(function onServerSuccess(response) {
-                this.refreshElements = false;
-
-                deferred.resolve(response);
-            }.bind(this))
-
-            // Error callback
-            .error(function onServerError(response) {
-                deferred.reject(response);
-            });
-    }
-
-    return this.elements;
-};
-
-/**
- * Count elements
- * @returns {Number} - The number of resources in the list
- */
-SongResource.prototype.count = function countResources() {
-    return this.elements.length;
-};
-
-/**
- * Find an existing entity
- * @param   {number} identifier - The identifier of the resource to search
- * @returns {Object}            - The resource found
- */
-SongResource.prototype.get = function getResource(identifier) {
-    return {};
-};
-
-/**
- * Save a resource
- * @param {object} resource - The resource to save
- */
-SongResource.prototype.save = function saveResource(resource) {
-    if (resource[this.identifier]) {
-        // Identifier field is NOT empty => so it's an existing resource
-        this.update(resource);
-    } else {
-        // Identifier field is empty => so it's a new resource
-        this.new(resource);
-    }
-};
-
-/**
- * Create a new resource
- * @param {Object} resource - The resource to create
- */
-SongResource.prototype.new = function newResource(resource) {
-
-};
-
-/**
- * Get definition of the form for new Resource
- */
-SongResource.prototype.newForm = function newFormResource() {
-
-};
-
-/**
- * Update an existing resource
- * @param {Object} resource - The resource to update
- */
-SongResource.prototype.update = function updateResource(resource) {
-
-};
-
-/**
- * Get definition of the form for existing Resource
- * @param {Object} resource - The resource to edit
- */
-SongResource.prototype.editForm = function editFormResource(resource) {
-
-};
-
-/**
- * Remove a resource
- * @param {Object} resource - The resource to remove
- */
-SongResource.prototype.remove = function removeResource(resource) {
-
-};
+SongResource.prototype.path = '/songs';
 
 // Register service into Angular JS
 angular
     .module('SongBook')
-    .service('SongResource', [ '$http', '$q', 'ApiService', 'AlertService', SongResource ]);
+    .service('SongResource', SongResource);
 
 // File : app/SongBook/routes.js
 /**
@@ -2222,7 +2378,7 @@ angular.module('SongBook').config([
         $routeProvider
             // List
             .when('/songs', {
-                templateUrl:  '../app/SongBook/Partial/list.html',
+                templateUrl:  '../app/SongBook/Partial/index.html',
                 controller:   'SongListController',
                 controllerAs: 'songListCtrl',
                 resolve: {
@@ -2362,7 +2518,113 @@ songBookTranslations['fr'] = {
     show_song         : 'Voir le morceau',
     song              : 'morceau{COUNT, plural, =0{} one{} other{x}}'
 };
-// File : app/Theory/Directive/NoteDisplaySwitchDirective.js
+// File : app/Theory/Controller/IntervalListController.js
+/**
+ * List controller for Songs
+ * @constructor
+ */
+var IntervalListController = function IntervalListControllerConstructor($uibModal, entities) {
+    this.services = {};
+
+    this.services['$uibModal'] = $uibModal;
+
+    this.entities = entities;
+};
+
+/**
+ * List of entities
+ * @type {Array}
+ */
+IntervalListController.prototype.entities = [];
+
+/**
+ * Default field to sort by
+ * @type {string}
+ */
+IntervalListController.prototype.sortBy = 'name';
+
+/**
+ * Reverse direction of the sort
+ * @type {boolean}
+ */
+IntervalListController.prototype.sortReverse = false;
+
+/**
+ * Usable fields for sort
+ * @type {Object}
+ */
+IntervalListController.prototype.sortFields = {
+    title :  'string',
+    artist:  'string',
+    rating:  'number',
+    mastery: 'number'
+};
+
+IntervalListController.prototype.removeSong = function removeSong(song) {
+    // Display confirm callback
+    var modalInstance = this.services.$uibModal.open({
+        templateUrl : '../app/Layout/Partial/Modal/confirm.html',
+        controller  : 'ConfirmModalController',
+        windowClass : 'modal-danger'
+    });
+
+    modalInstance.result.then(function (selectedItem) {
+        /*$scope.selected = selectedItem;*/
+    }, function () {
+        /*$log.info('Modal dismissed at: ' + new Date());*/
+    });
+};
+
+// Register controller into angular
+angular
+    .module('Theory')
+    .controller('IntervalListController', [ '$uibModal', 'entities', IntervalListController ]);
+
+// File : app/Theory/Controller/NoteListController.js
+/**
+ * List controller for Notes
+ * @constructor
+ */
+var NoteListController = function NoteListControllerConstructor($uibModal, entities) {
+    this.services = {};
+
+    this.services['$uibModal'] = $uibModal;
+
+    this.entities = entities;
+};
+
+/**
+ * List of entities
+ * @type {Array}
+ */
+NoteListController.prototype.entities = [];
+
+NoteListController.prototype.removeSong = function removeSong(song) {
+    // Display confirm callback
+    var modalInstance = this.services.$uibModal.open({
+        templateUrl : '../app/Layout/Partial/Modal/confirm.html',
+        controller  : 'ConfirmModalController',
+        windowClass : 'modal-danger'
+    });
+
+    modalInstance.result.then(function (selectedItem) {
+        /*$scope.selected = selectedItem;*/
+    }, function () {
+        /*$log.info('Modal dismissed at: ' + new Date());*/
+    });
+};
+
+// Register controller into angular
+angular
+    .module('Theory')
+    .controller('NoteListController', [ '$uibModal', 'entities', NoteListController ]);
+
+// File : app/Theory/Controller/ScaleListController.js
+/**
+ * Created by Corum on 18/11/15.
+ */
+
+// File : app/Theory/Directive/Note/NoteDisplaySwitchDirective.js
 angular
     .module('Theory')
     .directive('noteDisplaySwitch', [
@@ -2370,13 +2632,13 @@ angular
             return {
                 restrict: 'A',
                 controller: [
-                    'NoteService',
-                    function NoteDisplaySwitchController(NoteService) {
-                        this.displayFlat = NoteService.isDisplayFlat();
+                    'NoteResource',
+                    function NoteDisplaySwitchController(NoteResource) {
+                        this.displayFlat = NoteResource.isDisplayFlat();
 
                         this.switchDisplay = function switchDisplay() {
                             this.displayFlat = !this.displayFlat;
-                            NoteService.setDisplayFlat(this.displayFlat);
+                            NoteResource.setDisplayFlat(this.displayFlat);
                         }
                     }
                 ],
@@ -2388,38 +2650,15 @@ angular
             };
         }
     ]);
-// File : app/Theory/Directive/NoteListDirective.js
-angular
-    .module('Theory')
-    .directive('noteList', [
-        'NoteService',
-        function (NoteService) {
-            return {
-                restrict: 'E',
-                templateUrl: assetDirectory + '/musictoolstheory/js/Note/Partial/list.html',
-                replace: true,
-                scope: {
-
-                },
-                /*controller: 'FretsOverlayController',
-                 bindToController: true,*/
-                link: function (scope, element, attrs) {
-                    NoteService.all().then(function (data) {
-                        scope.notes = data;
-                    });
-                }
-            };
-        }
-    ]);
-// File : app/Theory/Directive/NoteSelectorDirective.js
+// File : app/Theory/Directive/Note/NoteSelectorDirective.js
 angular
     .module('Theory')
     .directive('noteSelector', [
-        'NoteService',
-        function NoteSelectorService(NoteService) {
+        'NoteResource',
+        function NoteSelectorDirective(NoteResource) {
             return {
                 restrict: 'E',
-                templateUrl: assetDirectory + '/musictoolstheory/js/Note/Partial/selector.html',
+                templateUrl: '../app/Theory/Partial/Note/selector.html',
                 replace: true,
                 scope: {
 
@@ -2428,9 +2667,7 @@ angular
                 controllerAs: 'noteSelectorCtrl',
                 bindToController: true,
                 link: function (scope, element, attrs) {
-                    NoteService.all().then(function (data) {
-                        scope.notes = data;
-                    });
+                    scope.notes = NoteResource.query();
 
                     /*$(document).keydown(function(e) {
                         switch(e.which) {
@@ -2454,145 +2691,213 @@ angular
             };
         }
     ]);
-// File : app/Theory/Service/NoteService.js
-/**
- * Note Service
- * @param $http
- * @param $q
- * @returns {NoteService}
- * @constructor
- */
-var NoteService = function NoteService($http, $q) {
-    this.services['$http'] = $http;
-    this.services['$q']    = $q;
+// File : app/Theory/Directive/Scale/ScaleRepresentationDirective.js
+angular
+    .module('Theory')
+    .directive('scaleRepresentation', [
+        'NoteResource',
+        function ScaleRepresentationDirective(NoteResource) {
+            return {
+                restrict: 'E',
+                templateUrl: '../app/Theory/Partial/Scale/representation.html',
+                replace: true,
+                scope: {
 
-    return this;
+                },
+                controller: function NoteSelectorController() {},
+                controllerAs: 'noteSelectorCtrl',
+                bindToController: true,
+                link: function (scope, element, attrs) {
+                    scope.notes = NoteResource.query();
+
+                    var canvas = element.find('canvas').get(0);
+                    var $canvas = $(canvas);
+
+                    canvas.width  = $canvas.parent().width();
+                    canvas.height = $canvas.parent().width();
+
+                    var context = canvas.getContext('2d');
+                    var centerX = canvas.width / 2;
+                    var centerY = canvas.height / 2;
+                    var radius = Math.round((canvas.width / 8) * 3);
+
+                    context.beginPath();
+                    context.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
+
+                    context.lineWidth = 40;
+                    context.strokeStyle = 'rgba(0, 0, 0, 0.25)';
+                    context.stroke();
+
+                    // Draw Notes
+                    var angleStep = (360 / notes.length) * (2.0 * Math.PI) / 360.0;
+                    var angle = - Math.PI / 2;
+                    for (var i = 0; i < notes.length; i++) {
+                        if (notes[i].accidental) {
+                            drawAlteration(angle, notes[i]);
+                        } else {
+                            drawNote(angle, notes[i])
+                        }
+
+                        angle += angleStep;
+                    }
+
+                    function drawAlteration(angle, note)
+                    {
+                        var startX = centerX + (radius - 30) * Math.cos(angle);
+                        var startY = centerY + (radius - 30) * Math.sin(angle);
+
+                        var endX = centerX + (radius + 30) * Math.cos(angle);
+                        var endY = centerY + (radius + 30) * Math.sin(angle);
+
+                        context.beginPath();
+                        context.moveTo(startX, startY);
+                        context.lineTo(endX, endY);
+
+                        context.lineWidth = 2;
+                        context.strokeStyle = 'rgba(0, 0, 0, 0.5)';
+
+                        context.stroke();
+
+                        context.beginPath();
+                        context.font="bold 12pt Calibri";
+                        context.fillText(notes[i].sharpName, endX,endY);
+                    }
+
+                    function drawNote(angle, note)
+                    {
+                        var startX = centerX + (radius - 30) * Math.cos(angle);
+                        var startY = centerY + (radius - 30) * Math.sin(angle);
+
+                        var endX = centerX + (radius + 30) * Math.cos(angle);
+                        var endY = centerY + (radius + 30) * Math.sin(angle);
+
+                        context.beginPath();
+                        context.moveTo(startX, startY);
+                        context.lineTo(endX, endY);
+
+                        context.lineWidth = 5;
+                        context.strokeStyle = 'rgba(0, 0, 0, 0.5)';
+
+                        context.stroke();
+
+                        context.beginPath();
+                        context.font="bold 12pt Calibri";
+                        context.fillText(notes[i].sharpName, endX,endY);
+                    }
+
+                    function drawInterval()
+                    {
+
+                    }
+                }
+            };
+        }
+    ]);
+// File : app/Theory/Resource/IntervalResource.js
+var IntervalResource = function IntervalResourceConstructor() {
+    // Call parent constructor
+    ApiResource.apply(this, arguments);
 };
 
-NoteService.prototype.constructor = NoteService;
+// Extends ApiResource
+IntervalResource.prototype = Object.create(ApiResource.prototype);
+IntervalResource.$inject = ApiResource.$inject;
 
 /**
- * List of dependencies of the Service
- * @type {Object}
+ * Name of the Resource (used as translation key)
+ * @type {string}
  */
-NoteService.prototype.services = {};
+IntervalResource.prototype.name = 'interval';
+
+/**
+ * Path of the API resource
+ * @type {string}
+ */
+IntervalResource.prototype.path = '/intervals';
+
+// Register service into Angular JS
+angular
+    .module('Utilities')
+    .service('IntervalResource', IntervalResource);
+
+// File : app/Theory/Resource/NoteResource.js
+var NoteResource = function NoteResourceConstructor() {
+    // Call parent constructor
+    ApiResource.apply(this, arguments);
+};
+
+// Extends ApiResource
+NoteResource.prototype = Object.create(ApiResource.prototype);
+NoteResource.$inject = ApiResource.$inject;
+
+/**
+ * Name of the Resource (used as translation key)
+ * @type {string}
+ */
+NoteResource.prototype.name = 'note';
+
+/**
+ * Path of the API resource
+ * @type {string}
+ */
+NoteResource.prototype.path = '/notes';
 
 /**
  * Display alteration with flat instead of sharp
  * @type {boolean}
  */
-NoteService.prototype.displayFlat = false;
+NoteResource.prototype.displayFlat = false;
 
-/**
- * Current selected guitar
- * @var {Array} notes
- */
-NoteService.prototype.notes = [];
+NoteResource.prototype.query = function query(queryParams, refresh) {
+    var elements = ApiResource.prototype.query.apply(this, arguments);
+    if (!elements instanceof Array) {
+        elements.then(function elementsLoaded(result) {
+            this.renameNotes();
 
-/**
- * Current selected note
- * @var {Object} current
- */
-NoteService.prototype.current = null;
+            return result;
+        }.bind(this));
+    } else {
+        this.renameNotes();
+    }
 
-/**
- * Get the current selected Note
- * @returns {Object}
- */
-NoteService.prototype.getCurrent = function getCurrent() {
-    return this.current;
-};
-
-/**
- * Set the current selected Note
- * @param   {Object} note
- * @returns {NoteService}
- */
-NoteService.prototype.setCurrent = function setCurrent(note) {
-    this.current = note;
-
-    return this;
+    return elements;
 };
 
 /**
  * Is the displayed name of the Note is flat (true) or sharp (false)
  * @returns {boolean}
  */
-NoteService.prototype.isDisplayFlat = function isDisplayFlat() {
+NoteResource.prototype.isDisplayFlat = function isDisplayFlat() {
     return this.displayFlat;
 };
 
 /**
  * Change the way the Note names are displayed
  * @param   {boolean} newValue
- * @returns {NoteService}
  */
-NoteService.prototype.setDisplayFlat = function setDisplayFlat(newValue) {
+NoteResource.prototype.setDisplayFlat = function setDisplayFlat(newValue) {
     if (newValue !== this.displayFlat) {
         this.displayFlat = newValue;
 
         // Rename the notes
         this.renameNotes();
     }
-
-    return this;
 };
 
 /**
  * Change the displayed name of Notes
- * @returns {NoteService}
  */
-NoteService.prototype.renameNotes = function renameNotes() {
-    this.apply(function (note) {
+NoteResource.prototype.renameNotes = function renameNotes() {
+    this.apply(function rename(note) {
         // Get the display name based of the configuration
         if (this.displayFlat) {
             // Display flat name
-            note.name = note.flatName;
+            note.name = note.flat_name;
         } else {
             // Display sharp name
-            note.name = note.sharpName;
+            note.name = note.sharp_name;
         }
     }.bind(this));
-
-    return this;
-};
-
-/**
- * List all Notes
- * @returns {Object}
- */
-NoteService.prototype.all = function all() {
-    if (0 !== this.notes.length) {
-        // Return local list of Notes
-        return this.notes
-    } else {
-        // Load Notes from AJAX
-        return this.find();
-    }
-};
-
-/**
- * Call server to get the list of Notes
- * @returns {promise}
- */
-NoteService.prototype.find = function find() {
-    var deferred = this.services.$q.defer();
-
-    this.services.$http
-        .get(Routing.generate('theory_note', { _format: 'json' }), {})
-
-        .success(function (response) {
-            this.notes = response;
-
-            this.renameNotes();
-
-            deferred.resolve(response);
-        }.bind(this))
-        .error(function (response) {
-            deferred.reject(response);
-        });
-
-    return deferred.promise;
 };
 
 /**
@@ -2600,8 +2905,8 @@ NoteService.prototype.find = function find() {
  * @param   {Number} value
  * @returns {Object}
  */
-NoteService.prototype.get = function get(value) {
-    return this.notes.find(function findByValue(element) {
+NoteResource.prototype.getByValue = function getByValue(value) {
+    return this.elements.find(function findByValue(element) {
         return value == element.value;
     });
 };
@@ -2612,42 +2917,69 @@ NoteService.prototype.get = function get(value) {
  * @param   {Number} semitones
  * @returns {Object}
  */
-NoteService.prototype.addSemitone = function addSemitone(reference, semitones) {
+NoteResource.prototype.addSemitone = function addSemitone(reference, semitones) {
     var newValue = (reference.value + semitones) % 12;
 
-    return this.get(newValue);
+    return this.getByValue(newValue);
 };
 
-/**
- * Apply a callback to all the Notes
- * @param   {Function} callback
- * @returns {NoteService}
- */
-NoteService.prototype.apply = function apply(callback) {
-    if (typeof callback === 'function') {
-        for (var i = 0; i < this.notes.length; i++) {
-            callback(this.notes[i]);
-        }
-    }
+NoteResource.prototype.play = function play() {
 
-    return this;
 };
 
-// Inject Service into AngularJS
-angular.module('Theory').service('NoteService', [ '$http', '$q', NoteService ]);
+// Register service into Angular JS
+angular
+    .module('Utilities')
+    .service('NoteResource', NoteResource);
+
 // File : app/Theory/routes.js
 /**
  * Theory routes
  */
-angular.module('Theory').config([
-    '$routeProvider',
-    function TheoryRoutes($routeProvider) {
-        $routeProvider
-            .when('/theory', {
-                templateUrl:  '../app/Theory/Partial/index.html'
-            });
-    }
-]);
+angular
+    .module('Theory')
+    .config([
+        '$routeProvider',
+        function TheoryRoutes($routeProvider) {
+            $routeProvider
+                // Theory summary
+                .when('/theory', {
+                    templateUrl:  '../app/Theory/Partial/summary.html'
+                })
+
+                // List of Intervals
+                .when('/theory/intervals', {
+                    templateUrl:  '../app/Theory/Partial/Interval/index.html',
+                    controller:   'IntervalListController',
+                    controllerAs: 'intervalListCtrl',
+                    resolve: {
+                        entities: [
+                            '$route',
+                            'IntervalResource',
+                            function entitiesResolver($route, IntervalResource) {
+                                return IntervalResource.query();
+                            }
+                        ]
+                    }
+                })
+
+                // List of notes
+                .when('/theory/notes', {
+                    templateUrl:  '../app/Theory/Partial/Note/index.html',
+                    controller:   'NoteListController',
+                    controllerAs: 'noteListCtrl',
+                    resolve: {
+                        entities: [
+                            '$route',
+                            'NoteResource',
+                            function entitiesResolver($route, NoteResource) {
+                                return NoteResource.query();
+                            }
+                        ]
+                    }
+                })
+        }
+    ]);
 // File : app/Tuning/tuning-widget.js
 (function () {
     'use strict';
@@ -2743,76 +3075,6 @@ angular.module('User').config([
             });
     }
 ]);
-// File : app/Utilities/Filter/AssetPathFilter.js
-/**
- * Asset Path filter
- */
-angular
-    .module('Utilities')
-    .filter('asset_path', [
-        'ApiService',
-        function (ApiService) {
-            return function (path) {
-                return ApiService.getAssetPath() + path;
-            };
-        }
-    ]
-    );
-// File : app/Utilities/Filter/ResourcePathFilter.js
-/**
- * Resource Path filter
- */
-angular
-    .module('Utilities')
-    .filter('resource_path', [
-        'ApiService',
-        function (ApiService) {
-            return function (path) {
-                return ApiService.getResourcePath() + path;
-            };
-        }
-    ]
-);
-// File : app/Utilities/Service/ApiService.js
-/**
- * API Service
- * @returns {ApiService}
- * @constructor
- */
-var ApiService = function ApiServiceConstructor() {
-
-};
-
-/**
- * Server base path
- * @type {String}
- */
-ApiService.prototype.server       = '/MusicTools/web/app_dev.php';
-
-ApiService.prototype.resourcePath = '/MusicTools/web/';
-
-ApiService.prototype.assetPath    = '/MusicTools/web/client/public/';
-
-/**
- * Get server
- * @returns {String}
- */
-ApiService.prototype.getServer = function getServer() {
-    return this.server;
-};
-
-ApiService.prototype.getResourcePath = function getResourcePath() {
-    return this.resourcePath;
-};
-
-ApiService.prototype.getAssetPath = function getAssetPath() {
-    return this.assetPath;
-};
-
-// Inject Service into AngularJS
-angular
-    .module('Utilities')
-    .service('ApiService', [ ApiService ]);
 // File : app/routes.js
 /**
  * Workspace Application routes

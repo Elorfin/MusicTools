@@ -1,0 +1,26 @@
+<layout-page class="interval-list">
+    <!-- Title of the page -->
+    <layout-page-title>
+        Theory <small>Intervals</small>
+    </layout-page-title>
+
+    <div class="panel panel-default">
+        <table class="table table-hover table-stripped">
+            <thead>
+                <tr>
+                    <th>Semitones</th>
+                    <th>Name</th>
+                    <th>Symbol</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr data-ng-repeat="entity in intervalListCtrl.entities">
+                    <td>{{ entity.value }}</td>
+                    <td>{{ entity.name }}</td>
+                    <td>{{ entity.symbol }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</layout-page>

@@ -2,7 +2,7 @@ angular
     .module('Theory')
     .directive('noteSelector', [
         'NoteResource',
-        function NoteSelectorService(NoteResource) {
+        function NoteSelectorDirective(NoteResource) {
             return {
                 restrict: 'E',
                 templateUrl: '../app/Theory/Partial/Note/selector.html',

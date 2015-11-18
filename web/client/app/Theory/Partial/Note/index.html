@@ -1,3 +1,28 @@
-<ul class="note-list list-group">
-    <li class="list-group-item" data-ng-repeat="note in notes">{{ note.name }}</li>
-</ul>
+<layout-page class="note-list">
+    <!-- Title of the page -->
+    <layout-page-title>
+        Theory <small>Notes</small>
+    </layout-page-title>
+
+    <div class="row">
+        <div class="col-md-12">
+            <note-selector></note-selector>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <guitar-neck-widget></guitar-neck-widget>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-5">
+            <canvas id="note-references"></canvas>
+        </div>
+
+        <div class="col-md-7">
+            <ul class="list-group">
+                <li class="list-group-item" data-ng-repeat="entity in noteListCtrl.entities">{{ entity.name }}</li>
+            </ul>
+        </div>
+    </div>
+</layout-page>

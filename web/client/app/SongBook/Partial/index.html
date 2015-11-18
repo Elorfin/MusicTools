@@ -1,4 +1,4 @@
-<layout-page>
+<layout-page class="song-list">
     <!-- Header buttons -->
     <layout-page-buttons>
         <layout-page-button class="nav-link-default">
@@ -17,7 +17,7 @@
     </layout-page-title>
 
     <!-- List -->
-    <div class="song-list col-md-12">
+    <div class="col-md-12">
         <!-- List item -->
         <div class="song-item panel panel-default row" data-ng-class="{ 'panel-last': $last }" data-ng-repeat="entity in songListCtrl.entities|orderBy:songListCtrl.sortBy:songListCtrl.sortReverse" data-ng-if="songListCtrl.entities.length !== 0">
             <!-- Image -->

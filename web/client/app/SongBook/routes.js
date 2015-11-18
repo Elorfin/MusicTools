@@ -7,7 +7,7 @@ angular.module('SongBook').config([
         $routeProvider
             // List
             .when('/songs', {
-                templateUrl:  '../app/SongBook/Partial/list.html',
+                templateUrl:  '../app/SongBook/Partial/index.html',
                 controller:   'SongListController',
                 controllerAs: 'songListCtrl',
                 resolve: {

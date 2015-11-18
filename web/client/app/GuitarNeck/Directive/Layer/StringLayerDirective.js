@@ -5,7 +5,7 @@ angular
         function StringLayerDirective($window) {
             return {
                 restrict: 'E',
-                templateUrl: assetDirectory + '/musictoolsinstrument/js/GuitarNeck/Partial/Layer/StringLayer.html',
+                templateUrl: '../app/GuitarNeck/Partial/Layer/StringLayer.html',
                 replace: true,
                 scope: {
                     strings: '=?'

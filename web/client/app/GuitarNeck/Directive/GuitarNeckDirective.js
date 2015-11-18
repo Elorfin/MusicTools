@@ -5,7 +5,7 @@ angular
 
             return {
                 restrict: 'E',
-                templateUrl: assetDirectory + '/musictoolsinstrument/js/GuitarNeck/Partial/GuitarNeck.html',
+                templateUrl: '../app/GuitarNeck/Partial/GuitarNeck.html',
                 replace: true,
                 scope: {
                     guitar: '=?'

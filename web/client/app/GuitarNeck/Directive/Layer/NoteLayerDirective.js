@@ -5,7 +5,7 @@ angular
         function NoteLayerDirective($window) {
             return {
                 restrict: 'E',
-                templateUrl: assetDirectory + '/musictoolsinstrument/js/GuitarNeck/Partial/Layer/NoteLayer.html',
+                templateUrl: '../app/GuitarNeck/Partial/Layer/NoteLayer.html',
                 replace: true,
                 scope: {
 

@@ -5,7 +5,7 @@ angular
         function FretLayerDirective($window) {
             return {
                 restrict: 'E',
-                templateUrl: assetDirectory + '/musictoolsinstrument/js/GuitarNeck/Partial/Layer/FretLayer.html',
+                templateUrl: '../app/GuitarNeck/Partial/Layer/FretLayer.html',
                 replace: true,
                 scope: {
                     /**

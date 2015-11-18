@@ -1,7 +1,5 @@
-(function () {
-    'use strict';
-
-    angular.module('GuitarNeck', [
-        'Guitar'
-    ]);
-})();
+/**
+ * Guitar Neck
+ */
+angular
+    .module('GuitarNeck', []);

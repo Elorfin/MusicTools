@@ -3,32 +3,25 @@
 namespace MusicTools\TheoryBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use FOS\RestBundle\Routing\ClassResourceInterface;
 
 /**
- * Note controller.
- *
- * @Route("/")
+ * Interval CRUD Controller
  */
-class NoteController extends Controller
+class NoteController extends Controller implements ClassResourceInterface
 {
     /**
-     * Lists all Interval entities.
+     * List all Notes
+     * "get_notes"     [GET] /notes
      *
-     * @Route("/note", name="theory_note", options={"expose"=true})
-     * @Method("GET")
-     * @Template()
+     * @return array
      */
-    public function indexAction()
+    public function cgetAction()
     {
-        $em = $this->getDoctrine()->getManager();
+        $entities = $this->container->get('doctrine.orm.entity_manager')
+            ->getRepository('MusicToolsTheoryBundle:Note')
+            ->findBy(array(), array('value' => 'ASC'));
 
-        $entities = $em->getRepository('MusicToolsTheoryBundle:Note')->findBy(array(), array('value' => 'ASC'));
-
-        return array(
-            'entities' => $entities,
-        );
+        return $entities;
     }
 }

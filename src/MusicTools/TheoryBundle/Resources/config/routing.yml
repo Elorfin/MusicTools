@@ -1,4 +1,7 @@
-music_tools_theory:
-    resource: "@MusicToolsTheoryBundle/Controller/"
-    type:     annotation
-    prefix:   /
+music_tools_theory_interval:
+    resource: MusicTools\TheoryBundle\Controller\IntervalController
+    type:     rest
+
+music_tools_theory_note:
+    resource: MusicTools\TheoryBundle\Controller\NoteController
+    type:     rest

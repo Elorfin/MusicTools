@@ -3,32 +3,25 @@
 namespace MusicTools\TheoryBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use FOS\RestBundle\Routing\ClassResourceInterface;
 
 /**
- * Interval controller.
- *
- * @Route("/interval")
+ * Interval CRUD Controller
  */
-class IntervalController extends Controller
+class IntervalController extends Controller implements ClassResourceInterface
 {
     /**
-     * Lists all Interval entities.
+     * List all Intervals
+     * "get_intervals"     [GET] /intervals
      *
-     * @Route("/", name="theory_interval")
-     * @Method("GET")
-     * @Template()
+     * @return array
      */
-    public function indexAction()
+    public function cgetAction()
     {
-        $em = $this->getDoctrine()->getManager();
+        $entities = $this->container->get('doctrine.orm.entity_manager')
+            ->getRepository('MusicToolsTheoryBundle:Interval')
+            ->findBy(array(), array('value' => 'ASC'));
 
-        $entities = $em->getRepository('MusicToolsTheoryBundle:Interval')->findBy(array(), array('value' => 'ASC'));
-
-        return array(
-            'entities' => $entities,
-        );
+        return $entities;
     }
 }

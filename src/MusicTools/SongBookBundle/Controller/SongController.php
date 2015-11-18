@@ -21,7 +21,9 @@ class SongController extends Controller implements ClassResourceInterface
      */
     public function cgetAction()
     {
-        $entities = $this->container->get('doctrine.orm.entity_manager')->getRepository('MusicToolsSongBookBundle:Song')->findAll();
+        $entities = $this->container->get('doctrine.orm.entity_manager')
+            ->getRepository('MusicToolsSongBookBundle:Song')
+            ->findBy(array (), array ('title' => 'ASC'));
 
         return $entities;
     }

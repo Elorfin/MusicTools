@@ -2000,7 +2000,8 @@ SongListController.prototype.removeSong = function removeSong(song) {
     // Display confirm callback
     var modalInstance = this.services.$uibModal.open({
         templateUrl : '../app/Layout/Partial/Modal/confirm.html',
-        controller  : 'ConfirmModalController'
+        controller  : 'ConfirmModalController',
+        windowClass : 'modal-danger'
     });
 
     modalInstance.result.then(function (selectedItem) {

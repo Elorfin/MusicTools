@@ -1,0 +1,71 @@
+.modal {
+    .modal-dialog {
+        // Vertically center the modals
+        max-height: calc(100% - 100px);
+        position: fixed;
+        top: 50%;
+        transform: translate(0, -50%) !important;
+
+        width: 100%; // Width has been moved on the child element `.modal-content` for having full width background
+        background: @modal-content-bg;
+        .box-shadow(0 0 3px rgba(0, 0, 0, 0.5));
+
+        .transition(@transition-base);
+
+        .modal-header {
+            vertical-align: middle;
+            color: @brand-primary;
+
+            .modal-title {
+                vertical-align: middle;
+                font-variant: small-caps;
+                font-size: 20px;
+                font-weight: 600;
+                display: inline-block;
+            }
+        }
+
+        .modal-content {
+            background: none;
+            margin: auto;
+            .box-shadow(none);
+        }
+    }
+
+    &.modal-danger {
+        .modal-header {
+            color: @brand-danger;
+
+            .modal-title {
+                color: @brand-danger;
+            }
+        }
+    }
+}
+
+// Scale up the modal
+@media (min-width: @screen-sm-min) {
+    // Automatically set modal's width for larger viewports
+    .modal-dialog {
+        margin: 0 auto;
+
+        .modal-content {
+            width: @modal-md;
+        }
+    }
+
+    // Modal sizes
+    .modal-sm {
+        .modal-content {
+            width: @modal-sm;
+        }
+    }
+}
+
+@media (min-width: @screen-md-min) {
+    .modal-lg {
+        .modal-content {
+            width: @modal-lg;
+        }
+    }
+}

@@ -1,3 +1,20 @@
+fieldset {
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    border-radius: @border-radius-base;
+    padding: floor(@grid-gutter-width / 2);
+
+    legend {
+        color: fadeOut(@brand-primary, 60%);
+        font-size: @font-size-base;
+        padding: 0 15px;
+        border: none;
+        display: inline-block;
+        margin-bottom: 0;
+        width: auto;
+        line-height: 0;
+    }
+}
+
 // Feedback states
 .has-success {
     .form-control-validation(@state-success-text; @state-success-text; @state-success-bg);

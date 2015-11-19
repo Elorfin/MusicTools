@@ -4,23 +4,31 @@
         Theory <small>Intervals</small>
     </layout-page-title>
 
-    <div class="panel panel-default">
-        <table class="table table-hover table-stripped">
-            <thead>
-                <tr>
-                    <th>Semitones</th>
-                    <th>Name</th>
-                    <th>Symbol</th>
-                </tr>
-            </thead>
+    <div class="row">
+        <div class="col-md-6">
+            <interval-player></interval-player>
+        </div>
 
-            <tbody>
-                <tr data-ng-repeat="entity in intervalListCtrl.entities">
-                    <td>{{ entity.value }}</td>
-                    <td>{{ entity.name }}</td>
-                    <td>{{ entity.symbol }}</td>
-                </tr>
-            </tbody>
-        </table>
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <table class="table table-hover table-stripped">
+                    <thead>
+                    <tr>
+                        <th>Semitones</th>
+                        <th>Name</th>
+                        <th>Symbol</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <tr data-ng-repeat="entity in intervalListCtrl.entities">
+                        <td>{{ entity.value }}</td>
+                        <td>{{ entity.name }}</td>
+                        <td>{{ entity.symbol }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </layout-page>

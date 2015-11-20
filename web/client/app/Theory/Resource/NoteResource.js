@@ -1,3 +1,7 @@
+/**
+ * Resource : Note
+ * @constructor
+ */
 var NoteResource = function NoteResourceConstructor() {
     // Call parent constructor
     ApiResource.apply(this, arguments);
@@ -5,6 +9,7 @@ var NoteResource = function NoteResourceConstructor() {
 
 // Extends ApiResource
 NoteResource.prototype = Object.create(ApiResource.prototype);
+// Get parent dependencies
 NoteResource.$inject = ApiResource.$inject;
 
 /**
@@ -25,6 +30,12 @@ NoteResource.prototype.path = '/notes';
  */
 NoteResource.prototype.displayFlat = false;
 
+/**
+ * List existing resources filtered by `queryParams`
+ * @param   {Object}  [queryParams] - The parameters used to filter the list of elements
+ * @param   {boolean} [refresh]     - If true, a new request will be sent to the server to grab the list even if it's already loaded
+ * @returns {Array}                 - The list of available resources
+ */
 NoteResource.prototype.query = function query(queryParams, refresh) {
     var elements = ApiResource.prototype.query.apply(this, arguments);
     if (!elements instanceof Array) {

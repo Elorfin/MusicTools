@@ -6,26 +6,26 @@
 
     <div class="row">
         <div class="col-md-6">
-            <interval-player></interval-player>
+            <interval-player data-interval="intervalListCtrl.selected" data-intervals="intervalListCtrl.entities"></interval-player>
         </div>
 
         <div class="col-md-6">
             <div class="panel panel-default">
-                <table class="table table-hover table-stripped">
+                <table class="table table-hover table-striped">
                     <thead>
-                    <tr>
-                        <th>Semitones</th>
-                        <th>Name</th>
-                        <th>Symbol</th>
-                    </tr>
+                        <tr>
+                            <th>Semitones</th>
+                            <th>Name</th>
+                            <th>Symbol</th>
+                        </tr>
                     </thead>
 
                     <tbody>
-                    <tr data-ng-repeat="entity in intervalListCtrl.entities">
-                        <td>{{ entity.value }}</td>
-                        <td>{{ entity.name }}</td>
-                        <td>{{ entity.symbol }}</td>
-                    </tr>
+                        <tr data-ng-click="intervalListCtrl.selectInterval(entity)" data-ng-repeat="entity in intervalListCtrl.entities" data-ng-class="{ 'active': entity === intervalListCtrl.selected }">
+                            <td>{{ entity.value }}</td>
+                            <td>{{ entity.name }}</td>
+                            <td>{{ entity.symbol }}</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>

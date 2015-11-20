@@ -1,3 +1,72 @@
-<div class="interval-player">
-    COUCOU
+<div class="interval-player text-center panel panel-default">
+    <div class="panel-body">
+        <!-- Selected interval -->
+        <h2 class="interval-player-header" data-uib-dropdown="">
+
+
+            <a href id="simple-dropdown" data-uib-dropdown-toggle="">
+                {{ intervalPlayerCtrl.interval.name || '?' }}
+                <span class="caret"></span>
+            </a>
+            <ul class="uib-dropdown-menu" aria-labelledby="simple-dropdown">
+                <li ng-repeat="choice in intervalPlayerCtrl.intervals">
+                    <a href>{{choice.name}}</a>
+                </li>
+            </ul>
+        </h2>
+
+        <div class="interval-player-current">
+            <!-- Reference note -->
+            <div class="reference-note current-col">
+                <a role="button" href="">
+                    <span class="fa fa-caret-up"></span>
+                </a>
+
+                <div>
+                    E <sub>2</sub>
+                </div>
+
+                <a role="button" href="">
+                    <span class="fa fa-caret-down"></span>
+                </a>
+            </div>
+
+            <!-- Current interval -->
+            <div class="interval current-col {{ intervalPlayerCtrl.direction }}">
+                <div class="interval-semitones">
+                    {{ intervalPlayerCtrl.interval.value || '?' }}
+                </div>
+            </div>
+
+            <!-- Calculated note -->
+            <div class="calculated-note current-col">
+                <div>
+                    E <sub>2</sub>
+                </div>
+            </div>
+        </div>
+
+        <!-- Direction of the interval -->
+        <div class="row">
+            <div class="col-md-12">
+                <buttton type="button" class="btn" data-ng-click="intervalPlayerCtrl.setDirection('ascending')" data-ng-class="{'btn-default': 'ascending' !== intervalPlayerCtrl.direction, 'btn-primary': 'ascending' === intervalPlayerCtrl.direction}">
+                    <span class="fa fa-long-arrow-up"></span>
+                    Ascending
+                </buttton>
+
+                <buttton type="button" class="btn" data-ng-click="intervalPlayerCtrl.setDirection('descending')" data-ng-class="{'btn-default': 'descending' !== intervalPlayerCtrl.direction, 'btn-primary': 'descending' === intervalPlayerCtrl.direction}">
+                    <span class="fa fa-long-arrow-down"></span>
+                    Descending
+                </buttton>
+            </div>
+        </div>
+
+        <br/>
+
+        <!-- Play button -->
+        <button type="button" class="btn btn-lg btn-block btn-default" data-ng-click="intervalPlayerCtrl.playInterval()" data-ng-class="{disabled: null === intervalPlayerCtrl.interval}">
+            <span class="fa fa-fw fa-play"></span>
+            Play
+        </button>
+    </div>
 </div>

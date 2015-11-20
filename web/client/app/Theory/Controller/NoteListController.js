@@ -10,28 +10,16 @@ var NoteListController = function NoteListControllerConstructor($uibModal, entit
     this.entities = entities;
 };
 
+// Set up dependency injection
+NoteListController.$inject = ['$uibModal', 'entities'];
+
 /**
  * List of entities
  * @type {Array}
  */
 NoteListController.prototype.entities = [];
 
-NoteListController.prototype.removeSong = function removeSong(song) {
-    // Display confirm callback
-    var modalInstance = this.services.$uibModal.open({
-        templateUrl : '../app/Layout/Partial/Modal/confirm.html',
-        controller  : 'ConfirmModalController',
-        windowClass : 'modal-danger'
-    });
-
-    modalInstance.result.then(function (selectedItem) {
-        /*$scope.selected = selectedItem;*/
-    }, function () {
-        /*$log.info('Modal dismissed at: ' + new Date());*/
-    });
-};
-
 // Register controller into angular
 angular
     .module('Theory')
-    .controller('NoteListController', [ '$uibModal', 'entities', NoteListController ]);
+    .controller('NoteListController', NoteListController);

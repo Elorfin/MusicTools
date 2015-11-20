@@ -1,0 +1,96 @@
+/**
+ * List of Intervals
+ */
+.interval-list {
+
+}
+
+/**
+ * Interval Player
+ */
+.interval-player {
+    .interval-player-header {
+        margin: 0;
+    }
+
+    .interval-player-current {
+        position: relative;
+        width: 100%;
+        display: table;
+        vertical-align: middle;
+
+        .current-col {
+            position: relative;
+            display: table-cell;
+            width: floor(100% / 3);
+            vertical-align: middle;
+        }
+
+        .interval {
+            z-index: 1;
+
+            // Interval semitones values
+            .interval-semitones {
+                width: 34px;
+                height: 34px;
+                line-height: 34px;
+                vertical-align: middle;
+                position: relative;
+                display: inline-block;
+                background: darken(@text-color, 50%);
+                color: black;
+                border-radius: 40px;
+                font-size: @font-size-large;
+                z-index: 2; // To be over the direction line
+                text-align: center;
+            }
+
+            // Draw interval direction (ascending or descending)
+            &:before {
+                z-index: 1;
+                position: absolute;
+                content: " ";
+                top: 50%;
+                left: 0;
+                right: 0;
+                height: 3px;
+                background-color: darken(@text-color, 50%);
+                transform: translate(0, -50%);
+            }
+
+            &.ascending:before {
+                transform: translate(0, -50%) rotate(-15deg);
+            }
+
+            &.descending:before {
+                transform: translate(0, -50%) rotate(15deg);
+            }
+        }
+    }
+
+    .reference-note {
+        font-size: 46px;
+
+        a {
+            display: block;
+        }
+
+        div {
+            display: inline-block;
+            border-radius: 100px;
+            border: 3px solid @text-color;
+            padding: 15px;
+        }
+    }
+
+    .calculated-note {
+        font-size: 46px;
+
+        div {
+            display: inline-block;
+            border-radius: 100px;
+            border: 3px solid @text-color;
+            padding: 15px;
+        }
+    }
+}

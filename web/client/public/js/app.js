@@ -2520,16 +2520,18 @@ songBookTranslations['fr'] = {
 };
 // File : app/Theory/Controller/IntervalListController.js
 /**
- * List controller for Songs
+ * List controller for Intervals
  * @constructor
  */
 var IntervalListController = function IntervalListControllerConstructor($uibModal, entities) {
     this.services = {};
-
     this.services['$uibModal'] = $uibModal;
 
     this.entities = entities;
 };
+
+// Set up dependency injection
+IntervalListController.$inject = ['$uibModal', 'entities'];
 
 /**
  * List of entities
@@ -2538,47 +2540,25 @@ var IntervalListController = function IntervalListControllerConstructor($uibModa
 IntervalListController.prototype.entities = [];
 
 /**
- * Default field to sort by
- * @type {string}
+ * Interval loaded in the player
+ * @type {object}
  */
-IntervalListController.prototype.sortBy = 'name';
+IntervalListController.prototype.selected = null;
 
-/**
- * Reverse direction of the sort
- * @type {boolean}
- */
-IntervalListController.prototype.sortReverse = false;
-
-/**
- * Usable fields for sort
- * @type {Object}
- */
-IntervalListController.prototype.sortFields = {
-    title :  'string',
-    artist:  'string',
-    rating:  'number',
-    mastery: 'number'
-};
-
-IntervalListController.prototype.removeSong = function removeSong(song) {
-    // Display confirm callback
-    var modalInstance = this.services.$uibModal.open({
-        templateUrl : '../app/Layout/Partial/Modal/confirm.html',
-        controller  : 'ConfirmModalController',
-        windowClass : 'modal-danger'
-    });
-
-    modalInstance.result.then(function (selectedItem) {
-        /*$scope.selected = selectedItem;*/
-    }, function () {
-        /*$log.info('Modal dismissed at: ' + new Date());*/
-    });
+IntervalListController.prototype.selectInterval = function selectInterval(interval) {
+    if (this.selected !== interval) {
+        // Select interval
+        this.selected = interval;
+    } else {
+        // Unselect interval
+        this.selected = null;
+    }
 };
 
 // Register controller into angular
 angular
     .module('Theory')
-    .controller('IntervalListController', [ '$uibModal', 'entities', IntervalListController ]);
+    .controller('IntervalListController', IntervalListController);
 
 // File : app/Theory/Controller/NoteListController.js
 /**
@@ -2593,124 +2573,197 @@ var NoteListController = function NoteListControllerConstructor($uibModal, entit
     this.entities = entities;
 };
 
+// Set up dependency injection
+NoteListController.$inject = ['$uibModal', 'entities'];
+
 /**
  * List of entities
  * @type {Array}
  */
 NoteListController.prototype.entities = [];
 
-NoteListController.prototype.removeSong = function removeSong(song) {
-    // Display confirm callback
-    var modalInstance = this.services.$uibModal.open({
-        templateUrl : '../app/Layout/Partial/Modal/confirm.html',
-        controller  : 'ConfirmModalController',
-        windowClass : 'modal-danger'
-    });
+// Register controller into angular
+angular
+    .module('Theory')
+    .controller('NoteListController', NoteListController);
 
-    modalInstance.result.then(function (selectedItem) {
-        /*$scope.selected = selectedItem;*/
-    }, function () {
-        /*$log.info('Modal dismissed at: ' + new Date());*/
-    });
+// File : app/Theory/Controller/ScaleListController.js
+/**
+ * List controller for Scales
+ * @constructor
+ */
+var ScaleListController = function ScaleListControllerConstructor($uibModal, entities) {
+    this.services = {};
+
+    this.services['$uibModal'] = $uibModal;
+
+    this.entities = entities;
 };
+
+// Set up dependency injection
+ScaleListController.$inject = ['$uibModal', 'entities'];
+
+/**
+ * List of entities
+ * @type {Array}
+ */
+ScaleListController.prototype.entities = [];
 
 // Register controller into angular
 angular
     .module('Theory')
-    .controller('NoteListController', [ '$uibModal', 'entities', NoteListController ]);
-
-// File : app/Theory/Controller/ScaleListController.js
-/**
- * Created by Corum on 18/11/15.
- */
+    .controller('ScaleListController', ScaleListController);
 
 // File : app/Theory/Directive/Interval/IntervalPlayerDirective.js
-angular
-    .module('Theory')
-    .directive('intervalPlayer', [
-        function IntervalPlayerDirective() {
-            return {
-                restrict: 'E',
-                templateUrl: '../app/Theory/Partial/Interval/player.html',
-                replace: true,
-                scope: {
-                },
-                controller: function IntervalPlayerController() {},
-                controllerAs: 'intervalPlayerCtrl',
-                bindToController: true,
-                link: function (scope, element, attrs) {
+/**
+ * Interval player directive
+ * @returns {Object}
+ * @constructor
+ */
+var IntervalPlayerDirective = function IntervalPlayerDirective() {
+    return {
+        restrict: 'E',
+        templateUrl: '../app/Theory/Partial/Interval/player.html',
+        replace: true,
+        scope: {
+            interval : '=',
+            intervals: '='
+        },
+        controller: [
+            '$scope',
+            function IntervalPlayerController($scope) {
+                /**
+                 * Reference note
+                 * @type {Object}
+                 */
+                this.referenceNote = null;
 
-                }
-            };
-        }
-    ]);
-// File : app/Theory/Directive/Note/NoteDisplaySwitchDirective.js
-angular
-    .module('Theory')
-    .directive('noteDisplaySwitch', [
-        function NoteDisplaySwitchDirective() {
-            return {
-                restrict: 'A',
-                controller: [
-                    'NoteResource',
-                    function NoteDisplaySwitchController(NoteResource) {
-                        this.displayFlat = NoteResource.isDisplayFlat();
+                /**
+                 * Reference Note + nb semitones of the current interval
+                 * @type {Object}
+                 */
+                this.calculatedNote = null;
 
-                        this.switchDisplay = function switchDisplay() {
-                            this.displayFlat = !this.displayFlat;
-                            NoteResource.setDisplayFlat(this.displayFlat);
+                /**
+                 * Direction of the interval (ascending or descending)
+                 * @type {string}
+                 */
+                this.direction = 'ascending';
+
+                this.setDirection = function setDirection(direction) {
+                    if (direction !== this.direction) {
+                        if ('ascending' === direction || 'descending' === direction) {
+                            this.direction = direction;
+                        } else {
+                            // Invalid direction
+                            console.error('Invalid interval direction. It can only be "ascending" or "descending".');
                         }
                     }
-                ],
-                controllerAs: 'noteDisplaySwitchCtrl',
-                bindToController: true,
-                link: function (scope, element, attrs) {
+                };
 
-                }
-            };
+                this.calculateNote = function calculateNote() {
+
+                };
+
+                /**
+                 * Play interval
+                 */
+                this.playInterval = function playInterval() {
+
+                };
+
+                // Watch changes of the selected interval
+                $scope.$watch(
+                    function propertyWatched() {
+                        return this.interval;
+                    }.bind(this),
+                    function watchCallback(newValue) {
+
+                    }
+                );
+            }
+        ],
+        controllerAs: 'intervalPlayerCtrl',
+        bindToController: true,
+        link: function IntervalPlayerLink(scope, element, attrs) {
+
         }
-    ]);
-// File : app/Theory/Directive/Note/NoteSelectorDirective.js
+    };
+};
+
+// Set up dependency injection
+IntervalPlayerDirective.$inject = [];
+
+// Register directive into angular
 angular
     .module('Theory')
-    .directive('noteSelector', [
-        'NoteResource',
-        function NoteSelectorDirective(NoteResource) {
-            return {
-                restrict: 'E',
-                templateUrl: '../app/Theory/Partial/Note/selector.html',
-                replace: true,
-                scope: {
+    .directive('intervalPlayer', IntervalPlayerDirective);
+// File : app/Theory/Directive/Note/NoteDisplaySwitchDirective.js
+/**
+ * Note display switch directive
+ * @returns {Object}
+ * @constructor
+ */
+var NoteDisplaySwitchDirective = function NoteDisplaySwitchDirective() {
+    return {
+        restrict: 'A',
+        controller: [
+            'NoteResource',
+            function NoteDisplaySwitchController(NoteResource) {
+                this.displayFlat = NoteResource.isDisplayFlat();
 
-                },
-                controller: function NoteSelectorController() {},
-                controllerAs: 'noteSelectorCtrl',
-                bindToController: true,
-                link: function (scope, element, attrs) {
-                    scope.notes = NoteResource.query();
-
-                    /*$(document).keydown(function(e) {
-                        switch(e.which) {
-                            case 37: // left
-                                break;
-
-                            case 38: // up
-                                break;
-
-                            case 39: // right
-                                break;
-
-                            case 40: // down
-                                break;
-
-                            default: return; // exit this handler for other keys
-                        }
-                        e.preventDefault(); // prevent the default action (scroll / move caret)
-                    });*/
+                this.switchDisplay = function switchDisplay() {
+                    this.displayFlat = !this.displayFlat;
+                    NoteResource.setDisplayFlat(this.displayFlat);
                 }
-            };
+            }
+        ],
+        controllerAs: 'noteDisplaySwitchCtrl',
+        bindToController: true,
+        link: function (scope, element, attrs) {
+
         }
-    ]);
+    };
+};
+
+// Set up dependency injection
+NoteDisplaySwitchDirective.$inject = [];
+
+// Register directive into angular
+angular
+    .module('Theory')
+    .directive('noteDisplaySwitch', NoteDisplaySwitchDirective);
+// File : app/Theory/Directive/Note/NoteSelectorDirective.js
+/**
+ * Note selector directive
+ * @param   {NoteResource} NoteResource
+ * @returns {Object}
+ * @constructor
+ */
+var NoteSelectorDirective = function NoteSelectorDirective(NoteResource) {
+    return {
+        restrict: 'E',
+        templateUrl: '../app/Theory/Partial/Note/selector.html',
+        replace: true,
+        scope: {
+
+        },
+        controller: function NoteSelectorController() {},
+        controllerAs: 'noteSelectorCtrl',
+        bindToController: true,
+        link: function (scope, element, attrs) {
+            scope.notes = NoteResource.query();
+        }
+    };
+};
+
+// Set up dependency injection
+NoteSelectorDirective.$inject = ['NoteResource'];
+
+// Register directive into angular
+angular
+    .module('Theory')
+    .directive('noteSelector', NoteSelectorDirective);
 // File : app/Theory/Directive/Scale/ScaleRepresentationDirective.js
 angular
     .module('Theory')
@@ -2841,6 +2894,10 @@ angular
     .service('IntervalResource', IntervalResource);
 
 // File : app/Theory/Resource/NoteResource.js
+/**
+ * Resource : Note
+ * @constructor
+ */
 var NoteResource = function NoteResourceConstructor() {
     // Call parent constructor
     ApiResource.apply(this, arguments);
@@ -2848,6 +2905,7 @@ var NoteResource = function NoteResourceConstructor() {
 
 // Extends ApiResource
 NoteResource.prototype = Object.create(ApiResource.prototype);
+// Get parent dependencies
 NoteResource.$inject = ApiResource.$inject;
 
 /**
@@ -2868,6 +2926,12 @@ NoteResource.prototype.path = '/notes';
  */
 NoteResource.prototype.displayFlat = false;
 
+/**
+ * List existing resources filtered by `queryParams`
+ * @param   {Object}  [queryParams] - The parameters used to filter the list of elements
+ * @param   {boolean} [refresh]     - If true, a new request will be sent to the server to grab the list even if it's already loaded
+ * @returns {Array}                 - The list of available resources
+ */
 NoteResource.prototype.query = function query(queryParams, refresh) {
     var elements = ApiResource.prototype.query.apply(this, arguments);
     if (!elements instanceof Array) {

@@ -1,14 +1,16 @@
 /**
- * List controller for Songs
+ * List controller for Intervals
  * @constructor
  */
 var IntervalListController = function IntervalListControllerConstructor($uibModal, entities) {
     this.services = {};
-
     this.services['$uibModal'] = $uibModal;
 
     this.entities = entities;
 };
+
+// Set up dependency injection
+IntervalListController.$inject = ['$uibModal', 'entities'];
 
 /**
  * List of entities
@@ -17,44 +19,22 @@ var IntervalListController = function IntervalListControllerConstructor($uibModa
 IntervalListController.prototype.entities = [];
 
 /**
- * Default field to sort by
- * @type {string}
+ * Interval loaded in the player
+ * @type {object}
  */
-IntervalListController.prototype.sortBy = 'name';
+IntervalListController.prototype.selected = null;
 
-/**
- * Reverse direction of the sort
- * @type {boolean}
- */
-IntervalListController.prototype.sortReverse = false;
-
-/**
- * Usable fields for sort
- * @type {Object}
- */
-IntervalListController.prototype.sortFields = {
-    title :  'string',
-    artist:  'string',
-    rating:  'number',
-    mastery: 'number'
-};
-
-IntervalListController.prototype.removeSong = function removeSong(song) {
-    // Display confirm callback
-    var modalInstance = this.services.$uibModal.open({
-        templateUrl : '../app/Layout/Partial/Modal/confirm.html',
-        controller  : 'ConfirmModalController',
-        windowClass : 'modal-danger'
-    });
-
-    modalInstance.result.then(function (selectedItem) {
-        /*$scope.selected = selectedItem;*/
-    }, function () {
-        /*$log.info('Modal dismissed at: ' + new Date());*/
-    });
+IntervalListController.prototype.selectInterval = function selectInterval(interval) {
+    if (this.selected !== interval) {
+        // Select interval
+        this.selected = interval;
+    } else {
+        // Unselect interval
+        this.selected = null;
+    }
 };
 
 // Register controller into angular
 angular
     .module('Theory')
-    .controller('IntervalListController', [ '$uibModal', 'entities', IntervalListController ]);
+    .controller('IntervalListController', IntervalListController);

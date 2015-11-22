@@ -5,14 +5,20 @@
     .song-item {
         position: relative; // Lock `absolute` buttons in its item
 
-        .panel-body {
-            padding-bottom: 36px; // Add a taller padding to have place for the `absolute` buttons
-        }
-
-        .cover {
+        .song-cover {
             // Remove `.col-` padding for better render
             padding-left: 0;
             padding-right: 0;
+
+            img {
+                display: block;
+                max-height: 100%;
+                max-width: auto;
+            }
+        }
+
+        .song-info {
+            padding-bottom: 36px; // Add a taller padding to have place for the `absolute` buttons
         }
 
         .song-item-btn-group {
@@ -38,6 +44,7 @@
     margin-right: 28px;
     padding-left: 8px;
     padding-right: 8px;
+    border: none;
 
     &:before {
         content: " ";

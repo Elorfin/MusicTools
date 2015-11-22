@@ -49,6 +49,10 @@ h2, .h2 {
     color: @gray;
 }
 
+.tooltip {
+    white-space: nowrap;
+}
+
 .content {
     position: relative;
     height: 100%;
@@ -56,6 +60,16 @@ h2, .h2 {
     padding-top: floor(@grid-gutter-width / 2);
     padding-bottom: floor(@grid-gutter-width / 2);
     background: url("../images/background.jpg") repeat scroll center top;
+
+    &.mCS_no_scrollbar {
+        .container-fluid {
+            padding-right: floor(@grid-gutter-width / 2); // For better scrollbar display
+        }
+    }
+
+    .container-fluid {
+        padding-right: 0; // For better scrollbar display
+    }
 
     .box-shadow(0 0 3px rgba(0, 0, 0, 0.5));
 

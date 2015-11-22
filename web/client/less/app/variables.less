@@ -146,27 +146,27 @@
 
 @btn-default-color:              @text-color;
 @btn-default-bg:                 #0c0c0c;
-@btn-default-border:             darken(@btn-default-bg, 2%);
+@btn-default-border:             #0c0c0c;
 
 @btn-primary-color:              #fff;
 @btn-primary-bg:                 @brand-primary;
-@btn-primary-border:             darken(@btn-primary-bg, 7%);
+@btn-primary-border:             @brand-primary;
 
 @btn-success-color:              #fff;
 @btn-success-bg:                 @brand-success;
-@btn-success-border:             darken(@btn-success-bg, 5%);
+@btn-success-border:             @brand-success;
 
 @btn-info-color:                 #fff;
 @btn-info-bg:                    @brand-info;
-@btn-info-border:                darken(@btn-info-bg, 5%);
+@btn-info-border:                @brand-info;
 
 @btn-warning-color:              #fff;
 @btn-warning-bg:                 @brand-warning;
-@btn-warning-border:             darken(@btn-warning-bg, 5%);
+@btn-warning-border:             @brand-warning;
 
 @btn-danger-color:               #fff;
 @btn-danger-bg:                  @brand-danger;
-@btn-danger-border:              darken(@btn-danger-bg, 5%);
+@btn-danger-border:              @brand-danger;
 
 @btn-link-disabled-color:        @gray-light;
 
@@ -181,7 +181,7 @@
 //##
 
 //** `<input>` background color
-@input-bg:                       #202020;
+@input-bg:                       fadeout(#202020, 50%);
 //** `<input disabled>` background color
 @input-bg-disabled:              @gray-lighter;
 
@@ -595,7 +595,7 @@
 @modal-title-line-height:     @line-height-base;
 
 //** Background color of modal content area
-@modal-content-bg:                             fadeIn(@panel-bg, 25%);
+@modal-content-bg:                             fadeIn(@panel-bg, 50%);
 //** Modal content border color
 @modal-content-border-color:                   transparent;
 //** Modal content border color **for IE8**
@@ -604,7 +604,7 @@
 //** Modal backdrop background color
 @modal-backdrop-bg:           #000;
 //** Modal backdrop opacity
-@modal-backdrop-opacity:      .50;
+@modal-backdrop-opacity:      .60;
 //** Modal header border color
 @modal-header-border-color:   @modal-content-bg;
 //** Modal footer border color

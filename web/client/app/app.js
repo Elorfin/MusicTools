@@ -8,7 +8,6 @@ angular
         'ngRoute',
         'ngAnimate',
         'ngSanitize',
-        'ngResource',
 
         // Libraries modules
         'ngFileUpload',
@@ -35,7 +34,7 @@ angular
         'Tuning',
         'User'
 
-        /*'Note',
+        /*
         'Guitar',
 
         'SheetMusic'*/

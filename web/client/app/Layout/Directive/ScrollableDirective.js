@@ -19,12 +19,12 @@ angular
             };
 
             return {
-                restrict: 'EA',
+                restrict: 'A',
                 replace: true,
                 transclude: true,
                 template: '<div class="scrollable" data-ng-transclude=""></div>',
                 scope: {
-                    options : '=options'
+                    options : '=layoutScrollableOptions'
                 },
                 link: function (scope, element) {
                     if (scope.options) {

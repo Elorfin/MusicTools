@@ -4,7 +4,7 @@ namespace MusicTools\InstrumentBundle\Entity\Tuning;
 
 use Doctrine\ORM\Mapping as ORM;
 use Elorfin\ReactorBundle\Entity\UniqueIdentifiableTrait;
-use MusicTools\TheoryBundle\Entity\Note;
+use MusicTools\TheoryBundle\Entity\Note\Note;
 
 /**
  * StringTuning Entity
@@ -38,9 +38,9 @@ class StringTuning
 
     /**
      * Note of the String
-     * @var \MusicTools\TheoryBundle\Entity\Note
+     * @var \MusicTools\TheoryBundle\Entity\Note\Note
      *
-     * @ORM\ManyToOne(targetEntity="MusicTools\TheoryBundle\Entity\Note")
+     * @ORM\ManyToOne(targetEntity="MusicTools\TheoryBundle\Entity\Note\Note")
      * @ORM\JoinColumn(name="note_id", referencedColumnName="id")
      */
     protected $note;
@@ -92,7 +92,7 @@ class StringTuning
 
     /**
      * Get Note
-     * @return \MusicTools\TheoryBundle\Entity\Note
+     * @return \MusicTools\TheoryBundle\Entity\Note\Note
      */
     public function getNote()
     {
@@ -101,7 +101,7 @@ class StringTuning
 
     /**
      * Set Note
-     * @param  \MusicTools\TheoryBundle\Entity\Note $note
+     * @param  \MusicTools\TheoryBundle\Entity\Note\Note $note
      * @return \MusicTools\InstrumentBundle\Entity\Tuning\StringTuning
      */
     public function setNote(Note $note)

@@ -19,7 +19,7 @@ class NoteController extends Controller implements ClassResourceInterface
     public function cgetAction()
     {
         $entities = $this->container->get('doctrine.orm.entity_manager')
-            ->getRepository('MusicToolsTheoryBundle:Note')
+            ->getRepository('MusicToolsTheoryBundle:Note\Note')
             ->findBy(array(), array('value' => 'ASC'));
 
         return $entities;

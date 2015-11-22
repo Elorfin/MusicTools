@@ -4,7 +4,8 @@ namespace MusicTools\TheoryBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use MusicTools\TheoryBundle\Entity\Note;
+use MusicTools\TheoryBundle\Entity\Note\Note;
+use MusicTools\TheoryBundle\Entity\Note\NoteInfo;
 
 /**
  * Initializes Notes
@@ -16,120 +17,99 @@ class LoadNoteData implements FixtureInterface
      */
     public function load(ObjectManager $manager)
     {
-        // C
-        $noteC = new Note();
-        $noteC->setSharpName('C');
-        $noteC->setFlatName('C');
-        $noteC->setValue(3);
-        $noteC->setColor('#006cb7');
+        $notesFrequencies = array (
+            32.7,
+            34.65,
+            36.71,
+            38.89,
+            4
+        );
+        $notesInfoArray = array (
+            // C
+            array ('sharp_name' => 'C', 'flat_name' => 'C', 'accidental' => false, 'color' => '#006cb7'),
 
-        // C♯ / D♭
-        $noteCSharp = new Note();
-        $noteCSharp->setSharpName('C♯');
-        $noteCSharp->setFlatName('D♭');
-        $noteCSharp->setValue(4);
-        $noteCSharp->setColor('#008e83');
-        $noteCSharp->setAccidental(true);
-        $noteCSharp->setPrevious($noteC);
+            // C♯ / D♭
+            array ('sharp_name' => 'C♯', 'flat_name' => 'D♭', 'accidental' => true, 'color' => '#008e83'),
 
-        // D
-        $noteD = new Note();
-        $noteD->setSharpName('D');
-        $noteD->setFlatName('D');
-        $noteD->setValue(5);
-        $noteD->setColor('#00854a');
-        $noteD->setPrevious($noteCSharp);
+            // D
+            array ('sharp_name' => 'D', 'flat_name' => 'D', 'accidental' => false, 'color' => '#00854a'),
 
-        // D♯ / E♭
-        $noteDSharp = new Note();
-        $noteDSharp->setSharpName('D♯');
-        $noteDSharp->setFlatName('E♭');
-        $noteDSharp->setValue(6);
-        $noteDSharp->setColor('#7fb439');
-        $noteDSharp->setAccidental(true);
-        $noteDSharp->setPrevious($noteD);
+            // D♯ / E♭
+            array ('sharp_name' => 'D♯', 'flat_name' => 'E♭', 'accidental' => true, 'color' => '#7fb439'),
 
-        // E
-        $noteE = new Note();
-        $noteE->setSharpName('E');
-        $noteE->setFlatName('E');
-        $noteE->setValue(7);
-        $noteE->setColor('#fdb813');
-        $noteE->setPrevious($noteDSharp);
+            // E
+            array ('sharp_name' => 'E', 'flat_name' => 'E', 'accidental' => false, 'color' => '#fdb813'),
 
-        // F
-        $noteF = new Note();
-        $noteF->setSharpName('F');
-        $noteF->setFlatName('F');
-        $noteF->setValue(8);
-        $noteF->setColor('#584742');
-        $noteF->setPrevious($noteE);
+            // F
+            array ('sharp_name' => 'F', 'flat_name' => 'F', 'accidental' => false, 'color' => '#584742'),
 
-        // F♯ / G♭
-        $noteFSharp = new Note();
-        $noteFSharp->setSharpName('F♯');
-        $noteFSharp->setFlatName('G♭');
-        $noteFSharp->setValue(9);
-        $noteFSharp->setColor('#c15e20');
-        $noteFSharp->setAccidental(true);
-        $noteFSharp->setPrevious($noteF);
+            // F♯ / G♭
+            array ('sharp_name' => 'F♯', 'flat_name' => 'G♭', 'accidental' => true, 'color' => '#c15e20'),
 
-        // G
-        $noteG = new Note();
-        $noteG->setSharpName('G');
-        $noteG->setFlatName('G');
-        $noteG->setValue(10);
-        $noteG->setColor('#f58220');
-        $noteG->setPrevious($noteFSharp);
+            // G
+            array ('sharp_name' => 'G', 'flat_name' => 'G', 'accidental' => false, 'color' => '#f58220'),
 
-        // G♯ / A♭
-        $noteGSharp = new Note();
-        $noteGSharp->setSharpName('G♯');
-        $noteGSharp->setFlatName('A♭');
-        $noteGSharp->setValue(11);
-        $noteGSharp->setColor('#f04e46');
-        $noteGSharp->setAccidental(true);
-        $noteGSharp->setPrevious($noteG);
+            // G♯ / A♭
+            array ('sharp_name' => 'G♯', 'flat_name' => 'A♭', 'accidental' => true, 'color' => '#f04e46'),
 
-        // A
-        $noteA = new Note();
-        $noteA->setSharpName('A');
-        $noteA->setFlatName('A');
-        $noteA->setValue(0);
-        $noteA->setColor('#8f0000');
-        $noteA->setPrevious($noteGSharp);
+            // A
+            array ('sharp_name' => 'A', 'flat_name' => 'A', 'accidental' => false, 'color' => '#8f0000'),
 
-        // A♯ / B♭
-        $noteASharp = new Note();
-        $noteASharp->setSharpName('A♯');
-        $noteASharp->setFlatName('B♭');
-        $noteASharp->setValue(1);
-        $noteASharp->setColor('#a23e97');
-        $noteASharp->setAccidental(true);
-        $noteASharp->setPrevious($noteA);
+            // A♯ / B♭
+            array ('sharp_name' => 'A♯', 'flat_name' => 'B♭', 'accidental' => true, 'color' => '#a23e97'),
 
-        // B
-        $noteB = new Note();
-        $noteB->setSharpName('B');
-        $noteB->setFlatName('B');
-        $noteB->setValue(2);
-        $noteB->setColor('#6a489d');
-        $noteB->setPrevious($noteASharp);
-        $noteB->setNext($noteC);
+            // B
+            array ('sharp_name' => 'B', 'flat_name' => 'B', 'accidental' => false, 'color' => '#6a489d'),
+        );
 
-        // Persist all Notes
-        $manager->persist($noteC);
-        $manager->persist($noteCSharp);
-        $manager->persist($noteD);
-        $manager->persist($noteDSharp);
-        $manager->persist($noteE);
-        $manager->persist($noteF);
-        $manager->persist($noteFSharp);
-        $manager->persist($noteG);
-        $manager->persist($noteGSharp);
-        $manager->persist($noteA);
-        $manager->persist($noteASharp);
-        $manager->persist($noteB);
+        // Generate NoteInfo
+        $notesInfo = array ();
+        foreach ($notesInfoArray as $noteInfoData) {
+            $noteInfo = new NoteInfo();
+
+            $noteInfo->setSharpName($noteInfoData['sharp_name']);
+            $noteInfo->setFlatName($noteInfoData['flat_name']);
+            $noteInfo->setAccidental($noteInfoData['accidental']);
+            $noteInfo->setColor($noteInfoData['color']);
+
+            $notesInfo[] = $noteInfo;
+
+            // ORM persist
+            $manager->persist($noteInfo);
+        }
+
+        // A 440
+        $refFreq  = 440.000;
+        $refValue = 57;
+
+        // Generates notes
+        $notes = array ();
+        for ($octave = 0; $octave < 9; $octave++) {
+            // Generate octaves
+            for ($noteNum = 0; $noteNum < 12; $noteNum++) {
+                // Generate notes by octave
+                $note = new Note();
+
+                $value =  ($noteNum + ($octave * 12));
+                $frequency = $refFreq * (pow(2, ( ($value - $refValue) / 12)));
+                $frequency = round($frequency, 3);
+
+                $note->setOctave($octave);
+                $note->setValue($value);
+                $note->setFrequency($frequency);
+                $note->setInfo($notesInfo[$noteNum]);
+
+                // Link Note to the previous one
+                if ( !empty($notes[count($notes) - 1]) ) {
+                    $note->setPrevious($notes[count($notes) - 1]);
+                }
+
+                $notes[] = $note;
+
+                // ORM persist
+                $manager->persist($note);
+            }
+        }
 
         // Save to DB
         $manager->flush();

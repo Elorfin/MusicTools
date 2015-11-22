@@ -19,7 +19,7 @@ class LoadTuningData implements FixtureInterface
      */
     public function load(ObjectManager $manager)
     {
-        /*$noteRepo = $manager->getRepository('MusicToolsTheoryBundle:Note');
+        /*$noteRepo = $manager->getRepository('MusicToolsTheoryBundle:Note\Note');
 
         $standardTuning = new Tuning();
 

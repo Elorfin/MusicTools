@@ -70,7 +70,8 @@ ApiResource.prototype.query = function queryResources(queryParams, refresh) {
             // Success callback
             .success(function onServerSuccess(response) {
                 this.refreshElements = false;
-                this.elements = response;
+
+                this.setElements(response);
 
                 deferred.resolve(response);
             }.bind(this))
@@ -82,6 +83,14 @@ ApiResource.prototype.query = function queryResources(queryParams, refresh) {
     }
 
     return this.elements;
+};
+
+/**
+ * Set elements
+ * @param {Array} elements
+ */
+ApiResource.prototype.setElements = function setElements(elements) {
+    this.elements = elements;
 };
 
 /**

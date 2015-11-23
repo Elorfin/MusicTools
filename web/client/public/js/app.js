@@ -67,7 +67,6 @@ angular.module('SheetMusic', []);
  */
 angular
     .module('SongBook', [
-        'ngResource',
         'ngFileUpload',
         'Utilities'
     ])
@@ -86,7 +85,19 @@ angular
 /**
  * Theory Module
  */
-angular.module('Theory', []);
+angular
+    .module('Theory', [])
+    .config([
+        '$translateProvider',
+        function($translateProvider) {
+            // Inject translations
+            for (var lang in theoryTranslations) {
+                if (theoryTranslations.hasOwnProperty(lang)) {
+                    $translateProvider.translations(lang, theoryTranslations[lang]);
+                }
+            }
+        }
+    ]);
 // File : app/Tuning/module.js
 /**
  * Tuning module
@@ -113,7 +124,6 @@ angular
         'ngRoute',
         'ngAnimate',
         'ngSanitize',
-        'ngResource',
 
         // Libraries modules
         'ngFileUpload',
@@ -140,7 +150,7 @@ angular
         'Tuning',
         'User'
 
-        /*'Note',
+        /*
         'Guitar',
 
         'SheetMusic'*/
@@ -272,7 +282,8 @@ ApiResource.prototype.query = function queryResources(queryParams, refresh) {
             // Success callback
             .success(function onServerSuccess(response) {
                 this.refreshElements = false;
-                this.elements = response;
+
+                this.setElements(response);
 
                 deferred.resolve(response);
             }.bind(this))
@@ -284,6 +295,14 @@ ApiResource.prototype.query = function queryResources(queryParams, refresh) {
     }
 
     return this.elements;
+};
+
+/**
+ * Set elements
+ * @param {Array} elements
+ */
+ApiResource.prototype.setElements = function setElements(elements) {
+    this.elements = elements;
 };
 
 /**
@@ -424,22 +443,26 @@ var SoundService = function SoundServiceConstructor() {
 };
 
 /**
+ * Current AudioContext
+ * @type {AudioContext|webkitAudioContext}
+ */
+SoundService.prototype.context = null;
+
+/**
  * Get server
  * @returns {String}
  */
-SoundService.prototype.playFrequency = function playFrequency(frequency, autoplay, duration) {
-    var context = new AudioContext();
+SoundService.prototype.playFrequency = function playFrequency(frequency, start, duration) {
+    var context = new (window.AudioContext || window.webkitAudioContext)();
 
     var oscillator = context.createOscillator();
 
-    oscillator.type = 2;
-    oscillator.frequency.value = 500;
+    oscillator.type = 'sine';
+    oscillator.frequency.value = frequency;
     oscillator.connect(context.destination);
 
-    if (autoplay) {
-        oscillator.start(0);
-        oscillator.stop(duration);
-    }
+    oscillator.start(start);
+    oscillator.stop(start + duration);
 
     return oscillator;
 };
@@ -1883,12 +1906,12 @@ angular
             };
 
             return {
-                restrict: 'EA',
+                restrict: 'A',
                 replace: true,
                 transclude: true,
                 template: '<div class="scrollable" data-ng-transclude=""></div>',
                 scope: {
-                    options : '=options'
+                    options : '=layoutScrollableOptions'
                 },
                 link: function (scope, element) {
                     if (scope.options) {
@@ -2310,37 +2333,6 @@ angular
     .module('SongBook')
     .controller('SongShowController', [ 'entity', SongShowController ]);
 
-// File : app/SongBook/Resource/Song.js
-/**
- * Song Resource
- */
-angular
-    .module('SongBook')
-    .factory('Song', [
-        '$resource',
-        'ApiService',
-        function SongResource($resource, ApiService){
-            return $resource(ApiService.getServer() + '/songs/:id', { id: '@id' }, {
-                create: {
-                    method: 'POST',
-                    transformRequest: function (data, headersGetter) {
-                        var wrappedData = {
-                            'musictools_songbookbundle_song': data
-                        };
-
-                        return JSON.stringify(wrappedData);
-                    }
-                },
-                update: {
-                    method: 'PUT',
-                    transformRequest: function (data, headersGetter) {
-                        var result = JSON.stringify(data.productIntro);
-                        return result;
-                    }
-                }
-            });
-        }]
-    );
 // File : app/SongBook/Resource/SongResource.js
 var SongResource = function SongResourceConstructor() {
     // Call parent constructor
@@ -2626,12 +2618,31 @@ var IntervalPlayerDirective = function IntervalPlayerDirective() {
         templateUrl: '../app/Theory/Partial/Interval/player.html',
         replace: true,
         scope: {
-            interval : '=',
-            intervals: '='
+            interval    : '='
         },
+        bindToController: true,
+        controllerAs: 'intervalPlayerCtrl',
         controller: [
             '$scope',
-            function IntervalPlayerController($scope) {
+            'SoundService',
+            'IntervalResource',
+            'NoteResource',
+            function IntervalPlayerController($scope, SoundService, IntervalResource, NoteResource) {
+                this.notes     = NoteResource.query().then(function (result) {
+                    this.notes = result;
+                    this.referenceNote = result[57];
+
+                    return result;
+                }.bind(this));
+
+                this.intervals = IntervalResource.query();
+
+                /**
+                 * Tempo
+                 * @type {number}
+                 */
+                this.tempo = 70;
+
                 /**
                  * Reference note
                  * @type {Object}
@@ -2650,6 +2661,10 @@ var IntervalPlayerDirective = function IntervalPlayerDirective() {
                  */
                 this.direction = 'ascending';
 
+                /**
+                 * Set direction of the Interval
+                 * @param {String} direction
+                 */
                 this.setDirection = function setDirection(direction) {
                     if (direction !== this.direction) {
                         if ('ascending' === direction || 'descending' === direction) {
@@ -2661,32 +2676,77 @@ var IntervalPlayerDirective = function IntervalPlayerDirective() {
                     }
                 };
 
-                this.calculateNote = function calculateNote() {
+                /**
+                 * Set current interval
+                 * @param {Object} interval
+                 */
+                this.setInterval = function setInterval(interval) {
+                    this.interval = interval;
+                };
 
+                this.calculateNote = function calculateNote() {
+                    if (this.interval && this.direction && this.referenceNote) {
+
+                        if ('ascending' === this.direction) {
+                            var newNoteValue = this.referenceNote.value + this.interval.value;
+                        } else {
+                            var newNoteValue = this.referenceNote.value - this.interval.value;
+                        }
+
+                        this.calculatedNote = this.notes[newNoteValue];
+                    }
+                };
+
+                this.incrementReference = function incrementReference() {
+                    var newNoteValue = this.referenceNote.value + 1;
+
+                    this.referenceNote = this.notes[newNoteValue];
+                };
+
+                this.decrementReference = function incrementReference() {
+                    var newNoteValue = this.referenceNote.value - 1;
+
+                    this.referenceNote = this.notes[newNoteValue];
                 };
 
                 /**
                  * Play interval
                  */
                 this.playInterval = function playInterval() {
-
+                    SoundService.playFrequency(this.referenceNote.frequency,  0, 1);
+                    SoundService.playFrequency(this.calculatedNote.frequency, 1, 1);
                 };
 
-                // Watch changes of the selected interval
+                // Watch changes of the interval
                 $scope.$watch(
-                    function propertyWatched() {
+                    function intervalWatch() {
                         return this.interval;
-                    }.bind(this),
-                    function watchCallback(newValue) {
+                    }.bind(this), this.calculateNote.bind(this)
+                );
 
-                    }
+                // Watch changes of the direction
+                $scope.$watch(
+                    function directionWatch() {
+                        return this.direction;
+                    }.bind(this), this.calculateNote.bind(this)
+                );
+
+                // Watch changes of the reference note
+                $scope.$watch(
+                    function referenceWatch() {
+                        return this.referenceNote;
+                    }.bind(this), this.calculateNote.bind(this)
                 );
             }
         ],
-        controllerAs: 'intervalPlayerCtrl',
-        bindToController: true,
-        link: function IntervalPlayerLink(scope, element, attrs) {
-
+        compile: function compile() {
+            return {
+                pre: function preLink(scope, element, attrs, intervalPlayerCtrl) {
+                    intervalPlayerCtrl.dropdownOptions = {
+                        setHeight: (element.height() - 70) + 'px'
+                    };
+                }
+            }
         }
     };
 };
@@ -2833,7 +2893,7 @@ angular
 
                         context.beginPath();
                         context.font="bold 12pt Calibri";
-                        context.fillText(notes[i].sharpName, endX,endY);
+                        context.fillText(notes[i].info.name, endX,endY);
                     }
 
                     function drawNote(angle, note)
@@ -2855,7 +2915,7 @@ angular
 
                         context.beginPath();
                         context.font="bold 12pt Calibri";
-                        context.fillText(notes[i].sharpName, endX,endY);
+                        context.fillText(notes[i].info.name, endX,endY);
                     }
 
                     function drawInterval()
@@ -2887,6 +2947,23 @@ IntervalResource.prototype.name = 'interval';
  * @type {string}
  */
 IntervalResource.prototype.path = '/intervals';
+
+/**
+ * List existing resources filtered by `queryParams`
+ * @param   {Object}  [queryParams] - The parameters used to filter the list of elements
+ * @param   {boolean} [refresh]     - If true, a new request will be sent to the server to grab the list even if it's already loaded
+ * @returns {Array}                 - The list of available resources
+ */
+IntervalResource.prototype.query = function query(queryParams, refresh) {
+    var elements = ApiResource.prototype.query.apply(this, arguments);
+    if (!elements instanceof Array) {
+        elements.then(function elementsLoaded(result) {
+            return result;
+        }.bind(this));
+    }
+
+    return elements;
+};
 
 // Register service into Angular JS
 angular
@@ -2932,19 +3009,27 @@ NoteResource.prototype.displayFlat = false;
  * @param   {boolean} [refresh]     - If true, a new request will be sent to the server to grab the list even if it's already loaded
  * @returns {Array}                 - The list of available resources
  */
-NoteResource.prototype.query = function query(queryParams, refresh) {
+/*NoteResource.prototype.query = function query(queryParams, refresh) {
     var elements = ApiResource.prototype.query.apply(this, arguments);
     if (!elements instanceof Array) {
+        console.log('coucou');
         elements.then(function elementsLoaded(result) {
+            console.log('coucou');
             this.renameNotes();
 
-            return result;
+            return this.elements;
         }.bind(this));
     } else {
         this.renameNotes();
     }
 
     return elements;
+};*/
+
+NoteResource.prototype.setElements = function setElements(elements) {
+    this.elements = elements;
+
+    this.renameNotes();
 };
 
 /**
@@ -2976,10 +3061,10 @@ NoteResource.prototype.renameNotes = function renameNotes() {
         // Get the display name based of the configuration
         if (this.displayFlat) {
             // Display flat name
-            note.name = note.flat_name;
+            note.info.name = note.info.flat_name;
         } else {
             // Display sharp name
-            note.name = note.sharp_name;
+            note.info.name = note.info.sharp_name;
         }
     }.bind(this));
 };
@@ -3064,6 +3149,36 @@ angular
                 })
         }
     ]);
+// File : app/Theory/translations.js
+/**
+ * Theory translations
+ * @type {Object}
+ */
+var theoryTranslations = {};
+
+/**
+ * Language = EN
+ */
+theoryTranslations['en'] = {
+    interval_ascending  : 'Ascending interval',
+    interval_descending : 'Descending interval',
+    interval_play       : 'Play interval',
+    interval_select     : 'select an interval',
+    semitone_count      : '{ COUNT } semitone{COUNT, plural, =0{} one{} other{s}}'
+};
+
+
+
+/**
+ * Language = FR
+ */
+theoryTranslations['fr'] = {
+    interval_ascending  : 'Intervalle ascendant',
+    interval_descending : 'Intervalle descendant',
+    interval_play       : 'Jouer l\'intervalle',
+    interval_select     : 'sélectionner un intervalle',
+    semitone_count      : '{ COUNT } demi-ton{COUNT, plural, =0{} one{} other{s}}'
+};
 // File : app/Tuning/tuning-widget.js
 (function () {
     'use strict';

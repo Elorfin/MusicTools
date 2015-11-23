@@ -1976,48 +1976,61 @@ angular
 /**
  * Sidebar of the application
  */
+var LayoutSidebarDirective = function LayoutSidebarDirectiveConstructor($location) {
+    return {
+        restrict: 'E',
+        templateUrl: '../app/Layout/Partial/Sidebar/sidebar.html',
+        replace: true,
+        scope: {},
+        link: function sidebarDirectiveLink(scope, element, attrs) {
+            scope.currentPath = $location.path(); // Get current path
+
+            // Watch for path changes
+            scope.$on('$locationChangeSuccess', function () {
+                scope.currentPath = $location.path();
+            });
+        }
+    };
+};
+
+// Set up dependency injection
+LayoutSidebarDirective.$inject = [ '$location', '$route' ];
+
+// Register directive into AngularJS
 angular
     .module('Layout')
-    .directive('layoutSidebar', [
-        function LayoutSidebarDirective() {
-            return {
-                restrict: 'E',
-                templateUrl: '../app/Layout/Partial/Sidebar/sidebar.html',
-                replace: true,
-                scope: {},
-                link: function (scope, element, attrs) {
-
-                }
-            };
-        }
-    ]);
+    .directive('layoutSidebar', LayoutSidebarDirective);
 // File : app/Layout/Directive/Sidebar/SidebarItemDirective.js
 /**
  * Represents a link in the sidebar
  */
+var LayoutSidebarItemDirective = function LayoutSidebarItemDirectiveConstructor($location) {
+    return {
+        restrict: 'E',
+        templateUrl: '../app/Layout/Partial/Sidebar/sidebar-item.html',
+        replace: true,
+        scope: {
+            icon       : '@',
+            label      : '@',
+            url        : '@',
+            currentPath: '='
+        },
+        link: function sidebarItemLink(scope, element, attrs) {
+            // Watch current path changes
+            scope.$watch('currentPath', function () {
+                scope.current = (scope.currentPath && 0 === scope.currentPath.indexOf(scope.url));
+            });
+        }
+    };
+};
+
+// Set up dependency injection
+LayoutSidebarItemDirective.$inject = [ '$location' ];
+
+// Register into AngularJS
 angular
     .module('Layout')
-    .directive('layoutSidebarItem', [
-        '$route',
-        function LayoutSidebarItemDirective($route) {
-            return {
-                restrict: 'E',
-                templateUrl: '../app/Layout/Partial/Sidebar/sidebar-item.html',
-                replace: true,
-                scope: {
-                    icon  : '@',
-                    label : '@',
-                    url   : '@'
-                },
-                link: function (scope, element, attrs) {
-                    scope.current = false;
-                    if ($route.current && $route.current.regexp) {
-                        scope.current = $route.current.regexp.test(scope.url);
-                    }
-                }
-            };
-        }
-    ]);
+    .directive('layoutSidebarItem', LayoutSidebarItemDirective);
 // File : app/Lesson/routes.js
 /**
  * Lesson routes
@@ -2510,6 +2523,33 @@ songBookTranslations['fr'] = {
     show_song         : 'Voir le morceau',
     song              : 'morceau{COUNT, plural, =0{} one{} other{x}}'
 };
+// File : app/Theory/Controller/ChordListController.js
+/**
+ * List controller for Chords
+ * @constructor
+ */
+var ChordListController = function ChordListControllerConstructor($uibModal, entities) {
+    this.services = {};
+
+    this.services['$uibModal'] = $uibModal;
+
+    this.entities = entities;
+};
+
+// Set up dependency injection
+ChordListController.$inject = ['$uibModal', 'entities'];
+
+/**
+ * List of entities
+ * @type {Array}
+ */
+ChordListController.prototype.entities = [];
+
+// Register controller into angular
+angular
+    .module('Theory')
+    .controller('ChordListController', ChordListController);
+
 // File : app/Theory/Controller/IntervalListController.js
 /**
  * List controller for Intervals
@@ -2926,6 +2966,33 @@ angular
             };
         }
     ]);
+// File : app/Theory/Resource/ChordResource.js
+var ChordResource = function ChordResourceConstructor() {
+    // Call parent constructor
+    ApiResource.apply(this, arguments);
+};
+
+// Extends ApiResource
+ChordResource.prototype = Object.create(ApiResource.prototype);
+ChordResource.$inject = ApiResource.$inject;
+
+/**
+ * Name of the Resource (used as translation key)
+ * @type {string}
+ */
+ChordResource.prototype.name = 'chord';
+
+/**
+ * Path of the API resource
+ * @type {string}
+ */
+ChordResource.prototype.path = '/chords';
+
+// Register service into Angular JS
+angular
+    .module('Theory')
+    .service('ChordResource', ChordResource);
+
 // File : app/Theory/Resource/IntervalResource.js
 var IntervalResource = function IntervalResourceConstructor() {
     // Call parent constructor
@@ -2948,26 +3015,9 @@ IntervalResource.prototype.name = 'interval';
  */
 IntervalResource.prototype.path = '/intervals';
 
-/**
- * List existing resources filtered by `queryParams`
- * @param   {Object}  [queryParams] - The parameters used to filter the list of elements
- * @param   {boolean} [refresh]     - If true, a new request will be sent to the server to grab the list even if it's already loaded
- * @returns {Array}                 - The list of available resources
- */
-IntervalResource.prototype.query = function query(queryParams, refresh) {
-    var elements = ApiResource.prototype.query.apply(this, arguments);
-    if (!elements instanceof Array) {
-        elements.then(function elementsLoaded(result) {
-            return result;
-        }.bind(this));
-    }
-
-    return elements;
-};
-
 // Register service into Angular JS
 angular
-    .module('Utilities')
+    .module('Theory')
     .service('IntervalResource', IntervalResource);
 
 // File : app/Theory/Resource/NoteResource.js
@@ -3003,32 +3053,10 @@ NoteResource.prototype.path = '/notes';
  */
 NoteResource.prototype.displayFlat = false;
 
-/**
- * List existing resources filtered by `queryParams`
- * @param   {Object}  [queryParams] - The parameters used to filter the list of elements
- * @param   {boolean} [refresh]     - If true, a new request will be sent to the server to grab the list even if it's already loaded
- * @returns {Array}                 - The list of available resources
- */
-/*NoteResource.prototype.query = function query(queryParams, refresh) {
-    var elements = ApiResource.prototype.query.apply(this, arguments);
-    if (!elements instanceof Array) {
-        console.log('coucou');
-        elements.then(function elementsLoaded(result) {
-            console.log('coucou');
-            this.renameNotes();
-
-            return this.elements;
-        }.bind(this));
-    } else {
-        this.renameNotes();
-    }
-
-    return elements;
-};*/
-
 NoteResource.prototype.setElements = function setElements(elements) {
     this.elements = elements;
 
+    // Rename notes using User configuration
     this.renameNotes();
 };
 
@@ -3098,7 +3126,7 @@ NoteResource.prototype.play = function play() {
 
 // Register service into Angular JS
 angular
-    .module('Utilities')
+    .module('Theory')
     .service('NoteResource', NoteResource);
 
 // File : app/Theory/routes.js
@@ -3147,6 +3175,22 @@ angular
                         ]
                     }
                 })
+
+                // List of chords
+                .when('/theory/chords', {
+                    templateUrl:  '../app/Theory/Partial/Chord/index.html',
+                    controller:   'ChordListController',
+                    controllerAs: 'chordListCtrl',
+                    resolve: {
+                        entities: [
+                            '$route',
+                            'ChordResource',
+                            function entitiesResolver($route, ChordResource) {
+                                return ChordResource.query();
+                            }
+                        ]
+                    }
+                });
         }
     ]);
 // File : app/Theory/translations.js

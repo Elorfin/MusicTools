@@ -30,32 +30,10 @@ NoteResource.prototype.path = '/notes';
  */
 NoteResource.prototype.displayFlat = false;
 
-/**
- * List existing resources filtered by `queryParams`
- * @param   {Object}  [queryParams] - The parameters used to filter the list of elements
- * @param   {boolean} [refresh]     - If true, a new request will be sent to the server to grab the list even if it's already loaded
- * @returns {Array}                 - The list of available resources
- */
-/*NoteResource.prototype.query = function query(queryParams, refresh) {
-    var elements = ApiResource.prototype.query.apply(this, arguments);
-    if (!elements instanceof Array) {
-        console.log('coucou');
-        elements.then(function elementsLoaded(result) {
-            console.log('coucou');
-            this.renameNotes();
-
-            return this.elements;
-        }.bind(this));
-    } else {
-        this.renameNotes();
-    }
-
-    return elements;
-};*/
-
 NoteResource.prototype.setElements = function setElements(elements) {
     this.elements = elements;
 
+    // Rename notes using User configuration
     this.renameNotes();
 };
 
@@ -125,5 +103,5 @@ NoteResource.prototype.play = function play() {
 
 // Register service into Angular JS
 angular
-    .module('Utilities')
+    .module('Theory')
     .service('NoteResource', NoteResource);

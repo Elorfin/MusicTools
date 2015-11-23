@@ -66,7 +66,7 @@ angular
 
                         context.beginPath();
                         context.font="bold 12pt Calibri";
-                        context.fillText(notes[i].sharpName, endX,endY);
+                        context.fillText(notes[i].info.name, endX,endY);
                     }
 
                     function drawNote(angle, note)
@@ -88,7 +88,7 @@ angular
 
                         context.beginPath();
                         context.font="bold 12pt Calibri";
-                        context.fillText(notes[i].sharpName, endX,endY);
+                        context.fillText(notes[i].info.name, endX,endY);
                     }
 
                     function drawInterval()

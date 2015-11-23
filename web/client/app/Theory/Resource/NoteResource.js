@@ -36,19 +36,27 @@ NoteResource.prototype.displayFlat = false;
  * @param   {boolean} [refresh]     - If true, a new request will be sent to the server to grab the list even if it's already loaded
  * @returns {Array}                 - The list of available resources
  */
-NoteResource.prototype.query = function query(queryParams, refresh) {
+/*NoteResource.prototype.query = function query(queryParams, refresh) {
     var elements = ApiResource.prototype.query.apply(this, arguments);
     if (!elements instanceof Array) {
+        console.log('coucou');
         elements.then(function elementsLoaded(result) {
+            console.log('coucou');
             this.renameNotes();
 
-            return result;
+            return this.elements;
         }.bind(this));
     } else {
         this.renameNotes();
     }
 
     return elements;
+};*/
+
+NoteResource.prototype.setElements = function setElements(elements) {
+    this.elements = elements;
+
+    this.renameNotes();
 };
 
 /**
@@ -80,10 +88,10 @@ NoteResource.prototype.renameNotes = function renameNotes() {
         // Get the display name based of the configuration
         if (this.displayFlat) {
             // Display flat name
-            note.name = note.flat_name;
+            note.info.name = note.info.flat_name;
         } else {
             // Display sharp name
-            note.name = note.sharp_name;
+            note.info.name = note.info.sharp_name;
         }
     }.bind(this));
 };

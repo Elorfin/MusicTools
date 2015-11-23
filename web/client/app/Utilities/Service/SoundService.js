@@ -8,22 +8,26 @@ var SoundService = function SoundServiceConstructor() {
 };
 
 /**
+ * Current AudioContext
+ * @type {AudioContext|webkitAudioContext}
+ */
+SoundService.prototype.context = null;
+
+/**
  * Get server
  * @returns {String}
  */
-SoundService.prototype.playFrequency = function playFrequency(frequency, autoplay, duration) {
-    var context = new AudioContext();
+SoundService.prototype.playFrequency = function playFrequency(frequency, start, duration) {
+    var context = new (window.AudioContext || window.webkitAudioContext)();
 
     var oscillator = context.createOscillator();
 
-    oscillator.type = 2;
-    oscillator.frequency.value = 500;
+    oscillator.type = 'sine';
+    oscillator.frequency.value = frequency;
     oscillator.connect(context.destination);
 
-    if (autoplay) {
-        oscillator.start(0);
-        oscillator.stop(duration);
-    }
+    oscillator.start(start);
+    oscillator.stop(start + duration);
 
     return oscillator;
 };

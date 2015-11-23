@@ -21,12 +21,12 @@
         <!-- List item -->
         <div class="song-item panel panel-default row" data-ng-class="{ 'panel-last': $last }" data-ng-repeat="entity in songListCtrl.entities|orderBy:songListCtrl.sortBy:songListCtrl.sortReverse" data-ng-if="songListCtrl.entities.length !== 0">
             <!-- Image -->
-            <div class="cover col-md-1 col-sm-2 col-xs-3">
+            <div class="song-cover col-lg-2 col-md-2 col-sm-2 col-xs-3">
                 <img class="img-responsive" data-ng-src="{{ entity.cover.path ? (entity.cover.path|resource_path) : ('images/no-cover.png'|asset_path) }}" />
             </div>
 
             <!-- Info -->
-            <div class="col-md-11 col-sm-10 col-xs-9 panel-body">
+            <div class="song-info col-lg-10 col-md-10 col-sm-10 col-xs-9 panel-body">
                 <h2 class="page-header">
                     {{ entity.title }}
                     <small data-ng-if="null !== entity.artist">{{ entity.artist }}</small>

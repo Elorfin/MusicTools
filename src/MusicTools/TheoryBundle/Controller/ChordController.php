@@ -3,32 +3,25 @@
 namespace MusicTools\TheoryBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use FOS\RestBundle\Routing\ClassResourceInterface;
 
 /**
- * Chord controller.
- *
- * @Route("/")
+ * Chord CRUD Controller
  */
-class ChordController extends Controller
+class ChordController extends Controller implements ClassResourceInterface
 {
     /**
-     * Lists all Chord entities.
+     * List all Chords
+     * "get_chords"     [GET] /chords
      *
-     * @Route("/chord", name="theory_chord", options={"expose"=true})
-     * @Method("GET")
-     * @Template()
+     * @return array
      */
-    public function indexAction()
+    public function cgetAction()
     {
-        $em = $this->getDoctrine()->getManager();
+        $entities = $this->container->get('doctrine.orm.entity_manager')
+            ->getRepository('MusicToolsTheoryBundle:Chord')
+            ->findBy(array(), array());
 
-        $entities = $em->getRepository('MusicToolsTheoryBundle:Chord')->findAll();
-
-        return array(
-            'entities' => $entities,
-        );
+        return $entities;
     }
 }

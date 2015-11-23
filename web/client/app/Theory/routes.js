@@ -43,5 +43,21 @@ angular
                         ]
                     }
                 })
+
+                // List of chords
+                .when('/theory/chords', {
+                    templateUrl:  '../app/Theory/Partial/Chord/index.html',
+                    controller:   'ChordListController',
+                    controllerAs: 'chordListCtrl',
+                    resolve: {
+                        entities: [
+                            '$route',
+                            'ChordResource',
+                            function entitiesResolver($route, ChordResource) {
+                                return ChordResource.query();
+                            }
+                        ]
+                    }
+                });
         }
     ]);

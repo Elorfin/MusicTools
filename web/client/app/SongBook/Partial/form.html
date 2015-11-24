@@ -20,6 +20,8 @@
             </a>
         </layout-page-button>
 
+        <li class="divider" data-ng-if="!songFormCtrl.isNew()"></li>
+
         <!-- Validate form -->
         <layout-page-button class="nav-link-default">
             <a href="" data-ng-click="songFormCtrl.validate()">

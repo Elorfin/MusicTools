@@ -1,0 +1,32 @@
+<div class="list-formatter" data-uib-dropdown="">
+    <a href="#" id="list-formatter-dropdown" data-uib-dropdown-toggle="" role="button">
+        <span class="fa fa-th"></span>
+    </a>
+
+    <ul class="dropdown-menu dropdown-menu-check dropdown-menu-right" aria-labelledby="list-formatter-dropdown">
+        <li>
+            <a href="">
+                <span class="fa fa-fw fa-th"></span>
+                {{ 'list_display_tile'|translate }}
+
+                <span class="fa fa-check"></span>
+            </a>
+        </li>
+        <li class="active">
+            <a href="">
+                <span class="fa fa-fw fa-th-list"></span>
+                {{ 'list_display_list_detailed'|translate }}
+
+                <span class="fa fa-check"></span>
+            </a>
+        </li>
+        <li>
+            <a href="">
+                <span class="fa fa-fw fa-list"></span>
+                {{ 'list_display_list_condensed'|translate }}
+
+                <span class="fa fa-check"></span>
+            </a>
+        </li>
+    </ul>
+</div>

@@ -50,7 +50,19 @@ angular.module('Instrument', []);
  * Layout Module
  * Contains all the tools for building the Layout of the application (header, sidebar, etc.)
  */
-angular.module('Layout', []);
+angular
+    .module('Layout', [])
+    .config([
+        '$translateProvider',
+        function($translateProvider) {
+            // Inject translations
+            for (var lang in layoutTranslations) {
+                if (layoutTranslations.hasOwnProperty(lang)) {
+                    $translateProvider.translations(lang, layoutTranslations[lang]);
+                }
+            }
+        }
+    ]);
 // File : app/Lesson/module.js
 /**
  * Lesson Module
@@ -1732,80 +1744,132 @@ angular
             };
         }
     ]);
+// File : app/Layout/Directive/ListFormatterDirective.js
+/**
+ * Widget to change how lists are displayed
+ */
+var LayoutListFormatterDirective = function LayoutListFormatterDirectiveConstructor() {
+    return {
+        restrict: 'E',
+        templateUrl: '../app/Layout/Partial/list-formatter.html',
+        replace: true,
+        scope: {
+            /**
+             * Current format of the list
+             */
+            format: '='
+        },
+        controllerAs: 'listFormatterCtrl',
+        bindToController: true,
+        controller: function LayoutListFormatterController () {
+            /**
+             * Available formats
+             * @type {Array}
+             */
+            this.availableFormats = [
+                { name: 'tile',           icon: '' },
+                { name: 'list-detailed',  icon: '' },
+                { name: 'list-condensed', icon: '' }
+            ];
+
+            /**
+             * Switch display format of the list
+             * @param format
+             */
+            this.switchFormat = function switchFormat(format) {
+
+            };
+        }
+    };
+};
+
+// Set up dependency injection
+LayoutListFormatterDirective.$inject = [];
+
+// Register directive into AngularJS
+angular
+    .module('Layout')
+    .directive('layoutListFormatter', LayoutListFormatterDirective);
+
 // File : app/Layout/Directive/ListSorterDirective.js
 /**
  * Widget to sort lists
  */
-angular
-    .module('Layout')
-    .directive('layoutListSorter', [
-        function LayoutListSorterDirective() {
-            return {
-                restrict: 'E',
-                templateUrl: '../app/Layout/Partial/list-sorter.html',
-                replace: true,
-                scope: {
-                    /**
-                     * Number of elements in the list
-                     */
-                    count: '=',
+var LayoutListSorterDirective = function LayoutListSorterDirectiveConstructor() {
+    return {
+        restrict: 'E',
+        templateUrl: '../app/Layout/Partial/list-sorter.html',
+        replace: true,
+        scope: {
+            /**
+             * Number of elements in the list
+             */
+            count: '=',
 
-                    /**
-                     * Current field to sort by
-                     */
-                    current: '=',
+            /**
+             * Current field to sort by
+             */
+            current: '=',
 
-                    /**
-                     * Reverse direction of the sort (if true, ascendant, else descendant)
-                     */
-                    reverse: '=',
+            /**
+             * Reverse direction of the sort (if true, ascendant, else descendant)
+             */
+            reverse: '=',
 
-                    /**
-                     * Usable fields for sort
-                     */
-                    fields: '='
-                },
-                controllerAs: 'listSorterCtrl',
-                bindToController: true,
-                controller: function LayoutListSorterController () {
-                    /**
-                     * Get the type of the current sort field
-                     * @returns {string}
-                     */
-                    this.getSortType = function getSortType() {
-                        var type = null;
+            /**
+             * Usable fields for sort
+             */
+            fields: '='
+        },
+        controllerAs: 'listSorterCtrl',
+        bindToController: true,
+        controller: function LayoutListSorterController () {
+            /**
+             * Get the type of the current sort field
+             * @returns {string}
+             */
+            this.getSortType = function getSortType() {
+                var type = null;
 
-                        switch (this.fields[this.current]) {
-                            case 'string':
-                                type = 'string';
-                                break;
+                switch (this.fields[this.current]) {
+                    case 'string':
+                        type = 'string';
+                        break;
 
-                            case 'number':
-                                type = 'number';
-                                break;
-                        }
-
-                        return type;
-                    };
-
-                    /**
-                     * Set current sort field
-                     * @param {string} current
-                     */
-                    this.setCurrent = function setCurrent(current) {
-                        this.current = current;
-                    };
-
-                    /**
-                     * Toggle direction of the sort
-                     */
-                    this.toggleReverse = function toggleReverse() {
-                        this.reverse = !this.reverse;
-                    };
+                    case 'number':
+                        type = 'number';
+                        break;
                 }
+
+                return type;
+            };
+
+            /**
+             * Set current sort field
+             * @param {string} current
+             */
+            this.setCurrent = function setCurrent(current) {
+                this.current = current;
+            };
+
+            /**
+             * Toggle direction of the sort
+             */
+            this.toggleReverse = function toggleReverse() {
+                this.reverse = !this.reverse;
             };
         }
-    ]);
+    };
+};
+
+// Set up dependency injection
+LayoutListSorterDirective.$inject = [];
+
+// Register directive into AngularJS
+angular
+    .module('Layout')
+    .directive('layoutListSorter', LayoutListSorterDirective);
+
 // File : app/Layout/Directive/Page/PageButtonDirective.js
 /**
  * Header of the application
@@ -2031,6 +2095,32 @@ LayoutSidebarItemDirective.$inject = [ '$location' ];
 angular
     .module('Layout')
     .directive('layoutSidebarItem', LayoutSidebarItemDirective);
+// File : app/Layout/translations.js
+/**
+ * Layout translations
+ * @type {Object}
+ */
+var layoutTranslations = {};
+
+/**
+ * Language = EN
+ */
+layoutTranslations['en'] = {
+    list_display_tile           : 'tiles',
+    list_display_list_detailed  : 'detailed list',
+    list_display_list_condensed : 'condensed list'
+};
+
+
+
+/**
+ * Language = FR
+ */
+layoutTranslations['fr'] = {
+    list_display_tile           : 'tuiles',
+    list_display_list_detailed  : 'liste détaillée',
+    list_display_list_condensed : 'liste condensée'
+};
 // File : app/Lesson/routes.js
 /**
  * Lesson routes

@@ -1,11 +1,19 @@
 <layout-page class="song-list">
     <!-- Header buttons -->
     <layout-page-buttons>
+        <!-- New Song button -->
         <layout-page-button class="nav-link-default">
             <a href="#/songs/new">
                 <span class="fa fa-fw fa-plus"></span>
                 {{ 'new_song'|translate }}
             </a>
+        </layout-page-button>
+
+        <li class="divider"></li>
+
+        <!-- List format button -->
+        <layout-page-button class="nav-link-default" data-uib-dropdown="">
+            <layout-list-formatter data-format=""></layout-list-formatter>
         </layout-page-button>
     </layout-page-buttons>
 

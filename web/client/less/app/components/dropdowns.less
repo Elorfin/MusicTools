@@ -40,14 +40,6 @@
                 color: @brand-primary;
             }
 
-            .fa-check {
-                position: absolute;
-                right: 15px;
-                padding: 3px;
-
-                color: darken(@dropdown-bg, 2%);
-            }
-
             &.active {
                 a {
                     color: @brand-primary;
@@ -61,10 +53,6 @@
                         outline: 0;
                     }
                 }
-
-                .fa-check {
-                    color: @brand-primary;
-                }
             }
         }
 
@@ -75,10 +63,35 @@
 
     // Override the default Bootstrap show/hide to be able to add a CSS transition on it
     &.open {
+        .dropdown-toggle {
+            color: @brand-primary;
+        }
+
         .dropdown-menu {
             visibility: visible;
             display: block;
             opacity: 1;
+        }
+    }
+
+    .dropdown-menu-check {
+        > li > a {
+            position: relative;
+            padding-right: 60px !important;
+
+            .fa-check {
+                position: absolute;
+                right: 15px;
+                padding: 3px;
+
+                color: darken(@dropdown-bg, 2%);
+            }
+        }
+
+        > li.active {
+            .fa-check {
+                color: @brand-primary;
+            }
         }
     }
 }

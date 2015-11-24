@@ -22,35 +22,8 @@
     }
 
     .dropdown-toggle {
-        height: @navbar-height;
-        text-align: center;
-        padding: 14px 5px;
-        border-left:  2px solid transparent;
-        border-right: 2px solid transparent;
-
-        .fa-stack {
-            display: block;
-            font-size: @font-size-base;
-        }
-
-        .caret {
-            vertical-align: top;
-            margin-left: 0;
-        }
-    }
-
-    .dropdown {
-        &.open {
-            .dropdown-toggle {
-                background: @dropdown-bg !important;
-                border-left:  2px solid rgba(0, 0, 0, 0.4);
-                border-right: 2px solid rgba(0, 0, 0, 0.4);
-            }
-        }
-    }
-
-    .dropdown-menu {
-        left: 1px;
+        padding-right: 5px !important;
+        padding-left: 5px !important;
     }
 
     .dropdown-header {
@@ -62,24 +35,11 @@
 
     .guitar-link,
     .scale-link {
-        position: relative;
-        padding-right: 60px !important;
-
         .fa {
             font-size: 20px;
             height: 20px;
             line-height: 20px;
-            position: absolute;
-            right: 15px;
             top: 10px;
-
-            color: darken(@dropdown-bg, 2%);
-        }
-
-        &.active {
-            .fa {
-                color: @brand-primary;
-            }
         }
     }
 

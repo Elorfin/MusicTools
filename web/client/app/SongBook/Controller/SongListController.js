@@ -17,6 +17,11 @@ var SongListController = function SongListControllerConstructor($uibModal, entit
 SongListController.prototype.entities = [];
 
 /**
+ * Format of the list
+ */
+SongListController.prototype.format = 'detailed';
+
+/**
  * Default field to sort by
  * @type {string}
  */

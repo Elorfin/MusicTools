@@ -107,7 +107,24 @@ ApiResource.prototype.count = function countResources() {
  * @returns {Object}            - The resource found
  */
 ApiResource.prototype.get = function getResource(identifier) {
-    return {};
+    // Load data from server
+    var deferred = this.services.$q.defer(); // Initialize promise
+
+    // Call API
+    this.services.$http
+        .get(this.services.api.getServer() + this.path + '/' + identifier)
+
+        // Success callback
+        .success(function onServerSuccess(response) {
+            deferred.resolve(response);
+        }.bind(this))
+
+        // Error callback
+        .error(function onServerError(response) {
+            deferred.reject(response);
+        });
+
+    return deferred.promise;
 };
 
 /**

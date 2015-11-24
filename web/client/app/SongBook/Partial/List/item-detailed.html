@@ -1,0 +1,42 @@
+<div class="song-item song-item-detailed panel panel-default">
+    <div class="row">
+        <!-- Image -->
+        <div class="song-cover col-lg-2 col-md-2 col-sm-2 col-xs-3">
+            <img class="img-responsive" data-ng-src="{{ entity.cover.path ? (entity.cover.path|resource_path) : ('images/no-cover.png'|asset_path) }}" />
+        </div>
+
+        <!-- Info -->
+        <div class="song-info col-lg-10 col-md-10 col-sm-10 col-xs-9 panel-body">
+            <h2 class="page-header">
+                {{ entity.title }}
+                <small data-ng-if="null !== entity.artist">{{ entity.artist }}</small>
+            </h2>
+
+            <div class="row">
+                <!-- Rating -->
+                <score-field class="col-md-6 text-center" data-model="entity.rating"></score-field>
+
+                <!-- Mastery -->
+                <score-field class="col-md-6 text-center" data-model="entity.mastery" data-icon="music-icon music-icon-note"></score-field>
+            </div>
+        </div>
+
+        <!-- Item buttons -->
+        <div class="song-item-btn-group">
+            <a class="btn btn-danger" href="" data-ng-click="songListCtrl.removeSong(entity)">
+                <span class="fa fa-trash-o"></span>
+                <span class="sr-only">{{ 'delete_song'|translate }}</span>
+            </a>
+
+            <a class="btn btn-default" href="#/songs/{{ entity.id }}/edit">
+                <span class="fa fa-pencil"></span>
+                <span class="sr-only">{{ 'edit_song'|translate }}</span>
+            </a>
+
+            <a class="btn btn-default" href="#/songs/{{ entity.id }}">
+                <span class="fa fa-eye"></span>
+                <span class="sr-only">{{ 'show_song'|translate }}</span>
+            </a>
+        </div>
+    </div>
+</div>

@@ -16,21 +16,11 @@ var LayoutListFormatterDirective = function LayoutListFormatterDirectiveConstruc
         bindToController: true,
         controller: function LayoutListFormatterController () {
             /**
-             * Available formats
-             * @type {Array}
-             */
-            this.availableFormats = [
-                { name: 'tile',           icon: '' },
-                { name: 'list-detailed',  icon: '' },
-                { name: 'list-condensed', icon: '' }
-            ];
-
-            /**
              * Switch display format of the list
              * @param format
              */
             this.switchFormat = function switchFormat(format) {
-
+                this.format = format;
             };
         }
     };

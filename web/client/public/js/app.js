@@ -331,7 +331,24 @@ ApiResource.prototype.count = function countResources() {
  * @returns {Object}            - The resource found
  */
 ApiResource.prototype.get = function getResource(identifier) {
-    return {};
+    // Load data from server
+    var deferred = this.services.$q.defer(); // Initialize promise
+
+    // Call API
+    this.services.$http
+        .get(this.services.api.getServer() + this.path + '/' + identifier)
+
+        // Success callback
+        .success(function onServerSuccess(response) {
+            deferred.resolve(response);
+        }.bind(this))
+
+        // Error callback
+        .error(function onServerError(response) {
+            deferred.reject(response);
+        });
+
+    return deferred.promise;
 };
 
 /**
@@ -1763,21 +1780,11 @@ var LayoutListFormatterDirective = function LayoutListFormatterDirectiveConstruc
         bindToController: true,
         controller: function LayoutListFormatterController () {
             /**
-             * Available formats
-             * @type {Array}
-             */
-            this.availableFormats = [
-                { name: 'tile',           icon: '' },
-                { name: 'list-detailed',  icon: '' },
-                { name: 'list-condensed', icon: '' }
-            ];
-
-            /**
              * Switch display format of the list
              * @param format
              */
             this.switchFormat = function switchFormat(format) {
-
+                this.format = format;
             };
         }
     };
@@ -2378,6 +2385,11 @@ var SongListController = function SongListControllerConstructor($uibModal, entit
 SongListController.prototype.entities = [];
 
 /**
+ * Format of the list
+ */
+SongListController.prototype.format = 'detailed';
+
+/**
  * Default field to sort by
  * @type {string}
  */
@@ -2523,9 +2535,9 @@ angular.module('SongBook').config([
                 resolve: {
                     entity: [
                         '$route',
-                        'Song',
-                        function entityResolver($route, Song) {
-                            return Song.get({ id: $route.current.params.id });
+                        'SongResource',
+                        function entityResolver($route, SongResource) {
+                            return SongResource.get($route.current.params.id);
                         }
                     ]
                 }

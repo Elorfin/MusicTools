@@ -5,26 +5,75 @@
     .song-item {
         position: relative; // Lock `absolute` buttons in its item
 
-        .song-cover {
-            // Remove `.col-` padding for better render
-            padding-left: 0;
-            padding-right: 0;
+        &.song-item-condensed {
+            display: table;
+            vertical-align: middle;
+            width: 100%;
 
-            img {
-                display: block;
-                max-height: 100%;
-                max-width: auto;
+            .song-cover,
+            .song-info {
+                display: table-cell;
+                vertical-align: middle;
+            }
+
+            .song-cover {
+                width: 60px;
+
+                img {
+                    width: 60px;
+                    height: auto;
+                }
+            }
+
+            .song-info {
+                color: @brand-primary;
+                font-size: @font-size-large;
+                font-variant: small-caps;
+                margin: 0;
+
+                small {
+                    color: @gray-light;
+                    font-variant: normal;
+                    font-size: 80%;
+                }
+            }
+
+            .song-item-btn-group {
+                position: absolute;
+                top: 50%;
+                transform: translate(0, -50%) !important;
             }
         }
 
-        .song-info {
-            padding-bottom: 36px; // Add a taller padding to have place for the `absolute` buttons
+        &.song-item-tile {
+            .song-info {
+                margin: 0;
+                color: @brand-primary;
+                font-size: @font-size-large;
+                font-variant: small-caps;
+
+                small {
+                    color: @gray-light;
+                    font-variant: normal;
+                    font-size: 80%;
+                    display: block;
+                }
+            }
+        }
+
+        &.song-item-detailed {
+            .song-info {
+                padding-bottom: 36px; // Add a taller padding to have place for the `absolute` buttons
+            }
+
+            .song-item-btn-group {
+                bottom: 0;
+                position: absolute;
+            }
         }
 
         .song-item-btn-group {
-            position: absolute;
             right: 0;
-            bottom: 0;
             font-size: 0; // Remove the horizontal white-space between inline elements
 
             .btn {

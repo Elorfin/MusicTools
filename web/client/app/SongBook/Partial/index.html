@@ -13,7 +13,7 @@
 
         <!-- List format button -->
         <layout-page-button class="nav-link-default" data-uib-dropdown="">
-            <layout-list-formatter data-format=""></layout-list-formatter>
+            <layout-list-formatter data-format="songListCtrl.format"></layout-list-formatter>
         </layout-page-button>
     </layout-page-buttons>
 
@@ -24,53 +24,17 @@
         <layout-list-sorter data-count="songListCtrl.entities.length" data-current="songListCtrl.sortBy" data-reverse="songListCtrl.sortReverse" data-fields="songListCtrl.sortFields"></layout-list-sorter>
     </layout-page-title>
 
-    <!-- List -->
-    <div class="col-md-12">
-        <!-- List item -->
-        <div class="song-item panel panel-default row" data-ng-class="{ 'panel-last': $last }" data-ng-repeat="entity in songListCtrl.entities|orderBy:songListCtrl.sortBy:songListCtrl.sortReverse" data-ng-if="songListCtrl.entities.length !== 0">
-            <!-- Image -->
-            <div class="song-cover col-lg-2 col-md-2 col-sm-2 col-xs-3">
-                <img class="img-responsive" data-ng-src="{{ entity.cover.path ? (entity.cover.path|resource_path) : ('images/no-cover.png'|asset_path) }}" />
-            </div>
+    <div class="row">
+        <!-- List items -->
+        <div data-ng-repeat="entity in songListCtrl.entities|orderBy:songListCtrl.sortBy:songListCtrl.sortReverse"
+             data-ng-include="'../app/SongBook/Partial/List/item-' + songListCtrl.format + '.html'"
+             data-ng-class="{ 'col-md-12': 'tile' !== songListCtrl.format, 'col-xs-12 col-sm-4 col-md-3 col-lg-2': 'tile' === songListCtrl.format }"
+        ></div>
+    </div>
 
-            <!-- Info -->
-            <div class="song-info col-lg-10 col-md-10 col-sm-10 col-xs-9 panel-body">
-                <h2 class="page-header">
-                    {{ entity.title }}
-                    <small data-ng-if="null !== entity.artist">{{ entity.artist }}</small>
-                </h2>
 
-                <div class="row">
-                    <!-- Rating -->
-                    <score-field class="col-md-6 text-center" data-model="entity.rating"></score-field>
-
-                    <!-- Mastery -->
-                    <score-field class="col-md-6 text-center" data-model="entity.mastery" data-icon="music-icon music-icon-note"></score-field>
-                </div>
-            </div>
-
-            <!-- Item buttons -->
-            <div class="song-item-btn-group">
-                <a class="btn btn-danger" href="" data-ng-click="songListCtrl.removeSong(entity)">
-                    <span class="fa fa-trash-o"></span>
-                    <span class="sr-only">{{ 'delete_song'|translate }}</span>
-                </a>
-
-                <a class="btn btn-default" href="#/songs/{{ entity.id }}/edit">
-                    <span class="fa fa-pencil"></span>
-                    <span class="sr-only">{{ 'edit_song'|translate }}</span>
-                </a>
-
-                <a class="btn btn-default" href="#/songs/{{ entity.id }}">
-                    <span class="fa fa-eye"></span>
-                    <span class="sr-only">{{ 'show_song'|translate }}</span>
-                </a>
-            </div>
-        </div>
-
-        <!-- No element message -->
-        <div class="empty-list" data-ng-if="songListCtrl.entities.length === 0">
-            {{ 'no_song_found'|translate }}
-        </div>
+    <!-- No element message -->
+    <div class="empty-list" data-ng-if="songListCtrl.entities.length === 0">
+        {{ 'no_song_found'|translate }}
     </div>
 </layout-page>

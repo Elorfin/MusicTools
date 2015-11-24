@@ -57,9 +57,9 @@ angular.module('SongBook').config([
                 resolve: {
                     entity: [
                         '$route',
-                        'Song',
-                        function entityResolver($route, Song) {
-                            return Song.get({ id: $route.current.params.id });
+                        'SongResource',
+                        function entityResolver($route, SongResource) {
+                            return SongResource.get($route.current.params.id);
                         }
                     ]
                 }

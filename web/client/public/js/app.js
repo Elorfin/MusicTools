@@ -1664,6 +1664,71 @@ angular
     .module('Layout')
     .controller('BaseFormController', [ 'form', BaseFormController ]);
 
+// File : app/Layout/Controller/Page/ListController.js
+/**
+ * Base List controller
+ * @constructor
+ */
+var ListController = function ListControllerConstructor($uibModal, entities) {
+    this.services = {};
+
+    this.services['$uibModal'] = $uibModal;
+
+    this.entities = entities;
+};
+
+// Set up dependency injection
+ListController.$inject = [ '$uibModal', 'entities' ];
+
+/**
+ * List of entities
+ * @type {Array}
+ */
+ListController.prototype.entities = [];
+
+/**
+ * Format of the list
+ */
+ListController.prototype.format = 'detailed';
+
+/**
+ * Default field to sort by
+ * @type {string}
+ */
+ListController.prototype.sortBy = null;
+
+/**
+ * Reverse direction of the sort
+ * @type {boolean}
+ */
+ListController.prototype.sortReverse = false;
+
+/**
+ * Usable fields for sort
+ * @type {Object}
+ */
+ListController.prototype.sortFields = {};
+
+ListController.prototype.remove = function remove(entity) {
+    // Display confirm callback
+    var modalInstance = this.services.$uibModal.open({
+        templateUrl : '../app/Layout/Partial/Modal/confirm.html',
+        controller  : 'ConfirmModalController',
+        windowClass : 'modal-danger'
+    });
+
+    modalInstance.result.then(function (selectedItem) {
+        /*$scope.selected = selectedItem;*/
+    }, function () {
+        /*$log.info('Modal dismissed at: ' + new Date());*/
+    });
+};
+
+// Register controller into angular
+angular
+    .module('Utilities')
+    .controller('ListController', ListController);
+
 // File : app/Layout/Directive/Field/ScoreFieldDirective.js
 /**
  * Score Field
@@ -2384,28 +2449,17 @@ var SongListController = function SongListControllerConstructor($uibModal, entit
     this.entities = entities;
 };
 
-/**
- * List of entities
- * @type {Array}
- */
-SongListController.prototype.entities = [];
+// Extends ListController
+SongListController.prototype = Object.create(ListController.prototype);
 
-/**
- * Format of the list
- */
-SongListController.prototype.format = 'detailed';
+// Set up dependency injection
+SongListController.$inject = ListController.$inject;
 
 /**
  * Default field to sort by
  * @type {string}
  */
 SongListController.prototype.sortBy = 'title';
-
-/**
- * Reverse direction of the sort
- * @type {boolean}
- */
-SongListController.prototype.sortReverse = false;
 
 /**
  * Usable fields for sort
@@ -2418,25 +2472,10 @@ SongListController.prototype.sortFields = {
     mastery: 'number'
 };
 
-SongListController.prototype.removeSong = function removeSong(song) {
-    // Display confirm callback
-    var modalInstance = this.services.$uibModal.open({
-        templateUrl : '../app/Layout/Partial/Modal/confirm.html',
-        controller  : 'ConfirmModalController',
-        windowClass : 'modal-danger'
-    });
-
-    modalInstance.result.then(function (selectedItem) {
-        /*$scope.selected = selectedItem;*/
-    }, function () {
-        /*$log.info('Modal dismissed at: ' + new Date());*/
-    });
-};
-
 // Register controller into angular
 angular
     .module('SongBook')
-    .controller('SongListController', [ '$uibModal', 'entities', SongListController ]);
+    .controller('SongListController', SongListController);
 
 // File : app/SongBook/Controller/SongShowController.js
 /**
@@ -2644,14 +2683,26 @@ var ChordListController = function ChordListControllerConstructor($uibModal, ent
     this.entities = entities;
 };
 
+// Extends ListController
+ChordListController.prototype = Object.create(ListController.prototype);
+
 // Set up dependency injection
-ChordListController.$inject = ['$uibModal', 'entities'];
+ChordListController.$inject = ListController.$inject;
 
 /**
- * List of entities
- * @type {Array}
+ * Default field to sort by
+ * @type {string}
  */
-ChordListController.prototype.entities = [];
+ChordListController.prototype.sortBy = 'name';
+
+/**
+ * Usable fields for sort
+ * @type {Object}
+ */
+ChordListController.prototype.sortFields = {
+    name       :  'string',
+    notes_count :  'string'
+};
 
 // Register controller into angular
 angular
@@ -3393,10 +3444,16 @@ var theoryTranslations = {};
  * Language = EN
  */
 theoryTranslations['en'] = {
+    // I
     interval_ascending  : 'Ascending interval',
     interval_descending : 'Descending interval',
     interval_play       : 'Play interval',
     interval_select     : 'select an interval',
+
+    // N
+    note_count          : '{ COUNT } note{COUNT, plural, =0{} one{} other{s}}',
+
+    // S
     semitone_count      : '{ COUNT } semitone{COUNT, plural, =0{} one{} other{s}}'
 };
 
@@ -3406,10 +3463,16 @@ theoryTranslations['en'] = {
  * Language = FR
  */
 theoryTranslations['fr'] = {
+    // I
     interval_ascending  : 'Intervalle ascendant',
     interval_descending : 'Intervalle descendant',
     interval_play       : 'Jouer l\'intervalle',
     interval_select     : 'sélectionner un intervalle',
+
+    // N
+    note_count          : '{ COUNT } note{COUNT, plural, =0{} one{} other{s}}',
+
+    // S
     semitone_count      : '{ COUNT } demi-ton{COUNT, plural, =0{} one{} other{s}}'
 };
 // File : app/Tuning/tuning-widget.js

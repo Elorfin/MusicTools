@@ -1,10 +1,24 @@
-<layout-page class="chord-list">
+<layout-page class="page-list chord-list">
+    <!-- Header buttons -->
+    <layout-page-buttons>
+        <!-- List format button -->
+        <layout-page-button class="nav-link-default" data-uib-dropdown="">
+            <layout-list-formatter data-format="chordListCtrl.format"></layout-list-formatter>
+        </layout-page-button>
+    </layout-page-buttons>
+
     <!-- Title of the page -->
     <layout-page-title>
         Theory <small>Chords</small>
+
+        <layout-list-sorter data-count="chordListCtrl.entities.length" data-current="chordListCtrl.sortBy" data-reverse="chordListCtrl.sortReverse" data-fields="chordListCtrl.sortFields"></layout-list-sorter>
     </layout-page-title>
 
     <div class="row">
-
+        <!-- List items -->
+        <div data-ng-repeat="entity in chordListCtrl.entities|orderBy:chordListCtrl.sortBy:chordListCtrl.sortReverse"
+             data-ng-include="'../app/Theory/Partial/Chord/List/item-' + chordListCtrl.format + '.html'"
+             data-ng-class="{ 'col-md-12': 'tile' !== chordListCtrl.format, 'col-xs-12 col-sm-4 col-md-3 col-lg-2': 'tile' === chordListCtrl.format }"
+        ></div>
     </div>
 </layout-page>

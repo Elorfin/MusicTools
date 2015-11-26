@@ -1,0 +1,20 @@
+<div class="list-item list-item-detailed panel panel-default">
+        <!-- Info -->
+        <div class="panel-body">
+            <h2 class="page-header">
+                {{ entity.name }}
+                <small data-translate="note_count"
+                       data-translate-values="{ COUNT: entity.notes_count }"
+                       data-translate-interpolation="messageformat"></small>
+            </h2>
+        </div>
+
+        <!-- Item buttons -->
+        <div class="list-item-btn-group">
+            <a class="btn btn-default" href="#/chords/{{ entity.id }}">
+                <span class="fa fa-eye"></span>
+                <span class="sr-only">{{ 'show_chord'|translate }}</span>
+            </a>
+        </div>
+    </div>
+</div>

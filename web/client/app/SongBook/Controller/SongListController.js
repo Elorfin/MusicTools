@@ -10,28 +10,17 @@ var SongListController = function SongListControllerConstructor($uibModal, entit
     this.entities = entities;
 };
 
-/**
- * List of entities
- * @type {Array}
- */
-SongListController.prototype.entities = [];
+// Extends ListController
+SongListController.prototype = Object.create(ListController.prototype);
 
-/**
- * Format of the list
- */
-SongListController.prototype.format = 'detailed';
+// Set up dependency injection
+SongListController.$inject = ListController.$inject;
 
 /**
  * Default field to sort by
  * @type {string}
  */
 SongListController.prototype.sortBy = 'title';
-
-/**
- * Reverse direction of the sort
- * @type {boolean}
- */
-SongListController.prototype.sortReverse = false;
 
 /**
  * Usable fields for sort
@@ -44,22 +33,7 @@ SongListController.prototype.sortFields = {
     mastery: 'number'
 };
 
-SongListController.prototype.removeSong = function removeSong(song) {
-    // Display confirm callback
-    var modalInstance = this.services.$uibModal.open({
-        templateUrl : '../app/Layout/Partial/Modal/confirm.html',
-        controller  : 'ConfirmModalController',
-        windowClass : 'modal-danger'
-    });
-
-    modalInstance.result.then(function (selectedItem) {
-        /*$scope.selected = selectedItem;*/
-    }, function () {
-        /*$log.info('Modal dismissed at: ' + new Date());*/
-    });
-};
-
 // Register controller into angular
 angular
     .module('SongBook')
-    .controller('SongListController', [ '$uibModal', 'entities', SongListController ]);
+    .controller('SongListController', SongListController);

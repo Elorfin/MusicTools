@@ -10,14 +10,26 @@ var ChordListController = function ChordListControllerConstructor($uibModal, ent
     this.entities = entities;
 };
 
+// Extends ListController
+ChordListController.prototype = Object.create(ListController.prototype);
+
 // Set up dependency injection
-ChordListController.$inject = ['$uibModal', 'entities'];
+ChordListController.$inject = ListController.$inject;
 
 /**
- * List of entities
- * @type {Array}
+ * Default field to sort by
+ * @type {string}
  */
-ChordListController.prototype.entities = [];
+ChordListController.prototype.sortBy = 'name';
+
+/**
+ * Usable fields for sort
+ * @type {Object}
+ */
+ChordListController.prototype.sortFields = {
+    name       :  'string',
+    notes_count :  'string'
+};
 
 // Register controller into angular
 angular

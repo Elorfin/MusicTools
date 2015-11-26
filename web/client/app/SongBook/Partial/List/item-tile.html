@@ -1,18 +1,18 @@
-<div class="song-item song-item-tile panel panel-default" style="margin-bottom: 30px;">
+<div class="list-item list-item-tile panel panel-default" style="margin-bottom: 30px;">
     <!-- Image -->
     <div class="song-cover">
         <img class="img-responsive" data-ng-src="{{ entity.cover.path ? (entity.cover.path|resource_path) : ('images/no-cover.png'|asset_path) }}" />
     </div>
 
     <!-- Info -->
-    <div class="song-info panel-body">
+    <div class="item-info panel-body">
         {{ entity.title }}
         <small data-ng-if="null !== entity.artist">{{ entity.artist }}</small>
     </div>
 
     <!-- Item buttons -->
-    <div class="song-item-btn-group text-right">
-        <a class="btn btn-danger" href="" data-ng-click="songListCtrl.removeSong(entity)">
+    <div class="list-item-btn-group text-right">
+        <a class="btn btn-danger" href="" data-ng-click="songListCtrl.remove(entity)">
             <span class="fa fa-trash-o"></span>
             <span class="sr-only">{{ 'delete_song'|translate }}</span>
         </a>

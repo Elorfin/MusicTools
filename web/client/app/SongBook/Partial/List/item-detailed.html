@@ -1,4 +1,4 @@
-<div class="song-item song-item-detailed panel panel-default">
+<div class="list-item list-item-detailed panel panel-default">
     <div class="row">
         <!-- Image -->
         <div class="song-cover col-lg-2 col-md-2 col-sm-2 col-xs-3">
@@ -22,8 +22,8 @@
         </div>
 
         <!-- Item buttons -->
-        <div class="song-item-btn-group">
-            <a class="btn btn-danger" href="" data-ng-click="songListCtrl.removeSong(entity)">
+        <div class="list-item-btn-group">
+            <a class="btn btn-danger" href="" data-ng-click="songListCtrl.remove(entity)">
                 <span class="fa fa-trash-o"></span>
                 <span class="sr-only">{{ 'delete_song'|translate }}</span>
             </a>

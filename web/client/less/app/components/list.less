@@ -16,7 +16,8 @@
         color: @text-color;
         font-weight: bold;
 
-        &:hover, &:focus {
+        &:hover,
+        &:focus {
             color: @brand-primary;
         }
     }
@@ -43,13 +44,146 @@
     }
 }
 
-.list-view {
+.page-list {
     .list-item {
+        position: relative; // Lock `absolute` buttons in its item
 
+        &.list-item-detailed {
+            .list-item-btn-group {
+                position: absolute;
+                bottom: 0;
+                right: 0;
+            }
+        }
+
+        &.list-item-condensed {
+            .item-info {
+                color: @brand-primary;
+                font-size: @font-size-large;
+                font-variant: small-caps;
+                margin: 0;
+
+                small {
+                    color: @gray-light;
+                    font-variant: normal;
+                    font-size: 80%;
+                }
+            }
+
+            .list-item-btn-group {
+                position: absolute;
+                right: 0;
+                top: 50%;
+                transform: translate(0, -50%) !important;
+            }
+        }
+
+        &.list-item-tile {
+            .item-info {
+                margin: 0;
+                color: @brand-primary;
+                font-size: @font-size-large;
+                font-variant: small-caps;
+
+                small {
+                    color: @gray-light;
+                    font-variant: normal;
+                    font-size: 80%;
+                    display: block;
+                }
+            }
+        }
+
+        .list-item-btn-group {
+            text-align: right;
+            font-size: 0; // Remove the horizontal white-space between inline elements
+
+            .btn {
+                .list-button-variant(@btn-default-bg);
+            }
+
+            .btn-danger {
+                .list-button-variant(@btn-danger-bg);
+            }
+        }
     }
 }
 
 .empty-list {
     font-style: italic;
     text-align: center;
+}
+
+.list-button-variant(@background-color) {
+    font-size: @font-size-base;
+    position: relative;
+    margin-right: 28px;
+    padding-left: 8px;
+    padding-right: 8px;
+    border: none;
+
+    &:before {
+        content: " ";
+        position: absolute;
+        width: 0;
+        height: 0;
+        left: -24px;
+        top: 0;
+        border-style: solid;
+        border-width: 0 0 36px 24px;
+        border-color: transparent transparent @background-color transparent;
+        -webkit-transform: rotate(360deg);
+    }
+
+    &:after {
+        content: " ";
+        position: absolute;
+        width: 0;
+        height: 0;
+        right: -24px;
+        top: 0;
+        border-style: solid;
+        border-width: 36px 24px 0 0;
+        border-color: @background-color transparent transparent transparent;
+        -webkit-transform: rotate(360deg);
+    }
+
+    // Mimic Bootstrap buttons color changes on button states
+    &:hover,
+    &:focus,
+    &.focus,
+    &:active,
+    &.active {
+        &:before {
+            border-color: transparent transparent darken(@background-color, 10%) transparent;
+        }
+
+        &:after {
+            border-color: darken(@background-color, 10%) transparent transparent transparent;
+        }
+    }
+
+    &:active,
+    &.active {
+        &:hover,
+        &:focus,
+        &.focus {
+            &:before {
+                border-color: transparent transparent darken(@background-color, 17%) transparent;
+            }
+
+            &:after {
+                border-color: darken(@background-color, 17%) transparent transparent transparent;
+            }
+        }
+    }
+
+    &:last-child {
+        margin-right: 0;
+        padding-right: 14px;
+
+        &:after {
+            border: none;
+        }
+    }
 }

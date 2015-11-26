@@ -58,11 +58,10 @@ ApiResource.prototype.refreshElements = false;
  * @returns {Array}                 - The list of available resources
  */
 ApiResource.prototype.query = function queryResources(queryParams, refresh) {
+    var deferred = this.services.$q.defer(); // Initialize promise
+
     if (!this.elements || this.elements.length === 0 || this.refreshElements || this.refresh) {
         // Load data from server
-        var deferred = this.services.$q.defer(); // Initialize promise
-        this.elements = deferred.promise;
-
         // Call API
         this.services.$http
             .get(this.services.api.getServer() + this.path)
@@ -80,7 +79,14 @@ ApiResource.prototype.query = function queryResources(queryParams, refresh) {
             .error(function onServerError(response) {
                 deferred.reject(response);
             });
+    } else {
+        // Load data from local
+        var tempElements = this.elements;
+
+        deferred.resolve(tempElements);
     }
+
+    this.elements = deferred.promise;
 
     return this.elements;
 };

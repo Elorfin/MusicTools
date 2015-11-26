@@ -23,4 +23,33 @@ class Degree
      * Add Nameable behavior
      */
     use NameableTrait;
+
+    /**
+     * Symbol of the Interval
+     * @var string
+     *
+     * @ORM\Column(type="string")
+     */
+    protected $symbol;
+
+    /**
+     * Get symbol
+     * @return string
+     */
+    public function getSymbol()
+    {
+        return $this->symbol;
+    }
+
+    /**
+     * Set symbol
+     * @param  string $symbol
+     * @return \MusicTools\TheoryBundle\Entity\Degree
+     */
+    public function setSymbol($symbol)
+    {
+        $this->symbol = $symbol;
+
+        return $this;
+    }
 }

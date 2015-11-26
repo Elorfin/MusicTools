@@ -6,6 +6,10 @@ music_tools_theory_note:
     resource: MusicTools\TheoryBundle\Controller\NoteController
     type:     rest
 
+music_tools_theory_degree:
+    resource: MusicTools\TheoryBundle\Controller\DegreeController
+    type:     rest
+
 music_tools_theory_chord:
     resource: MusicTools\TheoryBundle\Controller\ChordController
     type:     rest

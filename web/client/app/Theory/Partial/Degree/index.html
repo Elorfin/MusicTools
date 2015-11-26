@@ -1,0 +1,28 @@
+<layout-page class="degree-list">
+    <!-- Title of the page -->
+    <layout-page-title>
+        Theory <small>Degrees</small>
+    </layout-page-title>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <table class="table table-hover table-striped">
+                    <thead>
+                        <tr>
+                            <th>Degree</th>
+                            <th>Name</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr data-ng-repeat="entity in degreeListCtrl.entities">
+                            <td>{{ entity.symbol }}</td>
+                            <td>{{ entity.name }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</layout-page>

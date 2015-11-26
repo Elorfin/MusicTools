@@ -282,11 +282,10 @@ ApiResource.prototype.refreshElements = false;
  * @returns {Array}                 - The list of available resources
  */
 ApiResource.prototype.query = function queryResources(queryParams, refresh) {
+    var deferred = this.services.$q.defer(); // Initialize promise
+
     if (!this.elements || this.elements.length === 0 || this.refreshElements || this.refresh) {
         // Load data from server
-        var deferred = this.services.$q.defer(); // Initialize promise
-        this.elements = deferred.promise;
-
         // Call API
         this.services.$http
             .get(this.services.api.getServer() + this.path)
@@ -304,7 +303,14 @@ ApiResource.prototype.query = function queryResources(queryParams, refresh) {
             .error(function onServerError(response) {
                 deferred.reject(response);
             });
+    } else {
+        // Load data from local
+        var tempElements = this.elements;
+
+        deferred.resolve(tempElements);
     }
+
+    this.elements = deferred.promise;
 
     return this.elements;
 };
@@ -2652,6 +2658,33 @@ angular
     .module('Theory')
     .controller('ChordListController', ChordListController);
 
+// File : app/Theory/Controller/DegreeListController.js
+/**
+ * List controller for Degrees
+ * @constructor
+ */
+var DegreeListController = function DegreeListControllerConstructor($uibModal, entities) {
+    this.services = {};
+
+    this.services['$uibModal'] = $uibModal;
+
+    this.entities = entities;
+};
+
+// Set up dependency injection
+DegreeListController.$inject = ['$uibModal', 'entities'];
+
+/**
+ * List of entities
+ * @type {Array}
+ */
+DegreeListController.prototype.entities = [];
+
+// Register controller into angular
+angular
+    .module('Theory')
+    .controller('DegreeListController', DegreeListController);
+
 // File : app/Theory/Controller/IntervalListController.js
 /**
  * List controller for Intervals
@@ -3095,6 +3128,33 @@ angular
     .module('Theory')
     .service('ChordResource', ChordResource);
 
+// File : app/Theory/Resource/DegreeResource.js
+var DegreeResource = function DegreeResourceConstructor() {
+    // Call parent constructor
+    ApiResource.apply(this, arguments);
+};
+
+// Extends ApiResource
+DegreeResource.prototype = Object.create(ApiResource.prototype);
+DegreeResource.$inject = ApiResource.$inject;
+
+/**
+ * Name of the Resource (used as translation key)
+ * @type {string}
+ */
+DegreeResource.prototype.name = 'degree';
+
+/**
+ * Path of the API resource
+ * @type {string}
+ */
+DegreeResource.prototype.path = '/degrees';
+
+// Register service into Angular JS
+angular
+    .module('Theory')
+    .service('DegreeResource', DegreeResource);
+
 // File : app/Theory/Resource/IntervalResource.js
 var IntervalResource = function IntervalResourceConstructor() {
     // Call parent constructor
@@ -3253,42 +3313,69 @@ angular
                     controllerAs: 'intervalListCtrl',
                     resolve: {
                         entities: [
-                            '$route',
                             'IntervalResource',
-                            function entitiesResolver($route, IntervalResource) {
+                            function entitiesResolver(IntervalResource) {
                                 return IntervalResource.query();
                             }
                         ]
                     }
                 })
 
-                // List of notes
+                // List of Notes
                 .when('/theory/notes', {
                     templateUrl:  '../app/Theory/Partial/Note/index.html',
                     controller:   'NoteListController',
                     controllerAs: 'noteListCtrl',
                     resolve: {
                         entities: [
-                            '$route',
                             'NoteResource',
-                            function entitiesResolver($route, NoteResource) {
+                            function entitiesResolver(NoteResource) {
                                 return NoteResource.query();
                             }
                         ]
                     }
                 })
 
-                // List of chords
+                // List of Degrees
+                .when('/theory/degrees', {
+                    templateUrl:  '../app/Theory/Partial/Degree/index.html',
+                    controller:   'DegreeListController',
+                    controllerAs: 'degreeListCtrl',
+                    resolve: {
+                        entities: [
+                            'DegreeResource',
+                            function entitiesResolver(DegreeResource) {
+                                return DegreeResource.query();
+                            }
+                        ]
+                    }
+                })
+
+                // List of Chords
                 .when('/theory/chords', {
                     templateUrl:  '../app/Theory/Partial/Chord/index.html',
                     controller:   'ChordListController',
                     controllerAs: 'chordListCtrl',
                     resolve: {
                         entities: [
-                            '$route',
                             'ChordResource',
-                            function entitiesResolver($route, ChordResource) {
+                            function entitiesResolver(ChordResource) {
                                 return ChordResource.query();
+                            }
+                        ]
+                    }
+                })
+
+                // List of Scales
+                .when('/theory/scales', {
+                    templateUrl:  '../app/Theory/Partial/Scale/index.html',
+                    controller:   'ScaleListController',
+                    controllerAs: 'scaleListCtrl',
+                    resolve: {
+                        entities: [
+                            'ScaleResource',
+                            function entitiesResolver(ScaleResource) {
+                                return ScaleResource.query();
                             }
                         ]
                     }

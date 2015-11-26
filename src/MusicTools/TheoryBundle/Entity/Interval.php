@@ -33,6 +33,22 @@ class Interval
     protected $symbol;
 
     /**
+     * Number of the Interval
+     * @var integer
+     *
+     * @ORM\Column(type="integer")
+     */
+    protected $number;
+
+    /**
+     * Quality of the Interval (perfect, minor, major, diminished or augmented)
+     * @var string
+     *
+     * @ORM\Column(type="string")
+     */
+    protected $quality;
+
+    /**
      * Value of the Interval (in semitones)
      * @var integer
      *
@@ -51,7 +67,7 @@ class Interval
 
     /**
      * Set symbol
-     * @param string $symbol
+     * @param  string $symbol
      * @return $this
      */
     public function setSymbol($symbol)
@@ -62,8 +78,50 @@ class Interval
     }
 
     /**
+     * Get number
+     * @return integer
+     */
+    public function getNumber()
+    {
+        return $this->number;
+    }
+
+    /**
+     * Set number
+     * @param  integer $number
+     * @return $this
+     */
+    public function setNumber($number)
+    {
+        $this->number = $number;
+
+        return $this;
+    }
+
+    /**
+     * Get quality
+     * @return string
+     */
+    public function getQuality()
+    {
+        return $this->quality;
+    }
+
+    /**
+     * Set quality
+     * @param  string $quality
+     * @return $this
+     */
+    public function setQuality($quality)
+    {
+        $this->quality = $quality;
+
+        return $this;
+    }
+
+    /**
      * Get value (in semitones)
-     * @return int
+     * @return integer
      */
     public function getValue()
     {
@@ -72,7 +130,7 @@ class Interval
 
     /**
      * Set value
-     * @param integer $value
+     * @param  integer $value
      * @return $this
      */
     public function setValue($value)

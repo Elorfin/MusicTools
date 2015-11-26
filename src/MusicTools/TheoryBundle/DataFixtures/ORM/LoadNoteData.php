@@ -2,7 +2,8 @@
 
 namespace MusicTools\TheoryBundle\DataFixtures\ORM;
 
-use Doctrine\Common\DataFixtures\FixtureInterface;
+use Doctrine\Common\DataFixtures\AbstractFixture;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use MusicTools\TheoryBundle\Entity\Note\Note;
 use MusicTools\TheoryBundle\Entity\Note\NoteInfo;
@@ -10,54 +11,44 @@ use MusicTools\TheoryBundle\Entity\Note\NoteInfo;
 /**
  * Initializes Notes
  */
-class LoadNoteData implements FixtureInterface
+class LoadNoteData extends AbstractFixture implements OrderedFixtureInterface
 {
+    /**
+     * {@inheritDoc}
+     */
+    public function getOrder()
+    {
+        return 1;
+    }
+
     /**
      * {@inheritDoc}
      */
     public function load(ObjectManager $manager)
     {
-        $notesFrequencies = array (
-            32.7,
-            34.65,
-            36.71,
-            38.89,
-            4
-        );
         $notesInfoArray = array (
             // C
             array ('sharp_name' => 'C', 'flat_name' => 'C', 'accidental' => false, 'color' => '#006cb7'),
-
             // C♯ / D♭
             array ('sharp_name' => 'C♯', 'flat_name' => 'D♭', 'accidental' => true, 'color' => '#008e83'),
-
             // D
             array ('sharp_name' => 'D', 'flat_name' => 'D', 'accidental' => false, 'color' => '#00854a'),
-
             // D♯ / E♭
             array ('sharp_name' => 'D♯', 'flat_name' => 'E♭', 'accidental' => true, 'color' => '#7fb439'),
-
             // E
             array ('sharp_name' => 'E', 'flat_name' => 'E', 'accidental' => false, 'color' => '#fdb813'),
-
             // F
             array ('sharp_name' => 'F', 'flat_name' => 'F', 'accidental' => false, 'color' => '#584742'),
-
             // F♯ / G♭
             array ('sharp_name' => 'F♯', 'flat_name' => 'G♭', 'accidental' => true, 'color' => '#c15e20'),
-
             // G
             array ('sharp_name' => 'G', 'flat_name' => 'G', 'accidental' => false, 'color' => '#f58220'),
-
             // G♯ / A♭
             array ('sharp_name' => 'G♯', 'flat_name' => 'A♭', 'accidental' => true, 'color' => '#f04e46'),
-
             // A
             array ('sharp_name' => 'A', 'flat_name' => 'A', 'accidental' => false, 'color' => '#8f0000'),
-
             // A♯ / B♭
             array ('sharp_name' => 'A♯', 'flat_name' => 'B♭', 'accidental' => true, 'color' => '#a23e97'),
-
             // B
             array ('sharp_name' => 'B', 'flat_name' => 'B', 'accidental' => false, 'color' => '#6a489d'),
         );

@@ -2,15 +2,23 @@
 
 namespace MusicTools\TheoryBundle\DataFixtures\ORM;
 
-use Doctrine\Common\DataFixtures\FixtureInterface;
+use Doctrine\Common\DataFixtures\AbstractFixture;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use MusicTools\TheoryBundle\Entity\Scale;
 
 /**
  * Initializes scales
  */
-class LoadScaleData implements FixtureInterface
+class LoadScaleData extends AbstractFixture implements OrderedFixtureInterface
 {
+    /**
+     * {@inheritDoc}
+     */
+    public function getOrder()
+    {
+        return 2;
+    }
+
     /**
      * {@inheritDoc}
      */

@@ -72,6 +72,22 @@ angular
                     }
                 })
 
+                // Show a chord
+                .when('/theory/chords/:id', {
+                    templateUrl:  '../app/Theory/Partial/Chord/show.html',
+                    controller:   'ChordShowController',
+                    controllerAs: 'chordShowCtrl',
+                    resolve: {
+                        entity: [
+                            '$route',
+                            'ChordResource',
+                            function entityResolver($route, ChordResource) {
+                                return ChordResource.get($route.current.params.id);
+                            }
+                        ]
+                    }
+                })
+
                 // List of Scales
                 .when('/theory/scales', {
                     templateUrl:  '../app/Theory/Partial/Scale/index.html',

@@ -13,6 +13,11 @@ var LayoutListSorterDirective = function LayoutListSorterDirectiveConstructor() 
             count: '=',
 
             /**
+             * Element name for translation
+             */
+            element: '@',
+
+            /**
              * Current field to sort by
              */
             current: '=',

@@ -8,6 +8,10 @@ var theoryTranslations = {};
  * Language = EN
  */
 theoryTranslations['en'] = {
+    // C
+    chord               : 'chord{COUNT, plural, =0{} one{} other{s}}',
+    chord_count         : '{ COUNT } chord{COUNT, plural, =0{} one{} other{s}}',
+
     // I
     interval_ascending  : 'Ascending interval',
     interval_descending : 'Descending interval',
@@ -27,6 +31,10 @@ theoryTranslations['en'] = {
  * Language = FR
  */
 theoryTranslations['fr'] = {
+    // C
+    chord               : 'accord{COUNT, plural, =0{} one{} other{s}}',
+    chord_count         : '{ COUNT } accord{COUNT, plural, =0{} one{} other{s}}',
+
     // I
     interval_ascending  : 'Intervalle ascendant',
     interval_descending : 'Intervalle descendant',

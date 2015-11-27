@@ -166,7 +166,7 @@ class SongController extends Controller implements ClassResourceInterface
      * Retrieve a Song entity
      *
      * @param  integer $id
-     * @return \MusicTools\SOngBookBundle\Entity\Song
+     * @return \MusicTools\SongBookBundle\Entity\Song
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      */
     private function getEntity($id)

@@ -6,4 +6,12 @@
                data-translate-values="{ COUNT: entity.notes_count }"
                data-translate-interpolation="messageformat"></small>
     </div>
+
+    <!-- Item buttons -->
+    <div class="list-item-btn-group">
+        <a class="btn btn-default" href="#/theory/chords/{{ entity.id }}">
+            <span class="fa fa-eye"></span>
+            <span class="sr-only">{{ 'show_chord'|translate }}</span>
+        </a>
+    </div>
 </div>

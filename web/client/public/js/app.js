@@ -1885,6 +1885,11 @@ var LayoutListSorterDirective = function LayoutListSorterDirectiveConstructor() 
             count: '=',
 
             /**
+             * Element name for translation
+             */
+            element: '@',
+
+            /**
              * Current field to sort by
              */
             current: '=',
@@ -2486,12 +2491,19 @@ var SongShowController = function SongShowControllerContructor(entity) {
     this.entity = entity;
 };
 
+// Set up dependency injection
+SongShowController.$inject = [ 'entity' ];
+
+/**
+ * Current displayed entity
+ * @type {Object}
+ */
 SongShowController.prototype.entity = null;
 
 // Register controller into angular
 angular
     .module('SongBook')
-    .controller('SongShowController', [ 'entity', SongShowController ]);
+    .controller('SongShowController', SongShowController);
 
 // File : app/SongBook/Resource/SongResource.js
 var SongResource = function SongResourceConstructor() {
@@ -2670,7 +2682,7 @@ songBookTranslations['fr'] = {
     show_song         : 'Voir le morceau',
     song              : 'morceau{COUNT, plural, =0{} one{} other{x}}'
 };
-// File : app/Theory/Controller/ChordListController.js
+// File : app/Theory/Controller/Chord/ChordListController.js
 /**
  * List controller for Chords
  * @constructor
@@ -2708,6 +2720,29 @@ ChordListController.prototype.sortFields = {
 angular
     .module('Theory')
     .controller('ChordListController', ChordListController);
+
+// File : app/Theory/Controller/Chord/ChordShowController.js
+/**
+ * Show controller for Songs
+ * @constructor
+ */
+var ChordShowController = function ChordShowControllerContructor(entity) {
+    this.entity = entity;
+};
+
+// Set up dependency injection
+ChordShowController.$inject = [ 'entity' ];
+
+/**
+ * Current displayed entity
+ * @type {Object}
+ */
+ChordShowController.prototype.entity = null;
+
+// Register controller into angular
+angular
+    .module('Theory')
+    .controller('ChordShowController', ChordShowController);
 
 // File : app/Theory/Controller/DegreeListController.js
 /**
@@ -3417,6 +3452,22 @@ angular
                     }
                 })
 
+                // Show a chord
+                .when('/theory/chords/:id', {
+                    templateUrl:  '../app/Theory/Partial/Chord/show.html',
+                    controller:   'ChordShowController',
+                    controllerAs: 'chordShowCtrl',
+                    resolve: {
+                        entity: [
+                            '$route',
+                            'ChordResource',
+                            function entityResolver($route, ChordResource) {
+                                return ChordResource.get($route.current.params.id);
+                            }
+                        ]
+                    }
+                })
+
                 // List of Scales
                 .when('/theory/scales', {
                     templateUrl:  '../app/Theory/Partial/Scale/index.html',
@@ -3444,6 +3495,10 @@ var theoryTranslations = {};
  * Language = EN
  */
 theoryTranslations['en'] = {
+    // C
+    chord               : 'chord{COUNT, plural, =0{} one{} other{s}}',
+    chord_count         : '{ COUNT } chord{COUNT, plural, =0{} one{} other{s}}',
+
     // I
     interval_ascending  : 'Ascending interval',
     interval_descending : 'Descending interval',
@@ -3463,6 +3518,10 @@ theoryTranslations['en'] = {
  * Language = FR
  */
 theoryTranslations['fr'] = {
+    // C
+    chord               : 'accord{COUNT, plural, =0{} one{} other{s}}',
+    chord_count         : '{ COUNT } accord{COUNT, plural, =0{} one{} other{s}}',
+
     // I
     interval_ascending  : 'Intervalle ascendant',
     interval_descending : 'Intervalle descendant',

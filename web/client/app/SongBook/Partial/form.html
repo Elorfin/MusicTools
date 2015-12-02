@@ -22,20 +22,20 @@
 
         <li class="divider" data-ng-if="!songFormCtrl.isNew()"></li>
 
+        <!-- Cancel -->
+        <layout-page-button class="nav-link-default">
+            <a href="#/songs">
+                <span class="fa fa-fw fa-times"></span>
+                Cancel
+            </a>
+        </layout-page-button>
+
         <!-- Validate form -->
         <layout-page-button class="nav-link-default">
             <a href="" data-ng-click="songFormCtrl.validate()">
                 <span class="fa fa-fw fa-check"></span>
                 <span data-ng-if="songFormCtrl.isNew()">Create</span>
                 <span data-ng-if="!songFormCtrl.isNew()">Edit</span>
-            </a>
-        </layout-page-button>
-
-        <!-- Cancel -->
-        <layout-page-button class="nav-link-default">
-            <a href="#/songs">
-                <span class="fa fa-fw fa-times"></span>
-                Cancel
             </a>
         </layout-page-button>
     </layout-page-buttons>

@@ -45,6 +45,13 @@ class Note
     protected $frequency;
 
     /**
+     * Midi number of the Note
+     * @var integer
+     * @ORM\Column(type="integer")
+     */
+    protected $midi;
+
+    /**
      * Info of the Note (name, color, etc.)
      * @var \MusicTools\TheoryBundle\Entity\Note\NoteInfo
      *
@@ -143,6 +150,27 @@ class Note
     public function setFrequency($frequency)
     {
         $this->frequency = $frequency;
+
+        return $this;
+    }
+
+    /**
+     * Get midi
+     * @return integer
+     */
+    public function getMidi()
+    {
+        return $this->midi;
+    }
+
+    /**
+     * Set midi
+     * @param  integer $midi
+     * @return \MusicTools\TheoryBundle\Entity\Note\Note
+     */
+    public function setMidi($midi)
+    {
+        $this->midi = $midi;
 
         return $this;
     }

@@ -36,7 +36,7 @@ songBookTranslations['fr'] = {
     delete_song       : 'Supprimer le morceau',
 
     // E
-    edit_song         : 'Editer le morceau',
+    edit_song         : 'Modifier le morceau',
 
     // M
     my_songbook_title : 'Mon livre de chansons',

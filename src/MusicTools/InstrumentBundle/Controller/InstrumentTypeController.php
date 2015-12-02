@@ -6,28 +6,29 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use FOS\RestBundle\Routing\ClassResourceInterface;
 
 /**
- * Instrument CRUD Controller
+ * Instrument Type CRUD Controller
  */
-class InstrumentController extends Controller implements ClassResourceInterface
+class InstrumentTypeController extends Controller implements ClassResourceInterface
 {
     /**
-     * List all Instruments
-     * "get_instruments"     [GET] /instruments
+     * List all Instrument Types
+     * "get_instrument_types"     [GET] /instrument_types
      *
      * @return array
      */
     public function cgetAction()
     {
         $entities = $this->container->get('doctrine.orm.entity_manager')
-            ->getRepository('MusicToolsInstrumentBundle:Instrument')
-            ->findBy(array (), array ('model' => 'ASC'));
+            ->getRepository('MusicToolsInstrumentBundle:InstrumentType')
+            ->findBy(array (), array ('name' => 'ASC'));
 
         return $entities;
     }
 
     /**
-     * Display an Instrument entity
-     * "get_instrument"      [GET] /instruments/{id}
+     * Display an Instrument Type entity
+     * "get_instrument_type"      [GET] /instrument_types/{id}
+     *
      * @param  integer $id
      * @return mixed
      */
@@ -39,7 +40,7 @@ class InstrumentController extends Controller implements ClassResourceInterface
     }
 
     /**
-     * Retrieve an Instrument entity
+     * Retrieve an Instrument Type entity
      *
      * @param  integer $id
      * @return \MusicTools\InstrumentBundle\Entity\Instrument
@@ -47,12 +48,12 @@ class InstrumentController extends Controller implements ClassResourceInterface
      */
     private function getEntity($id)
     {
-        $entity = $this->container->get('doctrine.orm.entity_manager')->getRepository('MusicToolsInstrumentBundle:Instrument')->findOneBy( array (
+        $entity = $this->container->get('doctrine.orm.entity_manager')->getRepository('MusicToolsInstrumentBundle:InstrumentType')->findOneBy( array (
             'id' => $id,
         ));
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Instrument entity.');
+            throw $this->createNotFoundException('Unable to find Instrument Type entity.');
         }
 
         return $entity;

@@ -1,0 +1,28 @@
+<layout-page>
+    <!-- Title of the page -->
+    <layout-page-title>
+        {{ 'my_instruments_title'|translate }}
+        <small>New</small>
+    </layout-page-title>
+
+    <!-- Header buttons -->
+    <layout-page-buttons>
+        <!-- Cancel -->
+        <layout-page-button class="nav-link-default">
+            <a href="#/instruments">
+                <span class="fa fa-fw fa-times"></span>
+                Cancel
+            </a>
+        </layout-page-button>
+
+        <!-- Validate form -->
+        <layout-page-button class="nav-link-default">
+            <a href="" data-ng-click="instrumentCreateCtrl.validate()">
+                <span class="fa fa-fw fa-check"></span>
+                Create
+            </a>
+        </layout-page-button>
+    </layout-page-buttons>
+
+    <!-- Current wizard step -->
+</layout-page>

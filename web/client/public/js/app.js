@@ -44,7 +44,23 @@ angular
 /**
  * Instrument Module
  */
-angular.module('Instrument', []);
+angular
+    .module('Instrument', [
+        'Utilities'
+    ])
+    .config([
+        '$translateProvider',
+        function($translateProvider) {
+            // Inject translations
+            for (var lang in instrumentTranslations) {
+                if (instrumentTranslations.hasOwnProperty(lang)) {
+                    $translateProvider.translations(lang, instrumentTranslations[lang]);
+                }
+            }
+        }
+    ]);
+
+
 // File : app/Layout/module.js
 /**
  * Layout Module
@@ -509,6 +525,617 @@ SoundService.prototype.playFrequency = function playFrequency(frequency, start, 
 angular
     .module('Utilities')
     .service('SoundService', [ SoundService ]);
+// File : app/Layout/Controller/Modal/ConfirmModalController.js
+/**
+ * Confirm Modal controller
+ * @constructor
+ */
+var ConfirmModalController = function ConfirmModalControllerConstructor($uibModalInstance) {
+    this.instance = $uibModalInstance;
+};
+
+
+// Register controller into angular
+angular
+    .module('Layout')
+    .controller('ConfirmModalController', [ '$uibModalInstance', ConfirmModalController ]);
+
+// File : app/Layout/Controller/Page/FormController.js
+/**
+ * Base Form controller
+ * @constructor
+ */
+var BaseFormController = function BaseFormControllerConstructor(form) {
+    this.form   = form.form;
+    this.entity = form.entity;
+};
+
+// Set up dependency injection
+BaseFormController.$inject = [ 'form' ];
+
+/**
+ * Current form
+ * @type {Object}
+ */
+BaseFormController.prototype.form = null;
+
+/**
+ * Current Entity
+ * @type {Object}
+ */
+BaseFormController.prototype.entity = null;
+
+/**
+ * Is form include file Upload ? (Internally used to know which AJAX service we need to use $http or Upload)
+ * @type {boolean}
+ */
+BaseFormController.prototype.multipart = false;
+
+/**
+ * Is the edited entity a new one ?
+ * @returns {boolean}
+ */
+BaseFormController.prototype.isNew = function () {
+    var isNew = true;
+    if (null !== this.entity && 'undefined' !== typeof (this.entity.id) && null !== this.entity.id && 0 !== this.entity.id.length) {
+        isNew = false;
+    }
+
+    return isNew;
+};
+
+/**
+ * Validate the form
+ */
+BaseFormController.prototype.validate = function () {
+    this.entity.$create();
+};
+
+// Register controller into Angular JS
+angular
+    .module('Layout')
+    .controller('BaseFormController', BaseFormController);
+
+// File : app/Layout/Controller/Page/ListController.js
+/**
+ * Base List controller
+ * @constructor
+ */
+var ListController = function ListControllerConstructor($uibModal, entities) {
+    this.services = {};
+
+    this.services['$uibModal'] = $uibModal;
+
+    this.entities = entities;
+};
+
+// Set up dependency injection
+ListController.$inject = [ '$uibModal', 'entities' ];
+
+/**
+ * List of entities
+ * @type {Array}
+ */
+ListController.prototype.entities = [];
+
+/**
+ * Format of the list
+ */
+ListController.prototype.format = 'detailed';
+
+/**
+ * Default field to sort by
+ * @type {string}
+ */
+ListController.prototype.sortBy = null;
+
+/**
+ * Reverse direction of the sort
+ * @type {boolean}
+ */
+ListController.prototype.sortReverse = false;
+
+/**
+ * Usable fields for sort
+ * @type {Object}
+ */
+ListController.prototype.sortFields = {};
+
+ListController.prototype.remove = function remove(entity) {
+    // Display confirm callback
+    var modalInstance = this.services.$uibModal.open({
+        templateUrl : '../app/Layout/Partial/Modal/confirm.html',
+        controller  : 'ConfirmModalController',
+        windowClass : 'modal-danger'
+    });
+
+    modalInstance.result.then(function (selectedItem) {
+        /*$scope.selected = selectedItem;*/
+    }, function () {
+        /*$log.info('Modal dismissed at: ' + new Date());*/
+    });
+};
+
+// Register controller into angular
+angular
+    .module('Utilities')
+    .controller('ListController', ListController);
+
+// File : app/Layout/Directive/Field/ScoreFieldDirective.js
+/**
+ * Score Field
+ */
+angular
+    .module('Layout')
+    .directive('scoreField', [
+        function ScoreFieldDirective() {
+            return {
+                restrict: 'E',
+                templateUrl: '../app/Layout/Partial/Field/score-field.html',
+                replace: true,
+                scope: {
+                    /**
+                     * Model variable
+                     */
+                    model: '=',
+
+                    /**
+                     * Name to use for form element
+                     */
+                    name: '@',
+
+                    /**
+                     * Icon of the field
+                     */
+                    icon: '@',
+
+                    /**
+                     * Enable editable features
+                     */
+                    editable: '@',
+
+                    /**
+                     * Min value of the field
+                     */
+                    min: '@',
+
+                    /**
+                     * Max value of the field
+                     */
+                    max: '@',
+
+                    /**
+                     * Step between values
+                     */
+                    step: '@'
+                },
+                controllerAs: 'scoreFieldCtrl',
+                bindToController: true,
+                controller: function ScoreFieldController () {
+                    /**
+                     * Default options
+                     * @type {Object}
+                     */
+                    var _defaults = {
+                        editable: false,
+                        step    : 1,
+                        min     : 0,
+                        max     : 10,
+                        icon    : 'fa fa-star'
+                    };
+
+                    // Set default vars
+                    for (var prop in _defaults) {
+                        if (_defaults.hasOwnProperty(prop) && undefined == this[prop]) {
+                            this[prop] = _defaults[prop];
+                        }
+                    }
+
+                    // Initialize value if empty
+                    if (null == this.model) {
+                        this.model = this.min;
+                    }
+
+                    // Create array of values for ng-repeat
+                    this.values = [];
+                    for (var i = this.min + 1; i <= this.max; i += this.step) {
+                        this.values.push(i);
+                    }
+                }
+            };
+        }
+    ]);
+// File : app/Layout/Directive/Header/HeaderDirective.js
+/**
+ * Header of the application
+ */
+angular
+    .module('Layout')
+    .directive('layoutHeader', [
+        function LayoutHeaderDirective() {
+            return {
+                restrict: 'E',
+                templateUrl: '../app/Layout/Partial/Header/navbar.html',
+                replace: true,
+                scope: {},
+                link: function (scope, element, attrs) {
+
+                }
+            };
+        }
+    ]);
+// File : app/Layout/Directive/ListFormatterDirective.js
+/**
+ * Widget to change how lists are displayed
+ */
+var LayoutListFormatterDirective = function LayoutListFormatterDirectiveConstructor() {
+    return {
+        restrict: 'E',
+        templateUrl: '../app/Layout/Partial/list-formatter.html',
+        replace: true,
+        scope: {
+            /**
+             * Current format of the list
+             */
+            format: '='
+        },
+        controllerAs: 'listFormatterCtrl',
+        bindToController: true,
+        controller: function LayoutListFormatterController () {
+            /**
+             * Switch display format of the list
+             * @param format
+             */
+            this.switchFormat = function switchFormat(format) {
+                this.format = format;
+            };
+        }
+    };
+};
+
+// Set up dependency injection
+LayoutListFormatterDirective.$inject = [];
+
+// Register directive into AngularJS
+angular
+    .module('Layout')
+    .directive('layoutListFormatter', LayoutListFormatterDirective);
+
+// File : app/Layout/Directive/ListSorterDirective.js
+/**
+ * Widget to sort lists
+ */
+var LayoutListSorterDirective = function LayoutListSorterDirectiveConstructor() {
+    return {
+        restrict: 'E',
+        templateUrl: '../app/Layout/Partial/list-sorter.html',
+        replace: true,
+        scope: {
+            /**
+             * Number of elements in the list
+             */
+            count: '=',
+
+            /**
+             * Element name for translation
+             */
+            element: '@',
+
+            /**
+             * Current field to sort by
+             */
+            current: '=',
+
+            /**
+             * Reverse direction of the sort (if true, ascendant, else descendant)
+             */
+            reverse: '=',
+
+            /**
+             * Usable fields for sort
+             */
+            fields: '='
+        },
+        controllerAs: 'listSorterCtrl',
+        bindToController: true,
+        controller: function LayoutListSorterController () {
+            /**
+             * Get the type of the current sort field
+             * @returns {string}
+             */
+            this.getSortType = function getSortType() {
+                var type = null;
+
+                switch (this.fields[this.current]) {
+                    case 'string':
+                        type = 'string';
+                        break;
+
+                    case 'number':
+                        type = 'number';
+                        break;
+                }
+
+                return type;
+            };
+
+            /**
+             * Set current sort field
+             * @param {string} current
+             */
+            this.setCurrent = function setCurrent(current) {
+                this.current = current;
+            };
+
+            /**
+             * Toggle direction of the sort
+             */
+            this.toggleReverse = function toggleReverse() {
+                this.reverse = !this.reverse;
+            };
+        }
+    };
+};
+
+// Set up dependency injection
+LayoutListSorterDirective.$inject = [];
+
+// Register directive into AngularJS
+angular
+    .module('Layout')
+    .directive('layoutListSorter', LayoutListSorterDirective);
+
+// File : app/Layout/Directive/Page/PageButtonDirective.js
+/**
+ * Header of the application
+ */
+angular
+    .module('Layout')
+    .directive('layoutPageButton', [
+        function LayoutPageButtonDirective() {
+            return {
+                restrict: 'E',
+                template: '<li role="presentation" data-ng-transclude=""></li>',
+                replace: true,
+                transclude: true,
+                scope: {},
+                link: function (scope, element, attrs) {
+
+                }
+            };
+        }
+    ]);
+// File : app/Layout/Directive/Page/PageButtonsDirective.js
+/**
+ * Header of the application
+ */
+angular
+    .module('Layout')
+    .directive('layoutPageButtons', [
+        function LayoutPageButtonsDirective() {
+            return {
+                restrict: 'E',
+                template: '<nav class="page-buttons navbar navbar-default"><ul class=" nav navbar-nav" data-ng-transclude=""></ul></nav>',
+                replace: true,
+                transclude: true,
+                scope: {},
+                link: function (scope, element, attrs) {
+
+                }
+            };
+        }
+    ]);
+// File : app/Layout/Directive/Page/PageDirective.js
+/**
+ * Represents a page of the application
+ */
+angular
+    .module('Layout')
+    .directive('layoutPage', [
+        function LayoutPageDirective() {
+            return {
+                restrict: 'E',
+                template: '<div class="container-fluid" data-ng-transclude=""></div>',
+                replace: true,
+                transclude: true
+            };
+        }
+    ]);
+// File : app/Layout/Directive/Page/PageTitleDirective.js
+/**
+ * Represents the title of a Page
+ */
+angular
+    .module('Layout')
+    .directive('layoutPageTitle', [
+        function LayoutPageTitleDirective() {
+            return {
+                restrict: 'E',
+                templateUrl: '../app/Layout/Partial/Page/title.html',
+                replace: true,
+                transclude: true,
+                scope: {
+                    /**
+                     * If true, the title is hidden with the `sr-only` class
+                     */
+                    hideTitle: '@'
+                }
+            };
+        }
+    ]);
+// File : app/Layout/Directive/ScrollableDirective.js
+/**
+ * Scrollable Directive
+ */
+angular
+    .module('Layout')
+    .directive('layoutScrollable', [
+        '$document',
+        function ScrollableDirective ($document) {
+            // Set some default options
+            var options = {
+                scrollInertia: 100,
+                scrollButtons:{
+                    enable: false
+                },
+                scrollAmount: 80,
+                axis: 'y',
+                contentTouchScroll: true,
+                autoHideScrollbar: false
+            };
+
+            return {
+                restrict: 'A',
+                replace: true,
+                transclude: true,
+                template: '<div class="scrollable" data-ng-transclude=""></div>',
+                scope: {
+                    options : '=layoutScrollableOptions'
+                },
+                link: function (scope, element) {
+                    if (scope.options) {
+                        angular.extend(options, scope.options);
+                    }
+
+                    var $element = $(element);
+
+                    initScrollbar();
+
+                    function initScrollbar() {
+                        // Create object
+                        $element.ready(function () {
+                            $element.mCustomScrollbar(options);
+                        });
+
+                        // Add events
+                        $(window).on('resize', function () {
+                            $element.mCustomScrollbar('update');
+                        });
+
+                        $document.on('hover', $element, function () {
+                            $document.data({ "keyboard-input" : "enabled" });
+                            $(this).addClass("keyboard-input");
+                        });
+
+                        $document.on('mouseout', $element, function () {
+                            $document.data({ "keyboard-input" : "disabled" });
+                            $(this).removeClass("keyboard-input");
+                        });
+
+                        $document.on('keydown', function () {
+                            if ($(this).data("keyboard-input")==="enabled") {
+                                var activeElem = $(".keyboard-input");
+
+                                var top = parseFloat($(".keyboard-input .mCSB_container").position().top);
+                                var activeElemPos = Math.abs(top);
+                                var pixelsToScroll = 80;
+
+                                if (e.which === 38) { //scroll up
+                                    e.preventDefault();
+                                    if (pixelsToScroll>activeElemPos) {
+                                        activeElem.mCustomScrollbar("scrollTo","top");
+                                    }
+                                    else {
+                                        activeElem.mCustomScrollbar("scrollTo",(activeElemPos-pixelsToScroll),{scrollInertia:400,scrollEasing:"easeOutCirc"});
+                                    }
+                                }
+                                else if (e.which===40) { //scroll down
+                                    e.preventDefault();
+                                    activeElem.mCustomScrollbar("scrollTo",(activeElemPos+pixelsToScroll),{scrollInertia:400,scrollEasing:"easeOutCirc"});
+                                }
+                            }
+                        });
+                    }
+                }
+            };
+        }
+    ]);
+
+// File : app/Layout/Directive/Sidebar/SidebarDirective.js
+/**
+ * Sidebar of the application
+ */
+var LayoutSidebarDirective = function LayoutSidebarDirectiveConstructor($location) {
+    return {
+        restrict: 'E',
+        templateUrl: '../app/Layout/Partial/Sidebar/sidebar.html',
+        replace: true,
+        scope: {},
+        link: function sidebarDirectiveLink(scope, element, attrs) {
+            scope.currentPath = $location.path(); // Get current path
+
+            // Watch for path changes
+            scope.$on('$locationChangeSuccess', function () {
+                scope.currentPath = $location.path();
+            });
+        }
+    };
+};
+
+// Set up dependency injection
+LayoutSidebarDirective.$inject = [ '$location', '$route' ];
+
+// Register directive into AngularJS
+angular
+    .module('Layout')
+    .directive('layoutSidebar', LayoutSidebarDirective);
+// File : app/Layout/Directive/Sidebar/SidebarItemDirective.js
+/**
+ * Represents a link in the sidebar
+ */
+var LayoutSidebarItemDirective = function LayoutSidebarItemDirectiveConstructor($location) {
+    return {
+        restrict: 'E',
+        templateUrl: '../app/Layout/Partial/Sidebar/sidebar-item.html',
+        replace: true,
+        scope: {
+            icon       : '@',
+            label      : '@',
+            url        : '@',
+            currentPath: '='
+        },
+        link: function sidebarItemLink(scope, element, attrs) {
+            // Watch current path changes
+            scope.$watch('currentPath', function () {
+                scope.current = (scope.currentPath && 0 === scope.currentPath.indexOf(scope.url));
+            });
+        }
+    };
+};
+
+// Set up dependency injection
+LayoutSidebarItemDirective.$inject = [ '$location' ];
+
+// Register into AngularJS
+angular
+    .module('Layout')
+    .directive('layoutSidebarItem', LayoutSidebarItemDirective);
+// File : app/Layout/translations.js
+/**
+ * Layout translations
+ * @type {Object}
+ */
+var layoutTranslations = {};
+
+/**
+ * Language = EN
+ */
+layoutTranslations['en'] = {
+    list_display_tile           : 'tiles',
+    list_display_list_detailed  : 'detailed list',
+    list_display_list_condensed : 'condensed list'
+};
+
+
+
+/**
+ * Language = FR
+ */
+layoutTranslations['fr'] = {
+    list_display_tile           : 'tuiles',
+    list_display_list_detailed  : 'liste détaillée',
+    list_display_list_condensed : 'liste condensée'
+};
 // File : app/Advertisement/routes.js
 /**
  * Advertisement routes
@@ -1513,688 +2140,255 @@ angular
         }
     ]);
 
-// File : app/Instrument/Controller/ListViewController.js
-var ListViewController = function ListViewControllerContructor() {
-
-};
-
-// Register controller into angular
-angular.module('Instrument').controller('ListViewController', [ ListViewController ]);
-// File : app/Instrument/Directive/MenuDirective.js
+// File : app/Instrument/Controller/InstrumentCreateController.js
 /**
- * Instrument menu
- * Used to select the current instrument, and if relevant the tuning (e.g. for Guitar or Bass)
- */
-angular
-    .module('Instrument')
-    .directive('instrumentMenu', [
-        function () {
-            return {
-                restrict: 'E',
-                templateUrl: '../app/Instrument/Partial/menu.html',
-                replace: true,
-                scope: {},
-                link: function (scope, element, attrs) {
-
-                }
-            };
-        }
-    ]);
-// File : app/Instrument/Service/GuitarService.js
-(function () {
-    'use strict';
-
-    /**
-     * Guitar Service
-     * @constructor
-     */
-    var GuitarService = function () {
-
-    };
-
-    GuitarService.prototype = {
-        /**
-         * Current selected guitar
-         * @var {Object} current
-         */
-        current: null,
-
-        /**
-         * Get the current selected Guitar
-         * @returns {Object}
-         */
-        getCurrent: function getCurrent() {
-            return this.current;
-        },
-
-        /**
-         * Set the current selected Guitar
-         * @param {Object} guitar
-         */
-        setCurrent: function (guitar) {
-            this.current = guitar;
-        },
-
-        /**
-         * List all Guitars of the current User
-         * @returns {Array}
-         */
-        list: function list() {
-            return [];
-        }
-    };
-
-    // Inject controller object into Angular
-    angular
-        .module('Instrument')
-        .factory('GuitarService', GuitarService);
-})();
-// File : app/Instrument/routes.js
-/**
- * Instrument routes
- */
-angular.module('Instrument').config([
-    '$routeProvider',
-    function InstrumentRoutes($routeProvider) {
-        // List route
-        $routeProvider
-            .when('/instruments', {
-                templateUrl:  '../app/Instrument/Partial/list.html',
-                controller:   'ListViewController',
-                controllerAs: 'listViewCtrl'
-            });
-    }
-]);
-// File : app/Layout/Controller/Modal/ConfirmModalController.js
-/**
- * Confirm Modal controller
+ * Form controller for Instrument
  * @constructor
  */
-var ConfirmModalController = function ConfirmModalControllerConstructor($uibModalInstance) {
-    this.instance = $uibModalInstance;
+var InstrumentCreateController = function InstrumentCreateControllerConstructor(form, Upload, ApiService, $timeout) {
+    BaseFormController.apply(this, arguments);
+
+    this.uploadService = Upload;
+    this.apiService    = ApiService;
 };
 
-
-// Register controller into angular
-angular
-    .module('Layout')
-    .controller('ConfirmModalController', [ '$uibModalInstance', ConfirmModalController ]);
-
-// File : app/Layout/Controller/Page/FormController.js
-/**
- * Base Form controller
- * @constructor
- */
-var BaseFormController = function BaseFormControllerConstructor(form) {
-    this.form   = form.form;
-    this.entity = form.entity;
-};
-
-/**
- * Current form
- * @type {Object}
- */
-BaseFormController.prototype.form = null;
-
-/**
- * Current Entity
- * @type {Object}
- */
-BaseFormController.prototype.entity = null;
-
-/**
- * Is the edited entity a new one ?
- * @returns {boolean}
- */
-BaseFormController.prototype.isNew = function () {
-    var isNew = true;
-    if (null !== this.entity && 'undefined' !== typeof (this.entity.id) && null !== this.entity.id && 0 !== this.entity.id.length) {
-        isNew = false;
-    }
-
-    return isNew;
-};
-
-/**
- * Validate the form
- */
-BaseFormController.prototype.validate = function () {
-    this.entity.$create();
-};
-
-// Register controller into angular
-angular
-    .module('Layout')
-    .controller('BaseFormController', [ 'form', BaseFormController ]);
-
-// File : app/Layout/Controller/Page/ListController.js
-/**
- * Base List controller
- * @constructor
- */
-var ListController = function ListControllerConstructor($uibModal, entities) {
-    this.services = {};
-
-    this.services['$uibModal'] = $uibModal;
-
-    this.entities = entities;
-};
+// Extends BaseFormController
+InstrumentCreateController.prototype             = Object.create(BaseFormController.prototype);
+InstrumentCreateController.prototype.constructor = SongFormController;
 
 // Set up dependency injection
-ListController.$inject = [ '$uibModal', 'entities' ];
+InstrumentCreateController.$inject = [ 'form', 'Upload', 'ApiService' ];
 
-/**
- * List of entities
- * @type {Array}
- */
-ListController.prototype.entities = [];
+InstrumentCreateController.prototype.validate = function () {
+    var method = 'POST';
+    var url    = this.apiService.getServer() + '/instruments';
+    if (!this.isNew()) {
+        method = 'PUT';
+        url   += '/' + this.entity.id;
+    }
 
+    // Build request
+    var requestConfig = {
+        url: url,
+        method: method,
+        data: {
+            musictools_songbookbundle_song: this.entity
+        }
+    };
+
+    // Call server
+    this.uploadService.upload(requestConfig).then(
+        // Success callback
+        function onServerSuccess(resp) {
+            if (resp.data.form) {
+                angular.merge(this.form, resp.data.form);
+            }
+        }.bind(this),
+        // Error callback
+        function onServerError(resp) {
+
+        }
+    );
+};
+
+// Register controller into angular
+angular
+    .module('Instrument')
+    .controller('InstrumentCreateController', InstrumentCreateController);
+
+// File : app/Instrument/Controller/InstrumentListController.js
 /**
- * Format of the list
+ * List controller for Instruments
+ * @constructor
  */
-ListController.prototype.format = 'detailed';
+var InstrumentListController = function InstrumentListControllerConstructor($uibModal, entities) {
+    ListController.apply(this, arguments);
+};
+
+// Extends ListController
+InstrumentListController.prototype = Object.create(ListController.prototype);
+
+// Set up dependency injection
+InstrumentListController.$inject = ListController.$inject;
 
 /**
  * Default field to sort by
  * @type {string}
  */
-ListController.prototype.sortBy = null;
-
-/**
- * Reverse direction of the sort
- * @type {boolean}
- */
-ListController.prototype.sortReverse = false;
+InstrumentListController.prototype.sortBy = 'name';
 
 /**
  * Usable fields for sort
  * @type {Object}
  */
-ListController.prototype.sortFields = {};
-
-ListController.prototype.remove = function remove(entity) {
-    // Display confirm callback
-    var modalInstance = this.services.$uibModal.open({
-        templateUrl : '../app/Layout/Partial/Modal/confirm.html',
-        controller  : 'ConfirmModalController',
-        windowClass : 'modal-danger'
-    });
-
-    modalInstance.result.then(function (selectedItem) {
-        /*$scope.selected = selectedItem;*/
-    }, function () {
-        /*$log.info('Modal dismissed at: ' + new Date());*/
-    });
+InstrumentListController.prototype.sortFields = {
+    name :  'string'
 };
 
 // Register controller into angular
 angular
-    .module('Utilities')
-    .controller('ListController', ListController);
+    .module('Instrument')
+    .controller('InstrumentListController', InstrumentListController);
 
-// File : app/Layout/Directive/Field/ScoreFieldDirective.js
+// File : app/Instrument/Controller/InstrumentShowController.js
 /**
- * Score Field
+ * Show controller for Instruments
+ * @constructor
  */
-angular
-    .module('Layout')
-    .directive('scoreField', [
-        function ScoreFieldDirective() {
-            return {
-                restrict: 'E',
-                templateUrl: '../app/Layout/Partial/Field/score-field.html',
-                replace: true,
-                scope: {
-                    /**
-                     * Model variable
-                     */
-                    model: '=',
-
-                    /**
-                     * Name to use for form element
-                     */
-                    name: '@',
-
-                    /**
-                     * Icon of the field
-                     */
-                    icon: '@',
-
-                    /**
-                     * Enable editable features
-                     */
-                    editable: '@',
-
-                    /**
-                     * Min value of the field
-                     */
-                    min: '@',
-
-                    /**
-                     * Max value of the field
-                     */
-                    max: '@',
-
-                    /**
-                     * Step between values
-                     */
-                    step: '@'
-                },
-                controllerAs: 'scoreFieldCtrl',
-                bindToController: true,
-                controller: function ScoreFieldController () {
-                    /**
-                     * Default options
-                     * @type {Object}
-                     */
-                    var _defaults = {
-                        editable: false,
-                        step    : 1,
-                        min     : 0,
-                        max     : 10,
-                        icon    : 'fa fa-star'
-                    };
-
-                    // Set default vars
-                    for (var prop in _defaults) {
-                        if (_defaults.hasOwnProperty(prop) && undefined == this[prop]) {
-                            this[prop] = _defaults[prop];
-                        }
-                    }
-
-                    // Initialize value if empty
-                    if (null == this.model) {
-                        this.model = this.min;
-                    }
-
-                    // Create array of values for ng-repeat
-                    this.values = [];
-                    for (var i = this.min + 1; i <= this.max; i += this.step) {
-                        this.values.push(i);
-                    }
-                }
-            };
-        }
-    ]);
-// File : app/Layout/Directive/Header/HeaderDirective.js
-/**
- * Header of the application
- */
-angular
-    .module('Layout')
-    .directive('layoutHeader', [
-        function LayoutHeaderDirective() {
-            return {
-                restrict: 'E',
-                templateUrl: '../app/Layout/Partial/Header/navbar.html',
-                replace: true,
-                scope: {},
-                link: function (scope, element, attrs) {
-
-                }
-            };
-        }
-    ]);
-// File : app/Layout/Directive/ListFormatterDirective.js
-/**
- * Widget to change how lists are displayed
- */
-var LayoutListFormatterDirective = function LayoutListFormatterDirectiveConstructor() {
-    return {
-        restrict: 'E',
-        templateUrl: '../app/Layout/Partial/list-formatter.html',
-        replace: true,
-        scope: {
-            /**
-             * Current format of the list
-             */
-            format: '='
-        },
-        controllerAs: 'listFormatterCtrl',
-        bindToController: true,
-        controller: function LayoutListFormatterController () {
-            /**
-             * Switch display format of the list
-             * @param format
-             */
-            this.switchFormat = function switchFormat(format) {
-                this.format = format;
-            };
-        }
-    };
+var InstrumentShowController = function InstrumentShowControllerConstructor(entity) {
+    this.entity = entity;
 };
 
 // Set up dependency injection
-LayoutListFormatterDirective.$inject = [];
+InstrumentShowController.$inject = [ 'entity' ];
 
-// Register directive into AngularJS
-angular
-    .module('Layout')
-    .directive('layoutListFormatter', LayoutListFormatterDirective);
-
-// File : app/Layout/Directive/ListSorterDirective.js
 /**
- * Widget to sort lists
- */
-var LayoutListSorterDirective = function LayoutListSorterDirectiveConstructor() {
-    return {
-        restrict: 'E',
-        templateUrl: '../app/Layout/Partial/list-sorter.html',
-        replace: true,
-        scope: {
-            /**
-             * Number of elements in the list
-             */
-            count: '=',
-
-            /**
-             * Element name for translation
-             */
-            element: '@',
-
-            /**
-             * Current field to sort by
-             */
-            current: '=',
-
-            /**
-             * Reverse direction of the sort (if true, ascendant, else descendant)
-             */
-            reverse: '=',
-
-            /**
-             * Usable fields for sort
-             */
-            fields: '='
-        },
-        controllerAs: 'listSorterCtrl',
-        bindToController: true,
-        controller: function LayoutListSorterController () {
-            /**
-             * Get the type of the current sort field
-             * @returns {string}
-             */
-            this.getSortType = function getSortType() {
-                var type = null;
-
-                switch (this.fields[this.current]) {
-                    case 'string':
-                        type = 'string';
-                        break;
-
-                    case 'number':
-                        type = 'number';
-                        break;
-                }
-
-                return type;
-            };
-
-            /**
-             * Set current sort field
-             * @param {string} current
-             */
-            this.setCurrent = function setCurrent(current) {
-                this.current = current;
-            };
-
-            /**
-             * Toggle direction of the sort
-             */
-            this.toggleReverse = function toggleReverse() {
-                this.reverse = !this.reverse;
-            };
-        }
-    };
-};
-
-// Set up dependency injection
-LayoutListSorterDirective.$inject = [];
-
-// Register directive into AngularJS
-angular
-    .module('Layout')
-    .directive('layoutListSorter', LayoutListSorterDirective);
-
-// File : app/Layout/Directive/Page/PageButtonDirective.js
-/**
- * Header of the application
- */
-angular
-    .module('Layout')
-    .directive('layoutPageButton', [
-        function LayoutPageButtonDirective() {
-            return {
-                restrict: 'E',
-                template: '<li role="presentation" data-ng-transclude=""></li>',
-                replace: true,
-                transclude: true,
-                scope: {},
-                link: function (scope, element, attrs) {
-
-                }
-            };
-        }
-    ]);
-// File : app/Layout/Directive/Page/PageButtonsDirective.js
-/**
- * Header of the application
- */
-angular
-    .module('Layout')
-    .directive('layoutPageButtons', [
-        function LayoutPageButtonsDirective() {
-            return {
-                restrict: 'E',
-                template: '<nav class="page-buttons navbar navbar-default"><ul class=" nav navbar-nav" data-ng-transclude=""></ul></nav>',
-                replace: true,
-                transclude: true,
-                scope: {},
-                link: function (scope, element, attrs) {
-
-                }
-            };
-        }
-    ]);
-// File : app/Layout/Directive/Page/PageDirective.js
-/**
- * Represents a page of the application
- */
-angular
-    .module('Layout')
-    .directive('layoutPage', [
-        function LayoutPageDirective() {
-            return {
-                restrict: 'E',
-                template: '<div class="container-fluid" data-ng-transclude=""></div>',
-                replace: true,
-                transclude: true
-            };
-        }
-    ]);
-// File : app/Layout/Directive/Page/PageTitleDirective.js
-/**
- * Represents the title of a Page
- */
-angular
-    .module('Layout')
-    .directive('layoutPageTitle', [
-        function LayoutPageTitleDirective() {
-            return {
-                restrict: 'E',
-                templateUrl: '../app/Layout/Partial/Page/title.html',
-                replace: true,
-                transclude: true,
-                scope: {
-                    /**
-                     * If true, the title is hidden with the `sr-only` class
-                     */
-                    hideTitle: '@'
-                }
-            };
-        }
-    ]);
-// File : app/Layout/Directive/ScrollableDirective.js
-/**
- * Scrollable Directive
- */
-angular
-    .module('Layout')
-    .directive('layoutScrollable', [
-        '$document',
-        function ScrollableDirective ($document) {
-            // Set some default options
-            var options = {
-                scrollInertia: 100,
-                scrollButtons:{
-                    enable: false
-                },
-                scrollAmount: 80,
-                axis: 'y',
-                contentTouchScroll: true,
-                autoHideScrollbar: false
-            };
-
-            return {
-                restrict: 'A',
-                replace: true,
-                transclude: true,
-                template: '<div class="scrollable" data-ng-transclude=""></div>',
-                scope: {
-                    options : '=layoutScrollableOptions'
-                },
-                link: function (scope, element) {
-                    if (scope.options) {
-                        angular.extend(options, scope.options);
-                    }
-
-                    var $element = $(element);
-
-                    initScrollbar();
-
-                    function initScrollbar() {
-                        // Create object
-                        $element.ready(function () {
-                            $element.mCustomScrollbar(options);
-                        });
-
-                        // Add events
-                        $(window).on('resize', function () {
-                            $element.mCustomScrollbar('update');
-                        });
-
-                        $document.on('hover', $element, function () {
-                            $document.data({ "keyboard-input" : "enabled" });
-                            $(this).addClass("keyboard-input");
-                        });
-
-                        $document.on('mouseout', $element, function () {
-                            $document.data({ "keyboard-input" : "disabled" });
-                            $(this).removeClass("keyboard-input");
-                        });
-
-                        $document.on('keydown', function () {
-                            if ($(this).data("keyboard-input")==="enabled") {
-                                var activeElem = $(".keyboard-input");
-
-                                var top = parseFloat($(".keyboard-input .mCSB_container").position().top);
-                                var activeElemPos = Math.abs(top);
-                                var pixelsToScroll = 80;
-
-                                if (e.which === 38) { //scroll up
-                                    e.preventDefault();
-                                    if (pixelsToScroll>activeElemPos) {
-                                        activeElem.mCustomScrollbar("scrollTo","top");
-                                    }
-                                    else {
-                                        activeElem.mCustomScrollbar("scrollTo",(activeElemPos-pixelsToScroll),{scrollInertia:400,scrollEasing:"easeOutCirc"});
-                                    }
-                                }
-                                else if (e.which===40) { //scroll down
-                                    e.preventDefault();
-                                    activeElem.mCustomScrollbar("scrollTo",(activeElemPos+pixelsToScroll),{scrollInertia:400,scrollEasing:"easeOutCirc"});
-                                }
-                            }
-                        });
-                    }
-                }
-            };
-        }
-    ]);
-
-// File : app/Layout/Directive/Sidebar/SidebarDirective.js
-/**
- * Sidebar of the application
- */
-var LayoutSidebarDirective = function LayoutSidebarDirectiveConstructor($location) {
-    return {
-        restrict: 'E',
-        templateUrl: '../app/Layout/Partial/Sidebar/sidebar.html',
-        replace: true,
-        scope: {},
-        link: function sidebarDirectiveLink(scope, element, attrs) {
-            scope.currentPath = $location.path(); // Get current path
-
-            // Watch for path changes
-            scope.$on('$locationChangeSuccess', function () {
-                scope.currentPath = $location.path();
-            });
-        }
-    };
-};
-
-// Set up dependency injection
-LayoutSidebarDirective.$inject = [ '$location', '$route' ];
-
-// Register directive into AngularJS
-angular
-    .module('Layout')
-    .directive('layoutSidebar', LayoutSidebarDirective);
-// File : app/Layout/Directive/Sidebar/SidebarItemDirective.js
-/**
- * Represents a link in the sidebar
- */
-var LayoutSidebarItemDirective = function LayoutSidebarItemDirectiveConstructor($location) {
-    return {
-        restrict: 'E',
-        templateUrl: '../app/Layout/Partial/Sidebar/sidebar-item.html',
-        replace: true,
-        scope: {
-            icon       : '@',
-            label      : '@',
-            url        : '@',
-            currentPath: '='
-        },
-        link: function sidebarItemLink(scope, element, attrs) {
-            // Watch current path changes
-            scope.$watch('currentPath', function () {
-                scope.current = (scope.currentPath && 0 === scope.currentPath.indexOf(scope.url));
-            });
-        }
-    };
-};
-
-// Set up dependency injection
-LayoutSidebarItemDirective.$inject = [ '$location' ];
-
-// Register into AngularJS
-angular
-    .module('Layout')
-    .directive('layoutSidebarItem', LayoutSidebarItemDirective);
-// File : app/Layout/translations.js
-/**
- * Layout translations
+ * Current displayed entity
  * @type {Object}
  */
-var layoutTranslations = {};
+InstrumentShowController.prototype.entity = null;
+
+// Register controller into angular
+angular
+    .module('Instrument')
+    .controller('InstrumentShowController', InstrumentShowController);
+
+// File : app/Instrument/Directive/InstrumentMenuDirective.js
+/**
+ * Instrument menu
+ * Used to select the current instrument, and if relevant the tuning (e.g. for Guitar or Bass)
+ */
+var InstrumentMenuDirective = function InstrumentMenuDirectiveConstructor() {
+    return {
+        restrict: 'E',
+        templateUrl: '../app/Instrument/Partial/menu.html',
+        replace: true
+    };
+};
+
+// Register directive into AngularJS
+angular
+    .module('Instrument')
+    .directive('instrumentMenu', InstrumentMenuDirective);
+// File : app/Instrument/Resource/InstrumentResource.js
+var InstrumentResource = function InstrumentResourceConstructor() {
+    // Call parent constructor
+    ApiResource.apply(this, arguments);
+};
+
+// Extends ApiResource
+InstrumentResource.prototype = Object.create(ApiResource.prototype);
+InstrumentResource.$inject = ApiResource.$inject;
+
+/**
+ * Name of the Resource (used as translation key)
+ * @type {string}
+ */
+InstrumentResource.prototype.name = 'instrument';
+
+/**
+ * Path of the API resource
+ * @type {string}
+ */
+InstrumentResource.prototype.path = '/instruments';
+
+// Register service into Angular JS
+angular
+    .module('Instrument')
+    .service('InstrumentResource', InstrumentResource);
+
+// File : app/Instrument/routes.js
+/**
+ * Instrument routes
+ */
+angular
+    .module('Instrument')
+    .config([
+        '$routeProvider',
+        function InstrumentRoutes($routeProvider) {
+            $routeProvider
+                // List
+                .when('/instruments', {
+                    templateUrl:  '../app/Instrument/Partial/index.html',
+                    controller:   'InstrumentListController',
+                    controllerAs: 'instrumentListCtrl',
+                    resolve: {
+                        entities: [
+                            '$route',
+                            'InstrumentResource',
+                            function entitiesResolver($route, InstrumentResource) {
+                                return InstrumentResource.query();
+                            }
+                        ]
+                    }
+                })
+
+                // New form
+                .when('/instruments/new', {
+                    templateUrl:  '../app/Instrument/Partial/CreateWizard/layout.html',
+                    controller:   'InstrumentCreateController',
+                    controllerAs: 'instrumentCreateCtrl',
+                    resolve: {
+                        form: [
+                            function formResolver() {
+                                return {};
+                            }
+                        ],
+                        instrumentTypes: [
+                            'InstrumentResource',
+                            function formResolver(InstrumentResource) {
+                                return InstrumentResource.query();
+                            }
+                        ]
+                    }
+                })
+
+                // Show
+                .when('/instruments/:id', {
+                    templateUrl:  '../app/Instrument/Partial/show.html',
+                    controller:   'InstrumentShowController',
+                    controllerAs: 'instrumentShowCtrl',
+                    resolve: {
+                        entity: [
+                            '$route',
+                            'InstrumentResource',
+                            function entityResolver($route, InstrumentResource) {
+                                return InstrumentResource.get($route.current.params.id);
+                            }
+                        ]
+                    }
+                });
+        }
+    ]);
+// File : app/Instrument/translations.js
+/**
+ * Instrument translations
+ * @type {Object}
+ */
+var instrumentTranslations = {};
 
 /**
  * Language = EN
  */
-layoutTranslations['en'] = {
-    list_display_tile           : 'tiles',
-    list_display_list_detailed  : 'detailed list',
-    list_display_list_condensed : 'condensed list'
+instrumentTranslations['en'] = {
+    // D
+    delete_instrument    : 'Delete instrument',
+
+    // E
+    edit_instrument      : 'Edit instrument',
+
+    // I
+    instrument           : 'instrument{COUNT, plural, =0{} one{} other{s}}',
+
+    // M
+    my_instruments_title : 'My instruments',
+
+    // N
+    new_instrument       : 'Add a new instrument',
+    no_instrument_found  : 'No instrument found.',
+
+    // S
+    show_instrument      : 'Show instrument'
 };
 
 
@@ -2202,10 +2396,25 @@ layoutTranslations['en'] = {
 /**
  * Language = FR
  */
-layoutTranslations['fr'] = {
-    list_display_tile           : 'tuiles',
-    list_display_list_detailed  : 'liste détaillée',
-    list_display_list_condensed : 'liste condensée'
+instrumentTranslations['fr'] = {
+    // D
+    delete_instrument    : 'Supprimer l\'instrument',
+
+    // E
+    edit_instrument      : 'Modifier l\'instrument',
+
+    // I
+    instrument           : 'instrument{COUNT, plural, =0{} one{} other{s}}',
+
+    // M
+    my_instruments_title : 'Mes instruments',
+
+    // N
+    new_instrument       : 'Ajouter un instrument',
+    no_instrument_found  : 'Aucun instrument trouvé.',
+
+    // S
+    show_instrument      : 'Voir l\'instrument'
 };
 // File : app/Lesson/routes.js
 /**
@@ -2327,11 +2536,10 @@ var ChordSheetDirective = function ChordSheetDirectiveConstructor($timeout) {
                 var $alphaTab = $(element);
 
                 $alphaTab.alphaTab({
-                    staves: [ {id: 'score', additionalSettings: {'bar-count': false } }, 'tab' ],
+                    staves: [ 'score', 'tab' ],
                     layout: {
                         mode: 'horizontal',
                         additionalSettings: {
-                            /*autoSize: false*/
                             hideInfo: true,
                             hideBarCount: true
                         }
@@ -2339,8 +2547,6 @@ var ChordSheetDirective = function ChordSheetDirectiveConstructor($timeout) {
                 });
 
                 $alphaTab.alphaTab('tex', dataTex);
-
-                console.log($alphaTab);
             }, 0);
         }
     };
@@ -2453,7 +2659,7 @@ angular
  * Form controller for Songs
  * @constructor
  */
-var SongFormController = function SongFormController(form, Upload, ApiService, $timeout) {
+var SongFormController = function SongFormControllerConstructor(form, Upload, ApiService) {
     BaseFormController.apply(this, arguments);
 
     this.uploadService = Upload;
@@ -2463,6 +2669,9 @@ var SongFormController = function SongFormController(form, Upload, ApiService, $
 // Extends BaseFormController
 SongFormController.prototype             = Object.create(BaseFormController.prototype);
 SongFormController.prototype.constructor = SongFormController;
+
+// Set up dependency injection
+SongFormController.$inject = [ 'form', 'Upload', 'ApiService' ];
 
 SongFormController.prototype.validate = function () {
     var method = 'POST';
@@ -2496,10 +2705,10 @@ SongFormController.prototype.validate = function () {
     );
 };
 
-// Register controller into angular
+// Register controller into Angular JS
 angular
     .module('SongBook')
-    .controller('SongFormController', [ 'form', 'Upload', 'ApiService', '$timeout', SongFormController ]);
+    .controller('SongFormController', SongFormController);
 
 // File : app/SongBook/Controller/SongListController.js
 /**
@@ -2507,11 +2716,7 @@ angular
  * @constructor
  */
 var SongListController = function SongListControllerConstructor($uibModal, entities) {
-    this.services = {};
-
-    this.services['$uibModal'] = $uibModal;
-
-    this.entities = entities;
+    ListController.apply(this, arguments);
 };
 
 // Extends ListController
@@ -2729,7 +2934,7 @@ songBookTranslations['fr'] = {
     delete_song       : 'Supprimer le morceau',
 
     // E
-    edit_song         : 'Editer le morceau',
+    edit_song         : 'Modifier le morceau',
 
     // M
     my_songbook_title : 'Mon livre de chansons',
@@ -2748,11 +2953,7 @@ songBookTranslations['fr'] = {
  * @constructor
  */
 var ChordListController = function ChordListControllerConstructor($uibModal, entities) {
-    this.services = {};
-
-    this.services['$uibModal'] = $uibModal;
-
-    this.entities = entities;
+    ListController.apply(this, arguments);
 };
 
 // Extends ListController

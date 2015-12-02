@@ -69,6 +69,9 @@ class LoadNoteData extends AbstractFixture implements OrderedFixtureInterface
             $manager->persist($noteInfo);
         }
 
+        // We start with C0
+        $midi = 12;
+
         // A 440
         $refFreq  = 440.000;
         $refValue = 57;
@@ -88,6 +91,7 @@ class LoadNoteData extends AbstractFixture implements OrderedFixtureInterface
                 $note->setOctave($octave);
                 $note->setValue($value);
                 $note->setFrequency($frequency);
+                $note->setMidi($midi);
                 $note->setInfo($notesInfo[$noteNum]);
 
                 // Link Note to the previous one
@@ -99,6 +103,9 @@ class LoadNoteData extends AbstractFixture implements OrderedFixtureInterface
 
                 // ORM persist
                 $manager->persist($note);
+
+                // Increment midi number
+                $midi++;
             }
         }
 

@@ -3,11 +3,7 @@
  * @constructor
  */
 var SongListController = function SongListControllerConstructor($uibModal, entities) {
-    this.services = {};
-
-    this.services['$uibModal'] = $uibModal;
-
-    this.entities = entities;
+    ListController.apply(this, arguments);
 };
 
 // Extends ListController

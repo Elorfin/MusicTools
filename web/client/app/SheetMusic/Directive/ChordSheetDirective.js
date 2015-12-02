@@ -24,11 +24,10 @@ var ChordSheetDirective = function ChordSheetDirectiveConstructor($timeout) {
                 var $alphaTab = $(element);
 
                 $alphaTab.alphaTab({
-                    staves: [ {id: 'score', additionalSettings: {'bar-count': false } }, 'tab' ],
+                    staves: [ 'score', 'tab' ],
                     layout: {
                         mode: 'horizontal',
                         additionalSettings: {
-                            /*autoSize: false*/
                             hideInfo: true,
                             hideBarCount: true
                         }
@@ -36,8 +35,6 @@ var ChordSheetDirective = function ChordSheetDirectiveConstructor($timeout) {
                 });
 
                 $alphaTab.alphaTab('tex', dataTex);
-
-                console.log($alphaTab);
             }, 0);
         }
     };

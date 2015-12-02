@@ -1,0 +1,39 @@
+<layout-page class="page-list instrument-list">
+    <!-- Header buttons -->
+    <layout-page-buttons>
+        <!-- New Instrument button -->
+        <layout-page-button class="nav-link-default">
+            <a href="#/instruments/new">
+                <span class="fa fa-fw fa-plus"></span>
+                {{ 'new_instrument'|translate }}
+            </a>
+        </layout-page-button>
+
+        <li class="divider"></li>
+
+        <!-- List format button -->
+        <layout-page-button class="nav-link-default">
+            <layout-list-formatter data-format="instrumentListCtrl.format"></layout-list-formatter>
+        </layout-page-button>
+    </layout-page-buttons>
+
+    <!-- Title of the page -->
+    <layout-page-title id="song-list">
+        {{ 'my_instruments_title'|translate }}
+
+        <layout-list-sorter data-element="instrument" data-count="instrumentListCtrl.entities.length" data-current="instrumentListCtrl.sortBy" data-reverse="instrumentListCtrl.sortReverse" data-fields="instrumentListCtrl.sortFields"></layout-list-sorter>
+    </layout-page-title>
+
+    <div class="row">
+        <!-- List items -->
+        <div data-ng-repeat="entity in instrumentListCtrl.entities|orderBy:instrumentListCtrl.sortBy:instrumentListCtrl.sortReverse"
+             data-ng-include="'../app/instrumentListCtrl/Partial/List/item-' + instrumentListCtrl.format + '.html'"
+             data-ng-class="{ 'col-md-12': 'tile' !== instrumentListCtrl.format, 'col-xs-12 col-sm-4 col-md-3 col-lg-2': 'tile' === instrumentListCtrl.format }"
+        ></div>
+    </div>
+
+    <!-- No element message -->
+    <div class="empty-list" data-ng-if="instrumentListCtrl.entities.length === 0">
+        {{ 'no_instrument_found'|translate }}
+    </div>
+</layout-page>

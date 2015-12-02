@@ -3,11 +3,7 @@
  * @constructor
  */
 var ChordListController = function ChordListControllerConstructor($uibModal, entities) {
-    this.services = {};
-
-    this.services['$uibModal'] = $uibModal;
-
-    this.entities = entities;
+    ListController.apply(this, arguments);
 };
 
 // Extends ListController

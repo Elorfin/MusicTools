@@ -7,6 +7,9 @@ var BaseFormController = function BaseFormControllerConstructor(form) {
     this.entity = form.entity;
 };
 
+// Set up dependency injection
+BaseFormController.$inject = [ 'form' ];
+
 /**
  * Current form
  * @type {Object}
@@ -18,6 +21,12 @@ BaseFormController.prototype.form = null;
  * @type {Object}
  */
 BaseFormController.prototype.entity = null;
+
+/**
+ * Is form include file Upload ? (Internally used to know which AJAX service we need to use $http or Upload)
+ * @type {boolean}
+ */
+BaseFormController.prototype.multipart = false;
 
 /**
  * Is the edited entity a new one ?
@@ -39,7 +48,7 @@ BaseFormController.prototype.validate = function () {
     this.entity.$create();
 };
 
-// Register controller into angular
+// Register controller into Angular JS
 angular
     .module('Layout')
-    .controller('BaseFormController', [ 'form', BaseFormController ]);
+    .controller('BaseFormController', BaseFormController);

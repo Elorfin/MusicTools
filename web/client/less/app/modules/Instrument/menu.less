@@ -1,0 +1,62 @@
+.instrument-menu {
+    position: relative;
+    padding: 0 5px;
+
+    &:before,
+    &:after {
+        display: block;
+        content: " ";
+        position: absolute;
+        top: 10px;
+        bottom: 10px;
+        border: 1px solid @dropdown-bg;
+        .box-shadow(0 0 3px rgba(0, 0, 0, 0.75));
+    }
+
+    &:before {
+        left: 0;
+    }
+
+    &:after {
+        right: 0;
+    }
+
+    .dropdown-toggle {
+        padding-right: 5px !important;
+        padding-left: 5px !important;
+    }
+
+    .dropdown-header {
+        background: @dropdown-link-hover-bg;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        font-weight: 600;
+    }
+
+    .guitar-link,
+    .scale-link {
+        .fa {
+            font-size: 20px;
+            height: 20px;
+            line-height: 20px;
+            top: 10px;
+        }
+    }
+
+    .navbar-text,
+    .guitar-link,
+    .scale-link{
+        small {
+            color: @navbar-default-link-color;
+        }
+    }
+
+    .navbar-text {
+        margin: 10px;
+
+        .link-label {
+            display: block;
+            color: @brand-primary;
+        }
+    }
+}

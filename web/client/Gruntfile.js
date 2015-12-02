@@ -72,6 +72,7 @@ module.exports = function (grunt) {
 
                     // Load src code
                     'app/Utilities/**/*.js',
+                    'app/Layout/**/*.js',
                     'app/**/*.js',
 
                     // Load routes

@@ -1,8 +1,8 @@
 /**
- * Form controller for Songs
+ * Form controller for Instrument
  * @constructor
  */
-var SongFormController = function SongFormControllerConstructor(form, Upload, ApiService) {
+var InstrumentCreateController = function InstrumentCreateControllerConstructor(form, Upload, ApiService, $timeout) {
     BaseFormController.apply(this, arguments);
 
     this.uploadService = Upload;
@@ -10,15 +10,15 @@ var SongFormController = function SongFormControllerConstructor(form, Upload, Ap
 };
 
 // Extends BaseFormController
-SongFormController.prototype             = Object.create(BaseFormController.prototype);
-SongFormController.prototype.constructor = SongFormController;
+InstrumentCreateController.prototype             = Object.create(BaseFormController.prototype);
+InstrumentCreateController.prototype.constructor = SongFormController;
 
 // Set up dependency injection
-SongFormController.$inject = [ 'form', 'Upload', 'ApiService' ];
+InstrumentCreateController.$inject = [ 'form', 'Upload', 'ApiService' ];
 
-SongFormController.prototype.validate = function () {
+InstrumentCreateController.prototype.validate = function () {
     var method = 'POST';
-    var url    = this.apiService.getServer() + '/songs';
+    var url    = this.apiService.getServer() + '/instruments';
     if (!this.isNew()) {
         method = 'PUT';
         url   += '/' + this.entity.id;
@@ -48,7 +48,7 @@ SongFormController.prototype.validate = function () {
     );
 };
 
-// Register controller into Angular JS
+// Register controller into angular
 angular
-    .module('SongBook')
-    .controller('SongFormController', SongFormController);
+    .module('Instrument')
+    .controller('InstrumentCreateController', InstrumentCreateController);

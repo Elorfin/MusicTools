@@ -79,6 +79,21 @@
     &:after {
         right: 0;
     }
+
+    .dropdown-toggle {
+        /* the wrap <div> break the default Bootstrap nav-link styles, so lets recreate it */
+        position: relative;
+        display: block;
+        padding: @navbar-padding-vertical @navbar-padding-horizontal;
+        line-height: @line-height-computed;
+        color: @navbar-default-link-color;
+
+        &:hover,
+        &:focus {
+            color: @navbar-default-link-hover-color;
+            background-color: @navbar-default-link-hover-bg;
+        }
+    }
 }
 
 .header .nav,
@@ -112,6 +127,10 @@
                 border-right: 2px solid rgba(0, 0, 0, 0.4);
             }
         }
+    }
+
+    .dropdown-menu {
+        margin: 0;
     }
 
     .dropdown-menu:not(.dropdown-menu-right) {

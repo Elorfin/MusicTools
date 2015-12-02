@@ -23,27 +23,6 @@
     }
 }
 
-.list-formatter {
-    /* the wrap <div> break the default Bootstrap nav-link styles, so lets recreate it */
-    > a {
-        position: relative;
-        display: block;
-        padding: @navbar-padding-vertical @navbar-padding-horizontal;
-        line-height: @line-height-computed;
-        color: @navbar-default-link-color;
-
-        &:hover,
-        &:focus {
-            color: @navbar-default-link-hover-color;
-            background-color: @navbar-default-link-hover-bg;
-        }
-    }
-
-    .dropdown-menu {
-        margin: 0;
-    }
-}
-
 .page-list {
     .list-item {
         position: relative; // Lock `absolute` buttons in its item

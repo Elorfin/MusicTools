@@ -2,8 +2,10 @@
  * Show controller for Songs
  * @constructor
  */
-var ChordShowController = function ChordShowControllerContructor(entity) {
+var ChordShowController = function ChordShowControllerContructor(entity, notes) {
     this.entity = entity;
+
+    this.notes = notes;
 };
 
 // Set up dependency injection

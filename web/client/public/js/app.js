@@ -70,7 +70,7 @@ angular
 angular.module('Lesson', []);
 // File : app/SheetMusic/module.js
 /**
- *
+ * SHeet Music renderer
  */
 angular.module('SheetMusic', []);
 // File : app/SongBook/module.js
@@ -98,7 +98,10 @@ angular
  * Theory Module
  */
 angular
-    .module('Theory', [])
+    .module('Theory', [
+        'ngRoute',
+        'SheetMusic'
+    ])
     .config([
         '$translateProvider',
         function($translateProvider) {
@@ -2219,9 +2222,11 @@ angular.module('Lesson').config([
  * Controller constructor
  * @constructor
  */
-var SheetMusicController = function SheetMusicController() {
+var SheetMusicController = function SheetMusicControllerConstructor() {
 
 };
+
+SheetMusicController.$inject = [];
 
 /**
  * Sheet music file to display
@@ -2291,8 +2296,63 @@ SheetMusicController.prototype.nextBar = function nextBar() {
 };
 
 // Inject the controller into angular
-angular.module('SheetMusic').controller('SheetMusicController', SheetMusicController);
+angular
+    .module('SheetMusic')
+    .controller('SheetMusicController', SheetMusicController);
 
+// File : app/SheetMusic/Directive/ChordSheetDirective.js
+/**
+ * Display Chord score
+ */
+var ChordSheetDirective = function ChordSheetDirectiveConstructor($timeout) {
+    return {
+        restrict: 'E',
+        replace: true,
+        template: '<div class="chordTab"></div>',
+        scope: {
+            /**
+             * Root note of the Chord
+             */
+            root: '=',
+
+            /**
+             * Chord definition
+             */
+            chord: '='
+        },
+        link: function chordSheetLink(scope, element, attrs) {
+            $timeout(function () {
+                var dataTex = ':1 (3.4 3.5)';
+
+                var $alphaTab = $(element);
+
+                $alphaTab.alphaTab({
+                    staves: [ {id: 'score', additionalSettings: {'bar-count': false } }, 'tab' ],
+                    layout: {
+                        mode: 'horizontal',
+                        additionalSettings: {
+                            /*autoSize: false*/
+                            hideInfo: true,
+                            hideBarCount: true
+                        }
+                    }
+                });
+
+                $alphaTab.alphaTab('tex', dataTex);
+
+                console.log($alphaTab);
+            }, 0);
+        }
+    };
+};
+
+// Set up dependency injection
+ChordSheetDirective.$inject = [ '$timeout' ];
+
+// Inject directive into AngularJS
+angular
+    .module('SheetMusic')
+    .directive('chordSheet', ChordSheetDirective);
 // File : app/SheetMusic/Directive/SheetMusicDirective.js
 (function () {
     'use strict';
@@ -2712,9 +2772,15 @@ ChordListController.prototype.sortBy = 'name';
  * @type {Object}
  */
 ChordListController.prototype.sortFields = {
-    name       :  'string',
-    notes_count :  'string'
+    name        : 'string',
+    notes_count : 'string'
 };
+
+/**
+ * Current root for Chord display
+ * @type {Object}
+ */
+ChordListController.prototype.root = null;
 
 // Register controller into angular
 angular
@@ -2726,8 +2792,10 @@ angular
  * Show controller for Songs
  * @constructor
  */
-var ChordShowController = function ChordShowControllerContructor(entity) {
+var ChordShowController = function ChordShowControllerContructor(entity, notes) {
     this.entity = entity;
+
+    this.notes = notes;
 };
 
 // Set up dependency injection
@@ -2813,7 +2881,7 @@ angular
     .module('Theory')
     .controller('IntervalListController', IntervalListController);
 
-// File : app/Theory/Controller/NoteListController.js
+// File : app/Theory/Controller/Note/NoteListController.js
 /**
  * List controller for Notes
  * @constructor
@@ -2839,6 +2907,57 @@ NoteListController.prototype.entities = [];
 angular
     .module('Theory')
     .controller('NoteListController', NoteListController);
+
+// File : app/Theory/Controller/Note/NoteMenuController.js
+/**
+ * Menu controller for Notes
+ * @constructor
+ */
+var NoteMenuController = function NoteMenuControllerConstructor(NoteResource) {
+    this.services = {};
+    this.services['NoteResource'] = NoteResource;
+
+    this.entities = NoteResource.query().then(function (result) {
+        this.entities = result;
+        if (!this.current) {
+            this.current = result[0];
+        }
+    }.bind(this));
+};
+
+// Set up dependency injection
+NoteMenuController.$inject = [ 'NoteResource' ];
+
+/**
+ * List of notes
+ * @type {Array}
+ */
+NoteMenuController.prototype.entities = [];
+
+/**
+ * Current note
+ * @type {Object}
+ */
+NoteMenuController.prototype.current = null;
+
+NoteMenuController.prototype.previous = function previous() {
+    var pos = this.entities.indexOf(this.current);
+    if (-1 !== pos && this.entities[pos - 1]) {
+        this.current = this.entities[pos - 1];
+    }
+};
+
+NoteMenuController.prototype.next = function next() {
+    var pos = this.entities.indexOf(this.current);
+    if (-1 !== pos && this.entities[pos + 1]) {
+        this.current = this.entities[pos + 1];
+    }
+};
+
+// Register controller into angular
+angular
+    .module('Theory')
+    .controller('NoteMenuController', NoteMenuController);
 
 // File : app/Theory/Controller/ScaleListController.js
 /**
@@ -2896,7 +3015,9 @@ var IntervalPlayerDirective = function IntervalPlayerDirective() {
                     return result;
                 }.bind(this));
 
-                this.intervals = IntervalResource.query();
+                this.intervals = IntervalResource.query().then(function (result) {
+                    this.intervals = result;
+                }.bind(this));
 
                 /**
                  * Tempo
@@ -3054,6 +3175,40 @@ NoteDisplaySwitchDirective.$inject = [];
 angular
     .module('Theory')
     .directive('noteDisplaySwitch', NoteDisplaySwitchDirective);
+// File : app/Theory/Directive/Note/NoteMenuDirective.js
+/**
+ * Note menu directive
+ * @param   {NoteResource} NoteResource
+ * @returns {Object}
+ * @constructor
+ */
+var NoteMenuDirective = function NoteMenuDirectiveConstructor(NoteResource) {
+    return {
+        restrict: 'E',
+        templateUrl: '../app/Theory/Partial/Note/menu.html',
+        replace: true,
+        scope: {
+            /**
+             * Current selected note
+             */
+            current: '='
+        },
+        controller: 'NoteMenuController',
+        controllerAs: 'noteMenuCtrl',
+        bindToController: true,
+        link: function (scope, element, attrs, noteMenuCtrl) {
+
+        }
+    };
+};
+
+// Set up dependency injection
+NoteMenuDirective.$inject = ['NoteResource'];
+
+// Register directive into angular
+angular
+    .module('Theory')
+    .directive('noteMenu', NoteMenuDirective);
 // File : app/Theory/Directive/Note/NoteSelectorDirective.js
 /**
  * Note selector directive
@@ -3067,13 +3222,22 @@ var NoteSelectorDirective = function NoteSelectorDirective(NoteResource) {
         templateUrl: '../app/Theory/Partial/Note/selector.html',
         replace: true,
         scope: {
-
+            /**
+             * Current selected note
+             */
+            current: '='
         },
         controller: function NoteSelectorController() {},
         controllerAs: 'noteSelectorCtrl',
         bindToController: true,
         link: function (scope, element, attrs) {
-            scope.notes = NoteResource.query();
+            scope.notes = NoteResource.query().then(function (result) {
+                if (!scope.current) {
+                    scope.current = result[0];
+                }
+
+                return result;
+            });
         }
     };
 };
@@ -3463,6 +3627,12 @@ angular
                             'ChordResource',
                             function entityResolver($route, ChordResource) {
                                 return ChordResource.get($route.current.params.id);
+                            }
+                        ],
+                        notes: [
+                            'NoteResource',
+                            function notesResolver(NoteResource) {
+                                return NoteResource.query();
                             }
                         ]
                     }

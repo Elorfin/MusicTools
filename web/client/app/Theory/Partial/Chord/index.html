@@ -1,8 +1,15 @@
 <layout-page class="page-list chord-list">
     <!-- Header buttons -->
     <layout-page-buttons>
+        <!-- Note menu -->
+        <layout-page-button class="nav-link-default">
+            <note-menu data-current="chordListCtrl.root"></note-menu>
+        </layout-page-button>
+
+        <li class="divider"></li>
+
         <!-- List format button -->
-        <layout-page-button class="nav-link-default" data-uib-dropdown="">
+        <layout-page-button class="nav-link-default">
             <layout-list-formatter data-format="chordListCtrl.format"></layout-list-formatter>
         </layout-page-button>
     </layout-page-buttons>

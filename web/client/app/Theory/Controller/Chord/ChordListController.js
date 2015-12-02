@@ -27,9 +27,15 @@ ChordListController.prototype.sortBy = 'name';
  * @type {Object}
  */
 ChordListController.prototype.sortFields = {
-    name       :  'string',
-    notes_count :  'string'
+    name        : 'string',
+    notes_count : 'string'
 };
+
+/**
+ * Current root for Chord display
+ * @type {Object}
+ */
+ChordListController.prototype.root = null;
 
 // Register controller into angular
 angular

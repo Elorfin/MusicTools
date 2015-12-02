@@ -10,13 +10,22 @@ var NoteSelectorDirective = function NoteSelectorDirective(NoteResource) {
         templateUrl: '../app/Theory/Partial/Note/selector.html',
         replace: true,
         scope: {
-
+            /**
+             * Current selected note
+             */
+            current: '='
         },
         controller: function NoteSelectorController() {},
         controllerAs: 'noteSelectorCtrl',
         bindToController: true,
         link: function (scope, element, attrs) {
-            scope.notes = NoteResource.query();
+            scope.notes = NoteResource.query().then(function (result) {
+                if (!scope.current) {
+                    scope.current = result[0];
+                }
+
+                return result;
+            });
         }
     };
 };

@@ -2,7 +2,10 @@
  * Theory Module
  */
 angular
-    .module('Theory', [])
+    .module('Theory', [
+        'ngRoute',
+        'SheetMusic'
+    ])
     .config([
         '$translateProvider',
         function($translateProvider) {

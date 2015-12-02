@@ -26,7 +26,9 @@ var IntervalPlayerDirective = function IntervalPlayerDirective() {
                     return result;
                 }.bind(this));
 
-                this.intervals = IntervalResource.query();
+                this.intervals = IntervalResource.query().then(function (result) {
+                    this.intervals = result;
+                }.bind(this));
 
                 /**
                  * Tempo

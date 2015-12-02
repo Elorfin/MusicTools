@@ -28,7 +28,9 @@ module.exports = function (grunt) {
                     'bower_components/angular-loading-bar/build/loading-bar.js',
                     'bower_components/ng-file-upload/ng-file-upload-shim.js',
                     'bower_components/ng-file-upload/ng-file-upload.js',
-                    'bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.js'
+                    'bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.js',
+                    'bower_components/AlphaTab/Build/JavaScript/AlphaTab.js',
+                    'bower_components/AlphaTab/Build/JavaScript/jquery.alphaTab.js'
                 ],
                 dest: '<%= distFolder %>/js/lib.js'
             },
@@ -47,7 +49,9 @@ module.exports = function (grunt) {
                     'bower_components/angular-loading-bar/build/loading-bar.min.js',
                     'bower_components/ng-file-upload/ng-file-upload-shim.min.js',
                     'bower_components/ng-file-upload/ng-file-upload.min.js',
-                    'bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js'
+                    'bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js',
+                    'bower_components/AlphaTab/Build/JavaScript/AlphaTab.min.js',
+                    'bower_components/AlphaTab/Build/JavaScript/jquery.alphaTab.js'
                 ],
                 dest: '<%= distFolder %>/js/lib.min.js'
             },

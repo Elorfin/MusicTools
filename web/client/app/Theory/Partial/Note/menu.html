@@ -1,0 +1,19 @@
+<div class="note-menu">
+    <a href="" role="button" class="note-select" data-ng-click="noteMenuCtrl.previous()" data-ng-class="{ disabled: noteMenuCtrl.current === noteMenuCtrl.entities[0] }">
+        <span class="fa fa-fw fa-caret-left"></span>
+    </a>
+
+    <div class="selector">
+        <span class="text-center note-input">
+            {{ noteMenuCtrl.current.info.name }}
+        </span>
+
+        <span class="text-center octave-input">
+            {{ noteMenuCtrl.current.octave }}
+        </span>
+    </div>
+
+    <a href="" role="button" class="note-select" data-ng-click="noteMenuCtrl.next()">
+        <span class="fa fa-fw fa-caret-right"></span>
+    </a>
+</div>

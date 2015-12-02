@@ -1,0 +1,47 @@
+.note-menu {
+    /*padding: 0 floor(@navbar-padding-horizontal / 3);*/
+    position: relative;
+    font-size: 0;
+    white-space: nowrap;
+
+    .note-select {
+        display: inline-block;
+        padding: @navbar-padding-vertical floor(@navbar-padding-horizontal / 2);
+        vertical-align: middle;
+        font-size: @font-size-base;
+        white-space: nowrap;
+        color: @navbar-default-link-color;
+
+        &:hover,
+        &:focus {
+            color: @navbar-default-link-hover-color;
+        }
+    }
+
+    .selector {
+        position: relative;
+        display: inline-block;
+        vertical-align: middle;
+
+        .note-input {
+            color: @brand-primary;
+            padding: 5px;
+            display: inline-block;
+            /*width: 30px;*/
+            vertical-align: top;
+            font-size: @font-size-large;
+            background: @input-bg;
+            margin-right: 5px;
+        }
+
+        .octave-input {
+            padding: 5px;
+            color: @brand-primary;
+            display: inline-block;
+            /*width: 20px;*/
+            vertical-align: bottom;
+            font-size: @font-size-base;
+            background: @input-bg;
+        }
+    }
+}

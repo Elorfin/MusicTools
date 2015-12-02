@@ -84,6 +84,12 @@ angular
                             function entityResolver($route, ChordResource) {
                                 return ChordResource.get($route.current.params.id);
                             }
+                        ],
+                        notes: [
+                            'NoteResource',
+                            function notesResolver(NoteResource) {
+                                return NoteResource.query();
+                            }
                         ]
                     }
                 })

@@ -2,9 +2,11 @@
  * Controller constructor
  * @constructor
  */
-var SheetMusicController = function SheetMusicController() {
+var SheetMusicController = function SheetMusicControllerConstructor() {
 
 };
+
+SheetMusicController.$inject = [];
 
 /**
  * Sheet music file to display
@@ -74,4 +76,6 @@ SheetMusicController.prototype.nextBar = function nextBar() {
 };
 
 // Inject the controller into angular
-angular.module('SheetMusic').controller('SheetMusicController', SheetMusicController);
+angular
+    .module('SheetMusic')
+    .controller('SheetMusicController', SheetMusicController);

@@ -3,6 +3,7 @@
 namespace MusicTools\TheoryBundle\Entity\Note;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation\Exclude as SerializerExclude;
 use Elorfin\ReactorBundle\Entity\UniqueIdentifiableTrait;
 use MusicTools\TheoryBundle\Entity\Interval;
 
@@ -58,6 +59,8 @@ class Note
      *
      * @ORM\OneToOne(targetEntity="MusicTools\TheoryBundle\Entity\Note\Note")
      * @ORM\JoinColumn(name="previous_id", referencedColumnName="id", nullable=true)
+     *
+     * @SerializerExclude
      */
     protected $previous;
 
@@ -67,6 +70,8 @@ class Note
      *
      * @ORM\OneToOne(targetEntity="MusicTools\TheoryBundle\Entity\Note\Note")
      * @ORM\JoinColumn(name="next_id", referencedColumnName="id", nullable=true)
+     *
+     * @SerializerExclude
      */
     protected $next;
 

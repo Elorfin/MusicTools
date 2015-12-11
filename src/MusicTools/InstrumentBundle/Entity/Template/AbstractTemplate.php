@@ -3,6 +3,7 @@
 namespace MusicTools\InstrumentBundle\Entity\Template;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation\Exclude as SerializerExclude;
 use Elorfin\ReactorBundle\Entity\NameableTrait;
 use MusicTools\InstrumentBundle\Entity\InstrumentType;
 
@@ -22,6 +23,8 @@ abstract class AbstractTemplate
      *
      * @ORM\ManyToOne(targetEntity="MusicTools\InstrumentBundle\Entity\InstrumentType")
      * @ORM\JoinColumn(name="type_id", referencedColumnName="id", nullable=false)
+     *
+     * @SerializerExclude
      */
     protected $type;
 

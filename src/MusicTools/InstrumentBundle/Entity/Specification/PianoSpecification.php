@@ -4,6 +4,7 @@ namespace MusicTools\InstrumentBundle\Entity\Specification;
 
 use Doctrine\ORM\Mapping as ORM;
 use Elorfin\ReactorBundle\Entity\UniqueIdentifiableTrait;
+use MusicTools\InstrumentBundle\Entity\Instrument\PianoTrait;
 
 /**
  * Piano Entity
@@ -12,7 +13,7 @@ use Elorfin\ReactorBundle\Entity\UniqueIdentifiableTrait;
  * @ORM\Entity()
  * @ORM\Table(name="instrument_piano")
  */
-class Piano extends AbstractSpecification implements \JsonSerializable
+class PianoSpecification extends AbstractSpecification
 {
     /**
      * Add Identifiable behavior
@@ -20,13 +21,7 @@ class Piano extends AbstractSpecification implements \JsonSerializable
     use UniqueIdentifiableTrait;
 
     /**
-     * Serialize the Entity
-     * @return array
+     * Add Piano behavior
      */
-    public function jsonSerialize()
-    {
-        return array (
-
-        );
-    }
+    use PianoTrait;
 }

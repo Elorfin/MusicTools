@@ -13,3 +13,7 @@ music_tools_theory_degree:
 music_tools_theory_chord:
     resource: MusicTools\TheoryBundle\Controller\ChordController
     type:     rest
+
+music_tools_theory_scale:
+    resource: MusicTools\TheoryBundle\Controller\ScaleController
+    type:     rest

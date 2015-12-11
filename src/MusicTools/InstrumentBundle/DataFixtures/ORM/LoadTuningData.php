@@ -2,7 +2,8 @@
 
 namespace MusicTools\InstrumentBundle\DataFixtures\ORM;
 
-use Doctrine\Common\DataFixtures\FixtureInterface;
+use Doctrine\Common\DataFixtures\AbstractFixture;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 
 use MusicTools\InstrumentBundle\Entity\Tuning\TuningCategory;
@@ -12,8 +13,16 @@ use MusicTools\InstrumentBundle\Entity\Tuning\StringTuning;
 /**
  * Initializes Tunings
  */
-class LoadTuningData implements FixtureInterface
+class LoadTuningData extends AbstractFixture implements OrderedFixtureInterface
 {
+    /**
+     * {@inheritDoc}
+     */
+    public function getOrder()
+    {
+        return 1;
+    }
+
     /**
      * {@inheritDoc}
      */

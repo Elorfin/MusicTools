@@ -1,8 +1,0 @@
-services:
-    # Create Instrument Form Flow
-    music_tools_instrument.form.instrument_flow:
-        class: MusicTools\InstrumentBundle\Form\InstrumentFlowForm
-        arguments:
-            formFactory: @form.factory
-            router:      @router
-            session:     @session

@@ -27,11 +27,11 @@ abstract class AbstractSpecification
     }
 
     /**
-     * Set info
-     * @param \MusicTools\InstrumentBundle\Entity\Instrument $instrument
+     * Set instrument
+     * @param  \MusicTools\InstrumentBundle\Entity\Instrument $instrument
      * @return \MusicTools\InstrumentBundle\Entity\Specification\AbstractSpecification
      */
-    public function setInfo(Instrument $instrument)
+    public function setInstrument(Instrument $instrument)
     {
         $this->instrument = $instrument;
 

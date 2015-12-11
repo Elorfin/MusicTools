@@ -4,9 +4,12 @@ namespace MusicTools\InstrumentBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use FOS\RestBundle\Routing\ClassResourceInterface;
+use FOS\RestBundle\Controller\Annotations\RouteResource;
 
 /**
  * Instrument Type CRUD Controller
+ *
+ * @RouteResource("InstrumentType")
  */
 class InstrumentTypeController extends Controller implements ClassResourceInterface
 {

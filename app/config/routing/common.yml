@@ -1,17 +1,17 @@
 # Routes for Instrument
 music_tools_instrument:
     resource: "@MusicToolsInstrumentBundle/Resources/config/routing.yml"
-    prefix:   /instrument
+    type:     rest
 
 # Routes for SongBook
 music_tools_song_book:
     resource: "@MusicToolsSongBookBundle/Resources/config/routing.yml"
-    prefix:   /
+    type:     rest
 
 # Routes for Theory
 music_tools_theory:
     resource: "@MusicToolsTheoryBundle/Resources/config/routing.yml"
-    prefix:   /
+    type:     rest
 
 # Routes for Lesson
 music_tools_lesson:

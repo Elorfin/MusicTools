@@ -32,15 +32,18 @@ class InstrumentType
     protected $icon;
 
     /**
+     * Entity class
      * @var string
      * @ORM\Column(type="string")
      */
     protected $class;
 
-    public function __toString()
-    {
-        return $this->name;
-    }
+    /**
+     * Template class
+     * @var string
+     * @ORM\Column(type="string")
+     */
+    protected $template;
 
     /**
      * Get icon
@@ -80,6 +83,27 @@ class InstrumentType
     public function setClass($class)
     {
         $this->class = $class;
+
+        return $this;
+    }
+
+    /**
+     * Get template
+     * @return string
+     */
+    public function getTemplate()
+    {
+        return $this->template;
+    }
+
+    /**
+     * Set template
+     * @param  string $template
+     * @return $this
+     */
+    public function setTemplate($template)
+    {
+        $this->template = $template;
 
         return $this;
     }

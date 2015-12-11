@@ -5,6 +5,7 @@ namespace MusicTools\InstrumentBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Elorfin\ReactorBundle\Entity\UniqueIdentifiableTrait;
+use Elorfin\ReactorBundle\Entity\NameableTrait;
 use MusicTools\MusicianBundle\Entity\OwnableTrait;
 
 /**
@@ -20,6 +21,11 @@ class Instrument
      * Add Identifiable behavior
      */
     use UniqueIdentifiableTrait;
+
+    /**
+     * Add nameable behavior
+     */
+    use NameableTrait;
 
     /**
      * Add Ownable behavior

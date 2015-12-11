@@ -42,25 +42,6 @@ class SongController extends Controller implements ClassResourceInterface
     }
 
     /**
-     * Display new Song form
-     * "new_songs"     [GET] /songs/new
-     *
-     * @return array
-     */
-    public function newAction()
-    {
-        $entity = new Song();
-        $form   = $form = $this->createForm(new SongType(), $entity, array(
-            'method' => 'POST',
-        ));
-
-        return array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
-        );
-    }
-
-    /**
      * Create a new Song
      * "post_songs"    [POST] /songs
      *
@@ -87,31 +68,8 @@ class SongController extends Controller implements ClassResourceInterface
 
         $errors = $form->getErrors();
 
-
         return array(
-            'entity' => $entity,
-            'errors' => $form,
-            'form'   => $form->createView(),
-        );
-    }
-
-    /**
-     * Display edit Song form
-     * "edit_song"     [GET] /songs/{id}/edit
-     *
-     * @param  integer $id
-     * @return array
-     */
-    public function editAction($id)
-    {
-        $entity = $this->getEntity($id);
-        $form = $form = $this->createForm(new SongType(), $entity, array(
-            'method' => 'PUT',
-        ));
-
-        return array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
+            'errors' => $errors,
         );
     }
 
@@ -144,9 +102,7 @@ class SongController extends Controller implements ClassResourceInterface
         $errors = $form->getErrors();
 
         return array(
-            'entity' => $entity,
             'errors' => $errors,
-            'form'   => $form->createView(),
         );
     }
 

@@ -1,35 +1,19 @@
 <?php
 
-namespace MusicTools\InstrumentBundle\Entity\Specification;
+namespace MusicTools\InstrumentBundle\Entity\Instrument;
 
 use Doctrine\ORM\Mapping as ORM;
-use Elorfin\ReactorBundle\Entity\UniqueIdentifiableTrait;
-use MusicTools\MusicianBundle\Entity\OwnableTrait;
 
 /**
- * Guitar Entity
- * Used to store the configuration of a Guitar
- *
- * @ORM\Entity()
- * @ORM\Table(name="instrument_guitar")
+ * Guitar
  */
-class Guitar extends AbstractSpecification implements \JsonSerializable
+trait GuitarTrait
 {
-    /**
-     * Add Identifiable behavior
-     */
-    use UniqueIdentifiableTrait;
-
-    /**
-     * Add Ownable behavior
-     */
-    use OwnableTrait;
-
     /**
      * Shape of the guitar's headstock (6-in-line or 3+3 for a 6 strings guitar)
      * @var string
      *
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      */
     protected $headstock;
 
@@ -116,18 +100,5 @@ class Guitar extends AbstractSpecification implements \JsonSerializable
         $this->frets = $frets;
 
         return $this;
-    }
-
-    /**
-     * Serialize the Entity
-     * @return array
-     */
-    public function jsonSerialize()
-    {
-        return array (
-            'id'      => $this->id,
-            'strings' => $this->strings,
-            'frets'   => $this->frets,
-        );
     }
 }

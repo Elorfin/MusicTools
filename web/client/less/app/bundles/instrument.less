@@ -1,19 +1,45 @@
 .instrument-types {
+    text-align: center;
+
     .instrument-type-item {
-        padding: 5px;
-        border-radius: 200px;
-        border: 6px solid black;
+        position: relative;
+        text-align: center;
+        cursor: pointer;
+        display: inline-block;
+        margin: floor(@grid-gutter-width / 2);
+        width: 200px;
+        height: 200px;
+        overflow: hidden;
+        border-radius: 250px;
+        font-size: 0;
+        border: 2px solid transparent;
 
-        &:hover {
-            border-color: @brand-primary;
+        img {
+            opacity: 0.5;
 
-            object svg path {
-                fill: @brand-primary !important;
-            }
         }
 
-        object svg path {
-            fill: @brand-primary !important;
+        &.active {
+            border: 2px solid @brand-primary;
+        }
+
+        span {
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            font-size: @font-size-base;
+            display: block;
+            line-height: 200px;
+            color: @brand-primary;
+            background: rgba(0, 0, 0, 0.4);
+            /*opacity: 0.5;*/
+            top: 0;
         }
     }
+}
+
+.instrument-type-current {
+    text-align: center;
+    font-size: @font-size-large;
+    color: @brand-primary;
 }

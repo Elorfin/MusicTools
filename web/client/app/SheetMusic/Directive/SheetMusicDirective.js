@@ -7,7 +7,7 @@
             function ($timeout) {
                 return {
                     restrict: 'E',
-                    templateUrl: assetDirectory + '/musictoolssongbook/js/SheetMusic/Partial/sheet-music.html',
+                    templateUrl: '../app/SheetMusic/Partial/sheet-music.html',
                     replace: true,
                     scope: {
                         file: '@'
@@ -38,7 +38,7 @@
 
                             //
                             // 2. Initialize Player and Setup Player UI
-                            sheetMusicCtrl.player.component = sheetMusicCtrl.component.alphaTab('playerInit', {
+                            /*sheetMusicCtrl.player.component = sheetMusicCtrl.component.alphaTab('playerInit', {
                                 asRoot        : assetDirectory + '/musictoolssongbook/libraries/alphaTab/Samples/JavaScript/lib/alphaSynth/',
                                 swfObjectRoot : assetDirectory + '/musictoolssongbook/libraries/alphaTab/Samples/JavaScript/lib/alphaSynth/'
                             }); // init alphaSynth
@@ -48,9 +48,9 @@
                             sheetMusicCtrl.player.component.On('ready', function(r) {
                                 // load default data
                                 sheetMusicCtrl.player.component.LoadSoundFontUrl(assetDirectory + '/musictoolssongbook/libraries/alphaTab/Samples/JavaScript/lib/alphaSynth/default.sf2');
-                            });
+                            });*/
 
-                            sheetMusicCtrl.player.component.On('soundFontLoad', function(loaded, full) {
+                            /*sheetMusicCtrl.player.component.On('soundFontLoad', function(loaded, full) {
                                 var percentage = ((loaded / full) * 100)|0;
                                 $('#sfInfo .progress').text('(' + percentage + '%)');
                             });
@@ -60,7 +60,7 @@
                             });
 
                             sheetMusicCtrl.player.component.On('readyForPlay', function(r) {
-                                /*sheetMusicCtrl.player.ready = r;*/
+                                *//*sheetMusicCtrl.player.ready = r;*//*
                                 updateControls();
 
                                 scope.$apply();
@@ -75,7 +75,7 @@
 
                             //
                             // 3. Add cursors (optional)
-                            sheetMusicCtrl.component.alphaTab('playerCursor');
+                            sheetMusicCtrl.component.alphaTab('playerCursor');*/
                             // sheetMusicCtrl.component.alphaTab('drop'); // drag and drop
                         }, 300);
 

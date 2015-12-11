@@ -2,50 +2,127 @@
  * Form controller for Instrument
  * @constructor
  */
-var InstrumentCreateController = function InstrumentCreateControllerConstructor(form, Upload, ApiService, $timeout) {
-    BaseFormController.apply(this, arguments);
+var InstrumentCreateController = function InstrumentCreateControllerConstructor(data, InstrumentResource, instrumentTypes, InstrumentTemplateResource) {
+    BaseWizardFormController.apply(this, arguments);
 
-    this.uploadService = Upload;
-    this.apiService    = ApiService;
+    this.instrumentTypes  = instrumentTypes;
+    this.templateResource = InstrumentTemplateResource;
 };
 
 // Extends BaseFormController
-InstrumentCreateController.prototype             = Object.create(BaseFormController.prototype);
-InstrumentCreateController.prototype.constructor = SongFormController;
+InstrumentCreateController.prototype             = Object.create(BaseWizardFormController.prototype);
+InstrumentCreateController.prototype.constructor = InstrumentCreateController;
 
 // Set up dependency injection
-InstrumentCreateController.$inject = [ 'form', 'Upload', 'ApiService' ];
+InstrumentCreateController.$inject = [ 'data', 'InstrumentResource', 'instrumentTypes', 'InstrumentTemplateResource' ];
 
-InstrumentCreateController.prototype.validate = function () {
-    var method = 'POST';
-    var url    = this.apiService.getServer() + '/instruments';
-    if (!this.isNew()) {
-        method = 'PUT';
-        url   += '/' + this.entity.id;
+/**
+ * Step 1 - Choose Type
+ * @type {Object}
+ */
+InstrumentCreateController.prototype.steps.chooseType = {
+    order       : 1,
+    title       : 'create_choose_type',
+    templateUrl : '../app/Instrument/Partial/CreateWizard/choose_type.html'
+};
+
+/**
+ * Step 2 - Choose Template
+ * @type {Object}
+ */
+InstrumentCreateController.prototype.steps.chooseTemplate = {
+    order       : 2,
+    title       : 'create_choose_template',
+    templateUrl : '../app/Instrument/Partial/CreateWizard/choose_template.html',
+    onLoad: function onLoad() {
+
+    },
+    onUnload: function onUnload() {
+
     }
+};
 
-    // Build request
-    var requestConfig = {
-        url: url,
-        method: method,
-        data: {
-            musictools_songbookbundle_song: this.entity
-        }
-    };
+/**
+ * Step 3 - Customize info
+ * @type {Object}
+ */
+InstrumentCreateController.prototype.steps.customizeInfo = {
+    order       : 3,
+    title       : 'create_fill_info',
+    templateUrl : '../app/Instrument/Partial/CreateWizard/fill_info.html'
+};
 
-    // Call server
-    this.uploadService.upload(requestConfig).then(
-        // Success callback
-        function onServerSuccess(resp) {
-            if (resp.data.form) {
-                angular.merge(this.form, resp.data.form);
+/**
+ * Create steps
+ * @type {Array}
+ */
+InstrumentCreateController.prototype.steps = [
+    // Step 1
+    {
+        number: 1,
+        name: 'create_choose_type',
+        templateUrl: '../app/Instrument/Partial/CreateWizard/choose_type.html',
+        validate: function validate(data, errors) {
+            if (data.type) {
+                return true;
+            } else {
+                errors.push('You must choose an instrument type');
+
+                return false;
             }
-        }.bind(this),
-        // Error callback
-        function onServerError(resp) {
-
         }
-    );
+    },
+
+    // Step 2
+    {
+        number: 2,
+        name: 'create_choose_template',
+        templateUrl: '../app/Instrument/Partial/CreateWizard/choose_template.html'
+    },
+
+    // Step 3
+    {
+        number: 3,
+        name: 'create_fill_info',
+        templateUrl: '../app/Instrument/Partial/CreateWizard/fill_info.html'
+    }
+];
+
+/**
+ * Instrument templates
+ * @type {Array}
+ */
+InstrumentCreateController.prototype.templates = [];
+
+/**
+ * Selected template
+ * @type {Object}
+ */
+InstrumentCreateController.prototype.selectedTemplate = null;
+
+/**
+ * Select the type of the Instrument
+ * @param {Object} type
+ */
+InstrumentCreateController.prototype.selectType = function (type) {
+    this.data.type = type;
+
+    // Load templates for this type
+    this.loadTemplates(type);
+};
+
+InstrumentCreateController.prototype.loadTemplates = function (type) {
+    this.templates = this.templateResource.get({ type: type.id }).then(function (result) {
+        this.templates = result;
+    }.bind(this));
+};
+
+/**
+ * Select a template for the Instrument
+ * @param {Object} template
+ */
+InstrumentCreateController.prototype.selectTemplate = function (template) {
+    this.selectedTemplate = template;
 };
 
 // Register controller into angular

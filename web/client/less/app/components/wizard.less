@@ -1,6 +1,11 @@
+.wizard-step-title {
+    font-size: 16px;
+    margin-bottom: floor(@grid-gutter-width / 2);
+}
+
 .wizard-breadcrumbs {
     position: absolute;
-    right: floor(@grid-gutter-width / 2);
+    right: 0;
     top: 0;
     padding: 0;
     margin: 0;
@@ -8,43 +13,64 @@
     font-size: 0;
 
     .wizard-breadcrumbs-item {
-        color: @gray-dark;
         position: relative;
-        font-size: 16px;
-        font-weight: bold;
         display: inline-block;
-
-        text-align: center;
-        vertical-align: middle;
-        width: 34px;
-        height: 34px;
-        border: 2px solid @gray-dark;
-        border-radius: 18px;
-        line-height: 30px;
         margin: 0 15px;
-        .box-shadow(0 0 3px rgba(0, 0, 0, 0.5));
+
+        a {
+            color: @gray-dark;
+            font-size: 16px;
+            font-weight: bold;
+            display: block;
+            text-align: center;
+            vertical-align: middle;
+            width: 34px;
+            height: 34px;
+            border: 2px solid @gray-dark;
+            border-radius: 18px;
+            line-height: 30px;
+            .box-shadow(0 0 3px rgba(0, 0, 0, 0.5));
+        }
 
         &.active {
-            border-color: @brand-primary;
-            color: @brand-primary;
+            a {
+                border-color: @brand-primary;
+                color: @brand-primary;
+            }
+
             &:before {
-                background-color: @brand-primary;
+                background: @brand-primary;
             }
         }
 
         &.done {
-            border-color: @brand-primary;
-            background-color: @brand-primary;
-            color: @body-bg;
+            a {
+                border-color: @brand-success;
+                color: @brand-success;
+            }
 
-            &:before, &:after {
-                background-color: @brand-primary;
+            &:after {
+                background: @brand-success;
+            }
+
+            &:before {
+                background: @brand-success;
             }
         }
 
         &.has-errors {
-            color: @brand-danger;
-            border-color: @brand-danger;
+            a {
+                color: @brand-danger;
+                border-color: @brand-danger;
+            }
+
+            &:after {
+                background: @brand-danger;
+            }
+
+            &:before {
+                background: @brand-danger;
+            }
         }
 
         /* Line from the previous step */
@@ -52,9 +78,9 @@
             content: " ";
             position: absolute;
             width: 15px;
-            left: -17px;
+            left: -15px;
             height: 4px;
-            top: 13px;
+            top: 15px;
             background-color: @gray-dark;
         }
 
@@ -63,9 +89,9 @@
             content: " ";
             position: absolute;
             width: 15px;
-            right: -17px;
+            right: -15px;
             height: 4px;
-            top: 13px;
+            top: 15px;
             background-color: @gray-dark;
         }
 

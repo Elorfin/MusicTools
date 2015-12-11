@@ -17,7 +17,7 @@ InstrumentResource.prototype.name = 'instrument';
  * Path of the API resource
  * @type {string}
  */
-InstrumentResource.prototype.path = '/instruments';
+InstrumentResource.prototype.path = '/instruments/{id}';
 
 // Register service into Angular JS
 angular

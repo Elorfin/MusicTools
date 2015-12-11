@@ -277,12 +277,6 @@ ApiResource.prototype.name = null;
 ApiResource.prototype.path = null;
 
 /**
- * Field to use as identifier for the API
- * @type {string}
- */
-ApiResource.prototype.identifier = 'id';
-
-/**
  * List of elements
  * @type {Array}
  */
@@ -293,6 +287,36 @@ ApiResource.prototype.elements = [];
  * @type {boolean}
  */
 ApiResource.prototype.refreshElements = false;
+
+/**
+ * Build API path of the resource
+ * @returns {string}
+ */
+ApiResource.prototype.getFullPath = function buildPath(params) {
+    var fullPath = this.services.api.getServer() + this.path;
+
+    // Extracts params from path (delimited by {})
+    var matches = this.path.match(/{([^}]+)}/gi);
+    if (matches) {
+        // Replace params vith resource values
+        for (var i = 0; i < matches.length; i++) {
+            var resourceProperty = matches[i].replace('{', '').replace('}', '');
+            var resourceValue = '';
+            if (params && params.hasOwnProperty(resourceProperty)) {
+                resourceValue = params[resourceProperty];
+            }
+
+            fullPath = fullPath.replace(matches[i], resourceValue);
+        }
+    }
+
+    // Clean slashes
+    while (fullPath.substr(-1) === '/') {
+        fullPath = fullPath.substr(0, fullPath.length - 1);
+    }
+
+    return fullPath;
+};
 
 /**
  * List existing resources filtered by `queryParams`
@@ -307,7 +331,7 @@ ApiResource.prototype.query = function queryResources(queryParams, refresh) {
         // Load data from server
         // Call API
         this.services.$http
-            .get(this.services.api.getServer() + this.path)
+            .get(this.getFullPath())
 
             // Success callback
             .success(function onServerSuccess(response) {
@@ -352,16 +376,16 @@ ApiResource.prototype.count = function countResources() {
 
 /**
  * Find an existing entity
- * @param   {number} identifier - The identifier of the resource to search
- * @returns {Object}            - The resource found
+ * @param   {Object} params - The identifier of the resource to search
+ * @returns {Object}        - The resource found
  */
-ApiResource.prototype.get = function getResource(identifier) {
+ApiResource.prototype.get = function getResource(params) {
     // Load data from server
     var deferred = this.services.$q.defer(); // Initialize promise
 
     // Call API
     this.services.$http
-        .get(this.services.api.getServer() + this.path + '/' + identifier)
+        .get(this.getFullPath(params))
 
         // Success callback
         .success(function onServerSuccess(response) {
@@ -395,14 +419,24 @@ ApiResource.prototype.save = function saveResource(resource) {
  * @param {Object} resource - The resource to create
  */
 ApiResource.prototype.new = function newResource(resource) {
+    // Load data from server
+    var deferred = this.services.$q.defer(); // Initialize promise
 
-};
+    // Call API
+    this.services.$http
+        .post(this.getFullPath(resource))
 
-/**
- * Get definition of the form for new Resource
- */
-ApiResource.prototype.newForm = function newFormResource() {
+        // Success callback
+        .success(function onServerSuccess(response) {
+            deferred.resolve(response);
+        }.bind(this))
 
+        // Error callback
+        .error(function onServerError(response) {
+            deferred.reject(response);
+        });
+
+    return deferred.promise;
 };
 
 /**
@@ -410,15 +444,35 @@ ApiResource.prototype.newForm = function newFormResource() {
  * @param {Object} resource - The resource to update
  */
 ApiResource.prototype.update = function updateResource(resource) {
+    var method = 'POST';
+    var url    = this.apiService.getServer() + '/songs';
+    if (!this.isNew()) {
+        method = 'PUT';
+        url   += '/' + this.entity.id;
+    }
 
-};
+    // Build request
+    var requestConfig = {
+        url: url,
+        method: method,
+        data: {
+            musictools_songbookbundle_song: this.entity
+        }
+    };
 
-/**
- * Get definition of the form for existing Resource
- * @param {Object} resource - The resource to edit
- */
-ApiResource.prototype.editForm = function editFormResource(resource) {
+    // Call server
+    this.uploadService.upload(requestConfig).then(
+        // Success callback
+        function onServerSuccess(resp) {
+            if (resp.data.form) {
+                angular.merge(this.form, resp.data.form);
+            }
+        }.bind(this),
+        // Error callback
+        function onServerError(resp) {
 
+        }
+    );
 };
 
 /**
@@ -545,25 +599,25 @@ angular
  * Base Form controller
  * @constructor
  */
-var BaseFormController = function BaseFormControllerConstructor(form) {
-    this.form   = form.form;
-    this.entity = form.entity;
+var BaseFormController = function BaseFormControllerConstructor(data, ApiResource) {
+    this.data        = data;
+    this.apiResource = ApiResource;
 };
 
 // Set up dependency injection
-BaseFormController.$inject = [ 'form' ];
+BaseFormController.$inject = [ 'data', 'ApiResource' ];
 
 /**
- * Current form
- * @type {Object}
+ * Errors
+ * @type {Array}
  */
-BaseFormController.prototype.form = null;
+BaseFormController.prototype.errors = [];
 
 /**
- * Current Entity
+ * Current data
  * @type {Object}
  */
-BaseFormController.prototype.entity = null;
+BaseFormController.prototype.data = null;
 
 /**
  * Is form include file Upload ? (Internally used to know which AJAX service we need to use $http or Upload)
@@ -575,9 +629,9 @@ BaseFormController.prototype.multipart = false;
  * Is the edited entity a new one ?
  * @returns {boolean}
  */
-BaseFormController.prototype.isNew = function () {
+BaseFormController.prototype.isNew = function isNew() {
     var isNew = true;
-    if (null !== this.entity && 'undefined' !== typeof (this.entity.id) && null !== this.entity.id && 0 !== this.entity.id.length) {
+    if (null !== this.data && 'undefined' !== typeof (this.data.id) && null !== this.data.id && 0 !== this.data.id.length) {
         isNew = false;
     }
 
@@ -587,8 +641,21 @@ BaseFormController.prototype.isNew = function () {
 /**
  * Validate the form
  */
-BaseFormController.prototype.validate = function () {
-    this.entity.$create();
+BaseFormController.prototype.validate = function validate() {
+    return true
+};
+
+/**
+ * Submit the form
+ */
+BaseFormController.prototype.submit = function submit() {
+    if (this.validate()) {
+        if (this.isNew()) {
+            this.apiResource.new(this.data);
+        } else {
+            this.apiResource.update(this.data);
+        }
+    }
 };
 
 // Register controller into Angular JS
@@ -660,6 +727,127 @@ ListController.prototype.remove = function remove(entity) {
 angular
     .module('Utilities')
     .controller('ListController', ListController);
+
+// File : app/Layout/Controller/Page/WizardFormController.js
+/**
+ * Wizard Form controller
+ * @constructor
+ */
+var BaseWizardFormController = function BaseWizardFormControllerConstructor(data, ApiResource) {
+    BaseFormController.apply(this, arguments);
+
+    this.setCurrentStep(this.steps[0]);
+};
+
+// Extends BaseFormController
+BaseWizardFormController.prototype             = Object.create(BaseFormController.prototype);
+BaseWizardFormController.prototype.constructor = BaseWizardFormController;
+
+// Set up dependency injection
+BaseWizardFormController.$inject = [ 'data', 'ApiResource' ];
+
+/**
+ * Wizard steps
+ * @type {Array}
+ */
+BaseWizardFormController.prototype.steps = [];
+
+/**
+ * Current step
+ * @type {Object}
+ */
+BaseWizardFormController.prototype.currentStep = null;
+
+BaseWizardFormController.prototype.hasPrevious = true;
+
+BaseWizardFormController.prototype.hasNext = true;
+
+/**
+ * Set current step wizard
+ * @param step
+ */
+BaseWizardFormController.prototype.setCurrentStep = function setCurrentStep(step) {
+    if (null !== this.currentStep) {
+        // Validate step before leaving
+        this.validateStep(this.currentStep);
+    }
+
+    this.currentStep = step;
+
+    this.hasPrevious = true;
+    this.hasNext     = true;
+
+    var position = this.steps.indexOf(this.currentStep);
+    if (0 === position) {
+        this.hasPrevious = false;
+    }
+
+    if (this.steps.length - 1 === position) {
+        this.hasNext = false;
+    }
+};
+
+/**
+ * Go to previous step
+ */
+BaseWizardFormController.prototype.previousStep = function previousStep() {
+    var pos = this.steps.indexOf(this.currentStep);
+    if (-1 !== pos && this.steps[pos - 1]) {
+        this.setCurrentStep(this.steps[pos - 1]);
+    }
+};
+
+/**
+ * Go to next step
+ */
+BaseWizardFormController.prototype.nextStep = function nextStep() {
+    var pos = this.steps.indexOf(this.currentStep);
+    if (-1 !== pos && this.steps[pos + 1]) {
+        this.setCurrentStep(this.steps[pos + 1]);
+    }
+};
+
+/**
+ * Validate step
+ * @param step
+ */
+BaseWizardFormController.prototype.validateStep = function validateStep(step) {
+    // Empty errors
+    this.errors.splice(0, this.errors.length);
+
+    var valid = true;
+    if (this.currentStep.hasOwnProperty('validate')) {
+        valid = this.currentStep.validate(this.data, this.errors);
+    }
+
+    if (valid) {
+        this.currentStep.state = 'done';
+    } else {
+        this.currentStep.state = 'has-errors';
+    }
+};
+
+/**
+ * Validate the whole wizard
+ * @returns {boolean}
+ */
+BaseWizardFormController.prototype.validate = function validate() {
+    var valid = true;
+
+    for (var i = 0; i < this.steps.length; i++) {
+        valid = this.validateStep(this.steps[i]);
+        if (!valid) {
+            break;
+        }
+    }
+
+    return valid;
+};
+
+// Register controller into Angular JS
+angular
+    .module('Layout')
+    .controller('BaseWizardFormController', BaseWizardFormController);
 
 // File : app/Layout/Directive/Field/ScoreFieldDirective.js
 /**
@@ -2145,50 +2333,127 @@ angular
  * Form controller for Instrument
  * @constructor
  */
-var InstrumentCreateController = function InstrumentCreateControllerConstructor(form, Upload, ApiService, $timeout) {
-    BaseFormController.apply(this, arguments);
+var InstrumentCreateController = function InstrumentCreateControllerConstructor(data, InstrumentResource, instrumentTypes, InstrumentTemplateResource) {
+    BaseWizardFormController.apply(this, arguments);
 
-    this.uploadService = Upload;
-    this.apiService    = ApiService;
+    this.instrumentTypes  = instrumentTypes;
+    this.templateResource = InstrumentTemplateResource;
 };
 
 // Extends BaseFormController
-InstrumentCreateController.prototype             = Object.create(BaseFormController.prototype);
-InstrumentCreateController.prototype.constructor = SongFormController;
+InstrumentCreateController.prototype             = Object.create(BaseWizardFormController.prototype);
+InstrumentCreateController.prototype.constructor = InstrumentCreateController;
 
 // Set up dependency injection
-InstrumentCreateController.$inject = [ 'form', 'Upload', 'ApiService' ];
+InstrumentCreateController.$inject = [ 'data', 'InstrumentResource', 'instrumentTypes', 'InstrumentTemplateResource' ];
 
-InstrumentCreateController.prototype.validate = function () {
-    var method = 'POST';
-    var url    = this.apiService.getServer() + '/instruments';
-    if (!this.isNew()) {
-        method = 'PUT';
-        url   += '/' + this.entity.id;
+/**
+ * Step 1 - Choose Type
+ * @type {Object}
+ */
+InstrumentCreateController.prototype.steps.chooseType = {
+    order       : 1,
+    title       : 'create_choose_type',
+    templateUrl : '../app/Instrument/Partial/CreateWizard/choose_type.html'
+};
+
+/**
+ * Step 2 - Choose Template
+ * @type {Object}
+ */
+InstrumentCreateController.prototype.steps.chooseTemplate = {
+    order       : 2,
+    title       : 'create_choose_template',
+    templateUrl : '../app/Instrument/Partial/CreateWizard/choose_template.html',
+    onLoad: function onLoad() {
+
+    },
+    onUnload: function onUnload() {
+
     }
+};
 
-    // Build request
-    var requestConfig = {
-        url: url,
-        method: method,
-        data: {
-            musictools_songbookbundle_song: this.entity
-        }
-    };
+/**
+ * Step 3 - Customize info
+ * @type {Object}
+ */
+InstrumentCreateController.prototype.steps.customizeInfo = {
+    order       : 3,
+    title       : 'create_fill_info',
+    templateUrl : '../app/Instrument/Partial/CreateWizard/fill_info.html'
+};
 
-    // Call server
-    this.uploadService.upload(requestConfig).then(
-        // Success callback
-        function onServerSuccess(resp) {
-            if (resp.data.form) {
-                angular.merge(this.form, resp.data.form);
+/**
+ * Create steps
+ * @type {Array}
+ */
+InstrumentCreateController.prototype.steps = [
+    // Step 1
+    {
+        number: 1,
+        name: 'create_choose_type',
+        templateUrl: '../app/Instrument/Partial/CreateWizard/choose_type.html',
+        validate: function validate(data, errors) {
+            if (data.type) {
+                return true;
+            } else {
+                errors.push('You must choose an instrument type');
+
+                return false;
             }
-        }.bind(this),
-        // Error callback
-        function onServerError(resp) {
-
         }
-    );
+    },
+
+    // Step 2
+    {
+        number: 2,
+        name: 'create_choose_template',
+        templateUrl: '../app/Instrument/Partial/CreateWizard/choose_template.html'
+    },
+
+    // Step 3
+    {
+        number: 3,
+        name: 'create_fill_info',
+        templateUrl: '../app/Instrument/Partial/CreateWizard/fill_info.html'
+    }
+];
+
+/**
+ * Instrument templates
+ * @type {Array}
+ */
+InstrumentCreateController.prototype.templates = [];
+
+/**
+ * Selected template
+ * @type {Object}
+ */
+InstrumentCreateController.prototype.selectedTemplate = null;
+
+/**
+ * Select the type of the Instrument
+ * @param {Object} type
+ */
+InstrumentCreateController.prototype.selectType = function (type) {
+    this.data.type = type;
+
+    // Load templates for this type
+    this.loadTemplates(type);
+};
+
+InstrumentCreateController.prototype.loadTemplates = function (type) {
+    this.templates = this.templateResource.get({ type: type.id }).then(function (result) {
+        this.templates = result;
+    }.bind(this));
+};
+
+/**
+ * Select a template for the Instrument
+ * @param {Object} template
+ */
+InstrumentCreateController.prototype.selectTemplate = function (template) {
+    this.selectedTemplate = template;
 };
 
 // Register controller into angular
@@ -2290,12 +2555,66 @@ InstrumentResource.prototype.name = 'instrument';
  * Path of the API resource
  * @type {string}
  */
-InstrumentResource.prototype.path = '/instruments';
+InstrumentResource.prototype.path = '/instruments/{id}';
 
 // Register service into Angular JS
 angular
     .module('Instrument')
     .service('InstrumentResource', InstrumentResource);
+
+// File : app/Instrument/Resource/InstrumentTemplateResource.js
+var InstrumentTemplateResource = function InstrumentTemplateResourceConstructor() {
+    // Call parent constructor
+    ApiResource.apply(this, arguments);
+};
+
+// Extends ApiResource
+InstrumentTemplateResource.prototype = Object.create(ApiResource.prototype);
+InstrumentTemplateResource.$inject = ApiResource.$inject;
+
+/**
+ * Name of the Resource (used as translation key)
+ * @type {string}
+ */
+InstrumentTemplateResource.prototype.name = 'instrument_template';
+
+/**
+ * Path of the API resource
+ * @type {string}
+ */
+InstrumentTemplateResource.prototype.path = '/instrumenttypes/{type}/templates/{id}';
+
+// Register service into Angular JS
+angular
+    .module('Instrument')
+    .service('InstrumentTemplateResource', InstrumentTemplateResource);
+
+// File : app/Instrument/Resource/InstrumentTypeResource.js
+var InstrumentTypeResource = function InstrumentTypeResourceConstructor() {
+    // Call parent constructor
+    ApiResource.apply(this, arguments);
+};
+
+// Extends ApiResource
+InstrumentTypeResource.prototype = Object.create(ApiResource.prototype);
+InstrumentTypeResource.$inject = ApiResource.$inject;
+
+/**
+ * Name of the Resource (used as translation key)
+ * @type {string}
+ */
+InstrumentTypeResource.prototype.name = 'instrument_type';
+
+/**
+ * Path of the API resource
+ * @type {string}
+ */
+InstrumentTypeResource.prototype.path = '/instrumenttypes/{id}';
+
+// Register service into Angular JS
+angular
+    .module('Instrument')
+    .service('InstrumentTypeResource', InstrumentTypeResource);
 
 // File : app/Instrument/routes.js
 /**
@@ -2329,15 +2648,15 @@ angular
                     controller:   'InstrumentCreateController',
                     controllerAs: 'instrumentCreateCtrl',
                     resolve: {
-                        form: [
-                            function formResolver() {
+                        data: [
+                            function dataResolver() {
                                 return {};
                             }
                         ],
                         instrumentTypes: [
-                            'InstrumentResource',
-                            function formResolver(InstrumentResource) {
-                                return InstrumentResource.query();
+                            'InstrumentTypeResource',
+                            function formResolver(InstrumentTypeResource) {
+                                return InstrumentTypeResource.query();
                             }
                         ]
                     }
@@ -2353,7 +2672,7 @@ angular
                             '$route',
                             'InstrumentResource',
                             function entityResolver($route, InstrumentResource) {
-                                return InstrumentResource.get($route.current.params.id);
+                                return InstrumentResource.get({ id: $route.current.params.id });
                             }
                         ]
                     }
@@ -2371,50 +2690,58 @@ var instrumentTranslations = {};
  * Language = EN
  */
 instrumentTranslations['en'] = {
+    // C
+    create_choose_template : 'Choose a preconfigured model (optional)',
+    create_choose_type     : 'Choose the type of the Instrument you want to create',
+    create_fill_info       : 'Fill information',
+
     // D
-    delete_instrument    : 'Delete instrument',
+    delete_instrument      : 'Delete instrument',
 
     // E
-    edit_instrument      : 'Edit instrument',
+    edit_instrument        : 'Edit instrument',
 
     // I
-    instrument           : 'instrument{COUNT, plural, =0{} one{} other{s}}',
+    instrument             : 'instrument{COUNT, plural, =0{} one{} other{s}}',
 
     // M
-    my_instruments_title : 'My instruments',
+    my_instruments_title   : 'My instruments',
 
     // N
-    new_instrument       : 'Add a new instrument',
-    no_instrument_found  : 'No instrument found.',
+    new_instrument         : 'Add a new instrument',
+    no_instrument_found    : 'No instrument found.',
 
     // S
-    show_instrument      : 'Show instrument'
+    show_instrument        : 'Show instrument'
 };
-
-
 
 /**
  * Language = FR
  */
 instrumentTranslations['fr'] = {
+    // C
+    create_choose_template : 'Choisir un modèle (optionnel)',
+    create_choose_type     : 'Choisir le type d\'instrument à créer',
+    create_fill_info       : 'Saisir les informations à propos de l\'instrument',
+
     // D
-    delete_instrument    : 'Supprimer l\'instrument',
+    delete_instrument      : 'Supprimer l\'instrument',
 
     // E
-    edit_instrument      : 'Modifier l\'instrument',
+    edit_instrument        : 'Modifier l\'instrument',
 
     // I
-    instrument           : 'instrument{COUNT, plural, =0{} one{} other{s}}',
+    instrument             : 'instrument{COUNT, plural, =0{} one{} other{s}}',
 
     // M
-    my_instruments_title : 'Mes instruments',
+    my_instruments_title   : 'Mes instruments',
 
     // N
-    new_instrument       : 'Ajouter un instrument',
-    no_instrument_found  : 'Aucun instrument trouvé.',
+    new_instrument         : 'Ajouter un instrument',
+    no_instrument_found    : 'Aucun instrument trouvé.',
 
     // S
-    show_instrument      : 'Voir l\'instrument'
+    show_instrument        : 'Voir l\'instrument'
 };
 // File : app/Lesson/routes.js
 /**
@@ -2569,7 +2896,7 @@ angular
             function ($timeout) {
                 return {
                     restrict: 'E',
-                    templateUrl: assetDirectory + '/musictoolssongbook/js/SheetMusic/Partial/sheet-music.html',
+                    templateUrl: '../app/SheetMusic/Partial/sheet-music.html',
                     replace: true,
                     scope: {
                         file: '@'
@@ -2600,7 +2927,7 @@ angular
 
                             //
                             // 2. Initialize Player and Setup Player UI
-                            sheetMusicCtrl.player.component = sheetMusicCtrl.component.alphaTab('playerInit', {
+                            /*sheetMusicCtrl.player.component = sheetMusicCtrl.component.alphaTab('playerInit', {
                                 asRoot        : assetDirectory + '/musictoolssongbook/libraries/alphaTab/Samples/JavaScript/lib/alphaSynth/',
                                 swfObjectRoot : assetDirectory + '/musictoolssongbook/libraries/alphaTab/Samples/JavaScript/lib/alphaSynth/'
                             }); // init alphaSynth
@@ -2610,9 +2937,9 @@ angular
                             sheetMusicCtrl.player.component.On('ready', function(r) {
                                 // load default data
                                 sheetMusicCtrl.player.component.LoadSoundFontUrl(assetDirectory + '/musictoolssongbook/libraries/alphaTab/Samples/JavaScript/lib/alphaSynth/default.sf2');
-                            });
+                            });*/
 
-                            sheetMusicCtrl.player.component.On('soundFontLoad', function(loaded, full) {
+                            /*sheetMusicCtrl.player.component.On('soundFontLoad', function(loaded, full) {
                                 var percentage = ((loaded / full) * 100)|0;
                                 $('#sfInfo .progress').text('(' + percentage + '%)');
                             });
@@ -2622,7 +2949,7 @@ angular
                             });
 
                             sheetMusicCtrl.player.component.On('readyForPlay', function(r) {
-                                /*sheetMusicCtrl.player.ready = r;*/
+                                *//*sheetMusicCtrl.player.ready = r;*//*
                                 updateControls();
 
                                 scope.$apply();
@@ -2637,7 +2964,7 @@ angular
 
                             //
                             // 3. Add cursors (optional)
-                            sheetMusicCtrl.component.alphaTab('playerCursor');
+                            sheetMusicCtrl.component.alphaTab('playerCursor');*/
                             // sheetMusicCtrl.component.alphaTab('drop'); // drag and drop
                         }, 300);
 
@@ -2659,11 +2986,8 @@ angular
  * Form controller for Songs
  * @constructor
  */
-var SongFormController = function SongFormControllerConstructor(form, Upload, ApiService) {
+var SongFormController = function SongFormControllerConstructor(data, SongResource) {
     BaseFormController.apply(this, arguments);
-
-    this.uploadService = Upload;
-    this.apiService    = ApiService;
 };
 
 // Extends BaseFormController
@@ -2671,39 +2995,7 @@ SongFormController.prototype             = Object.create(BaseFormController.prot
 SongFormController.prototype.constructor = SongFormController;
 
 // Set up dependency injection
-SongFormController.$inject = [ 'form', 'Upload', 'ApiService' ];
-
-SongFormController.prototype.validate = function () {
-    var method = 'POST';
-    var url    = this.apiService.getServer() + '/songs';
-    if (!this.isNew()) {
-        method = 'PUT';
-        url   += '/' + this.entity.id;
-    }
-
-    // Build request
-    var requestConfig = {
-        url: url,
-        method: method,
-        data: {
-            musictools_songbookbundle_song: this.entity
-        }
-    };
-
-    // Call server
-    this.uploadService.upload(requestConfig).then(
-        // Success callback
-        function onServerSuccess(resp) {
-            if (resp.data.form) {
-                angular.merge(this.form, resp.data.form);
-            }
-        }.bind(this),
-        // Error callback
-        function onServerError(resp) {
-
-        }
-    );
-};
+SongFormController.$inject = [ 'data', 'SongResource' ];
 
 // Register controller into Angular JS
 angular
@@ -2790,7 +3082,7 @@ SongResource.prototype.name = 'song';
  * Path of the API resource
  * @type {string}
  */
-SongResource.prototype.path = '/songs';
+SongResource.prototype.path = '/songs/{id}';
 
 // Register service into Angular JS
 angular
@@ -2827,23 +3119,9 @@ angular.module('SongBook').config([
                 controller:   'SongFormController',
                 controllerAs: 'songFormCtrl',
                 resolve: {
-                    form: [
-                        'ApiService',
-                        '$http',
-                        '$q',
-                        function formResolver(ApiService, $http, $q) {
-                            var deferred = $q.defer();
-
-                            $http
-                                .get(ApiService.getServer() + '/songs/new')
-                                .success(function (response) {
-                                    deferred.resolve(response);
-                                })
-                                .error(function (response) {
-                                    deferred.reject(response);
-                                });
-
-                            return deferred.promise;
+                    data: [
+                        function dataResolver() {
+                            return {};
                         }
                     ]
                 }
@@ -2859,7 +3137,7 @@ angular.module('SongBook').config([
                         '$route',
                         'SongResource',
                         function entityResolver($route, SongResource) {
-                            return SongResource.get($route.current.params.id);
+                            return SongResource.get({ id: $route.current.params.id });
                         }
                     ]
                 }
@@ -2871,24 +3149,11 @@ angular.module('SongBook').config([
                 controller:   'SongFormController',
                 controllerAs: 'songFormCtrl',
                 resolve: {
-                    form: [
-                        'ApiService',
+                    data: [
                         '$route',
-                        '$http',
-                        '$q',
-                        function formResolver(ApiService, $route, $http, $q) {
-                            var deferred = $q.defer();
-
-                            $http
-                                .get(ApiService.getServer() + '/songs/' + $route.current.params.id + '/edit')
-                                .success(function (response) {
-                                    deferred.resolve(response);
-                                })
-                                .error(function (response) {
-                                    deferred.reject(response);
-                                });
-
-                            return deferred.promise;
+                        'SongResource',
+                        function dataResolver($route, SongResource) {
+                            return SongResource.get({ id: $route.current.params.id });
                         }
                     ]
                 }
@@ -3572,7 +3837,7 @@ ChordResource.prototype.name = 'chord';
  * Path of the API resource
  * @type {string}
  */
-ChordResource.prototype.path = '/chords';
+ChordResource.prototype.path = '/chords/{id}';
 
 // Register service into Angular JS
 angular
@@ -3599,7 +3864,7 @@ DegreeResource.prototype.name = 'degree';
  * Path of the API resource
  * @type {string}
  */
-DegreeResource.prototype.path = '/degrees';
+DegreeResource.prototype.path = '/degrees/{id}';
 
 // Register service into Angular JS
 angular
@@ -3626,7 +3891,7 @@ IntervalResource.prototype.name = 'interval';
  * Path of the API resource
  * @type {string}
  */
-IntervalResource.prototype.path = '/intervals';
+IntervalResource.prototype.path = '/intervals/{id}';
 
 // Register service into Angular JS
 angular
@@ -3658,7 +3923,7 @@ NoteResource.prototype.name = 'note';
  * Path of the API resource
  * @type {string}
  */
-NoteResource.prototype.path = '/notes';
+NoteResource.prototype.path = '/notes/{id}';
 
 /**
  * Display alteration with flat instead of sharp
@@ -3741,6 +4006,33 @@ NoteResource.prototype.play = function play() {
 angular
     .module('Theory')
     .service('NoteResource', NoteResource);
+
+// File : app/Theory/Resource/ScaleResource.js
+var ScaleResource = function ScaleResourceConstructor() {
+    // Call parent constructor
+    ApiResource.apply(this, arguments);
+};
+
+// Extends ApiResource
+ScaleResource.prototype = Object.create(ApiResource.prototype);
+ScaleResource.$inject = ApiResource.$inject;
+
+/**
+ * Name of the Resource (used as translation key)
+ * @type {string}
+ */
+ScaleResource.prototype.name = 'scale';
+
+/**
+ * Path of the API resource
+ * @type {string}
+ */
+ScaleResource.prototype.path = '/scales/{id}';
+
+// Register service into Angular JS
+angular
+    .module('Theory')
+    .service('ScaleResource', ScaleResource);
 
 // File : app/Theory/routes.js
 /**
@@ -3827,7 +4119,7 @@ angular
                             '$route',
                             'ChordResource',
                             function entityResolver($route, ChordResource) {
-                                return ChordResource.get($route.current.params.id);
+                                return ChordResource.get({ id: $route.current.params.id });
                             }
                         ],
                         notes: [

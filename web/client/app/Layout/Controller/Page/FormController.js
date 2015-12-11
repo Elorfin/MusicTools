@@ -2,25 +2,25 @@
  * Base Form controller
  * @constructor
  */
-var BaseFormController = function BaseFormControllerConstructor(form) {
-    this.form   = form.form;
-    this.entity = form.entity;
+var BaseFormController = function BaseFormControllerConstructor(data, ApiResource) {
+    this.data        = data;
+    this.apiResource = ApiResource;
 };
 
 // Set up dependency injection
-BaseFormController.$inject = [ 'form' ];
+BaseFormController.$inject = [ 'data', 'ApiResource' ];
 
 /**
- * Current form
- * @type {Object}
+ * Errors
+ * @type {Array}
  */
-BaseFormController.prototype.form = null;
+BaseFormController.prototype.errors = [];
 
 /**
- * Current Entity
+ * Current data
  * @type {Object}
  */
-BaseFormController.prototype.entity = null;
+BaseFormController.prototype.data = null;
 
 /**
  * Is form include file Upload ? (Internally used to know which AJAX service we need to use $http or Upload)
@@ -32,9 +32,9 @@ BaseFormController.prototype.multipart = false;
  * Is the edited entity a new one ?
  * @returns {boolean}
  */
-BaseFormController.prototype.isNew = function () {
+BaseFormController.prototype.isNew = function isNew() {
     var isNew = true;
-    if (null !== this.entity && 'undefined' !== typeof (this.entity.id) && null !== this.entity.id && 0 !== this.entity.id.length) {
+    if (null !== this.data && 'undefined' !== typeof (this.data.id) && null !== this.data.id && 0 !== this.data.id.length) {
         isNew = false;
     }
 
@@ -44,8 +44,21 @@ BaseFormController.prototype.isNew = function () {
 /**
  * Validate the form
  */
-BaseFormController.prototype.validate = function () {
-    this.entity.$create();
+BaseFormController.prototype.validate = function validate() {
+    return true
+};
+
+/**
+ * Submit the form
+ */
+BaseFormController.prototype.submit = function submit() {
+    if (this.validate()) {
+        if (this.isNew()) {
+            this.apiResource.new(this.data);
+        } else {
+            this.apiResource.update(this.data);
+        }
+    }
 };
 
 // Register controller into Angular JS

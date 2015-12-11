@@ -1,0 +1,5 @@
+<div class="list-item panel panel-default" data-ng-repeat="template in instrumentCreateCtrl.templates" data-ng-click="instrumentCreateCtrl.selectTemplate(template)" data-ng-class="{ 'list-item-selected': template === instrumentCreateCtrl.selectedTemplate }">
+    <div class="panel-body">
+        {{ template.name }}
+    </div>
+</div>

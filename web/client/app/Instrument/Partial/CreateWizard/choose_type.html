@@ -1,0 +1,18 @@
+<div class="instrument-types">
+    <div class="instrument-type-item"
+         data-ng-repeat="instrumentType in instrumentCreateCtrl.instrumentTypes"
+         data-ng-class="{ active: instrumentType == instrumentCreateCtrl.data.type }"
+         data-ng-click="instrumentCreateCtrl.selectType(instrumentType)"
+
+         data-ng-mouseenter="showName = !showName"
+         data-ng-mouseleave="showName = !showName"
+         data-ng-init="showName = false"
+    >
+        <img class="img-responsive" src="{{ 'images/' + instrumentType.icon |asset_path }}" />
+        <span data-ng-show="instrumentType != instrumentCreateCtrl.data.type && showName">{{ instrumentType.name }}</span>
+    </div>
+</div>
+
+<div class="instrument-type-current">
+    {{ instrumentCreateCtrl.data.type.name }}
+</div>

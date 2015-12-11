@@ -48,6 +48,45 @@
     z-index: 4;
     padding: 0 5px;
 
+    ul > li {
+        > button,
+        > input[type=button],
+        > input[type=submit] {
+            display: block;
+            border: none;
+            padding: @navbar-padding-vertical @navbar-padding-horizontal;
+            background: none;
+            color: @navbar-default-link-color;
+
+            &:hover {
+                color: @navbar-default-link-hover-color;
+                background: @navbar-default-link-hover-bg;
+            }
+
+            &:focus,
+            &:active,
+            &.active {
+                color: @navbar-default-link-active-color;
+                background: @navbar-default-link-active-bg;
+            }
+
+            &[disabled],
+            &.disabled {
+                color: @navbar-default-link-disabled-color;
+
+                background: @navbar-default-link-disabled-bg;
+
+                &:hover,
+                &:focus {
+                    color: @navbar-default-link-disabled-color;
+
+                    background-color: @navbar-default-link-disabled-bg;
+                    cursor: @cursor-disabled;
+                }
+            }
+        }
+    }
+
     .divider {
         left: 0;
         border: 1px solid #202020;

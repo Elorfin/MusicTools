@@ -17,7 +17,7 @@ SongResource.prototype.name = 'song';
  * Path of the API resource
  * @type {string}
  */
-SongResource.prototype.path = '/songs';
+SongResource.prototype.path = '/songs/{id}';
 
 // Register service into Angular JS
 angular

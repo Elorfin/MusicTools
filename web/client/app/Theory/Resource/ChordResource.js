@@ -17,7 +17,7 @@ ChordResource.prototype.name = 'chord';
  * Path of the API resource
  * @type {string}
  */
-ChordResource.prototype.path = '/chords';
+ChordResource.prototype.path = '/chords/{id}';
 
 // Register service into Angular JS
 angular

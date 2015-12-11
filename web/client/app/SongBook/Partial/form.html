@@ -41,24 +41,24 @@
     </layout-page-buttons>
 
     <!-- Form -->
-    <form-component class="song-form" data-form-def="songFormCtrl.form">
+    <form class="song-form">
         <div class="col-md-3">
             <!-- Cover -->
-            <fieldset data-ngf-drop="" data-ng-model="songFormCtrl.entity.cover.file" class="file-upload-dropbox" accept="image/*" data-ngf-max-size="2MB" style="margin-bottom: 30px;">
+            <fieldset data-ngf-drop="" data-ng-model="songFormCtrl.data.cover.file" class="file-upload-dropbox" accept="image/*" data-ngf-max-size="2MB" style="margin-bottom: 30px;">
                 <legend>Cover</legend>
-                <div class="dropbox-info" data-ng-hide="songFormCtrl.entity.cover.file">
+                <div class="dropbox-info" data-ng-hide="songFormCtrl.data.cover.file">
                     <img class="img-responsive img-shadow" data-ng-src="{{ 'images/no-cover.png'|asset_path }}" />
 
-                    <a href="" role="button" class="btn btn-block btn-default" data-ngf-select="" data-ng-model="songFormCtrl.entity.cover.file">
+                    <a href="" role="button" class="btn btn-block btn-default" data-ngf-select="" data-ng-model="songFormCtrl.data.cover.file">
                         <span class="fa fa-upload"></span>
                         Choose a file
                     </a>
                 </div>
 
                 <div class="dropbox-thumb">
-                    <img class="img-responsive img-shadow" data-ngf-thumbnail="songFormCtrl.entity.cover.file" data-ng-show="songFormCtrl.entity.cover.file" />
+                    <img class="img-responsive img-shadow" data-ngf-thumbnail="songFormCtrl.data.cover.file" data-ng-show="songFormCtrl.data.cover.file" />
 
-                    <a href="" role="button" class="btn btn-danger" data-ng-click="songFormCtrl.entity.cover.file = null" data-ng-show="songFormCtrl.entity.cover.file">
+                    <a href="" role="button" class="btn btn-danger" data-ng-click="songFormCtrl.data.cover.file = null" data-ng-show="songFormCtrl.data.cover.file">
                         <span class="fa fa-trash-o"></span>
                         <span class="sr-only">Remove uploaded file</span>
                     </a>
@@ -68,13 +68,13 @@
             <!--Rating-->
             <fieldset class="text-center" style="margin-bottom: 30px;">
                 <legend>Rating</legend>
-                <score-field data-model="songFormCtrl.entity.rating" data-icon="fa fa-star"></score-field>
+                <score-field data-model="songFormCtrl.data.rating" data-icon="fa fa-star"></score-field>
             </fieldset>
 
             <!--Mastery-->
             <fieldset class="text-center" style="margin-bottom: 30px;">
                 <legend>Mastery</legend>
-                <score-field data-model="songFormCtrl.entity.mastery" data-icon="music-icon music-icon-note"></score-field>
+                <score-field data-model="songFormCtrl.data.mastery" data-icon="music-icon music-icon-note"></score-field>
             </fieldset>
         </div>
 
@@ -86,16 +86,16 @@
                     <div class="panel-body">
                         <div class="form-group">
                             <label for="song_title" class="control-label">Title</label>
-                            <input type="text" class="form-control" name="song_title" id="song_title" data-ng-model="songFormCtrl.entity.title" />
+                            <input type="text" class="form-control" name="song_title" id="song_title" data-ng-model="songFormCtrl.data.title" />
                         </div>
 
                         <div class="form-group">
                             <label for="song_artist" class="control-label">Artist</label>
-                            <input type="text" class="form-control" name="song_artist" id="song_artist" data-ng-model="songFormCtrl.entity.artist" />
+                            <input type="text" class="form-control" name="song_artist" id="song_artist" data-ng-model="songFormCtrl.data.artist" />
                         </div>
                     </div>
                 </div>
             </fieldset>
         </div>
-    </form-component>
+    </form>
 </layout-page>

@@ -29,15 +29,15 @@ angular
                     controller:   'InstrumentCreateController',
                     controllerAs: 'instrumentCreateCtrl',
                     resolve: {
-                        form: [
-                            function formResolver() {
+                        data: [
+                            function dataResolver() {
                                 return {};
                             }
                         ],
                         instrumentTypes: [
-                            'InstrumentResource',
-                            function formResolver(InstrumentResource) {
-                                return InstrumentResource.query();
+                            'InstrumentTypeResource',
+                            function formResolver(InstrumentTypeResource) {
+                                return InstrumentTypeResource.query();
                             }
                         ]
                     }
@@ -53,7 +53,7 @@ angular
                             '$route',
                             'InstrumentResource',
                             function entityResolver($route, InstrumentResource) {
-                                return InstrumentResource.get($route.current.params.id);
+                                return InstrumentResource.get({ id: $route.current.params.id });
                             }
                         ]
                     }

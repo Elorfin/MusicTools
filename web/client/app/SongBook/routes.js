@@ -27,23 +27,9 @@ angular.module('SongBook').config([
                 controller:   'SongFormController',
                 controllerAs: 'songFormCtrl',
                 resolve: {
-                    form: [
-                        'ApiService',
-                        '$http',
-                        '$q',
-                        function formResolver(ApiService, $http, $q) {
-                            var deferred = $q.defer();
-
-                            $http
-                                .get(ApiService.getServer() + '/songs/new')
-                                .success(function (response) {
-                                    deferred.resolve(response);
-                                })
-                                .error(function (response) {
-                                    deferred.reject(response);
-                                });
-
-                            return deferred.promise;
+                    data: [
+                        function dataResolver() {
+                            return {};
                         }
                     ]
                 }
@@ -59,7 +45,7 @@ angular.module('SongBook').config([
                         '$route',
                         'SongResource',
                         function entityResolver($route, SongResource) {
-                            return SongResource.get($route.current.params.id);
+                            return SongResource.get({ id: $route.current.params.id });
                         }
                     ]
                 }
@@ -71,24 +57,11 @@ angular.module('SongBook').config([
                 controller:   'SongFormController',
                 controllerAs: 'songFormCtrl',
                 resolve: {
-                    form: [
-                        'ApiService',
+                    data: [
                         '$route',
-                        '$http',
-                        '$q',
-                        function formResolver(ApiService, $route, $http, $q) {
-                            var deferred = $q.defer();
-
-                            $http
-                                .get(ApiService.getServer() + '/songs/' + $route.current.params.id + '/edit')
-                                .success(function (response) {
-                                    deferred.resolve(response);
-                                })
-                                .error(function (response) {
-                                    deferred.reject(response);
-                                });
-
-                            return deferred.promise;
+                        'SongResource',
+                        function dataResolver($route, SongResource) {
+                            return SongResource.get({ id: $route.current.params.id });
                         }
                     ]
                 }

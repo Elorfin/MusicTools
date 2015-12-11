@@ -34,12 +34,6 @@ ApiResource.prototype.name = null;
 ApiResource.prototype.path = null;
 
 /**
- * Field to use as identifier for the API
- * @type {string}
- */
-ApiResource.prototype.identifier = 'id';
-
-/**
  * List of elements
  * @type {Array}
  */
@@ -50,6 +44,36 @@ ApiResource.prototype.elements = [];
  * @type {boolean}
  */
 ApiResource.prototype.refreshElements = false;
+
+/**
+ * Build API path of the resource
+ * @returns {string}
+ */
+ApiResource.prototype.getFullPath = function buildPath(params) {
+    var fullPath = this.services.api.getServer() + this.path;
+
+    // Extracts params from path (delimited by {})
+    var matches = this.path.match(/{([^}]+)}/gi);
+    if (matches) {
+        // Replace params vith resource values
+        for (var i = 0; i < matches.length; i++) {
+            var resourceProperty = matches[i].replace('{', '').replace('}', '');
+            var resourceValue = '';
+            if (params && params.hasOwnProperty(resourceProperty)) {
+                resourceValue = params[resourceProperty];
+            }
+
+            fullPath = fullPath.replace(matches[i], resourceValue);
+        }
+    }
+
+    // Clean slashes
+    while (fullPath.substr(-1) === '/') {
+        fullPath = fullPath.substr(0, fullPath.length - 1);
+    }
+
+    return fullPath;
+};
 
 /**
  * List existing resources filtered by `queryParams`
@@ -64,7 +88,7 @@ ApiResource.prototype.query = function queryResources(queryParams, refresh) {
         // Load data from server
         // Call API
         this.services.$http
-            .get(this.services.api.getServer() + this.path)
+            .get(this.getFullPath())
 
             // Success callback
             .success(function onServerSuccess(response) {
@@ -109,16 +133,16 @@ ApiResource.prototype.count = function countResources() {
 
 /**
  * Find an existing entity
- * @param   {number} identifier - The identifier of the resource to search
- * @returns {Object}            - The resource found
+ * @param   {Object} params - The identifier of the resource to search
+ * @returns {Object}        - The resource found
  */
-ApiResource.prototype.get = function getResource(identifier) {
+ApiResource.prototype.get = function getResource(params) {
     // Load data from server
     var deferred = this.services.$q.defer(); // Initialize promise
 
     // Call API
     this.services.$http
-        .get(this.services.api.getServer() + this.path + '/' + identifier)
+        .get(this.getFullPath(params))
 
         // Success callback
         .success(function onServerSuccess(response) {
@@ -152,14 +176,24 @@ ApiResource.prototype.save = function saveResource(resource) {
  * @param {Object} resource - The resource to create
  */
 ApiResource.prototype.new = function newResource(resource) {
+    // Load data from server
+    var deferred = this.services.$q.defer(); // Initialize promise
 
-};
+    // Call API
+    this.services.$http
+        .post(this.getFullPath(resource))
 
-/**
- * Get definition of the form for new Resource
- */
-ApiResource.prototype.newForm = function newFormResource() {
+        // Success callback
+        .success(function onServerSuccess(response) {
+            deferred.resolve(response);
+        }.bind(this))
 
+        // Error callback
+        .error(function onServerError(response) {
+            deferred.reject(response);
+        });
+
+    return deferred.promise;
 };
 
 /**
@@ -167,15 +201,35 @@ ApiResource.prototype.newForm = function newFormResource() {
  * @param {Object} resource - The resource to update
  */
 ApiResource.prototype.update = function updateResource(resource) {
+    var method = 'POST';
+    var url    = this.apiService.getServer() + '/songs';
+    if (!this.isNew()) {
+        method = 'PUT';
+        url   += '/' + this.entity.id;
+    }
 
-};
+    // Build request
+    var requestConfig = {
+        url: url,
+        method: method,
+        data: {
+            musictools_songbookbundle_song: this.entity
+        }
+    };
 
-/**
- * Get definition of the form for existing Resource
- * @param {Object} resource - The resource to edit
- */
-ApiResource.prototype.editForm = function editFormResource(resource) {
+    // Call server
+    this.uploadService.upload(requestConfig).then(
+        // Success callback
+        function onServerSuccess(resp) {
+            if (resp.data.form) {
+                angular.merge(this.form, resp.data.form);
+            }
+        }.bind(this),
+        // Error callback
+        function onServerError(resp) {
 
+        }
+    );
 };
 
 /**

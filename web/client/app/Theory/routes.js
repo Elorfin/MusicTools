@@ -82,7 +82,7 @@ angular
                             '$route',
                             'ChordResource',
                             function entityResolver($route, ChordResource) {
-                                return ChordResource.get($route.current.params.id);
+                                return ChordResource.get({ id: $route.current.params.id });
                             }
                         ],
                         notes: [

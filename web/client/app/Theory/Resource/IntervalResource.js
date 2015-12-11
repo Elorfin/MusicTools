@@ -17,7 +17,7 @@ IntervalResource.prototype.name = 'interval';
  * Path of the API resource
  * @type {string}
  */
-IntervalResource.prototype.path = '/intervals';
+IntervalResource.prototype.path = '/intervals/{id}';
 
 // Register service into Angular JS
 angular

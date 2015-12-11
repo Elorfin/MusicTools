@@ -1,10 +1,4 @@
 <layout-page>
-    <!-- Title of the page -->
-    <layout-page-title>
-        {{ 'my_instruments_title'|translate }}
-        <small>New</small>
-    </layout-page-title>
-
     <!-- Header buttons -->
     <layout-page-buttons>
         <!-- Cancel -->
@@ -15,14 +9,52 @@
             </a>
         </layout-page-button>
 
-        <!-- Validate form -->
+        <li class="divider"></li>
+
+        <!-- Previous step -->
         <layout-page-button class="nav-link-default">
-            <a href="" data-ng-click="instrumentCreateCtrl.validate()">
-                <span class="fa fa-fw fa-check"></span>
-                Create
-            </a>
+            <button data-ng-disabled="!instrumentCreateCtrl.hasPrevious" data-ng-click="instrumentCreateCtrl.previousStep()">
+                <span class="fa fa-fw fa-chevron-circle-left"></span>
+                Previous
+            </button>
+        </layout-page-button>
+
+        <!-- Next step -->
+        <layout-page-button class="nav-link-default">
+            <button data-ng-disabled="!instrumentCreateCtrl.hasNext" data-ng-click="instrumentCreateCtrl.nextStep()">
+                Next
+                <span class="fa fa-fw fa-chevron-circle-right"></span>
+            </button>
         </layout-page-button>
     </layout-page-buttons>
 
+    <!-- Title of the page -->
+    <layout-page-title>
+        {{ 'my_instruments_title'|translate }}
+        <small>New</small>
+
+        <!-- Wizard breadcrumb -->
+        <ul class="wizard-breadcrumbs pull-right">
+            <li class="wizard-breadcrumbs-item" data-ng-repeat="wizardStep in instrumentCreateCtrl.steps" data-ng-class="{ 'active': wizardStep === instrumentCreateCtrl.currentStep, 'done': 'done' === wizardStep.state, 'has-errors': 'has-errors' === wizardStep.state }">
+                <a href="" role="button" data-ng-click="instrumentCreateCtrl.setCurrentStep(wizardStep)">
+                    <span data-ng-if="wizardStep !== instrumentCreateCtrl.currentStep && wizardStep.state" class="fa" data-ng-class="{ 'fa-check': 'done' === wizardStep.state, 'fa-times': 'has-errors' === wizardStep.state }"></span>
+                    <span data-ng-if="wizardStep === instrumentCreateCtrl.currentStep || !wizardStep.state">{{ wizardStep.number }}</span>
+                    <span class="sr-only">{{ wizardStep.name|translate }}</span>
+                </a>
+            </li>
+        </ul>
+    </layout-page-title>
+
+    <!-- Wizard step title -->
+    <h2 class="wizard-step-title">{{ instrumentCreateCtrl.currentStep.number }}. {{ instrumentCreateCtrl.currentStep.name|translate }}</h2>
+
+    <ul class="list-unstyled" data-ng-if="instrumentCreateCtrl.errors.length > 0">
+        <li class="alert alert-danger" data-ng-repeat="error in instrumentCreateCtrl.errors">
+            <span class="glyphicon glyphicon-exclamation-sign"></span>
+            {{ error }}
+        </li>
+    </ul>
+
     <!-- Current wizard step -->
+    <div data-ng-include="instrumentCreateCtrl.currentStep.templateUrl"></div>
 </layout-page>

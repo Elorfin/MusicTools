@@ -373,7 +373,7 @@
 @navbar-default-link-hover-bg:             transparent;
 @navbar-default-link-active-color:         @brand-primary;
 @navbar-default-link-active-bg:            transparent;
-@navbar-default-link-disabled-color:       #ccc;
+@navbar-default-link-disabled-color:       darken(@navbar-default-link-color, 25%);
 @navbar-default-link-disabled-bg:          transparent;
 
 // Navbar brand label
@@ -382,9 +382,9 @@
 @navbar-default-brand-hover-bg:            transparent;
 
 // Navbar toggle
-@navbar-default-toggle-hover-bg:           #ddd;
-@navbar-default-toggle-icon-bar-bg:        #888;
-@navbar-default-toggle-border-color:       #ddd;
+@navbar-default-toggle-hover-bg:           transparent;
+@navbar-default-toggle-icon-bar-bg:        @navbar-default-link-color;
+@navbar-default-toggle-border-color:       transparent;
 
 
 //=== Inverted navbar

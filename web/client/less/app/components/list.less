@@ -23,78 +23,95 @@
     }
 }
 
-.page-list {
-    .list-item {
-        position: relative; // Lock `absolute` buttons in its item
+.list-item {
+    position: relative; // Lock `absolute` buttons in its item
+    border: 1px solid transparent;
 
-        &.list-item-detailed {
-            .item-info {
-                small {
-                    display: block;
-                }
-            }
 
-            .list-item-btn-group {
-                position: absolute;
-                bottom: 0;
-                right: 0;
-            }
+    &.list-item-selected {
+        border: 1px solid @brand-primary;
+
+        &:after {
+            position:absolute;
+            content: " ";
+            top: 0;
+            right: 0;
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 0 10px 10px 0;
+            border-color: transparent @brand-primary transparent
         }
+    }
 
-        &.list-item-condensed {
-            .item-info {
-                color: @brand-primary;
-                font-size: @font-size-large;
-                font-variant: small-caps;
-                margin: 0;
-
-                small {
-                    color: @gray-light;
-                    font-variant: normal;
-                    font-size: 80%;
-                }
-            }
-
-            .list-item-btn-group {
-                position: absolute;
-                right: 0;
-                top: 50%;
-                transform: translate(0, -50%) !important;
-            }
-        }
-
-        &.list-item-tile {
-            margin-bottom: @grid-gutter-width;
-
-            .item-info {
-                margin: 0;
-                color: @brand-primary;
-                font-size: @font-size-large;
-                font-variant: small-caps;
-
-                small {
-                    color: @gray-light;
-                    font-variant: normal;
-                    font-size: 80%;
-                    display: block;
-                }
+    &.list-item-detailed {
+        .item-info {
+            small {
+                display: block;
             }
         }
 
         .list-item-btn-group {
-            text-align: right;
-            font-size: 0; // Remove the horizontal white-space between inline elements
+            position: absolute;
+            bottom: 0;
+            right: 0;
+        }
+    }
 
-            .btn {
-                .list-button-variant(@btn-default-bg);
+    &.list-item-condensed {
+        .item-info {
+            color: @brand-primary;
+            font-size: @font-size-large;
+            font-variant: small-caps;
+            margin: 0;
+
+            small {
+                color: @gray-light;
+                font-variant: normal;
+                font-size: 80%;
             }
+        }
 
-            .btn-danger {
-                .list-button-variant(@btn-danger-bg);
+        .list-item-btn-group {
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translate(0, -50%) !important;
+        }
+    }
+
+    &.list-item-tile {
+        margin-bottom: @grid-gutter-width;
+
+        .item-info {
+            margin: 0;
+            color: @brand-primary;
+            font-size: @font-size-large;
+            font-variant: small-caps;
+
+            small {
+                color: @gray-light;
+                font-variant: normal;
+                font-size: 80%;
+                display: block;
             }
         }
     }
+
+    .list-item-btn-group {
+        text-align: right;
+        font-size: 0; // Remove the horizontal white-space between inline elements
+
+        .btn {
+            .list-button-variant(@btn-default-bg);
+        }
+
+        .btn-danger {
+            .list-button-variant(@btn-danger-bg);
+        }
+    }
 }
+
 
 .empty-list {
     font-style: italic;

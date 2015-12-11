@@ -22,7 +22,7 @@ NoteResource.prototype.name = 'note';
  * Path of the API resource
  * @type {string}
  */
-NoteResource.prototype.path = '/notes';
+NoteResource.prototype.path = '/notes/{id}';
 
 /**
  * Display alteration with flat instead of sharp

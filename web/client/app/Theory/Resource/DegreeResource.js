@@ -17,7 +17,7 @@ DegreeResource.prototype.name = 'degree';
  * Path of the API resource
  * @type {string}
  */
-DegreeResource.prototype.path = '/degrees';
+DegreeResource.prototype.path = '/degrees/{id}';
 
 // Register service into Angular JS
 angular

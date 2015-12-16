@@ -55,7 +55,7 @@ class SongController extends Controller implements ClassResourceInterface
             'method' => 'POST',
         ));
 
-        $form->handleRequest($request);
+        $form->submit(array( $form->getName() => $request->get('data') ));
         if ($form->isValid()) {
             // Save entity
             $this->container->get('doctrine.orm.entity_manager')->persist($entity);
@@ -88,7 +88,9 @@ class SongController extends Controller implements ClassResourceInterface
             'method' => 'PUT',
         ));
 
-        $form->handleRequest($request);
+        $data = $request->get('data');
+
+        $form->submit($data);
         if ($form->isValid()) {
             // Save entity
             $this->container->get('doctrine.orm.entity_manager')->persist($entity);

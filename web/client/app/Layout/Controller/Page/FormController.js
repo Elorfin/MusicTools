@@ -2,37 +2,31 @@
  * Base Form controller
  * @constructor
  */
-var BaseFormController = function BaseFormControllerConstructor(data, ApiResource) {
+var FormController = function FormControllerConstructor(data, ApiResource) {
     this.data        = data;
     this.apiResource = ApiResource;
 };
 
 // Set up dependency injection
-BaseFormController.$inject = [ 'data', 'ApiResource' ];
+FormController.$inject = [ 'data', 'ApiResource' ];
 
 /**
  * Errors
  * @type {Array}
  */
-BaseFormController.prototype.errors = [];
+FormController.prototype.errors = [];
 
 /**
  * Current data
  * @type {Object}
  */
-BaseFormController.prototype.data = null;
-
-/**
- * Is form include file Upload ? (Internally used to know which AJAX service we need to use $http or Upload)
- * @type {boolean}
- */
-BaseFormController.prototype.multipart = false;
+FormController.prototype.data = null;
 
 /**
  * Is the edited entity a new one ?
  * @returns {boolean}
  */
-BaseFormController.prototype.isNew = function isNew() {
+FormController.prototype.isNew = function isNew() {
     var isNew = true;
     if (null !== this.data && 'undefined' !== typeof (this.data.id) && null !== this.data.id && 0 !== this.data.id.length) {
         isNew = false;
@@ -44,14 +38,14 @@ BaseFormController.prototype.isNew = function isNew() {
 /**
  * Validate the form
  */
-BaseFormController.prototype.validate = function validate() {
+FormController.prototype.validate = function validate() {
     return true
 };
 
 /**
  * Submit the form
  */
-BaseFormController.prototype.submit = function submit() {
+FormController.prototype.submit = function submit() {
     if (this.validate()) {
         if (this.isNew()) {
             this.apiResource.new(this.data);
@@ -64,4 +58,4 @@ BaseFormController.prototype.submit = function submit() {
 // Register controller into Angular JS
 angular
     .module('Layout')
-    .controller('BaseFormController', BaseFormController);
+    .controller('FormController', FormController);

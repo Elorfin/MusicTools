@@ -1,7 +1,7 @@
 /**
  * Contains UserMenu, InstrumentMenu, SwitchDisplayNote
  */
-.header {
+.ui-header {
     z-index: 3;
     .box-shadow(none);
     background: none;
@@ -41,7 +41,7 @@
 /**
  * Header buttons declared by the current page
  */
-.page-buttons {
+.ui-header-buttons {
     position: fixed;
     right: floor(@grid-gutter-width / 2);
     top: 0;
@@ -135,8 +135,8 @@
     }
 }
 
-.header .nav,
-.page-buttons {
+.ui-header .nav,
+.ui-header-buttons {
     .dropdown-toggle {
         height: @navbar-height;
         text-align: center;

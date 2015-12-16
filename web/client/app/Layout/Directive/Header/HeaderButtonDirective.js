@@ -3,8 +3,8 @@
  */
 angular
     .module('Layout')
-    .directive('layoutPageButton', [
-        function LayoutPageButtonDirective() {
+    .directive('uiHeaderButton', [
+        function HeaderButtonDirective() {
             return {
                 restrict: 'E',
                 template: '<li role="presentation" data-ng-transclude=""></li>',

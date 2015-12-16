@@ -36,7 +36,7 @@ angular
                         ],
                         instrumentTypes: [
                             'InstrumentTypeResource',
-                            function formResolver(InstrumentTypeResource) {
+                            function instrumentTypesResolver(InstrumentTypeResource) {
                                 return InstrumentTypeResource.query();
                             }
                         ]

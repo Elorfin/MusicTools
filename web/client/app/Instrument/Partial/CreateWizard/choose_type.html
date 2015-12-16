@@ -8,7 +8,7 @@
          data-ng-mouseleave="showName = !showName"
          data-ng-init="showName = false"
     >
-        <img class="img-responsive" src="{{ 'images/' + instrumentType.icon |asset_path }}" />
+        <img class="img-responsive" data-ng-src="{{ 'images/' + instrumentType.icon |asset_path }}" />
         <span data-ng-show="instrumentType != instrumentCreateCtrl.data.type && showName">{{ instrumentType.name }}</span>
     </div>
 </div>

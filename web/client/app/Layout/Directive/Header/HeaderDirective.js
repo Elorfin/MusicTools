@@ -3,8 +3,8 @@
  */
 angular
     .module('Layout')
-    .directive('layoutHeader', [
-        function LayoutHeaderDirective() {
+    .directive('uiHeader', [
+        function HeaderDirective() {
             return {
                 restrict: 'E',
                 templateUrl: '../app/Layout/Partial/Header/navbar.html',

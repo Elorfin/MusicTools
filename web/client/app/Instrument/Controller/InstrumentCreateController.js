@@ -3,14 +3,14 @@
  * @constructor
  */
 var InstrumentCreateController = function InstrumentCreateControllerConstructor(data, InstrumentResource, instrumentTypes, InstrumentTemplateResource) {
-    BaseWizardFormController.apply(this, arguments);
+    FormWizardController.apply(this, arguments);
 
     this.instrumentTypes  = instrumentTypes;
     this.templateResource = InstrumentTemplateResource;
 };
 
-// Extends BaseFormController
-InstrumentCreateController.prototype             = Object.create(BaseWizardFormController.prototype);
+// Extends FormController
+InstrumentCreateController.prototype             = Object.create(FormWizardController.prototype);
 InstrumentCreateController.prototype.constructor = InstrumentCreateController;
 
 // Set up dependency injection

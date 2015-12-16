@@ -1,12 +1,12 @@
-var ApiResource = function ApiResourceConstructor($http, $q, ApiService, AlertService) {
+var ApiResource = function ApiResourceConstructor($http, $q, Upload, ApiService) {
     // Initialize service container
     this.services = {};
 
     // Store services
-    this.services['$http'] = $http;
-    this.services['$q']    = $q;
-    this.services['api']   = ApiService;
-    this.services['alert'] = AlertService;
+    this.services['$http']  = $http;
+    this.services['upload'] = Upload;
+    this.services['$q']     = $q;
+    this.services['api']    = ApiService;
 
     // Validate required properties
     if (null === this.name) {
@@ -19,7 +19,7 @@ var ApiResource = function ApiResourceConstructor($http, $q, ApiService, AlertSe
 };
 
 // Set up dependency injection
-ApiResource.$inject = ['$http', '$q', 'ApiService', 'AlertService'];
+ApiResource.$inject = [ '$http', '$q', 'Upload', 'ApiService' ];
 
 /**
  * Name of the Resource (used as translation key)
@@ -40,12 +40,6 @@ ApiResource.prototype.path = null;
 ApiResource.prototype.elements = [];
 
 /**
- * Force the refresh of the elements list
- * @type {boolean}
- */
-ApiResource.prototype.refreshElements = false;
-
-/**
  * Build API path of the resource
  * @returns {string}
  */
@@ -55,7 +49,7 @@ ApiResource.prototype.getFullPath = function buildPath(params) {
     // Extracts params from path (delimited by {})
     var matches = this.path.match(/{([^}]+)}/gi);
     if (matches) {
-        // Replace params vith resource values
+        // Replace params with resource values
         for (var i = 0; i < matches.length; i++) {
             var resourceProperty = matches[i].replace('{', '').replace('}', '');
             var resourceValue = '';
@@ -84,25 +78,26 @@ ApiResource.prototype.getFullPath = function buildPath(params) {
 ApiResource.prototype.query = function queryResources(queryParams, refresh) {
     var deferred = this.services.$q.defer(); // Initialize promise
 
-    if (!this.elements || this.elements.length === 0 || this.refreshElements || this.refresh) {
+    if (!this.elements || this.elements.length === 0 || this.refresh) {
         // Load data from server
-        // Call API
         this.services.$http
+            // Call API
             .get(this.getFullPath())
 
-            // Success callback
-            .success(function onServerSuccess(response) {
-                this.refreshElements = false;
+            // API results
+            .then(
+                // Success callback
+                function onServerSuccess(response) {
+                    this.setElements(response.data);
 
-                this.setElements(response);
+                    deferred.resolve(response.data);
+                }.bind(this),
 
-                deferred.resolve(response);
-            }.bind(this))
-
-            // Error callback
-            .error(function onServerError(response) {
-                deferred.reject(response);
-            });
+                // Error callback
+                function onServerError(response) {
+                    deferred.reject(response);
+                }
+            );
     } else {
         // Load data from local
         var tempElements = this.elements;
@@ -140,35 +135,24 @@ ApiResource.prototype.get = function getResource(params) {
     // Load data from server
     var deferred = this.services.$q.defer(); // Initialize promise
 
-    // Call API
     this.services.$http
+        // Call API
         .get(this.getFullPath(params))
 
-        // Success callback
-        .success(function onServerSuccess(response) {
-            deferred.resolve(response);
-        }.bind(this))
+        // API results
+        .then(
+            // Success callback
+            function onServerSuccess(response) {
+                deferred.resolve(response.data);
+            },
 
-        // Error callback
-        .error(function onServerError(response) {
-            deferred.reject(response);
-        });
+            // Error callback
+            function onServerError(response) {
+                deferred.reject(response);
+            }
+        );
 
     return deferred.promise;
-};
-
-/**
- * Save a resource
- * @param {object} resource - The resource to save
- */
-ApiResource.prototype.save = function saveResource(resource) {
-    if (resource[this.identifier]) {
-        // Identifier field is NOT empty => so it's an existing resource
-        this.update(resource);
-    } else {
-        // Identifier field is empty => so it's a new resource
-        this.new(resource);
-    }
 };
 
 /**
@@ -176,22 +160,31 @@ ApiResource.prototype.save = function saveResource(resource) {
  * @param {Object} resource - The resource to create
  */
 ApiResource.prototype.new = function newResource(resource) {
-    // Load data from server
     var deferred = this.services.$q.defer(); // Initialize promise
 
-    // Call API
-    this.services.$http
-        .post(this.getFullPath(resource))
+    // Build request
+    var request = {
+        method : 'POST',
+        url    : this.getFullPath(resource),
+        data   : resource
+    };
 
-        // Success callback
-        .success(function onServerSuccess(response) {
-            deferred.resolve(response);
-        }.bind(this))
+    this.services.upload
+        // Call API
+        .upload(request)
 
-        // Error callback
-        .error(function onServerError(response) {
-            deferred.reject(response);
-        });
+        // API results
+        .then(
+            // Success callback
+            function onServerSuccess(response) {
+                deferred.resolve(response.data);
+            },
+
+            // Error callback
+            function onServerError(response) {
+                deferred.reject(response);
+            }
+        );
 
     return deferred.promise;
 };
@@ -201,35 +194,35 @@ ApiResource.prototype.new = function newResource(resource) {
  * @param {Object} resource - The resource to update
  */
 ApiResource.prototype.update = function updateResource(resource) {
-    var method = 'POST';
-    var url    = this.apiService.getServer() + '/songs';
-    if (!this.isNew()) {
-        method = 'PUT';
-        url   += '/' + this.entity.id;
-    }
+    var deferred = this.services.$q.defer(); // Initialize promise
 
     // Build request
-    var requestConfig = {
-        url: url,
-        method: method,
-        data: {
-            musictools_songbookbundle_song: this.entity
+    var request = {
+        method : 'PUT',
+        url    : this.getFullPath(resource),
+        data   : {
+            data: resource
         }
     };
 
-    // Call server
-    this.uploadService.upload(requestConfig).then(
-        // Success callback
-        function onServerSuccess(resp) {
-            if (resp.data.form) {
-                angular.merge(this.form, resp.data.form);
-            }
-        }.bind(this),
-        // Error callback
-        function onServerError(resp) {
+    this.services.upload
+        // Call API
+        .upload(request)
 
-        }
-    );
+        // API results
+        .then(
+            // Success callback
+            function onServerSuccess(response) {
+                deferred.resolve(response.data);
+            },
+
+            // Error callback
+            function onServerError(response) {
+                deferred.reject(response);
+            }
+        );
+
+    return deferred.promise;
 };
 
 /**

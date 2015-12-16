@@ -1,21 +1,21 @@
 <layout-page class="page-list song-list">
     <!-- Header buttons -->
-    <layout-page-buttons>
+    <ui-header-buttons>
         <!-- New Song button -->
-        <layout-page-button class="nav-link-default">
+        <ui-header-button class="nav-link-default">
             <a href="#/songs/new">
                 <span class="fa fa-fw fa-plus"></span>
                 {{ 'new_song'|translate }}
             </a>
-        </layout-page-button>
+        </ui-header-button>
 
         <li class="divider"></li>
 
         <!-- List format button -->
-        <layout-page-button class="nav-link-default">
+        <ui-header-button class="nav-link-default">
             <layout-list-formatter data-format="songListCtrl.format"></layout-list-formatter>
-        </layout-page-button>
-    </layout-page-buttons>
+        </ui-header-button>
+    </ui-header-buttons>
 
     <!-- Title of the page -->
     <layout-page-title id="song-list">

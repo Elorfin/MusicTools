@@ -2,40 +2,40 @@
  * Wizard Form controller
  * @constructor
  */
-var BaseWizardFormController = function BaseWizardFormControllerConstructor(data, ApiResource) {
-    BaseFormController.apply(this, arguments);
+var FormWizardController = function FormWizardControllerConstructor(data, ApiResource) {
+    FormWizardController.apply(this, arguments);
 
     this.setCurrentStep(this.steps[0]);
 };
 
-// Extends BaseFormController
-BaseWizardFormController.prototype             = Object.create(BaseFormController.prototype);
-BaseWizardFormController.prototype.constructor = BaseWizardFormController;
+// Extends FormController
+FormWizardController.prototype             = Object.create(FormController.prototype);
+FormWizardController.prototype.constructor = FormWizardController;
 
 // Set up dependency injection
-BaseWizardFormController.$inject = [ 'data', 'ApiResource' ];
+FormWizardController.$inject = [ 'data', 'ApiResource' ];
 
 /**
  * Wizard steps
  * @type {Array}
  */
-BaseWizardFormController.prototype.steps = [];
+FormWizardController.prototype.steps = [];
 
 /**
  * Current step
  * @type {Object}
  */
-BaseWizardFormController.prototype.currentStep = null;
+FormWizardController.prototype.currentStep = null;
 
-BaseWizardFormController.prototype.hasPrevious = true;
+FormWizardController.prototype.hasPrevious = true;
 
-BaseWizardFormController.prototype.hasNext = true;
+FormWizardController.prototype.hasNext = true;
 
 /**
  * Set current step wizard
  * @param step
  */
-BaseWizardFormController.prototype.setCurrentStep = function setCurrentStep(step) {
+FormWizardController.prototype.setCurrentStep = function setCurrentStep(step) {
     if (null !== this.currentStep) {
         // Validate step before leaving
         this.validateStep(this.currentStep);
@@ -59,7 +59,7 @@ BaseWizardFormController.prototype.setCurrentStep = function setCurrentStep(step
 /**
  * Go to previous step
  */
-BaseWizardFormController.prototype.previousStep = function previousStep() {
+FormWizardController.prototype.previousStep = function previousStep() {
     var pos = this.steps.indexOf(this.currentStep);
     if (-1 !== pos && this.steps[pos - 1]) {
         this.setCurrentStep(this.steps[pos - 1]);
@@ -69,7 +69,7 @@ BaseWizardFormController.prototype.previousStep = function previousStep() {
 /**
  * Go to next step
  */
-BaseWizardFormController.prototype.nextStep = function nextStep() {
+FormWizardController.prototype.nextStep = function nextStep() {
     var pos = this.steps.indexOf(this.currentStep);
     if (-1 !== pos && this.steps[pos + 1]) {
         this.setCurrentStep(this.steps[pos + 1]);
@@ -80,7 +80,7 @@ BaseWizardFormController.prototype.nextStep = function nextStep() {
  * Validate step
  * @param step
  */
-BaseWizardFormController.prototype.validateStep = function validateStep(step) {
+FormWizardController.prototype.validateStep = function validateStep(step) {
     // Empty errors
     this.errors.splice(0, this.errors.length);
 
@@ -100,7 +100,7 @@ BaseWizardFormController.prototype.validateStep = function validateStep(step) {
  * Validate the whole wizard
  * @returns {boolean}
  */
-BaseWizardFormController.prototype.validate = function validate() {
+FormWizardController.prototype.validate = function validate() {
     var valid = true;
 
     for (var i = 0; i < this.steps.length; i++) {
@@ -116,4 +116,4 @@ BaseWizardFormController.prototype.validate = function validate() {
 // Register controller into Angular JS
 angular
     .module('Layout')
-    .controller('BaseWizardFormController', BaseWizardFormController);
+    .controller('FormWizardController', FormWizardController);

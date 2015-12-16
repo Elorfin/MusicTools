@@ -241,15 +241,15 @@ angular
     ]
 );
 // File : app/Utilities/Resource/ApiResource.js
-var ApiResource = function ApiResourceConstructor($http, $q, ApiService, AlertService) {
+var ApiResource = function ApiResourceConstructor($http, $q, Upload, ApiService) {
     // Initialize service container
     this.services = {};
 
     // Store services
-    this.services['$http'] = $http;
-    this.services['$q']    = $q;
-    this.services['api']   = ApiService;
-    this.services['alert'] = AlertService;
+    this.services['$http']  = $http;
+    this.services['upload'] = Upload;
+    this.services['$q']     = $q;
+    this.services['api']    = ApiService;
 
     // Validate required properties
     if (null === this.name) {
@@ -262,7 +262,7 @@ var ApiResource = function ApiResourceConstructor($http, $q, ApiService, AlertSe
 };
 
 // Set up dependency injection
-ApiResource.$inject = ['$http', '$q', 'ApiService', 'AlertService'];
+ApiResource.$inject = [ '$http', '$q', 'Upload', 'ApiService' ];
 
 /**
  * Name of the Resource (used as translation key)
@@ -283,12 +283,6 @@ ApiResource.prototype.path = null;
 ApiResource.prototype.elements = [];
 
 /**
- * Force the refresh of the elements list
- * @type {boolean}
- */
-ApiResource.prototype.refreshElements = false;
-
-/**
  * Build API path of the resource
  * @returns {string}
  */
@@ -298,7 +292,7 @@ ApiResource.prototype.getFullPath = function buildPath(params) {
     // Extracts params from path (delimited by {})
     var matches = this.path.match(/{([^}]+)}/gi);
     if (matches) {
-        // Replace params vith resource values
+        // Replace params with resource values
         for (var i = 0; i < matches.length; i++) {
             var resourceProperty = matches[i].replace('{', '').replace('}', '');
             var resourceValue = '';
@@ -327,25 +321,26 @@ ApiResource.prototype.getFullPath = function buildPath(params) {
 ApiResource.prototype.query = function queryResources(queryParams, refresh) {
     var deferred = this.services.$q.defer(); // Initialize promise
 
-    if (!this.elements || this.elements.length === 0 || this.refreshElements || this.refresh) {
+    if (!this.elements || this.elements.length === 0 || this.refresh) {
         // Load data from server
-        // Call API
         this.services.$http
+            // Call API
             .get(this.getFullPath())
 
-            // Success callback
-            .success(function onServerSuccess(response) {
-                this.refreshElements = false;
+            // API results
+            .then(
+                // Success callback
+                function onServerSuccess(response) {
+                    this.setElements(response.data);
 
-                this.setElements(response);
+                    deferred.resolve(response.data);
+                }.bind(this),
 
-                deferred.resolve(response);
-            }.bind(this))
-
-            // Error callback
-            .error(function onServerError(response) {
-                deferred.reject(response);
-            });
+                // Error callback
+                function onServerError(response) {
+                    deferred.reject(response);
+                }
+            );
     } else {
         // Load data from local
         var tempElements = this.elements;
@@ -383,35 +378,24 @@ ApiResource.prototype.get = function getResource(params) {
     // Load data from server
     var deferred = this.services.$q.defer(); // Initialize promise
 
-    // Call API
     this.services.$http
+        // Call API
         .get(this.getFullPath(params))
 
-        // Success callback
-        .success(function onServerSuccess(response) {
-            deferred.resolve(response);
-        }.bind(this))
+        // API results
+        .then(
+            // Success callback
+            function onServerSuccess(response) {
+                deferred.resolve(response.data);
+            },
 
-        // Error callback
-        .error(function onServerError(response) {
-            deferred.reject(response);
-        });
+            // Error callback
+            function onServerError(response) {
+                deferred.reject(response);
+            }
+        );
 
     return deferred.promise;
-};
-
-/**
- * Save a resource
- * @param {object} resource - The resource to save
- */
-ApiResource.prototype.save = function saveResource(resource) {
-    if (resource[this.identifier]) {
-        // Identifier field is NOT empty => so it's an existing resource
-        this.update(resource);
-    } else {
-        // Identifier field is empty => so it's a new resource
-        this.new(resource);
-    }
 };
 
 /**
@@ -419,22 +403,31 @@ ApiResource.prototype.save = function saveResource(resource) {
  * @param {Object} resource - The resource to create
  */
 ApiResource.prototype.new = function newResource(resource) {
-    // Load data from server
     var deferred = this.services.$q.defer(); // Initialize promise
 
-    // Call API
-    this.services.$http
-        .post(this.getFullPath(resource))
+    // Build request
+    var request = {
+        method : 'POST',
+        url    : this.getFullPath(resource),
+        data   : resource
+    };
 
-        // Success callback
-        .success(function onServerSuccess(response) {
-            deferred.resolve(response);
-        }.bind(this))
+    this.services.upload
+        // Call API
+        .upload(request)
 
-        // Error callback
-        .error(function onServerError(response) {
-            deferred.reject(response);
-        });
+        // API results
+        .then(
+            // Success callback
+            function onServerSuccess(response) {
+                deferred.resolve(response.data);
+            },
+
+            // Error callback
+            function onServerError(response) {
+                deferred.reject(response);
+            }
+        );
 
     return deferred.promise;
 };
@@ -444,35 +437,35 @@ ApiResource.prototype.new = function newResource(resource) {
  * @param {Object} resource - The resource to update
  */
 ApiResource.prototype.update = function updateResource(resource) {
-    var method = 'POST';
-    var url    = this.apiService.getServer() + '/songs';
-    if (!this.isNew()) {
-        method = 'PUT';
-        url   += '/' + this.entity.id;
-    }
+    var deferred = this.services.$q.defer(); // Initialize promise
 
     // Build request
-    var requestConfig = {
-        url: url,
-        method: method,
-        data: {
-            musictools_songbookbundle_song: this.entity
+    var request = {
+        method : 'PUT',
+        url    : this.getFullPath(resource),
+        data   : {
+            data: resource
         }
     };
 
-    // Call server
-    this.uploadService.upload(requestConfig).then(
-        // Success callback
-        function onServerSuccess(resp) {
-            if (resp.data.form) {
-                angular.merge(this.form, resp.data.form);
-            }
-        }.bind(this),
-        // Error callback
-        function onServerError(resp) {
+    this.services.upload
+        // Call API
+        .upload(request)
 
-        }
-    );
+        // API results
+        .then(
+            // Success callback
+            function onServerSuccess(response) {
+                deferred.resolve(response.data);
+            },
+
+            // Error callback
+            function onServerError(response) {
+                deferred.reject(response);
+            }
+        );
+
+    return deferred.promise;
 };
 
 /**
@@ -599,37 +592,31 @@ angular
  * Base Form controller
  * @constructor
  */
-var BaseFormController = function BaseFormControllerConstructor(data, ApiResource) {
+var FormController = function FormControllerConstructor(data, ApiResource) {
     this.data        = data;
     this.apiResource = ApiResource;
 };
 
 // Set up dependency injection
-BaseFormController.$inject = [ 'data', 'ApiResource' ];
+FormController.$inject = [ 'data', 'ApiResource' ];
 
 /**
  * Errors
  * @type {Array}
  */
-BaseFormController.prototype.errors = [];
+FormController.prototype.errors = [];
 
 /**
  * Current data
  * @type {Object}
  */
-BaseFormController.prototype.data = null;
-
-/**
- * Is form include file Upload ? (Internally used to know which AJAX service we need to use $http or Upload)
- * @type {boolean}
- */
-BaseFormController.prototype.multipart = false;
+FormController.prototype.data = null;
 
 /**
  * Is the edited entity a new one ?
  * @returns {boolean}
  */
-BaseFormController.prototype.isNew = function isNew() {
+FormController.prototype.isNew = function isNew() {
     var isNew = true;
     if (null !== this.data && 'undefined' !== typeof (this.data.id) && null !== this.data.id && 0 !== this.data.id.length) {
         isNew = false;
@@ -641,14 +628,14 @@ BaseFormController.prototype.isNew = function isNew() {
 /**
  * Validate the form
  */
-BaseFormController.prototype.validate = function validate() {
+FormController.prototype.validate = function validate() {
     return true
 };
 
 /**
  * Submit the form
  */
-BaseFormController.prototype.submit = function submit() {
+FormController.prototype.submit = function submit() {
     if (this.validate()) {
         if (this.isNew()) {
             this.apiResource.new(this.data);
@@ -661,7 +648,128 @@ BaseFormController.prototype.submit = function submit() {
 // Register controller into Angular JS
 angular
     .module('Layout')
-    .controller('BaseFormController', BaseFormController);
+    .controller('FormController', FormController);
+
+// File : app/Layout/Controller/Page/FormWizardController.js
+/**
+ * Wizard Form controller
+ * @constructor
+ */
+var FormWizardController = function FormWizardControllerConstructor(data, ApiResource) {
+    FormWizardController.apply(this, arguments);
+
+    this.setCurrentStep(this.steps[0]);
+};
+
+// Extends FormController
+FormWizardController.prototype             = Object.create(FormController.prototype);
+FormWizardController.prototype.constructor = FormWizardController;
+
+// Set up dependency injection
+FormWizardController.$inject = [ 'data', 'ApiResource' ];
+
+/**
+ * Wizard steps
+ * @type {Array}
+ */
+FormWizardController.prototype.steps = [];
+
+/**
+ * Current step
+ * @type {Object}
+ */
+FormWizardController.prototype.currentStep = null;
+
+FormWizardController.prototype.hasPrevious = true;
+
+FormWizardController.prototype.hasNext = true;
+
+/**
+ * Set current step wizard
+ * @param step
+ */
+FormWizardController.prototype.setCurrentStep = function setCurrentStep(step) {
+    if (null !== this.currentStep) {
+        // Validate step before leaving
+        this.validateStep(this.currentStep);
+    }
+
+    this.currentStep = step;
+
+    this.hasPrevious = true;
+    this.hasNext     = true;
+
+    var position = this.steps.indexOf(this.currentStep);
+    if (0 === position) {
+        this.hasPrevious = false;
+    }
+
+    if (this.steps.length - 1 === position) {
+        this.hasNext = false;
+    }
+};
+
+/**
+ * Go to previous step
+ */
+FormWizardController.prototype.previousStep = function previousStep() {
+    var pos = this.steps.indexOf(this.currentStep);
+    if (-1 !== pos && this.steps[pos - 1]) {
+        this.setCurrentStep(this.steps[pos - 1]);
+    }
+};
+
+/**
+ * Go to next step
+ */
+FormWizardController.prototype.nextStep = function nextStep() {
+    var pos = this.steps.indexOf(this.currentStep);
+    if (-1 !== pos && this.steps[pos + 1]) {
+        this.setCurrentStep(this.steps[pos + 1]);
+    }
+};
+
+/**
+ * Validate step
+ * @param step
+ */
+FormWizardController.prototype.validateStep = function validateStep(step) {
+    // Empty errors
+    this.errors.splice(0, this.errors.length);
+
+    var valid = true;
+    if (this.currentStep.hasOwnProperty('validate')) {
+        valid = this.currentStep.validate(this.data, this.errors);
+    }
+
+    if (valid) {
+        this.currentStep.state = 'done';
+    } else {
+        this.currentStep.state = 'has-errors';
+    }
+};
+
+/**
+ * Validate the whole wizard
+ * @returns {boolean}
+ */
+FormWizardController.prototype.validate = function validate() {
+    var valid = true;
+
+    for (var i = 0; i < this.steps.length; i++) {
+        valid = this.validateStep(this.steps[i]);
+        if (!valid) {
+            break;
+        }
+    }
+
+    return valid;
+};
+
+// Register controller into Angular JS
+angular
+    .module('Layout')
+    .controller('FormWizardController', FormWizardController);
 
 // File : app/Layout/Controller/Page/ListController.js
 /**
@@ -728,126 +836,28 @@ angular
     .module('Utilities')
     .controller('ListController', ListController);
 
-// File : app/Layout/Controller/Page/WizardFormController.js
+// File : app/Layout/Controller/Page/ShowController.js
 /**
- * Wizard Form controller
+ * Base Show Controller
  * @constructor
  */
-var BaseWizardFormController = function BaseWizardFormControllerConstructor(data, ApiResource) {
-    BaseFormController.apply(this, arguments);
-
-    this.setCurrentStep(this.steps[0]);
+var BaseShowController = function BaseShowControllerContructor(entity) {
+    this.entity = entity;
 };
-
-// Extends BaseFormController
-BaseWizardFormController.prototype             = Object.create(BaseFormController.prototype);
-BaseWizardFormController.prototype.constructor = BaseWizardFormController;
 
 // Set up dependency injection
-BaseWizardFormController.$inject = [ 'data', 'ApiResource' ];
+BaseShowController.$inject = [ 'entity' ];
 
 /**
- * Wizard steps
- * @type {Array}
- */
-BaseWizardFormController.prototype.steps = [];
-
-/**
- * Current step
+ * Current displayed entity
  * @type {Object}
  */
-BaseWizardFormController.prototype.currentStep = null;
+BaseShowController.prototype.entity = null;
 
-BaseWizardFormController.prototype.hasPrevious = true;
-
-BaseWizardFormController.prototype.hasNext = true;
-
-/**
- * Set current step wizard
- * @param step
- */
-BaseWizardFormController.prototype.setCurrentStep = function setCurrentStep(step) {
-    if (null !== this.currentStep) {
-        // Validate step before leaving
-        this.validateStep(this.currentStep);
-    }
-
-    this.currentStep = step;
-
-    this.hasPrevious = true;
-    this.hasNext     = true;
-
-    var position = this.steps.indexOf(this.currentStep);
-    if (0 === position) {
-        this.hasPrevious = false;
-    }
-
-    if (this.steps.length - 1 === position) {
-        this.hasNext = false;
-    }
-};
-
-/**
- * Go to previous step
- */
-BaseWizardFormController.prototype.previousStep = function previousStep() {
-    var pos = this.steps.indexOf(this.currentStep);
-    if (-1 !== pos && this.steps[pos - 1]) {
-        this.setCurrentStep(this.steps[pos - 1]);
-    }
-};
-
-/**
- * Go to next step
- */
-BaseWizardFormController.prototype.nextStep = function nextStep() {
-    var pos = this.steps.indexOf(this.currentStep);
-    if (-1 !== pos && this.steps[pos + 1]) {
-        this.setCurrentStep(this.steps[pos + 1]);
-    }
-};
-
-/**
- * Validate step
- * @param step
- */
-BaseWizardFormController.prototype.validateStep = function validateStep(step) {
-    // Empty errors
-    this.errors.splice(0, this.errors.length);
-
-    var valid = true;
-    if (this.currentStep.hasOwnProperty('validate')) {
-        valid = this.currentStep.validate(this.data, this.errors);
-    }
-
-    if (valid) {
-        this.currentStep.state = 'done';
-    } else {
-        this.currentStep.state = 'has-errors';
-    }
-};
-
-/**
- * Validate the whole wizard
- * @returns {boolean}
- */
-BaseWizardFormController.prototype.validate = function validate() {
-    var valid = true;
-
-    for (var i = 0; i < this.steps.length; i++) {
-        valid = this.validateStep(this.steps[i]);
-        if (!valid) {
-            break;
-        }
-    }
-
-    return valid;
-};
-
-// Register controller into Angular JS
+// Register controller into angular
 angular
     .module('Layout')
-    .controller('BaseWizardFormController', BaseWizardFormController);
+    .controller('BaseShowController', BaseShowController);
 
 // File : app/Layout/Directive/Field/ScoreFieldDirective.js
 /**
@@ -933,14 +943,54 @@ angular
             };
         }
     ]);
+// File : app/Layout/Directive/Header/HeaderButtonDirective.js
+/**
+ * Header of the application
+ */
+angular
+    .module('Layout')
+    .directive('uiHeaderButton', [
+        function HeaderButtonDirective() {
+            return {
+                restrict: 'E',
+                template: '<li role="presentation" data-ng-transclude=""></li>',
+                replace: true,
+                transclude: true,
+                scope: {},
+                link: function (scope, element, attrs) {
+
+                }
+            };
+        }
+    ]);
+// File : app/Layout/Directive/Header/HeaderButtonsDirective.js
+/**
+ * Header of the application
+ */
+angular
+    .module('Layout')
+    .directive('uiHeaderButtons', [
+        function HeaderButtonsDirective() {
+            return {
+                restrict: 'E',
+                template: '<nav class="ui-header-buttons navbar navbar-default"><ul class=" nav navbar-nav" data-ng-transclude=""></ul></nav>',
+                replace: true,
+                transclude: true,
+                scope: {},
+                link: function (scope, element, attrs) {
+
+                }
+            };
+        }
+    ]);
 // File : app/Layout/Directive/Header/HeaderDirective.js
 /**
  * Header of the application
  */
 angular
     .module('Layout')
-    .directive('layoutHeader', [
-        function LayoutHeaderDirective() {
+    .directive('uiHeader', [
+        function HeaderDirective() {
             return {
                 restrict: 'E',
                 templateUrl: '../app/Layout/Partial/Header/navbar.html',
@@ -1073,46 +1123,6 @@ angular
     .module('Layout')
     .directive('layoutListSorter', LayoutListSorterDirective);
 
-// File : app/Layout/Directive/Page/PageButtonDirective.js
-/**
- * Header of the application
- */
-angular
-    .module('Layout')
-    .directive('layoutPageButton', [
-        function LayoutPageButtonDirective() {
-            return {
-                restrict: 'E',
-                template: '<li role="presentation" data-ng-transclude=""></li>',
-                replace: true,
-                transclude: true,
-                scope: {},
-                link: function (scope, element, attrs) {
-
-                }
-            };
-        }
-    ]);
-// File : app/Layout/Directive/Page/PageButtonsDirective.js
-/**
- * Header of the application
- */
-angular
-    .module('Layout')
-    .directive('layoutPageButtons', [
-        function LayoutPageButtonsDirective() {
-            return {
-                restrict: 'E',
-                template: '<nav class="page-buttons navbar navbar-default"><ul class=" nav navbar-nav" data-ng-transclude=""></ul></nav>',
-                replace: true,
-                transclude: true,
-                scope: {},
-                link: function (scope, element, attrs) {
-
-                }
-            };
-        }
-    ]);
 // File : app/Layout/Directive/Page/PageDirective.js
 /**
  * Represents a page of the application
@@ -2334,14 +2344,14 @@ angular
  * @constructor
  */
 var InstrumentCreateController = function InstrumentCreateControllerConstructor(data, InstrumentResource, instrumentTypes, InstrumentTemplateResource) {
-    BaseWizardFormController.apply(this, arguments);
+    FormWizardController.apply(this, arguments);
 
     this.instrumentTypes  = instrumentTypes;
     this.templateResource = InstrumentTemplateResource;
 };
 
-// Extends BaseFormController
-InstrumentCreateController.prototype             = Object.create(BaseWizardFormController.prototype);
+// Extends FormController
+InstrumentCreateController.prototype             = Object.create(FormWizardController.prototype);
 InstrumentCreateController.prototype.constructor = InstrumentCreateController;
 
 // Set up dependency injection
@@ -2500,18 +2510,18 @@ angular
  * Show controller for Instruments
  * @constructor
  */
-var InstrumentShowController = function InstrumentShowControllerConstructor(entity) {
-    this.entity = entity;
+var InstrumentShowController = function InstrumentShowControllerConstructor(data) {
+    this.data = data;
 };
 
 // Set up dependency injection
-InstrumentShowController.$inject = [ 'entity' ];
+InstrumentShowController.$inject = [ 'data' ];
 
 /**
- * Current displayed entity
+ * Current displayed data
  * @type {Object}
  */
-InstrumentShowController.prototype.entity = null;
+InstrumentShowController.prototype.data = null;
 
 // Register controller into angular
 angular
@@ -2655,7 +2665,7 @@ angular
                         ],
                         instrumentTypes: [
                             'InstrumentTypeResource',
-                            function formResolver(InstrumentTypeResource) {
+                            function instrumentTypesResolver(InstrumentTypeResource) {
                                 return InstrumentTypeResource.query();
                             }
                         ]
@@ -2986,16 +2996,25 @@ angular
  * Form controller for Songs
  * @constructor
  */
-var SongFormController = function SongFormControllerConstructor(data, SongResource) {
-    BaseFormController.apply(this, arguments);
+var SongFormController = function SongFormControllerConstructor(data, SongResource, Upload) {
+    FormController.apply(this, arguments);
+
+    this.upload = Upload;
 };
 
-// Extends BaseFormController
-SongFormController.prototype             = Object.create(BaseFormController.prototype);
+// Extends FormController
+SongFormController.prototype             = Object.create(FormController.prototype);
 SongFormController.prototype.constructor = SongFormController;
 
 // Set up dependency injection
-SongFormController.$inject = [ 'data', 'SongResource' ];
+SongFormController.$inject = [ 'data', 'SongResource', 'Upload' ];
+
+SongFormController.prototype.selectCover = function (file) {
+    // Convert file to Base 64
+    this.upload.base64DataUrl(file).then(function(url){
+        this.data.cover.file = url;
+    }.bind(this));
+};
 
 // Register controller into Angular JS
 angular

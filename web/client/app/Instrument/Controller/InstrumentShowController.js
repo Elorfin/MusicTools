@@ -2,18 +2,18 @@
  * Show controller for Instruments
  * @constructor
  */
-var InstrumentShowController = function InstrumentShowControllerConstructor(entity) {
-    this.entity = entity;
+var InstrumentShowController = function InstrumentShowControllerConstructor(data) {
+    this.data = data;
 };
 
 // Set up dependency injection
-InstrumentShowController.$inject = [ 'entity' ];
+InstrumentShowController.$inject = [ 'data' ];
 
 /**
- * Current displayed entity
+ * Current displayed data
  * @type {Object}
  */
-InstrumentShowController.prototype.entity = null;
+InstrumentShowController.prototype.data = null;
 
 // Register controller into angular
 angular

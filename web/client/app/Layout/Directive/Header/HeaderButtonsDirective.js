@@ -3,11 +3,11 @@
  */
 angular
     .module('Layout')
-    .directive('layoutPageButtons', [
-        function LayoutPageButtonsDirective() {
+    .directive('uiHeaderButtons', [
+        function HeaderButtonsDirective() {
             return {
                 restrict: 'E',
-                template: '<nav class="page-buttons navbar navbar-default"><ul class=" nav navbar-nav" data-ng-transclude=""></ul></nav>',
+                template: '<nav class="ui-header-buttons navbar navbar-default"><ul class=" nav navbar-nav" data-ng-transclude=""></ul></nav>',
                 replace: true,
                 transclude: true,
                 scope: {},

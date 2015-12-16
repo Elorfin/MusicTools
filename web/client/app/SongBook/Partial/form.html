@@ -11,37 +11,37 @@
     </layout-page-title>
 
     <!-- Header buttons -->
-    <layout-page-buttons>
+    <ui-header-buttons>
         <!-- Delete button while editing -->
-        <layout-page-button data-ng-if="!songFormCtrl.isNew()" class="nav-link-danger">
+        <ui-header-button data-ng-if="!songFormCtrl.isNew()" class="nav-link-danger">
             <a href="">
                 <span class="fa fa-fw fa-trash-o"></span>
                 Delete
             </a>
-        </layout-page-button>
+        </ui-header-button>
 
         <li class="divider" data-ng-if="!songFormCtrl.isNew()"></li>
 
         <!-- Cancel -->
-        <layout-page-button class="nav-link-default">
+        <ui-header-button class="nav-link-default">
             <a href="#/songs">
                 <span class="fa fa-fw fa-times"></span>
                 Cancel
             </a>
-        </layout-page-button>
+        </ui-header-button>
 
         <!-- Validate form -->
-        <layout-page-button class="nav-link-default">
-            <a href="" data-ng-click="songFormCtrl.validate()">
+        <ui-header-button class="nav-link-default">
+            <a href="" data-ng-click="songFormCtrl.submit()">
                 <span class="fa fa-fw fa-check"></span>
                 <span data-ng-if="songFormCtrl.isNew()">Create</span>
                 <span data-ng-if="!songFormCtrl.isNew()">Edit</span>
             </a>
-        </layout-page-button>
-    </layout-page-buttons>
+        </ui-header-button>
+    </ui-header-buttons>
 
     <!-- Form -->
-    <form class="song-form">
+    <form class="song-form row">
         <div class="col-md-3">
             <!-- Cover -->
             <fieldset data-ngf-drop="" data-ng-model="songFormCtrl.data.cover.file" class="file-upload-dropbox" accept="image/*" data-ngf-max-size="2MB" style="margin-bottom: 30px;">
@@ -49,7 +49,7 @@
                 <div class="dropbox-info" data-ng-hide="songFormCtrl.data.cover.file">
                     <img class="img-responsive img-shadow" data-ng-src="{{ 'images/no-cover.png'|asset_path }}" />
 
-                    <a href="" role="button" class="btn btn-block btn-default" data-ngf-select="" data-ng-model="songFormCtrl.data.cover.file">
+                    <a href="" role="button" class="btn btn-block btn-default" data-ngf-select="songFormCtrl.selectCover($file)">
                         <span class="fa fa-upload"></span>
                         Choose a file
                     </a>

@@ -10,38 +10,18 @@
 
     &.dragover {
         border-color: @brand-primary;
-
-        .dropbox-info {
-            color: @brand-primary;
-        }
-    }
-
-    .dropbox-info {
-        color: rgba(0, 0, 0, 0.5);
-        text-align: center;
-        font-size: 22px;
-        position: relative;
-
-        .dropbox-info-name {
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 100%;
-            text-align: center;
-            padding-top: 5px;
-        }
-
-        .btn {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-        }
     }
 
     .dropbox-thumb {
         position: relative;
 
-        .btn {
+        .dropbox-select {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+        }
+
+        .dropbox-remove {
             position: absolute;
             top: 0;
             right: 0;

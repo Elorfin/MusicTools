@@ -15,11 +15,16 @@ SongFormController.prototype.constructor = SongFormController;
 // Set up dependency injection
 SongFormController.$inject = [ 'data', 'SongResource', 'Upload' ];
 
-SongFormController.prototype.selectCover = function (file) {
+SongFormController.prototype.selectCover = function selectCover(file) {
     // Convert file to Base 64
-    this.upload.base64DataUrl(file).then(function(url){
+    this.upload.base64DataUrl(file).then(function (url) {
         this.data.cover.file = url;
+        console.log(this.data.cover.file);
     }.bind(this));
+};
+
+SongFormController.prototype.removeCover = function removeCover() {
+    this.data.cover = null;
 };
 
 // Register controller into Angular JS

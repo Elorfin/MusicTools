@@ -2,22 +2,22 @@
  * List controller for Notes
  * @constructor
  */
-var NoteListController = function NoteListControllerConstructor($uibModal, entities) {
+var NoteListController = function NoteListControllerConstructor($uibModal, resources) {
     this.services = {};
 
     this.services['$uibModal'] = $uibModal;
 
-    this.entities = entities;
+    this.resources = resources;
 };
 
 // Set up dependency injection
-NoteListController.$inject = ['$uibModal', 'entities'];
+NoteListController.$inject = ['$uibModal', 'resources'];
 
 /**
- * List of entities
+ * List of resources
  * @type {Array}
  */
-NoteListController.prototype.entities = [];
+NoteListController.prototype.resources = [];
 
 // Register controller into angular
 angular

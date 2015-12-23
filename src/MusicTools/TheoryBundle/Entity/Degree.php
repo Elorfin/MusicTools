@@ -12,7 +12,7 @@ use Elorfin\ReactorBundle\Entity\NameableTrait;
  * @ORM\Entity()
  * @ORM\Table(name="theory_degree")
  */
-class Degree
+class Degree implements \JsonSerializable
 {
     /**
      * Add Identifiable behavior
@@ -51,5 +51,17 @@ class Degree
         $this->symbol = $symbol;
 
         return $this;
+    }
+
+    public function jsonSerialize()
+    {
+        return array (
+            'type' => 'degrees',
+            'id'   => $this->id,
+            'attributes'  => array (
+                'name'    => $this->name,
+                'symbol'  => $this->symbol,
+            )
+        );
     }
 }

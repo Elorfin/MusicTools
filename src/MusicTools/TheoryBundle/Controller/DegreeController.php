@@ -3,25 +3,30 @@
 namespace MusicTools\TheoryBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use FOS\RestBundle\Routing\ClassResourceInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Elorfin\JsonApiBundle\Response\JsonApiResponse;
 
 /**
  * Degree CRUD Controller
+ *
+ * @Route("/degrees")
  */
-class DegreeController extends Controller implements ClassResourceInterface
+class DegreeController extends Controller
 {
     /**
      * List all Degrees
-     * "get_degrees"     [GET] /chords
-     *
      * @return array
+     *
+     * @Route("")
+     * @Method("GET")
      */
-    public function cgetAction()
+    public function listAction()
     {
         $entities = $this->container->get('doctrine.orm.entity_manager')
             ->getRepository('MusicToolsTheoryBundle:Degree')
             ->findBy(array(), array());
 
-        return $entities;
+        return new JsonApiResponse($entities);
     }
 }

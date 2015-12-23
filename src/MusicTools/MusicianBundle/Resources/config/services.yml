@@ -1,12 +1,4 @@
 services:
-    musician.twig.musician:
-        class: MusicTools\MusicianBundle\Twig\MusicianExtension
-        arguments:
-            tokenStorage:  @security.token_storage
-            objectManager: @doctrine.orm.entity_manager
-        tags:
-            - { name: twig.extension }
-
     musician.listener.user:
         class: MusicTools\MusicianBundle\EventListener\UserListener
         calls:

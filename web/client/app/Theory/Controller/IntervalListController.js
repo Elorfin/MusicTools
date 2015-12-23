@@ -2,21 +2,21 @@
  * List controller for Intervals
  * @constructor
  */
-var IntervalListController = function IntervalListControllerConstructor($uibModal, entities) {
+var IntervalListController = function IntervalListControllerConstructor($uibModal, resources) {
     this.services = {};
     this.services['$uibModal'] = $uibModal;
 
-    this.entities = entities;
+    this.resources = resources;
 };
 
 // Set up dependency injection
-IntervalListController.$inject = ['$uibModal', 'entities'];
+IntervalListController.$inject = ['$uibModal', 'resources'];
 
 /**
  * List of entities
  * @type {Array}
  */
-IntervalListController.prototype.entities = [];
+IntervalListController.prototype.resources = [];
 
 /**
  * Interval loaded in the player

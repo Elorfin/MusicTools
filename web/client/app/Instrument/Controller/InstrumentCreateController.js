@@ -2,7 +2,7 @@
  * Form controller for Instrument
  * @constructor
  */
-var InstrumentCreateController = function InstrumentCreateControllerConstructor(data, InstrumentResource, instrumentTypes, InstrumentTemplateResource) {
+var InstrumentCreateController = function InstrumentCreateControllerConstructor(resource, InstrumentResource, instrumentTypes, InstrumentTemplateResource) {
     FormWizardController.apply(this, arguments);
 
     this.instrumentTypes  = instrumentTypes;
@@ -14,7 +14,7 @@ InstrumentCreateController.prototype             = Object.create(FormWizardContr
 InstrumentCreateController.prototype.constructor = InstrumentCreateController;
 
 // Set up dependency injection
-InstrumentCreateController.$inject = [ 'data', 'InstrumentResource', 'instrumentTypes', 'InstrumentTemplateResource' ];
+InstrumentCreateController.$inject = [ 'resource', 'InstrumentResource', 'instrumentTypes', 'InstrumentTemplateResource' ];
 
 /**
  * Step 1 - Choose Type
@@ -105,7 +105,7 @@ InstrumentCreateController.prototype.selectedTemplate = null;
  * @param {Object} type
  */
 InstrumentCreateController.prototype.selectType = function (type) {
-    this.data.type = type;
+    this.resource.type = type;
 
     // Load templates for this type
     this.loadTemplates(type);

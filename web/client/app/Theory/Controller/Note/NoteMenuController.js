@@ -3,11 +3,8 @@
  * @constructor
  */
 var NoteMenuController = function NoteMenuControllerConstructor(NoteResource) {
-    this.services = {};
-    this.services['NoteResource'] = NoteResource;
-
-    this.entities = NoteResource.query().then(function (result) {
-        this.entities = result;
+    this.notes = NoteResource.query().then(function (result) {
+        this.notes = result;
         if (!this.current) {
             this.current = result[0];
         }
@@ -21,7 +18,7 @@ NoteMenuController.$inject = [ 'NoteResource' ];
  * List of notes
  * @type {Array}
  */
-NoteMenuController.prototype.entities = [];
+NoteMenuController.prototype.notes = [];
 
 /**
  * Current note
@@ -30,16 +27,16 @@ NoteMenuController.prototype.entities = [];
 NoteMenuController.prototype.current = null;
 
 NoteMenuController.prototype.previous = function previous() {
-    var pos = this.entities.indexOf(this.current);
-    if (-1 !== pos && this.entities[pos - 1]) {
-        this.current = this.entities[pos - 1];
+    var pos = this.notes.indexOf(this.current);
+    if (-1 !== pos && this.notes[pos - 1]) {
+        this.current = this.notes[pos - 1];
     }
 };
 
 NoteMenuController.prototype.next = function next() {
-    var pos = this.entities.indexOf(this.current);
-    if (-1 !== pos && this.entities[pos + 1]) {
-        this.current = this.entities[pos + 1];
+    var pos = this.notes.indexOf(this.current);
+    if (-1 !== pos && this.notes[pos + 1]) {
+        this.current = this.notes[pos + 1];
     }
 };
 

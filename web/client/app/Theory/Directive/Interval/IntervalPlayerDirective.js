@@ -81,9 +81,9 @@ var IntervalPlayerDirective = function IntervalPlayerDirective() {
                     if (this.interval && this.direction && this.referenceNote) {
 
                         if ('ascending' === this.direction) {
-                            var newNoteValue = this.referenceNote.value + this.interval.value;
+                            var newNoteValue = this.referenceNote.attributes.value + this.interval.attributes.value;
                         } else {
-                            var newNoteValue = this.referenceNote.value - this.interval.value;
+                            var newNoteValue = this.referenceNote.attributes.value - this.interval.attributes.value;
                         }
 
                         this.calculatedNote = this.notes[newNoteValue];
@@ -91,13 +91,13 @@ var IntervalPlayerDirective = function IntervalPlayerDirective() {
                 };
 
                 this.incrementReference = function incrementReference() {
-                    var newNoteValue = this.referenceNote.value + 1;
+                    var newNoteValue = this.referenceNote.attributes.value + 1;
 
                     this.referenceNote = this.notes[newNoteValue];
                 };
 
                 this.decrementReference = function incrementReference() {
-                    var newNoteValue = this.referenceNote.value - 1;
+                    var newNoteValue = this.referenceNote.attributes.value - 1;
 
                     this.referenceNote = this.notes[newNoteValue];
                 };
@@ -106,8 +106,8 @@ var IntervalPlayerDirective = function IntervalPlayerDirective() {
                  * Play interval
                  */
                 this.playInterval = function playInterval() {
-                    SoundService.playFrequency(this.referenceNote.frequency,  0, 1);
-                    SoundService.playFrequency(this.calculatedNote.frequency, 1, 1);
+                    SoundService.playFrequency(this.referenceNote.attributes.frequency,  0, 1);
+                    SoundService.playFrequency(this.calculatedNote.attributes.frequency, 1, 1);
                 };
 
                 // Watch changes of the interval

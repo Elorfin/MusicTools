@@ -2,7 +2,7 @@
  * List controller for Instruments
  * @constructor
  */
-var InstrumentListController = function InstrumentListControllerConstructor($uibModal, entities) {
+var InstrumentListController = function InstrumentListControllerConstructor($uibModal, resources) {
     ListController.apply(this, arguments);
 };
 

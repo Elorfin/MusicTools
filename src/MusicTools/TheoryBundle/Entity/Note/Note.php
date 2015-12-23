@@ -13,7 +13,7 @@ use MusicTools\TheoryBundle\Entity\Interval;
  * @ORM\Entity()
  * @ORM\Table(name="theory_note")
  */
-class Note
+class Note implements \JsonSerializable
 {
     /**
      * Add Identifiable behavior
@@ -273,5 +273,26 @@ class Note
         }
 
         return $next;
+    }
+
+    public function jsonSerialize()
+    {
+        return array(
+            'type' => 'notes',
+            'id'   => $this->id,
+            'attributes'     => array(
+                // Note properties
+                'value'      => $this->value,
+                'octave'     => $this->octave,
+                'frequency'  => $this->frequency,
+                'midi'       => $this->midi,
+
+                // Flatten NoteInfo properties for simplier structure
+                'sharp_name' => $this->info->getSharpName(),
+                'flat_name'  => $this->info->getFlatName(),
+                'accidental' => $this->info->isAccidental(),
+                'color'      => $this->info->getColor(),
+            )
+        );
     }
 }

@@ -16,9 +16,9 @@
                     </thead>
 
                     <tbody>
-                        <tr data-ng-repeat="entity in degreeListCtrl.entities">
-                            <td>{{ entity.symbol }}</td>
-                            <td>{{ entity.name }}</td>
+                        <tr data-ng-repeat="resource in degreeListCtrl.resources">
+                            <td>{{ resource.attributes.symbol }}</td>
+                            <td>{{ resource.attributes.name }}</td>
                         </tr>
                     </tbody>
                 </table>

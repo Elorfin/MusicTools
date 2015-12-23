@@ -15,7 +15,7 @@ use MusicTools\MusicianBundle\Entity\OwnableTrait;
  * @ORM\Entity()
  * @ORM\Table(name="instrument")
  */
-class Instrument
+class Instrument implements \JsonSerializable
 {
     /**
      * Add Identifiable behavior
@@ -148,5 +148,19 @@ class Instrument
         $this->model = $model;
 
         return $this;
+    }
+
+    public function jsonSerialize()
+    {
+        return array (
+            'type' => 'instruments',
+            'id'   => $this->id,
+            'attributes' => array(
+                'name'         => $this->name,
+                'default'      => $this->default,
+                'manufacturer' => $this->manufacturer,
+                'model'        => $this->model,
+            ),
+        );
     }
 }

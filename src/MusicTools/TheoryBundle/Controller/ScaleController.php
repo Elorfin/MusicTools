@@ -3,33 +3,40 @@
 namespace MusicTools\TheoryBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use FOS\RestBundle\Routing\ClassResourceInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Elorfin\JsonApiBundle\Response\JsonApiResponse;
 
 /**
  * Scale CRUD Controller
+ *
+ * @Route("/scales")
  */
-class ScaleController extends Controller implements ClassResourceInterface
+class ScaleController extends Controller
 {
     /**
      * List all Scales
-     * "get_scales"     [GET] /chords
-     *
      * @return array
+     *
+     * @Route("")
+     * @Method("GET")
      */
-    public function cgetAction()
+    public function listAction()
     {
         $entities = $this->container->get('doctrine.orm.entity_manager')
             ->getRepository('MusicToolsTheoryBundle:Scale')
             ->findBy(array(), array());
 
-        return $entities;
+        return new JsonApiResponse($entities);
     }
 
     /**
      * Display a Scale entity
-     * "get_scale"      [GET] /scales/{id}
      * @param $id
      * @return array
+     *
+     * @Route("/{id}")
+     * @Method("GET")
      */
     public function getAction($id)
     {
@@ -39,7 +46,7 @@ class ScaleController extends Controller implements ClassResourceInterface
     }
 
     /**
-     * Retrieve a Chord entity
+     * Retrieve a Scale entity
      *
      * @param  integer $id
      * @return \MusicTools\TheoryBundle\Entity\Scale

@@ -1,4 +1,12 @@
-var IntervalResource = function IntervalResourceConstructor() {
+/**
+ * Resource : Interval
+ *
+ * @param $http
+ * @param $q
+ * @param ApiService
+ * @constructor
+ */
+var IntervalResource = function IntervalResourceConstructor($http, $q, ApiService) {
     // Call parent constructor
     ApiResource.apply(this, arguments);
 };
@@ -8,10 +16,10 @@ IntervalResource.prototype = Object.create(ApiResource.prototype);
 IntervalResource.$inject = ApiResource.$inject;
 
 /**
- * Name of the Resource (used as translation key)
+ * Type of the Resource
  * @type {string}
  */
-IntervalResource.prototype.name = 'interval';
+IntervalResource.prototype.type = 'interval';
 
 /**
  * Path of the API resource

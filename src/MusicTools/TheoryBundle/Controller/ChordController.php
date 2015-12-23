@@ -3,39 +3,46 @@
 namespace MusicTools\TheoryBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use FOS\RestBundle\Routing\ClassResourceInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Elorfin\JsonApiBundle\Response\JsonApiResponse;
 
 /**
  * Chord CRUD Controller
+ *
+ * @Route("/chords")
  */
-class ChordController extends Controller implements ClassResourceInterface
+class ChordController extends Controller
 {
     /**
      * List all Chords
-     * "get_chords"     [GET] /chords
-     *
      * @return array
+     *
+     * @Route("")
+     * @Method("GET")
      */
-    public function cgetAction()
+    public function listAction()
     {
         $entities = $this->container->get('doctrine.orm.entity_manager')
             ->getRepository('MusicToolsTheoryBundle:Chord')
             ->findBy(array(), array());
 
-        return $entities;
+        return new JsonApiResponse($entities);
     }
 
     /**
      * Display a Chord entity
-     * "get_chord"      [GET] /chords/{id}
      * @param $id
      * @return array
+     *
+     * @Route("/{id}")
+     * @Method("GET")
      */
     public function getAction($id)
     {
         $entity = $this->getEntity($id);
 
-        return $entity;
+        return new JsonApiResponse($entity);
     }
 
     /**

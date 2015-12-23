@@ -2,12 +2,13 @@
  * Show controller for Instruments
  * @constructor
  */
-var InstrumentShowController = function InstrumentShowControllerConstructor(data) {
-    this.data = data;
+var InstrumentShowController = function InstrumentShowControllerConstructor(resource) {
+    ShowController.apply(this, arguments);
 };
 
-// Set up dependency injection
-InstrumentShowController.$inject = [ 'data' ];
+// Extends ShowController
+InstrumentShowController.prototype = Object.create(ShowController.prototype);
+InstrumentShowController.$inject = ShowController.$inject;
 
 /**
  * Current displayed data

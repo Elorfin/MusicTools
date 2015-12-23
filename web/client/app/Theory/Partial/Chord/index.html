@@ -18,12 +18,12 @@
     <layout-page-title>
         Theory <small>Chords</small>
 
-        <layout-list-sorter data-element="chord" data-count="chordListCtrl.entities.length" data-current="chordListCtrl.sortBy" data-reverse="chordListCtrl.sortReverse" data-fields="chordListCtrl.sortFields"></layout-list-sorter>
+        <layout-list-sorter data-element="chord" data-count="chordListCtrl.resources.length" data-current="chordListCtrl.sortBy" data-reverse="chordListCtrl.sortReverse" data-fields="chordListCtrl.sortFields"></layout-list-sorter>
     </layout-page-title>
 
     <div class="row">
         <!-- List items -->
-        <div data-ng-repeat="entity in chordListCtrl.entities|orderBy:chordListCtrl.sortBy:chordListCtrl.sortReverse"
+        <div data-ng-repeat="resource in chordListCtrl.resources|orderBy:chordListCtrl.sortBy:chordListCtrl.sortReverse"
              data-ng-include="'../app/Theory/Partial/Chord/List/item-' + chordListCtrl.format + '.html'"
              data-ng-class="{ 'col-md-12': 'tile' !== chordListCtrl.format, 'col-xs-12 col-sm-4 col-md-3 col-lg-2': 'tile' === chordListCtrl.format }"
         ></div>

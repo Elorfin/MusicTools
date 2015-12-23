@@ -18,7 +18,6 @@ angular
         // Core modules
         'Utilities',
         'Layout',
-        'Form',
         'Alert',
 
         // App modules
@@ -40,9 +39,13 @@ angular
         'SheetMusic'*/
     ])
     .config([
+        '$httpProvider',
         '$translateProvider',
         'cfpLoadingBarProvider',
-        function($translateProvider, cfpLoadingBarProvider) {
+        function configure($httpProvider, $translateProvider, cfpLoadingBarProvider) {
+            // Set up Http Error interceptor to catch server error response
+            $httpProvider.interceptors.push('HttpErrorService');
+
             // Inject translations
             for (var lang in appTranslations) {
                 if (appTranslations.hasOwnProperty(lang)) {

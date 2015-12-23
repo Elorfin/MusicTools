@@ -1,16 +1,21 @@
-var ApiResource = function ApiResourceConstructor($http, $q, Upload, ApiService) {
-    // Initialize service container
-    this.services = {};
-
+/**
+ * Base API Resource
+ * Manages API server data
+ *
+ * @param $http
+ * @param $q
+ * @param ApiService
+ * @constructor
+ */
+var ApiResource = function ApiResourceConstructor($http, $q, ApiService) {
     // Store services
-    this.services['$http']  = $http;
-    this.services['upload'] = Upload;
-    this.services['$q']     = $q;
-    this.services['api']    = ApiService;
+    this.services['$http'] = $http;
+    this.services['$q']    = $q;
+    this.services['api']   = ApiService;
 
     // Validate required properties
-    if (null === this.name) {
-        console.error('An ApiResource must have a property `name`.');
+    if (null === this.type) {
+        console.error('An ApiResource must have a property `type`.');
     }
 
     if (null === this.path) {
@@ -19,13 +24,19 @@ var ApiResource = function ApiResourceConstructor($http, $q, Upload, ApiService)
 };
 
 // Set up dependency injection
-ApiResource.$inject = [ '$http', '$q', 'Upload', 'ApiService' ];
+ApiResource.$inject = [ '$http', '$q', 'ApiService' ];
 
 /**
- * Name of the Resource (used as translation key)
+ * List of dependencies
+ * @type {Object}
+ */
+ApiResource.prototype.services = {};
+
+/**
+ * Type of the Resource
  * @type {string}
  */
-ApiResource.prototype.name = null;
+ApiResource.prototype.type = null;
 
 /**
  * Path of the API resource
@@ -34,13 +45,156 @@ ApiResource.prototype.name = null;
 ApiResource.prototype.path = null;
 
 /**
- * List of elements
- * @type {Array}
+ * List existing resources filtered by `queryParams`
+ *
+ * @param   {Object}  [queryParams] - The parameters used to filter the list of elements
+ * @returns {Array}                 - The list of available resources
  */
-ApiResource.prototype.elements = [];
+ApiResource.prototype.query = function queryResources(queryParams) {
+    // Initialize promise
+    var deferred = this.services.$q.defer();
+
+    // Build request
+    var request = this.getRequest(this.getFullPath(queryParams));
+
+    // Call API
+    this.services.$http(request).then(
+        // Success callback
+        function onServerSuccess(response) {
+            // Set default data if empty
+            var data = response.data.data ? response.data.data : [];
+
+            deferred.resolve(data);
+        },
+
+        // Error callback
+        function onServerError(response) {
+            deferred.reject(response);
+        }
+    );
+
+    return deferred.promise;
+};
+
+/**
+ * Find an existing entity
+ *
+ * @param   {Object} params - The identifier of the resource to search
+ * @returns {Object}        - The resource found
+ */
+ApiResource.prototype.get = function getResource(params) {
+    // Initialize promise
+    var deferred = this.services.$q.defer();
+
+    // Build request
+    var request = this.getRequest(this.getFullPath(params));
+
+    // Call API
+    this.services.$http(request).then(
+        // Success callback
+        function onServerSuccess(response) {
+            // Set default data if empty
+            var data = response.data.data ? response.data.data : {};
+
+            deferred.resolve(data);
+        },
+
+        // Error callback
+        function onServerError(response) {
+            deferred.reject(response);
+        }
+    );
+
+    return deferred.promise;
+};
+
+/**
+ * Create a new resource
+ *
+ * @param {Object} resource - The resource to create
+ */
+ApiResource.prototype.new = function newResource(resource) {
+    // Initialize promise
+    var deferred = this.services.$q.defer();
+
+    // Build request
+    var request = this.getRequest(this.getFullPath(resource), 'POST', resource);
+
+    // Call API
+    this.services.$http(request)
+
+        // API results
+        .then(
+            // Success callback
+            function onServerSuccess(response) {
+                deferred.resolve(response.data);
+            },
+
+            // Error callback
+            function onServerError(response) {
+                deferred.reject(response);
+            }
+        );
+
+    return deferred.promise;
+};
+
+/**
+ * Update an existing resource
+ *
+ * @param {Object} resource - The resource to update
+ */
+ApiResource.prototype.update = function updateResource(resource) {
+    // Initialize promise
+    var deferred = this.services.$q.defer();
+
+    // Build request
+    var request = this.getRequest(this.getFullPath(resource), 'PUT', resource);
+
+    // Call API
+    this.services.$http(request)
+
+        // API results
+        .then(
+            // Success callback
+            function onServerSuccess(response) {
+                deferred.resolve(response.data);
+            },
+
+            // Error callback
+            function onServerError(response) {
+                deferred.reject(response);
+            }
+        );
+
+    return deferred.promise;
+};
+
+/**
+ * Remove a resource
+ *
+ * @param {Object} resource - The resource to remove
+ */
+ApiResource.prototype.remove = function removeResource(resource) {
+
+};
+
+/**
+ * Apply a callback to all resources
+ *
+ * @param {Function} callback - The callback to apply
+ */
+ApiResource.prototype.apply = function apply(callback) {
+    if (typeof callback === 'function') {
+        for (var i = 0; i < this.elements.length; i++) {
+            callback(this.elements[i]);
+        }
+    }
+};
 
 /**
  * Build API path of the resource
+ *
  * @returns {string}
  */
 ApiResource.prototype.getFullPath = function buildPath(params) {
@@ -70,48 +224,8 @@ ApiResource.prototype.getFullPath = function buildPath(params) {
 };
 
 /**
- * List existing resources filtered by `queryParams`
- * @param   {Object}  [queryParams] - The parameters used to filter the list of elements
- * @param   {boolean} [refresh]     - If true, a new request will be sent to the server to grab the list even if it's already loaded
- * @returns {Array}                 - The list of available resources
- */
-ApiResource.prototype.query = function queryResources(queryParams, refresh) {
-    var deferred = this.services.$q.defer(); // Initialize promise
-
-    if (!this.elements || this.elements.length === 0 || this.refresh) {
-        // Load data from server
-        this.services.$http
-            // Call API
-            .get(this.getFullPath())
-
-            // API results
-            .then(
-                // Success callback
-                function onServerSuccess(response) {
-                    this.setElements(response.data);
-
-                    deferred.resolve(response.data);
-                }.bind(this),
-
-                // Error callback
-                function onServerError(response) {
-                    deferred.reject(response);
-                }
-            );
-    } else {
-        // Load data from local
-        var tempElements = this.elements;
-
-        deferred.resolve(tempElements);
-    }
-
-    this.elements = deferred.promise;
-
-    return this.elements;
-};
-
-/**
  * Set elements
+ *
  * @param {Array} elements
  */
 ApiResource.prototype.setElements = function setElements(elements) {
@@ -120,6 +234,7 @@ ApiResource.prototype.setElements = function setElements(elements) {
 
 /**
  * Count elements
+ *
  * @returns {Number} - The number of resources in the list
  */
 ApiResource.prototype.count = function countResources() {
@@ -127,122 +242,35 @@ ApiResource.prototype.count = function countResources() {
 };
 
 /**
- * Find an existing entity
- * @param   {Object} params - The identifier of the resource to search
- * @returns {Object}        - The resource found
+ * Get request
+ *
+ * @param   {String} url      - The URL to call
+ * @param   {String} [method] - The HTTP method to use to call the server API
+ * @param   {Object} [data]   - The data to send to the API server
+ *
+ * @returns {Object}          - The Request
  */
-ApiResource.prototype.get = function getResource(params) {
-    // Load data from server
-    var deferred = this.services.$q.defer(); // Initialize promise
+ApiResource.prototype.getRequest = function createRequest(url, method, data) {
+    var request = {};
 
-    this.services.$http
-        // Call API
-        .get(this.getFullPath(params))
+    request.url     = url;
 
-        // API results
-        .then(
-            // Success callback
-            function onServerSuccess(response) {
-                deferred.resolve(response.data);
-            },
+    // Set default method to GET
+    request.method  = method ? method : 'GET';
 
-            // Error callback
-            function onServerError(response) {
-                deferred.reject(response);
-            }
-        );
+    // Add data if needed
+    request.data    = data ? { data: data } : null;
 
-    return deferred.promise;
-};
+    // Enable GET requests caching
+    request.cache   = true;
 
-/**
- * Create a new resource
- * @param {Object} resource - The resource to create
- */
-ApiResource.prototype.new = function newResource(resource) {
-    var deferred = this.services.$q.defer(); // Initialize promise
-
-    // Build request
-    var request = {
-        method : 'POST',
-        url    : this.getFullPath(resource),
-        data   : resource
+    // Force the Request Content-Type to be compliant with the json api specification
+    request.headers = {
+        'Accept'       : 'application/vnd.api+json',
+        'Content-Type' : 'application/vnd.api+json'
     };
 
-    this.services.upload
-        // Call API
-        .upload(request)
-
-        // API results
-        .then(
-            // Success callback
-            function onServerSuccess(response) {
-                deferred.resolve(response.data);
-            },
-
-            // Error callback
-            function onServerError(response) {
-                deferred.reject(response);
-            }
-        );
-
-    return deferred.promise;
-};
-
-/**
- * Update an existing resource
- * @param {Object} resource - The resource to update
- */
-ApiResource.prototype.update = function updateResource(resource) {
-    var deferred = this.services.$q.defer(); // Initialize promise
-
-    // Build request
-    var request = {
-        method : 'PUT',
-        url    : this.getFullPath(resource),
-        data   : {
-            data: resource
-        }
-    };
-
-    this.services.upload
-        // Call API
-        .upload(request)
-
-        // API results
-        .then(
-            // Success callback
-            function onServerSuccess(response) {
-                deferred.resolve(response.data);
-            },
-
-            // Error callback
-            function onServerError(response) {
-                deferred.reject(response);
-            }
-        );
-
-    return deferred.promise;
-};
-
-/**
- * Remove a resource
- * @param {Object} resource - The resource to remove
- */
-ApiResource.prototype.remove = function removeResource(resource) {
-
-};
-
-/**
- * Apply a callback to all resources
- * @param   {Function} callback - The callback to apply
- */
-ApiResource.prototype.apply = function apply(callback) {
-    if (typeof callback === 'function') {
-        for (var i = 0; i < this.elements.length; i++) {
-            callback(this.elements[i]);
-        }
-    }
+    return request;
 };
 
 // Register service into Angular JS

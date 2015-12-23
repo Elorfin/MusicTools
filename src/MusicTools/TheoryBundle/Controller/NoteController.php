@@ -3,25 +3,30 @@
 namespace MusicTools\TheoryBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use FOS\RestBundle\Routing\ClassResourceInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Elorfin\JsonApiBundle\Response\JsonApiResponse;
 
 /**
  * Interval CRUD Controller
+ *
+ * @Route("/notes")
  */
-class NoteController extends Controller implements ClassResourceInterface
+class NoteController extends Controller
 {
     /**
      * List all Notes
-     * "get_notes"     [GET] /notes
-     *
      * @return array
+     *
+     * @Route("")
+     * @Method("GET")
      */
-    public function cgetAction()
+    public function listAction()
     {
         $entities = $this->container->get('doctrine.orm.entity_manager')
             ->getRepository('MusicToolsTheoryBundle:Note\Note')
             ->findBy(array(), array('value' => 'ASC'));
 
-        return $entities;
+        return new JsonApiResponse($entities);
     }
 }

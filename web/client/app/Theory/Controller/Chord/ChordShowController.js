@@ -2,20 +2,17 @@
  * Show controller for Songs
  * @constructor
  */
-var ChordShowController = function ChordShowControllerContructor(entity, notes) {
-    this.entity = entity;
+var ChordShowController = function ChordShowControllerConstructor(resource, notes) {
+    ShowController.apply(this, arguments);
 
     this.notes = notes;
 };
 
-// Set up dependency injection
-ChordShowController.$inject = [ 'entity' ];
+// Extends ShowController
+ChordShowController.prototype = Object.create(ShowController.prototype);
 
-/**
- * Current displayed entity
- * @type {Object}
- */
-ChordShowController.prototype.entity = null;
+// Set up dependency injection
+ChordShowController.$inject = ShowController.$inject;
 
 // Register controller into angular
 angular

@@ -2,7 +2,7 @@
  * List controller for Songs
  * @constructor
  */
-var SongListController = function SongListControllerConstructor($uibModal, entities) {
+var SongListController = function SongListControllerConstructor($uibModal, resources) {
     ListController.apply(this, arguments);
 };
 
@@ -16,17 +16,17 @@ SongListController.$inject = ListController.$inject;
  * Default field to sort by
  * @type {string}
  */
-SongListController.prototype.sortBy = 'title';
+SongListController.prototype.sortBy = 'name';
 
 /**
  * Usable fields for sort
  * @type {Object}
  */
 SongListController.prototype.sortFields = {
-    title :  'string',
-    artist:  'string',
-    rating:  'number',
-    mastery: 'number'
+    name    : 'string',
+    artist  : 'string',
+    rating  : 'number',
+    mastery : 'number'
 };
 
 // Register controller into angular

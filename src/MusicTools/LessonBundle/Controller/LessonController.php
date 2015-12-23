@@ -10,7 +10,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 /**
  * Lesson controller.
  *
- * @Route("/")
+ * @Route("/lessons")
  */
 class LessonController extends Controller
 {

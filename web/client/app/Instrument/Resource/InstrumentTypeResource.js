@@ -8,16 +8,16 @@ InstrumentTypeResource.prototype = Object.create(ApiResource.prototype);
 InstrumentTypeResource.$inject = ApiResource.$inject;
 
 /**
- * Name of the Resource (used as translation key)
+ * Type of the Resource
  * @type {string}
  */
-InstrumentTypeResource.prototype.name = 'instrument_type';
+InstrumentTypeResource.prototype.type = 'instrument_type';
 
 /**
  * Path of the API resource
  * @type {string}
  */
-InstrumentTypeResource.prototype.path = '/instrumenttypes/{id}';
+InstrumentTypeResource.prototype.path = '/instrument_types/{id}';
 
 // Register service into Angular JS
 angular

@@ -1,28 +1,28 @@
 <div class="list-item list-item-condensed panel panel-default">
     <!-- Image -->
     <div class="song-cover">
-        <img class="" data-ng-src="{{ entity.cover.path ? (entity.cover.path|resource_path) : ('images/no-cover.png'|asset_path) }}" />
+        <img class="" data-ng-src="{{ resource.cover.path ? (resource.cover.path|resource_path) : ('images/no-cover.png'|asset_path) }}" />
     </div>
 
     <!-- Info -->
     <div class="item-info song-info panel-body">
-        {{ entity.title }}
-        <small data-ng-if="null !== entity.artist">{{ entity.artist }}</small>
+        {{ resource.attributes.name }}
+        <small data-ng-if="null !== resource.attributes.artist">{{ resource.attributes.artist }}</small>
     </div>
 
     <!-- Item buttons -->
     <div class="list-item-btn-group">
-        <a class="btn btn-danger" href="" data-ng-click="songListCtrl.remove(entity)">
+        <a class="btn btn-danger" href="" data-ng-click="songListCtrl.remove(resource)">
             <span class="fa fa-trash-o"></span>
             <span class="sr-only">{{ 'delete_song'|translate }}</span>
         </a>
 
-        <a class="btn btn-default" href="#/songs/{{ entity.id }}/edit">
+        <a class="btn btn-default" href="#/songs/{{ resource.id }}/edit">
             <span class="fa fa-pencil"></span>
             <span class="sr-only">{{ 'edit_song'|translate }}</span>
         </a>
 
-        <a class="btn btn-default" href="#/songs/{{ entity.id }}">
+        <a class="btn btn-default" href="#/songs/{{ resource.id }}">
             <span class="fa fa-eye"></span>
             <span class="sr-only">{{ 'show_song'|translate }}</span>
         </a>

@@ -21,10 +21,10 @@
                     </thead>
 
                     <tbody>
-                        <tr data-ng-click="intervalListCtrl.selectInterval(entity)" data-ng-repeat="entity in intervalListCtrl.entities" data-ng-class="{ 'active': entity === intervalListCtrl.selected }">
-                            <td>{{ entity.symbol }}</td>
-                            <td>{{ entity.name }}</td>
-                            <td>{{ entity.value }}</td>
+                        <tr data-ng-click="intervalListCtrl.selectInterval(resource)" data-ng-repeat="resource in intervalListCtrl.resources" data-ng-class="{ 'active': resource === intervalListCtrl.selected }">
+                            <td>{{ resource.attributes.symbol }}</td>
+                            <td>{{ resource.attributes.name }}</td>
+                            <td>{{ resource.attributes.value }}</td>
                         </tr>
                     </tbody>
                 </table>

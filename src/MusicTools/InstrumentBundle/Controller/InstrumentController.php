@@ -3,39 +3,46 @@
 namespace MusicTools\InstrumentBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use FOS\RestBundle\Routing\ClassResourceInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Elorfin\JsonApiBundle\Response\JsonApiResponse;
 
 /**
  * Instrument CRUD Controller
+ *
+ * @Route("/instruments")
  */
-class InstrumentController extends Controller implements ClassResourceInterface
+class InstrumentController extends Controller
 {
     /**
      * List all Instruments
-     * "get_instruments"     [GET] /instruments
-     *
      * @return array
+     *
+     * @Route("")
+     * @Method("GET")
      */
-    public function cgetAction()
+    public function listAction()
     {
         $entities = $this->container->get('doctrine.orm.entity_manager')
             ->getRepository('MusicToolsInstrumentBundle:Instrument')
             ->findBy(array (), array ('model' => 'ASC'));
 
-        return $entities;
+        return new JsonApiResponse($entities);
     }
 
     /**
      * Display an Instrument entity
-     * "get_instrument"      [GET] /instruments/{id}
      * @param  integer $id
      * @return mixed
+     *
+     * @Route("/{id}")
+     * @Method("GET")
      */
     public function getAction($id)
     {
         $entity = $this->getEntity($id);
 
-        return $entity;
+        return new JsonApiResponse($entity);
     }
 
     /**

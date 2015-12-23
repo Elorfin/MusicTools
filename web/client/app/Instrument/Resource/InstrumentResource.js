@@ -8,10 +8,10 @@ InstrumentResource.prototype = Object.create(ApiResource.prototype);
 InstrumentResource.$inject = ApiResource.$inject;
 
 /**
- * Name of the Resource (used as translation key)
+ * Type of the Resource
  * @type {string}
  */
-InstrumentResource.prototype.name = 'instrument';
+InstrumentResource.prototype.type = 'instrument';
 
 /**
  * Path of the API resource

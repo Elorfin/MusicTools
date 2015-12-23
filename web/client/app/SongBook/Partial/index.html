@@ -21,19 +21,19 @@
     <layout-page-title id="song-list">
         {{ 'my_songbook_title'|translate }}
 
-        <layout-list-sorter data-element="song" data-count="songListCtrl.entities.length" data-current="songListCtrl.sortBy" data-reverse="songListCtrl.sortReverse" data-fields="songListCtrl.sortFields"></layout-list-sorter>
+        <layout-list-sorter data-element="song" data-count="songListCtrl.resources.length" data-current="songListCtrl.sortBy" data-reverse="songListCtrl.sortReverse" data-fields="songListCtrl.sortFields"></layout-list-sorter>
     </layout-page-title>
 
     <div class="row">
         <!-- List items -->
-        <div data-ng-repeat="entity in songListCtrl.entities|orderBy:songListCtrl.sortBy:songListCtrl.sortReverse"
+        <div data-ng-repeat="resource in songListCtrl.resources|orderBy:songListCtrl.sortBy:songListCtrl.sortReverse"
              data-ng-include="'../app/SongBook/Partial/List/item-' + songListCtrl.format + '.html'"
              data-ng-class="{ 'col-md-12': 'tile' !== songListCtrl.format, 'col-xs-12 col-sm-4 col-md-3 col-lg-2': 'tile' === songListCtrl.format }"
         ></div>
     </div>
 
     <!-- No element message -->
-    <div class="empty-list" data-ng-if="songListCtrl.entities.length === 0">
+    <div class="empty-list" data-ng-if="songListCtrl.resources.length === 0">
         {{ 'no_song_found'|translate }}
     </div>
 </layout-page>

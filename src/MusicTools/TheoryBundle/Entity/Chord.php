@@ -13,7 +13,7 @@ use Elorfin\ReactorBundle\Entity\NameableTrait;
  * @ORM\Entity()
  * @ORM\Table(name="theory_chord")
  */
-class Chord
+class Chord implements \JsonSerializable
 {
     /**
      * Add Identifiable behavior
@@ -140,5 +140,18 @@ class Chord
         }
 
         return $this;
+    }
+
+    public function jsonSerialize()
+    {
+        return array (
+            'type' => 'intervals',
+            'id'   => $this->id,
+            'attributes'      => array (
+                'name'        => $this->name,
+                'symbol'      => $this->symbol,
+                'notes_count'  => $this->notesCount,
+            )
+        );
     }
 }

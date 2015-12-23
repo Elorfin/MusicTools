@@ -13,7 +13,7 @@ use Elorfin\ReactorBundle\Entity\UniqueIdentifiableTrait;
  * @ORM\Entity()
  * @ORM\Table(name="instrument_type")
  */
-class InstrumentType
+class InstrumentType implements \JsonSerializable
 {
     /**
      * Add Identifiable behavior
@@ -106,5 +106,19 @@ class InstrumentType
         $this->template = $template;
 
         return $this;
+    }
+
+    public function jsonSerialize()
+    {
+        return array(
+            'type' => 'instrument_types',
+            'id'   => $this->id,
+            'attributes' => array(
+                'name'     => $this->name,
+                'icon'     => $this->icon,
+                'class'    => $this->class,
+                'template' => $this->template,
+            ),
+        );
     }
 }

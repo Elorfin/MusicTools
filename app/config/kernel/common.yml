@@ -7,16 +7,14 @@ bundles:
     Doctrine\Bundle\DoctrineBundle\DoctrineBundle                 : true
     Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle         : true
     Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle : true
-    FOS\RestBundle\FOSRestBundle                                  : true
 
     # They need to be loaded by the custom bundles which use them
     Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle    : true
-    JMS\SerializerBundle\JMSSerializerBundle                      : true
-    FOS\RestBundle\FOSRestBundle                                  : true
     FOS\UserBundle\FOSUserBundle                                  : true
 
     # Core bundles
     Elorfin\ReactorBundle\ElorfinReactorBundle                    : true
+    Elorfin\JsonApiBundle\ElorfinJsonApiBundle                    : true
     Elorfin\UserBundle\ElorfinUserBundle                          : true
     Elorfin\ResourceBundle\ElorfinResourceBundle                  : true
 

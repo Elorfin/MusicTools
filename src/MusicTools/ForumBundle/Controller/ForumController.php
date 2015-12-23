@@ -10,7 +10,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 /**
  * Forum controller.
  *
- * @Route("/forum")
+ * @Route("/forums")
  */
 class ForumController extends Controller
 {

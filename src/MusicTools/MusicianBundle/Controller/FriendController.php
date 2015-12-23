@@ -12,7 +12,7 @@ use MusicTools\MusicianBundle\Entity\Musician;
 /**
  * Friend controller.
  *
- * @Route("{username}/friend")
+ * @Route("/musician{username}/friend")
  */
 class FriendController extends AbstractMusicianController
 {

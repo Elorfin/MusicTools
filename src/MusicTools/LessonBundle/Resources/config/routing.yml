@@ -1,4 +1,0 @@
-music_tools_lesson:
-    resource: "@MusicToolsLessonBundle/Controller/"
-    type:     annotation
-    prefix:   /

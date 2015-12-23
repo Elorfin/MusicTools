@@ -18,9 +18,9 @@ angular
                     controller:   'IntervalListController',
                     controllerAs: 'intervalListCtrl',
                     resolve: {
-                        entities: [
+                        resources: [
                             'IntervalResource',
-                            function entitiesResolver(IntervalResource) {
+                            function resourcesResolver(IntervalResource) {
                                 return IntervalResource.query();
                             }
                         ]
@@ -33,9 +33,9 @@ angular
                     controller:   'NoteListController',
                     controllerAs: 'noteListCtrl',
                     resolve: {
-                        entities: [
+                        resources: [
                             'NoteResource',
-                            function entitiesResolver(NoteResource) {
+                            function resourcesResolver(NoteResource) {
                                 return NoteResource.query();
                             }
                         ]
@@ -48,9 +48,9 @@ angular
                     controller:   'DegreeListController',
                     controllerAs: 'degreeListCtrl',
                     resolve: {
-                        entities: [
+                        resources: [
                             'DegreeResource',
-                            function entitiesResolver(DegreeResource) {
+                            function resourcesResolver(DegreeResource) {
                                 return DegreeResource.query();
                             }
                         ]
@@ -63,9 +63,9 @@ angular
                     controller:   'ChordListController',
                     controllerAs: 'chordListCtrl',
                     resolve: {
-                        entities: [
+                        resources: [
                             'ChordResource',
-                            function entitiesResolver(ChordResource) {
+                            function resourcesResolver(ChordResource) {
                                 return ChordResource.query();
                             }
                         ]
@@ -78,10 +78,10 @@ angular
                     controller:   'ChordShowController',
                     controllerAs: 'chordShowCtrl',
                     resolve: {
-                        entity: [
+                        resource: [
                             '$route',
                             'ChordResource',
-                            function entityResolver($route, ChordResource) {
+                            function resourceResolver($route, ChordResource) {
                                 return ChordResource.get({ id: $route.current.params.id });
                             }
                         ],
@@ -100,9 +100,9 @@ angular
                     controller:   'ScaleListController',
                     controllerAs: 'scaleListCtrl',
                     resolve: {
-                        entities: [
+                        resources: [
                             'ScaleResource',
-                            function entitiesResolver(ScaleResource) {
+                            function resourcesResolver(ScaleResource) {
                                 return ScaleResource.query();
                             }
                         ]

@@ -2,7 +2,7 @@
  * Form controller for Songs
  * @constructor
  */
-var SongFormController = function SongFormControllerConstructor(data, SongResource, Upload) {
+var SongFormController = function SongFormControllerConstructor(resource, SongResource, Upload) {
     FormController.apply(this, arguments);
 
     this.upload = Upload;
@@ -13,18 +13,21 @@ SongFormController.prototype             = Object.create(FormController.prototyp
 SongFormController.prototype.constructor = SongFormController;
 
 // Set up dependency injection
-SongFormController.$inject = [ 'data', 'SongResource', 'Upload' ];
+SongFormController.$inject = [ 'resource', 'SongResource', 'Upload' ];
 
 SongFormController.prototype.selectCover = function selectCover(file) {
+    if (!this.resource.cover) {
+        this.resource.cover = {};
+    }
+
     // Convert file to Base 64
     this.upload.base64DataUrl(file).then(function (url) {
-        this.data.cover.file = url;
-        console.log(this.data.cover.file);
+        this.resource.cover.file = url;
     }.bind(this));
 };
 
 SongFormController.prototype.removeCover = function removeCover() {
-    this.data.cover = null;
+    this.resource.cover = null;
 };
 
 // Register controller into Angular JS

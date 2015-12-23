@@ -8,7 +8,7 @@
                     <a href id="interval-player-dropdown" data-uib-dropdown-toggle="">
                         <!-- Current selected interval -->
                         <span data-ng-if="intervalPlayerCtrl.interval">
-                            {{ intervalPlayerCtrl.interval.symbol }} <small>{{ intervalPlayerCtrl.interval.name }}</small>
+                            {{ intervalPlayerCtrl.interval.attributes.symbol }} <small>{{ intervalPlayerCtrl.interval.attributes.name }}</small>
                         </span>
 
                         <!-- No interval selected -->
@@ -22,9 +22,9 @@
                     <ul class="uib-dropdown-menu" aria-labelledby="interval-player-dropdown" data-layout-scrollable="" data-layout-scrollable-options="intervalPlayerCtrl.dropdownOptions">
                         <li data-ng-repeat="interval in intervalPlayerCtrl.intervals" data-ng-class="{ 'active': interval === intervalPlayerCtrl.interval }">
                             <a href="" data-ng-click="intervalPlayerCtrl.setInterval(interval)">
-                                <span class="link-label"><b>{{ interval.symbol }}</b> - {{ interval.name }}</span>
+                                <span class="link-label"><b>{{ interval.attributes.symbol }}</b> - {{ interval.attributes.name }}</span>
                                 <small data-translate="semitone_count"
-                                       data-translate-values="{ COUNT: interval.value }"
+                                       data-translate-values="{ COUNT: interval.attributes.value }"
                                        data-translate-interpolation="messageformat"></small>
 
                                 <span class="fa fa-check"></span>
@@ -66,8 +66,8 @@
                 </a>
 
                 <div>
-                    {{ intervalPlayerCtrl.referenceNote.info.name }}
-                    <sub>{{ intervalPlayerCtrl.referenceNote.octave }}</sub>
+                    {{ intervalPlayerCtrl.referenceNote|note_name }}
+                    <sub>{{ intervalPlayerCtrl.referenceNote.attributes.octave }}</sub>
                 </div>
 
                 <a role="button" href="" data-ng-click="intervalPlayerCtrl.decrementReference()">
@@ -76,17 +76,17 @@
             </div>
 
             <!-- Current interval -->
-            <div class="interval current-col {{ intervalPlayerCtrl.direction }}" data-ng-class="{unison: 0 == intervalPlayerCtrl.interval.value, ascending: 'ascending' === intervalPlayerCtrl.direction, descending: 'descending' === intervalPlayerCtrl.direction}">
+            <div class="interval current-col {{ intervalPlayerCtrl.direction }}" data-ng-class="{unison: 0 == intervalPlayerCtrl.interval.attributes.value, ascending: 'ascending' === intervalPlayerCtrl.direction, descending: 'descending' === intervalPlayerCtrl.direction}">
                 <div class="interval-semitones">
-                    {{ ((0 === intervalPlayerCtrl.interval.value || intervalPlayerCtrl.interval.value) ? intervalPlayerCtrl.interval.value : '?') }}
+                    {{ ((0 === intervalPlayerCtrl.interval.attributes.value || intervalPlayerCtrl.interval.attributes.value) ? intervalPlayerCtrl.interval.attributes.value : '?') }}
                 </div>
             </div>
 
             <!-- Calculated note -->
             <div class="calculated-note current-col">
                 <div>
-                    {{ intervalPlayerCtrl.calculatedNote.info.name || '?' }}
-                    <sub>{{ ((0 === intervalPlayerCtrl.calculatedNote.octave || intervalPlayerCtrl.calculatedNote.octave) ? intervalPlayerCtrl.calculatedNote.octave : '?') }}</sub>
+                    {{ (intervalPlayerCtrl.calculatedNote|note_name) || '?' }}
+                    <sub>{{ ((0 === intervalPlayerCtrl.calculatedNote.attributes.octave || intervalPlayerCtrl.calculatedNote.attributes.octave) ? intervalPlayerCtrl.calculatedNote.attributes.octave : '?') }}</sub>
                 </div>
 
                 <!-- No calculated note

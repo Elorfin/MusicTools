@@ -2,20 +2,20 @@
  * Base Show Controller
  * @constructor
  */
-var BaseShowController = function BaseShowControllerContructor(entity) {
-    this.entity = entity;
+var ShowController = function ShowControllerConstructor(resource) {
+    this.resource = resource;
 };
 
 // Set up dependency injection
-BaseShowController.$inject = [ 'entity' ];
+ShowController.$inject = [ 'resource' ];
 
 /**
  * Current displayed entity
  * @type {Object}
  */
-BaseShowController.prototype.entity = null;
+ShowController.prototype.resource = null;
 
 // Register controller into angular
 angular
     .module('Layout')
-    .controller('BaseShowController', BaseShowController);
+    .controller('ShowController', ShowController);

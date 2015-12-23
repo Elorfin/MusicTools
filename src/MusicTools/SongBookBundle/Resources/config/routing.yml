@@ -1,3 +1,0 @@
-music_tools_song:
-    resource: MusicTools\SongBookBundle\Controller\SongController
-    type:     rest

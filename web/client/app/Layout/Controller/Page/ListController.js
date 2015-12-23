@@ -2,22 +2,22 @@
  * Base List controller
  * @constructor
  */
-var ListController = function ListControllerConstructor($uibModal, entities) {
+var ListController = function ListControllerConstructor($uibModal, resources) {
     this.services = {};
 
     this.services['$uibModal'] = $uibModal;
 
-    this.entities = entities;
+    this.resources = resources;
 };
 
 // Set up dependency injection
-ListController.$inject = [ '$uibModal', 'entities' ];
+ListController.$inject = [ '$uibModal', 'resources' ];
 
 /**
  * List of entities
  * @type {Array}
  */
-ListController.prototype.entities = [];
+ListController.prototype.resources = [];
 
 /**
  * Format of the list

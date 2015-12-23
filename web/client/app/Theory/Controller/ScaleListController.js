@@ -2,22 +2,22 @@
  * List controller for Scales
  * @constructor
  */
-var ScaleListController = function ScaleListControllerConstructor($uibModal, entities) {
+var ScaleListController = function ScaleListControllerConstructor($uibModal, resources) {
     this.services = {};
 
     this.services['$uibModal'] = $uibModal;
 
-    this.entities = entities;
+    this.resources = resources;
 };
 
 // Set up dependency injection
-ScaleListController.$inject = ['$uibModal', 'entities'];
+ScaleListController.$inject = ['$uibModal', 'resources'];
 
 /**
  * List of entities
  * @type {Array}
  */
-ScaleListController.prototype.entities = [];
+ScaleListController.prototype.resources = [];
 
 // Register controller into angular
 angular

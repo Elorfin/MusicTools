@@ -14,7 +14,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 /**
  * Profile controller.
  *
- * @Route("/")
+ * @Route("/musician")
  */
 class ProfileController extends AbstractMusicianController
 {

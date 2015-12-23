@@ -21,19 +21,19 @@
     <layout-page-title id="song-list">
         {{ 'my_instruments_title'|translate }}
 
-        <layout-list-sorter data-element="instrument" data-count="instrumentListCtrl.entities.length" data-current="instrumentListCtrl.sortBy" data-reverse="instrumentListCtrl.sortReverse" data-fields="instrumentListCtrl.sortFields"></layout-list-sorter>
+        <layout-list-sorter data-element="instrument" data-count="instrumentListCtrl.resources.length" data-current="instrumentListCtrl.sortBy" data-reverse="instrumentListCtrl.sortReverse" data-fields="instrumentListCtrl.sortFields"></layout-list-sorter>
     </layout-page-title>
 
     <div class="row">
         <!-- List items -->
-        <div data-ng-repeat="entity in instrumentListCtrl.entities|orderBy:instrumentListCtrl.sortBy:instrumentListCtrl.sortReverse"
+        <div data-ng-repeat="resource in instrumentListCtrl.resources|orderBy:instrumentListCtrl.sortBy:instrumentListCtrl.sortReverse"
              data-ng-include="'../app/instrumentListCtrl/Partial/List/item-' + instrumentListCtrl.format + '.html'"
              data-ng-class="{ 'col-md-12': 'tile' !== instrumentListCtrl.format, 'col-xs-12 col-sm-4 col-md-3 col-lg-2': 'tile' === instrumentListCtrl.format }"
         ></div>
     </div>
 
     <!-- No element message -->
-    <div class="empty-list" data-ng-if="instrumentListCtrl.entities.length === 0">
+    <div class="empty-list" data-ng-if="instrumentListCtrl.resources.length === 0">
         {{ 'no_instrument_found'|translate }}
     </div>
 </layout-page>

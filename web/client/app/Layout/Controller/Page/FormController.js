@@ -2,13 +2,13 @@
  * Base Form controller
  * @constructor
  */
-var FormController = function FormControllerConstructor(data, ApiResource) {
-    this.data        = data;
+var FormController = function FormControllerConstructor(resource, ApiResource) {
+    this.resource    = resource;
     this.apiResource = ApiResource;
 };
 
 // Set up dependency injection
-FormController.$inject = [ 'data', 'ApiResource' ];
+FormController.$inject = [ 'resource', 'ApiResource' ];
 
 /**
  * Errors
@@ -17,10 +17,10 @@ FormController.$inject = [ 'data', 'ApiResource' ];
 FormController.prototype.errors = [];
 
 /**
- * Current data
+ * Current Resource
  * @type {Object}
  */
-FormController.prototype.data = null;
+FormController.prototype.resource = null;
 
 /**
  * Is the edited entity a new one ?
@@ -28,7 +28,7 @@ FormController.prototype.data = null;
  */
 FormController.prototype.isNew = function isNew() {
     var isNew = true;
-    if (null !== this.data && 'undefined' !== typeof (this.data.id) && null !== this.data.id && 0 !== this.data.id.length) {
+    if (null !== this.resource && 'undefined' !== typeof (this.resource.id) && null !== this.resource.id && 0 !== this.resource.id.length) {
         isNew = false;
     }
 
@@ -48,9 +48,9 @@ FormController.prototype.validate = function validate() {
 FormController.prototype.submit = function submit() {
     if (this.validate()) {
         if (this.isNew()) {
-            this.apiResource.new(this.data);
+            this.apiResource.new(this.resource);
         } else {
-            this.apiResource.update(this.data);
+            this.apiResource.update(this.resource);
         }
     }
 };

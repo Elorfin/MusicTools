@@ -2,37 +2,45 @@
 
 namespace MusicTools\SongBookBundle\Controller;
 
+use Elorfin\JsonApiBundle\Response\JsonApiResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use FOS\RestBundle\Routing\ClassResourceInterface;
 use MusicTools\SongBookBundle\Entity\Song;
 use MusicTools\SongBookBundle\Form\Type\SongType;
 use Symfony\Component\HttpFoundation\Request;
 
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+
 /**
  * Song CRUD Controller
+ *
+ * @Route("/songs")
  */
-class SongController extends Controller implements ClassResourceInterface
+class SongController extends Controller
 {
     /**
      * List all Songs
-     * "get_songs"     [GET] /songs
-     *
      * @return array
+     *
+     * @Route("")
+     * @Method("GET")
      */
-    public function cgetAction()
+    public function listAction()
     {
         $entities = $this->container->get('doctrine.orm.entity_manager')
             ->getRepository('MusicToolsSongBookBundle:Song')
-            ->findBy(array (), array ('title' => 'ASC'));
+            ->findBy(array(), array('name' => 'ASC'));
 
-        return $entities;
+        return new JsonApiResponse($entities);
     }
 
     /**
      * Display a Song entity
-     * "get_song"      [GET] /songs/{id}
      * @param $id
      * @return mixed
+     *
+     * @Route("/{id}")
+     * @Method("GET")
      */
     public function getAction($id)
     {
@@ -43,15 +51,16 @@ class SongController extends Controller implements ClassResourceInterface
 
     /**
      * Create a new Song
-     * "post_songs"    [POST] /songs
-     *
      * @param Request $request
      * @return array
+     *
+     * @Route("")
+     * @Method("POST")
      */
-    public function postAction(Request $request)
+    public function createAction(Request $request)
     {
         $entity = new Song();
-        $form = $form = $this->createForm(new SongType(), $entity, array(
+        $form = $this->createForm(new SongType(), $entity, array(
             'method' => 'POST',
         ));
 
@@ -59,11 +68,9 @@ class SongController extends Controller implements ClassResourceInterface
         if ($form->isValid()) {
             // Save entity
             $this->container->get('doctrine.orm.entity_manager')->persist($entity);
-            $this->container->get('doctrine.orm.entity_manager')->flush();
+            /*$this->container->get('doctrine.orm.entity_manager')->flush();*/
 
-            return array (
-                'entity' => $entity,
-            );
+            return $entity;
         }
 
         $errors = $form->getErrors();
@@ -75,13 +82,14 @@ class SongController extends Controller implements ClassResourceInterface
 
     /**
      * Edit a Song
-     * "put_song"      [PUT] /songs/{id}
-     *
      * @param  integer $id
      * @param  Request $request
      * @return array
+     *
+     * @Route("/{id}")
+     * @Method("PUT")
      */
-    public function putAction($id, Request $request)
+    public function updateAction($id, Request $request)
     {
         $entity = $this->getEntity($id);
         $form = $form = $this->createForm(new SongType(), $entity, array(
@@ -94,11 +102,9 @@ class SongController extends Controller implements ClassResourceInterface
         if ($form->isValid()) {
             // Save entity
             $this->container->get('doctrine.orm.entity_manager')->persist($entity);
-            $this->container->get('doctrine.orm.entity_manager')->flush();
+            /*$this->container->get('doctrine.orm.entity_manager')->flush();*/
 
-            return array(
-                'entity' => $entity,
-            );
+            return $entity;
         }
 
         $errors = $form->getErrors();
@@ -110,10 +116,11 @@ class SongController extends Controller implements ClassResourceInterface
 
     /**
      * Delete a Song
-     * "delete_song"   [DELETE] /songs/{id}
-     *
      * @param  integer $id
      * @return array
+     *
+     * @Route("/{id}")
+     * @Method("DELETE")
      */
     public function deleteAction($id)
     {

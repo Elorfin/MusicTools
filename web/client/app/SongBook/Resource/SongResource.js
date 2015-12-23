@@ -8,10 +8,10 @@ SongResource.prototype = Object.create(ApiResource.prototype);
 SongResource.$inject = ApiResource.$inject;
 
 /**
- * Name of the Resource (used as translation key)
+ * Type of the Resource
  * @type {string}
  */
-SongResource.prototype.name = 'song';
+SongResource.prototype.type = 'song';
 
 /**
  * Path of the API resource

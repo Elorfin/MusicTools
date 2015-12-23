@@ -25,7 +25,7 @@ class SongType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title'   , 'text', array ('required' => true))
+            ->add('name'    , 'text', array ('required' => true))
             ->add('artist'  , 'text')
             ->add('rating'  , 'number')
             ->add('mastery' , 'number')

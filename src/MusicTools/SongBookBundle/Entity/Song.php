@@ -7,6 +7,7 @@ use Gedmo\Mapping\Annotation                as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
 
 use Elorfin\ReactorBundle\Entity\UniqueIdentifiableTrait;
+use Elorfin\ReactorBundle\Entity\NameableTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Elorfin\ResourceBundle\Entity\Image;
 use MusicTools\MusicianBundle\Entity\OwnableTrait;
@@ -15,10 +16,10 @@ use MusicTools\MusicianBundle\Entity\OwnableTrait;
  * Song
  *
  * @ORM\Table(name="song")
- * @ORM\Entity(repositoryClass="MusicTools\SongBookBundle\Entity\SongRepository")
+ * @ORM\Entity()
  * @Gedmo\Loggable
  */
-class Song
+class Song implements \JsonSerializable
 {
     /**
      * Add Identifiable behavior
@@ -31,13 +32,9 @@ class Song
     use OwnableTrait;
 
     /**
-     * Title of the Song
-     * @var string
-     *
-     * @ORM\Column(name="title", type="string", length=255)
-     * @Assert\NotBlank()
+     * Add Nameable behavior
      */
-    protected $title;
+    use NameableTrait;
 
     /**
      * Artist of the Song
@@ -83,71 +80,6 @@ class Song
      * @ORM\JoinColumn(name="cover_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
      */
     protected $cover;
-
-    /**
-     * Scores of the Song
-     * @var \Doctrine\Common\Collections\ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="MusicTools\SongBookBundle\Entity\SheetMusic", mappedBy="song")
-     */
-    protected $scores;
-
-    /**
-     * List of Lyrics associated to the Song
-     * @var \Doctrine\Common\Collections\ArrayCollection
-     */
-    protected $lyrics;
-
-    /**
-     * List of Audios associated to the Song
-     * @var \Doctrine\Common\Collections\ArrayCollection
-     */
-    protected $audios;
-
-    /**
-     * List of Videos associated to the Song
-     * @var \Doctrine\Common\Collections\ArrayCollection
-     */
-    protected $videos;
-
-    /**
-     * List of Records associated to the Song
-     * @var \Doctrine\Common\Collections\ArrayCollection
-     */
-    protected $records;
-
-    /**
-     * Entity constructor
-     */
-    public function __construct()
-    {
-        $this->scores  = new ArrayCollection();
-        $this->lyrics  = new ArrayCollection();
-        $this->audios  = new ArrayCollection();
-        $this->videos  = new ArrayCollection();
-        $this->records = new ArrayCollection();
-    }
-
-    /**
-     * Set title
-     * @param string $title
-     * @return Song
-     */
-    public function setTitle($title)
-    {
-        $this->title = $title;
-
-        return $this;
-    }
-
-    /**
-     * Get title
-     * @return string 
-     */
-    public function getTitle()
-    {
-        return $this->title;
-    }
 
     /**
      * Set artist
@@ -233,102 +165,17 @@ class Song
         return $this;
     }
 
-    /**
-     * Get scores
-     * @return ArrayCollection
-     */
-    public function getScores()
+    public function jsonSerialize()
     {
-        return $this->scores;
-    }
-
-    /**
-     * Add score
-     * @param  \MusicTools\SongBookBundle\Entity\SheetMusic $score
-     * @return $this
-     */
-    public function addScore(SheetMusic $score)
-    {
-        if (!$this->scores->contains($score)) {
-            $this->scores->add($score);
-            $score->setSong($this);
-        }
-
-        return $this;
-    }
-
-    /**
-     * Remove score
-     * @param  \MusicTools\SongBookBundle\Entity\SheetMusic $score
-     * @return $this
-     */
-    public function removeScore(SheetMusic $score)
-    {
-        if ($this->scores->contains($score)) {
-            $this->scores->removeElement($score);
-            $score->setSong(null);
-        }
-
-        return $this;
-    }
-
-    public function getAudios()
-    {
-        return $this->audios;
-    }
-
-    public function addAudio()
-    {
-        return $this;
-    }
-
-    public function removeAudio()
-    {
-        return $this;
-    }
-
-    public function getVideos()
-    {
-        return $this->videos;
-    }
-
-    public function addVideo()
-    {
-        return $this;
-    }
-
-    public function removeVideo()
-    {
-        return $this;
-    }
-
-    public function getLyrics()
-    {
-        return $this->lyrics;
-    }
-
-    public function addLyrics()
-    {
-        return $this;
-    }
-
-    public function removeLyrics()
-    {
-        return $this;
-    }
-
-    public function getRecords()
-    {
-        return $this->records;
-    }
-
-    public function addRecord()
-    {
-        return $this;
-    }
-
-    public function removeRecord()
-    {
-        return $this;
+        return array (
+            'type' => 'songs',
+            'id'   => $this->id,
+            'attributes'  => array (
+                'name'    => $this->name,
+                'artist'  => $this->artist,
+                'rating'  => $this->rating,
+                'mastery' => $this->mastery,
+            )
+        );
     }
 }

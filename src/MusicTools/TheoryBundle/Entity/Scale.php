@@ -12,7 +12,7 @@ use Elorfin\ReactorBundle\Entity\NameableTrait;
  * @ORM\Entity()
  * @ORM\Table(name="theory_scale")
  */
-class Scale
+class Scale implements \JsonSerializable
 {
     /**
      * Add Identifiable behavior
@@ -23,4 +23,15 @@ class Scale
      * Add Nameable behavior
      */
     use NameableTrait;
+
+    public function jsonSerialize()
+    {
+        return array (
+            'type' => 'scales',
+            'id'   => $this->id,
+            'attributes'  => array (
+                'name'    => $this->name,
+            )
+        );
+    }
 }

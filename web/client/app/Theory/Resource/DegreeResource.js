@@ -1,4 +1,12 @@
-var DegreeResource = function DegreeResourceConstructor() {
+/**
+ * Resource : Degree
+ *
+ * @param $http
+ * @param $q
+ * @param ApiService
+ * @constructor
+ */
+var DegreeResource = function DegreeResourceConstructor($http, $q, ApiService) {
     // Call parent constructor
     ApiResource.apply(this, arguments);
 };
@@ -8,10 +16,10 @@ DegreeResource.prototype = Object.create(ApiResource.prototype);
 DegreeResource.$inject = ApiResource.$inject;
 
 /**
- * Name of the Resource (used as translation key)
+ * Type of the Resource
  * @type {string}
  */
-DegreeResource.prototype.name = 'degree';
+DegreeResource.prototype.type = 'degree';
 
 /**
  * Path of the API resource

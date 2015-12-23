@@ -12,10 +12,9 @@
         "php": ">=5.3.9",
         "sensio/distribution-bundle": "~4.0",
         "elorfin/reactor-bundle": "~2.0",
+        "elorfin/json-api-bundle": "dev-master",
         "elorfin/user-bundle": "~1.0",
-        "elorfin/resource-bundle": "~1.0",
-        "friendsofsymfony/rest-bundle": "~1.7",
-        "jms/serializer-bundle": "~1.0"
+        "elorfin/resource-bundle": "~1.0"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"

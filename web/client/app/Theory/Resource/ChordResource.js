@@ -1,4 +1,12 @@
-var ChordResource = function ChordResourceConstructor() {
+/**
+ * Resource : Chord
+ *
+ * @param $http
+ * @param $q
+ * @param ApiService
+ * @constructor
+ */
+var ChordResource = function ChordResourceConstructor($http, $q, ApiService) {
     // Call parent constructor
     ApiResource.apply(this, arguments);
 };
@@ -8,10 +16,10 @@ ChordResource.prototype = Object.create(ApiResource.prototype);
 ChordResource.$inject = ApiResource.$inject;
 
 /**
- * Name of the Resource (used as translation key)
+ * Type of the Resource
  * @type {string}
  */
-ChordResource.prototype.name = 'chord';
+ChordResource.prototype.type = 'chord';
 
 /**
  * Path of the API resource

@@ -16,14 +16,6 @@ angular.module('Alert', []);
  * Badge Module
  */
 angular.module('Badge', []);
-// File : app/Form/module.js
-/**
- * Form Module
- * Contains all the tools for building Forms
- */
-angular.module('Form', [
-    'pascalprecht.translate'
-]);
 // File : app/Forum/module.js
 /**
  * Forum Module
@@ -165,7 +157,6 @@ angular
         // Core modules
         'Utilities',
         'Layout',
-        'Form',
         'Alert',
 
         // App modules
@@ -187,9 +178,13 @@ angular
         'SheetMusic'*/
     ])
     .config([
+        '$httpProvider',
         '$translateProvider',
         'cfpLoadingBarProvider',
-        function($translateProvider, cfpLoadingBarProvider) {
+        function configure($httpProvider, $translateProvider, cfpLoadingBarProvider) {
+            // Set up Http Error interceptor to catch server error response
+            $httpProvider.interceptors.push('HttpErrorService');
+
             // Inject translations
             for (var lang in appTranslations) {
                 if (appTranslations.hasOwnProperty(lang)) {
@@ -241,19 +236,24 @@ angular
     ]
 );
 // File : app/Utilities/Resource/ApiResource.js
-var ApiResource = function ApiResourceConstructor($http, $q, Upload, ApiService) {
-    // Initialize service container
-    this.services = {};
-
+/**
+ * Base API Resource
+ * Manages API server data
+ *
+ * @param $http
+ * @param $q
+ * @param ApiService
+ * @constructor
+ */
+var ApiResource = function ApiResourceConstructor($http, $q, ApiService) {
     // Store services
-    this.services['$http']  = $http;
-    this.services['upload'] = Upload;
-    this.services['$q']     = $q;
-    this.services['api']    = ApiService;
+    this.services['$http'] = $http;
+    this.services['$q']    = $q;
+    this.services['api']   = ApiService;
 
     // Validate required properties
-    if (null === this.name) {
-        console.error('An ApiResource must have a property `name`.');
+    if (null === this.type) {
+        console.error('An ApiResource must have a property `type`.');
     }
 
     if (null === this.path) {
@@ -262,13 +262,19 @@ var ApiResource = function ApiResourceConstructor($http, $q, Upload, ApiService)
 };
 
 // Set up dependency injection
-ApiResource.$inject = [ '$http', '$q', 'Upload', 'ApiService' ];
+ApiResource.$inject = [ '$http', '$q', 'ApiService' ];
 
 /**
- * Name of the Resource (used as translation key)
+ * List of dependencies
+ * @type {Object}
+ */
+ApiResource.prototype.services = {};
+
+/**
+ * Type of the Resource
  * @type {string}
  */
-ApiResource.prototype.name = null;
+ApiResource.prototype.type = null;
 
 /**
  * Path of the API resource
@@ -277,13 +283,156 @@ ApiResource.prototype.name = null;
 ApiResource.prototype.path = null;
 
 /**
- * List of elements
- * @type {Array}
+ * List existing resources filtered by `queryParams`
+ *
+ * @param   {Object}  [queryParams] - The parameters used to filter the list of elements
+ * @returns {Array}                 - The list of available resources
  */
-ApiResource.prototype.elements = [];
+ApiResource.prototype.query = function queryResources(queryParams) {
+    // Initialize promise
+    var deferred = this.services.$q.defer();
+
+    // Build request
+    var request = this.getRequest(this.getFullPath(queryParams));
+
+    // Call API
+    this.services.$http(request).then(
+        // Success callback
+        function onServerSuccess(response) {
+            // Set default data if empty
+            var data = response.data.data ? response.data.data : [];
+
+            deferred.resolve(data);
+        },
+
+        // Error callback
+        function onServerError(response) {
+            deferred.reject(response);
+        }
+    );
+
+    return deferred.promise;
+};
+
+/**
+ * Find an existing entity
+ *
+ * @param   {Object} params - The identifier of the resource to search
+ * @returns {Object}        - The resource found
+ */
+ApiResource.prototype.get = function getResource(params) {
+    // Initialize promise
+    var deferred = this.services.$q.defer();
+
+    // Build request
+    var request = this.getRequest(this.getFullPath(params));
+
+    // Call API
+    this.services.$http(request).then(
+        // Success callback
+        function onServerSuccess(response) {
+            // Set default data if empty
+            var data = response.data.data ? response.data.data : {};
+
+            deferred.resolve(data);
+        },
+
+        // Error callback
+        function onServerError(response) {
+            deferred.reject(response);
+        }
+    );
+
+    return deferred.promise;
+};
+
+/**
+ * Create a new resource
+ *
+ * @param {Object} resource - The resource to create
+ */
+ApiResource.prototype.new = function newResource(resource) {
+    // Initialize promise
+    var deferred = this.services.$q.defer();
+
+    // Build request
+    var request = this.getRequest(this.getFullPath(resource), 'POST', resource);
+
+    // Call API
+    this.services.$http(request)
+
+        // API results
+        .then(
+            // Success callback
+            function onServerSuccess(response) {
+                deferred.resolve(response.data);
+            },
+
+            // Error callback
+            function onServerError(response) {
+                deferred.reject(response);
+            }
+        );
+
+    return deferred.promise;
+};
+
+/**
+ * Update an existing resource
+ *
+ * @param {Object} resource - The resource to update
+ */
+ApiResource.prototype.update = function updateResource(resource) {
+    // Initialize promise
+    var deferred = this.services.$q.defer();
+
+    // Build request
+    var request = this.getRequest(this.getFullPath(resource), 'PUT', resource);
+
+    // Call API
+    this.services.$http(request)
+
+        // API results
+        .then(
+            // Success callback
+            function onServerSuccess(response) {
+                deferred.resolve(response.data);
+            },
+
+            // Error callback
+            function onServerError(response) {
+                deferred.reject(response);
+            }
+        );
+
+    return deferred.promise;
+};
+
+/**
+ * Remove a resource
+ *
+ * @param {Object} resource - The resource to remove
+ */
+ApiResource.prototype.remove = function removeResource(resource) {
+
+};
+
+/**
+ * Apply a callback to all resources
+ *
+ * @param {Function} callback - The callback to apply
+ */
+ApiResource.prototype.apply = function apply(callback) {
+    if (typeof callback === 'function') {
+        for (var i = 0; i < this.elements.length; i++) {
+            callback(this.elements[i]);
+        }
+    }
+};
 
 /**
  * Build API path of the resource
+ *
  * @returns {string}
  */
 ApiResource.prototype.getFullPath = function buildPath(params) {
@@ -313,48 +462,8 @@ ApiResource.prototype.getFullPath = function buildPath(params) {
 };
 
 /**
- * List existing resources filtered by `queryParams`
- * @param   {Object}  [queryParams] - The parameters used to filter the list of elements
- * @param   {boolean} [refresh]     - If true, a new request will be sent to the server to grab the list even if it's already loaded
- * @returns {Array}                 - The list of available resources
- */
-ApiResource.prototype.query = function queryResources(queryParams, refresh) {
-    var deferred = this.services.$q.defer(); // Initialize promise
-
-    if (!this.elements || this.elements.length === 0 || this.refresh) {
-        // Load data from server
-        this.services.$http
-            // Call API
-            .get(this.getFullPath())
-
-            // API results
-            .then(
-                // Success callback
-                function onServerSuccess(response) {
-                    this.setElements(response.data);
-
-                    deferred.resolve(response.data);
-                }.bind(this),
-
-                // Error callback
-                function onServerError(response) {
-                    deferred.reject(response);
-                }
-            );
-    } else {
-        // Load data from local
-        var tempElements = this.elements;
-
-        deferred.resolve(tempElements);
-    }
-
-    this.elements = deferred.promise;
-
-    return this.elements;
-};
-
-/**
  * Set elements
+ *
  * @param {Array} elements
  */
 ApiResource.prototype.setElements = function setElements(elements) {
@@ -363,6 +472,7 @@ ApiResource.prototype.setElements = function setElements(elements) {
 
 /**
  * Count elements
+ *
  * @returns {Number} - The number of resources in the list
  */
 ApiResource.prototype.count = function countResources() {
@@ -370,122 +480,35 @@ ApiResource.prototype.count = function countResources() {
 };
 
 /**
- * Find an existing entity
- * @param   {Object} params - The identifier of the resource to search
- * @returns {Object}        - The resource found
+ * Get request
+ *
+ * @param   {String} url      - The URL to call
+ * @param   {String} [method] - The HTTP method to use to call the server API
+ * @param   {Object} [data]   - The data to send to the API server
+ *
+ * @returns {Object}          - The Request
  */
-ApiResource.prototype.get = function getResource(params) {
-    // Load data from server
-    var deferred = this.services.$q.defer(); // Initialize promise
+ApiResource.prototype.getRequest = function createRequest(url, method, data) {
+    var request = {};
 
-    this.services.$http
-        // Call API
-        .get(this.getFullPath(params))
+    request.url     = url;
 
-        // API results
-        .then(
-            // Success callback
-            function onServerSuccess(response) {
-                deferred.resolve(response.data);
-            },
+    // Set default method to GET
+    request.method  = method ? method : 'GET';
 
-            // Error callback
-            function onServerError(response) {
-                deferred.reject(response);
-            }
-        );
+    // Add data if needed
+    request.data    = data ? { data: data } : null;
 
-    return deferred.promise;
-};
+    // Enable GET requests caching
+    request.cache   = true;
 
-/**
- * Create a new resource
- * @param {Object} resource - The resource to create
- */
-ApiResource.prototype.new = function newResource(resource) {
-    var deferred = this.services.$q.defer(); // Initialize promise
-
-    // Build request
-    var request = {
-        method : 'POST',
-        url    : this.getFullPath(resource),
-        data   : resource
+    // Force the Request Content-Type to be compliant with the json api specification
+    request.headers = {
+        'Accept'       : 'application/vnd.api+json',
+        'Content-Type' : 'application/vnd.api+json'
     };
 
-    this.services.upload
-        // Call API
-        .upload(request)
-
-        // API results
-        .then(
-            // Success callback
-            function onServerSuccess(response) {
-                deferred.resolve(response.data);
-            },
-
-            // Error callback
-            function onServerError(response) {
-                deferred.reject(response);
-            }
-        );
-
-    return deferred.promise;
-};
-
-/**
- * Update an existing resource
- * @param {Object} resource - The resource to update
- */
-ApiResource.prototype.update = function updateResource(resource) {
-    var deferred = this.services.$q.defer(); // Initialize promise
-
-    // Build request
-    var request = {
-        method : 'PUT',
-        url    : this.getFullPath(resource),
-        data   : {
-            data: resource
-        }
-    };
-
-    this.services.upload
-        // Call API
-        .upload(request)
-
-        // API results
-        .then(
-            // Success callback
-            function onServerSuccess(response) {
-                deferred.resolve(response.data);
-            },
-
-            // Error callback
-            function onServerError(response) {
-                deferred.reject(response);
-            }
-        );
-
-    return deferred.promise;
-};
-
-/**
- * Remove a resource
- * @param {Object} resource - The resource to remove
- */
-ApiResource.prototype.remove = function removeResource(resource) {
-
-};
-
-/**
- * Apply a callback to all resources
- * @param   {Function} callback - The callback to apply
- */
-ApiResource.prototype.apply = function apply(callback) {
-    if (typeof callback === 'function') {
-        for (var i = 0; i < this.elements.length; i++) {
-            callback(this.elements[i]);
-        }
-    }
+    return request;
 };
 
 // Register service into Angular JS
@@ -533,6 +556,38 @@ ApiService.prototype.getAssetPath = function getAssetPath() {
 angular
     .module('Utilities')
     .service('ApiService', [ ApiService ]);
+// File : app/Utilities/Service/HttpErrorService.js
+/**
+ * HTTP Error Service
+ * @constructor
+ */
+var HttpErrorService = function HttpErrorServiceConstructor($q, $location) {
+    return {
+        response: function(responseData) {
+            return responseData;
+        },
+
+        responseError: function error(response) {
+            switch (response.status) {
+                case 401:
+                    $location.path('/login');
+                    break;
+                case 404:
+                    $location.path('/404');
+                    break;
+                default:
+                    $location.path('/error_server');
+            }
+
+            return $q.reject(response);
+        }
+    };
+};
+
+// Inject Service into AngularJS
+angular
+    .module('Utilities')
+    .service('HttpErrorService', [ '$q', '$location', HttpErrorService ]);
 // File : app/Utilities/Service/SoundService.js
 /**
  * API Service
@@ -592,13 +647,13 @@ angular
  * Base Form controller
  * @constructor
  */
-var FormController = function FormControllerConstructor(data, ApiResource) {
-    this.data        = data;
+var FormController = function FormControllerConstructor(resource, ApiResource) {
+    this.resource    = resource;
     this.apiResource = ApiResource;
 };
 
 // Set up dependency injection
-FormController.$inject = [ 'data', 'ApiResource' ];
+FormController.$inject = [ 'resource', 'ApiResource' ];
 
 /**
  * Errors
@@ -607,10 +662,10 @@ FormController.$inject = [ 'data', 'ApiResource' ];
 FormController.prototype.errors = [];
 
 /**
- * Current data
+ * Current Resource
  * @type {Object}
  */
-FormController.prototype.data = null;
+FormController.prototype.resource = null;
 
 /**
  * Is the edited entity a new one ?
@@ -618,7 +673,7 @@ FormController.prototype.data = null;
  */
 FormController.prototype.isNew = function isNew() {
     var isNew = true;
-    if (null !== this.data && 'undefined' !== typeof (this.data.id) && null !== this.data.id && 0 !== this.data.id.length) {
+    if (null !== this.resource && 'undefined' !== typeof (this.resource.id) && null !== this.resource.id && 0 !== this.resource.id.length) {
         isNew = false;
     }
 
@@ -638,9 +693,9 @@ FormController.prototype.validate = function validate() {
 FormController.prototype.submit = function submit() {
     if (this.validate()) {
         if (this.isNew()) {
-            this.apiResource.new(this.data);
+            this.apiResource.new(this.resource);
         } else {
-            this.apiResource.update(this.data);
+            this.apiResource.update(this.resource);
         }
     }
 };
@@ -655,8 +710,8 @@ angular
  * Wizard Form controller
  * @constructor
  */
-var FormWizardController = function FormWizardControllerConstructor(data, ApiResource) {
-    FormWizardController.apply(this, arguments);
+var FormWizardController = function FormWizardControllerConstructor(resource, ApiResource) {
+    FormController.apply(this, arguments);
 
     this.setCurrentStep(this.steps[0]);
 };
@@ -666,7 +721,7 @@ FormWizardController.prototype             = Object.create(FormController.protot
 FormWizardController.prototype.constructor = FormWizardController;
 
 // Set up dependency injection
-FormWizardController.$inject = [ 'data', 'ApiResource' ];
+FormWizardController.$inject = [ 'resource', 'ApiResource' ];
 
 /**
  * Wizard steps
@@ -739,7 +794,7 @@ FormWizardController.prototype.validateStep = function validateStep(step) {
 
     var valid = true;
     if (this.currentStep.hasOwnProperty('validate')) {
-        valid = this.currentStep.validate(this.data, this.errors);
+        valid = this.currentStep.validate(this.resource, this.errors);
     }
 
     if (valid) {
@@ -776,22 +831,22 @@ angular
  * Base List controller
  * @constructor
  */
-var ListController = function ListControllerConstructor($uibModal, entities) {
+var ListController = function ListControllerConstructor($uibModal, resources) {
     this.services = {};
 
     this.services['$uibModal'] = $uibModal;
 
-    this.entities = entities;
+    this.resources = resources;
 };
 
 // Set up dependency injection
-ListController.$inject = [ '$uibModal', 'entities' ];
+ListController.$inject = [ '$uibModal', 'resources' ];
 
 /**
  * List of entities
  * @type {Array}
  */
-ListController.prototype.entities = [];
+ListController.prototype.resources = [];
 
 /**
  * Format of the list
@@ -841,23 +896,23 @@ angular
  * Base Show Controller
  * @constructor
  */
-var BaseShowController = function BaseShowControllerContructor(entity) {
-    this.entity = entity;
+var ShowController = function ShowControllerConstructor(resource) {
+    this.resource = resource;
 };
 
 // Set up dependency injection
-BaseShowController.$inject = [ 'entity' ];
+ShowController.$inject = [ 'resource' ];
 
 /**
  * Current displayed entity
  * @type {Object}
  */
-BaseShowController.prototype.entity = null;
+ShowController.prototype.resource = null;
 
 // Register controller into angular
 angular
     .module('Layout')
-    .controller('BaseShowController', BaseShowController);
+    .controller('ShowController', ShowController);
 
 // File : app/Layout/Directive/Field/ScoreFieldDirective.js
 /**
@@ -1454,188 +1509,6 @@ angular.module('Badge').config([
 
     }
 ]);
-// File : app/Form/Controller/FormComponentController.js
-/**
- * Form Component controller
- * @constructor
- */
-var FormComponentController = function FormComponentControllerConstructor() {
-
-};
-
-/**
- * Form definition object
- * @type {Object}
- */
-FormComponentController.prototype.formDef = {};
-
-FormComponentController.prototype.getValidHTMLMethod = function getValidHTMLMethod() {
-    if ('GET' == this.formDef.vars.method || 'POST' == this.formDef.vars.method) {
-        var method = this.formDef.vars.method;
-    } else {
-        var method = 'POST';
-    }
-
-    return method;
-};
-
-FormComponentController.prototype.getNotRenderedChildren = function getNotRenderedChildren() {
-    var notRendered = {};
-    angular.forEach(this.formDef.children, function filterChildren(value, key) {
-        if (!value.rendered) {
-            notRendered[key] = value;
-        }
-    });
-    return notRendered;
-};
-
-FormComponentController.prototype.submit = function formSubmit() {
-
-};
-
-// Register controller into angular
-angular
-    .module('Form')
-    .controller('FormComponentController', [ FormComponentController ]);
-
-// File : app/Form/Controller/FormWidgetController.js
-/**
- * Form Widget controller
- * @constructor
- */
-var FormWidgetController = function FormWidgetControllerConstructor() {
-    /*console.log(this.formDef);*/
-};
-
-/**
- * Form definition object
- * @type {Object}
- */
-FormWidgetController.prototype.formDef = null;
-
-FormWidgetController.prototype.getValidHTMLMethod = function getValidHTMLMethod() {
-    if ('GET' == this.formDef.vars.method || 'POST' == this.formDef.vars.method) {
-        var method = this.formDef.vars.method;
-    } else {
-        var method = 'POST';
-    }
-
-    return method;
-};
-
-// Register controller into angular
-angular
-    .module('Form')
-    .controller('FormWidgetController', [ FormWidgetController ]);
-
-// File : app/Form/Directive/FormComponentDirective.js
-/**
- * Form Component Directive
- */
-angular
-    .module('Form')
-    .directive('formComponent', [
-        function FormComponentDirective() {
-            return {
-                restrict: 'E',
-                templateUrl: '../app/Form/Partial/form.html',
-                replace: true,
-                transclude: true,
-                scope: {
-                    formDef: '='
-                },
-                controller: 'FormComponentController',
-                controllerAs: 'formComponentCtrl',
-                bindToController: true
-            };
-        }
-    ]);
-// File : app/Form/Directive/FormErrorsDirective.js
-/**
- * Form Errors Directive
- */
-angular
-    .module('Form')
-    .directive('formErrors', [
-        function FormErrorsDirective() {
-            return {
-                restrict: 'E',
-                templateUrl: '../app/Form/Partial/form-errors.html',
-                replace: true,
-                scope: {
-                    formDef: '='
-                },
-                controller: function FormErrorsController() {
-
-                },
-                controllerAs: 'formErrorsCtrl',
-                bindToController: true
-            };
-        }
-    ]);
-// File : app/Form/Directive/FormLabelDirective.js
-/**
- * Form Label Directive
- */
-angular
-    .module('Form')
-    .directive('formLabel', [
-        function FormLabelDirective() {
-            return {
-                restrict: 'E',
-                templateUrl: '../app/Form/Partial/form-label.html',
-                replace: true,
-                scope: {
-                    formDef: '='
-                }
-            };
-        }
-    ]);
-// File : app/Form/Directive/FormRowDirective.js
-/**
- * Form Row Directive
- */
-angular
-    .module('Form')
-    .directive('formRow', [
-        function FormRowDirective() {
-            return {
-                restrict: 'E',
-                templateUrl: '../app/Form/Partial/form-row.html',
-                replace: true,
-                scope: {
-                    formDef: '='
-                },
-                controller: function FormRowController() {
-
-                },
-                controllerAs: 'formRowCtrl',
-                bindToController: true
-            };
-        }
-    ]);
-// File : app/Form/Directive/FormWidgetDirective.js
-/**
- * Form Widget Directive
- */
-angular
-    .module('Form')
-    .directive('formWidget', [
-        function FormWidgetDirective() {
-            return {
-                restrict: 'E',
-                templateUrl: '../app/Form/Partial/form-widget.html',
-                replace: true,
-                transclude: true,
-                scope: {
-                    formDef: '='
-                }
-                /*controller: 'FormWidgetController',
-                controllerAs: 'formWidgetCtrl',
-                bindToController: true,*/
-            };
-        }
-    ]);
 // File : app/Forum/routes.js
 /**
  * Forum routes
@@ -2343,7 +2216,7 @@ angular
  * Form controller for Instrument
  * @constructor
  */
-var InstrumentCreateController = function InstrumentCreateControllerConstructor(data, InstrumentResource, instrumentTypes, InstrumentTemplateResource) {
+var InstrumentCreateController = function InstrumentCreateControllerConstructor(resource, InstrumentResource, instrumentTypes, InstrumentTemplateResource) {
     FormWizardController.apply(this, arguments);
 
     this.instrumentTypes  = instrumentTypes;
@@ -2355,7 +2228,7 @@ InstrumentCreateController.prototype             = Object.create(FormWizardContr
 InstrumentCreateController.prototype.constructor = InstrumentCreateController;
 
 // Set up dependency injection
-InstrumentCreateController.$inject = [ 'data', 'InstrumentResource', 'instrumentTypes', 'InstrumentTemplateResource' ];
+InstrumentCreateController.$inject = [ 'resource', 'InstrumentResource', 'instrumentTypes', 'InstrumentTemplateResource' ];
 
 /**
  * Step 1 - Choose Type
@@ -2446,7 +2319,7 @@ InstrumentCreateController.prototype.selectedTemplate = null;
  * @param {Object} type
  */
 InstrumentCreateController.prototype.selectType = function (type) {
-    this.data.type = type;
+    this.resource.type = type;
 
     // Load templates for this type
     this.loadTemplates(type);
@@ -2476,7 +2349,7 @@ angular
  * List controller for Instruments
  * @constructor
  */
-var InstrumentListController = function InstrumentListControllerConstructor($uibModal, entities) {
+var InstrumentListController = function InstrumentListControllerConstructor($uibModal, resources) {
     ListController.apply(this, arguments);
 };
 
@@ -2510,12 +2383,13 @@ angular
  * Show controller for Instruments
  * @constructor
  */
-var InstrumentShowController = function InstrumentShowControllerConstructor(data) {
-    this.data = data;
+var InstrumentShowController = function InstrumentShowControllerConstructor(resource) {
+    ShowController.apply(this, arguments);
 };
 
-// Set up dependency injection
-InstrumentShowController.$inject = [ 'data' ];
+// Extends ShowController
+InstrumentShowController.prototype = Object.create(ShowController.prototype);
+InstrumentShowController.$inject = ShowController.$inject;
 
 /**
  * Current displayed data
@@ -2556,10 +2430,10 @@ InstrumentResource.prototype = Object.create(ApiResource.prototype);
 InstrumentResource.$inject = ApiResource.$inject;
 
 /**
- * Name of the Resource (used as translation key)
+ * Type of the Resource
  * @type {string}
  */
-InstrumentResource.prototype.name = 'instrument';
+InstrumentResource.prototype.type = 'instrument';
 
 /**
  * Path of the API resource
@@ -2583,16 +2457,16 @@ InstrumentTemplateResource.prototype = Object.create(ApiResource.prototype);
 InstrumentTemplateResource.$inject = ApiResource.$inject;
 
 /**
- * Name of the Resource (used as translation key)
+ * Type of the Resource
  * @type {string}
  */
-InstrumentTemplateResource.prototype.name = 'instrument_template';
+InstrumentTemplateResource.prototype.type = 'instrument_template';
 
 /**
  * Path of the API resource
  * @type {string}
  */
-InstrumentTemplateResource.prototype.path = '/instrumenttypes/{type}/templates/{id}';
+InstrumentTemplateResource.prototype.path = '/instrument_types/{type}/templates/{id}';
 
 // Register service into Angular JS
 angular
@@ -2610,16 +2484,16 @@ InstrumentTypeResource.prototype = Object.create(ApiResource.prototype);
 InstrumentTypeResource.$inject = ApiResource.$inject;
 
 /**
- * Name of the Resource (used as translation key)
+ * Type of the Resource
  * @type {string}
  */
-InstrumentTypeResource.prototype.name = 'instrument_type';
+InstrumentTypeResource.prototype.type = 'instrument_type';
 
 /**
  * Path of the API resource
  * @type {string}
  */
-InstrumentTypeResource.prototype.path = '/instrumenttypes/{id}';
+InstrumentTypeResource.prototype.path = '/instrument_types/{id}';
 
 // Register service into Angular JS
 angular
@@ -2642,10 +2516,9 @@ angular
                     controller:   'InstrumentListController',
                     controllerAs: 'instrumentListCtrl',
                     resolve: {
-                        entities: [
-                            '$route',
+                        resources: [
                             'InstrumentResource',
-                            function entitiesResolver($route, InstrumentResource) {
+                            function resourcesResolver(InstrumentResource) {
                                 return InstrumentResource.query();
                             }
                         ]
@@ -2658,8 +2531,8 @@ angular
                     controller:   'InstrumentCreateController',
                     controllerAs: 'instrumentCreateCtrl',
                     resolve: {
-                        data: [
-                            function dataResolver() {
+                        resource: [
+                            function resourceResolver() {
                                 return {};
                             }
                         ],
@@ -2678,10 +2551,10 @@ angular
                     controller:   'InstrumentShowController',
                     controllerAs: 'instrumentShowCtrl',
                     resolve: {
-                        entity: [
+                        resource: [
                             '$route',
                             'InstrumentResource',
-                            function entityResolver($route, InstrumentResource) {
+                            function resourceResolver($route, InstrumentResource) {
                                 return InstrumentResource.get({ id: $route.current.params.id });
                             }
                         ]
@@ -2996,7 +2869,7 @@ angular
  * Form controller for Songs
  * @constructor
  */
-var SongFormController = function SongFormControllerConstructor(data, SongResource, Upload) {
+var SongFormController = function SongFormControllerConstructor(resource, SongResource, Upload) {
     FormController.apply(this, arguments);
 
     this.upload = Upload;
@@ -3007,18 +2880,21 @@ SongFormController.prototype             = Object.create(FormController.prototyp
 SongFormController.prototype.constructor = SongFormController;
 
 // Set up dependency injection
-SongFormController.$inject = [ 'data', 'SongResource', 'Upload' ];
+SongFormController.$inject = [ 'resource', 'SongResource', 'Upload' ];
 
 SongFormController.prototype.selectCover = function selectCover(file) {
+    if (!this.resource.cover) {
+        this.resource.cover = {};
+    }
+
     // Convert file to Base 64
     this.upload.base64DataUrl(file).then(function (url) {
-        this.data.cover.file = url;
-        console.log(this.data.cover.file);
+        this.resource.cover.file = url;
     }.bind(this));
 };
 
 SongFormController.prototype.removeCover = function removeCover() {
-    this.data.cover = null;
+    this.resource.cover = null;
 };
 
 // Register controller into Angular JS
@@ -3031,7 +2907,7 @@ angular
  * List controller for Songs
  * @constructor
  */
-var SongListController = function SongListControllerConstructor($uibModal, entities) {
+var SongListController = function SongListControllerConstructor($uibModal, resources) {
     ListController.apply(this, arguments);
 };
 
@@ -3045,17 +2921,17 @@ SongListController.$inject = ListController.$inject;
  * Default field to sort by
  * @type {string}
  */
-SongListController.prototype.sortBy = 'title';
+SongListController.prototype.sortBy = 'name';
 
 /**
  * Usable fields for sort
  * @type {Object}
  */
 SongListController.prototype.sortFields = {
-    title :  'string',
-    artist:  'string',
-    rating:  'number',
-    mastery: 'number'
+    name    : 'string',
+    artist  : 'string',
+    rating  : 'number',
+    mastery : 'number'
 };
 
 // Register controller into angular
@@ -3068,18 +2944,13 @@ angular
  * Show controller for Songs
  * @constructor
  */
-var SongShowController = function SongShowControllerContructor(entity) {
-    this.entity = entity;
+var SongShowController = function SongShowControllerConstructor(resource) {
+    ShowController.apply(this, arguments);
 };
 
-// Set up dependency injection
-SongShowController.$inject = [ 'entity' ];
-
-/**
- * Current displayed entity
- * @type {Object}
- */
-SongShowController.prototype.entity = null;
+// Extends ShowController
+SongShowController.prototype = Object.create(ShowController.prototype);
+SongShowController.$inject = ShowController.$inject;
 
 // Register controller into angular
 angular
@@ -3097,10 +2968,10 @@ SongResource.prototype = Object.create(ApiResource.prototype);
 SongResource.$inject = ApiResource.$inject;
 
 /**
- * Name of the Resource (used as translation key)
+ * Type of the Resource
  * @type {string}
  */
-SongResource.prototype.name = 'song';
+SongResource.prototype.type = 'song';
 
 /**
  * Path of the API resource
@@ -3127,10 +2998,10 @@ angular.module('SongBook').config([
                 controller:   'SongListController',
                 controllerAs: 'songListCtrl',
                 resolve: {
-                    entities: [
+                    resources: [
                         '$route',
                         'SongResource',
-                        function entitiesResolver($route, SongResource) {
+                        function resourcesResolver($route, SongResource) {
                             return SongResource.query();
                         }
                     ]
@@ -3143,8 +3014,8 @@ angular.module('SongBook').config([
                 controller:   'SongFormController',
                 controllerAs: 'songFormCtrl',
                 resolve: {
-                    data: [
-                        function dataResolver() {
+                    resource: [
+                        function resourceResolver() {
                             return {};
                         }
                     ]
@@ -3157,10 +3028,10 @@ angular.module('SongBook').config([
                 controller:   'SongShowController',
                 controllerAs: 'songShowCtrl',
                 resolve: {
-                    entity: [
+                    resource: [
                         '$route',
                         'SongResource',
-                        function entityResolver($route, SongResource) {
+                        function resourceResolver($route, SongResource) {
                             return SongResource.get({ id: $route.current.params.id });
                         }
                     ]
@@ -3173,10 +3044,10 @@ angular.module('SongBook').config([
                 controller:   'SongFormController',
                 controllerAs: 'songFormCtrl',
                 resolve: {
-                    data: [
+                    resource: [
                         '$route',
                         'SongResource',
-                        function dataResolver($route, SongResource) {
+                        function resourceResolver($route, SongResource) {
                             return SongResource.get({ id: $route.current.params.id });
                         }
                     ]
@@ -3282,20 +3153,17 @@ angular
  * Show controller for Songs
  * @constructor
  */
-var ChordShowController = function ChordShowControllerContructor(entity, notes) {
-    this.entity = entity;
+var ChordShowController = function ChordShowControllerConstructor(resource, notes) {
+    ShowController.apply(this, arguments);
 
     this.notes = notes;
 };
 
-// Set up dependency injection
-ChordShowController.$inject = [ 'entity' ];
+// Extends ShowController
+ChordShowController.prototype = Object.create(ShowController.prototype);
 
-/**
- * Current displayed entity
- * @type {Object}
- */
-ChordShowController.prototype.entity = null;
+// Set up dependency injection
+ChordShowController.$inject = ShowController.$inject;
 
 // Register controller into angular
 angular
@@ -3307,22 +3175,22 @@ angular
  * List controller for Degrees
  * @constructor
  */
-var DegreeListController = function DegreeListControllerConstructor($uibModal, entities) {
+var DegreeListController = function DegreeListControllerConstructor($uibModal, resources) {
     this.services = {};
 
     this.services['$uibModal'] = $uibModal;
 
-    this.entities = entities;
+    this.resources = resources;
 };
 
 // Set up dependency injection
-DegreeListController.$inject = ['$uibModal', 'entities'];
+DegreeListController.$inject = ['$uibModal', 'resources'];
 
 /**
  * List of entities
  * @type {Array}
  */
-DegreeListController.prototype.entities = [];
+DegreeListController.prototype.resources = [];
 
 // Register controller into angular
 angular
@@ -3334,21 +3202,21 @@ angular
  * List controller for Intervals
  * @constructor
  */
-var IntervalListController = function IntervalListControllerConstructor($uibModal, entities) {
+var IntervalListController = function IntervalListControllerConstructor($uibModal, resources) {
     this.services = {};
     this.services['$uibModal'] = $uibModal;
 
-    this.entities = entities;
+    this.resources = resources;
 };
 
 // Set up dependency injection
-IntervalListController.$inject = ['$uibModal', 'entities'];
+IntervalListController.$inject = ['$uibModal', 'resources'];
 
 /**
  * List of entities
  * @type {Array}
  */
-IntervalListController.prototype.entities = [];
+IntervalListController.prototype.resources = [];
 
 /**
  * Interval loaded in the player
@@ -3376,22 +3244,22 @@ angular
  * List controller for Notes
  * @constructor
  */
-var NoteListController = function NoteListControllerConstructor($uibModal, entities) {
+var NoteListController = function NoteListControllerConstructor($uibModal, resources) {
     this.services = {};
 
     this.services['$uibModal'] = $uibModal;
 
-    this.entities = entities;
+    this.resources = resources;
 };
 
 // Set up dependency injection
-NoteListController.$inject = ['$uibModal', 'entities'];
+NoteListController.$inject = ['$uibModal', 'resources'];
 
 /**
- * List of entities
+ * List of resources
  * @type {Array}
  */
-NoteListController.prototype.entities = [];
+NoteListController.prototype.resources = [];
 
 // Register controller into angular
 angular
@@ -3404,11 +3272,8 @@ angular
  * @constructor
  */
 var NoteMenuController = function NoteMenuControllerConstructor(NoteResource) {
-    this.services = {};
-    this.services['NoteResource'] = NoteResource;
-
-    this.entities = NoteResource.query().then(function (result) {
-        this.entities = result;
+    this.notes = NoteResource.query().then(function (result) {
+        this.notes = result;
         if (!this.current) {
             this.current = result[0];
         }
@@ -3422,7 +3287,7 @@ NoteMenuController.$inject = [ 'NoteResource' ];
  * List of notes
  * @type {Array}
  */
-NoteMenuController.prototype.entities = [];
+NoteMenuController.prototype.notes = [];
 
 /**
  * Current note
@@ -3431,16 +3296,16 @@ NoteMenuController.prototype.entities = [];
 NoteMenuController.prototype.current = null;
 
 NoteMenuController.prototype.previous = function previous() {
-    var pos = this.entities.indexOf(this.current);
-    if (-1 !== pos && this.entities[pos - 1]) {
-        this.current = this.entities[pos - 1];
+    var pos = this.notes.indexOf(this.current);
+    if (-1 !== pos && this.notes[pos - 1]) {
+        this.current = this.notes[pos - 1];
     }
 };
 
 NoteMenuController.prototype.next = function next() {
-    var pos = this.entities.indexOf(this.current);
-    if (-1 !== pos && this.entities[pos + 1]) {
-        this.current = this.entities[pos + 1];
+    var pos = this.notes.indexOf(this.current);
+    if (-1 !== pos && this.notes[pos + 1]) {
+        this.current = this.notes[pos + 1];
     }
 };
 
@@ -3454,22 +3319,22 @@ angular
  * List controller for Scales
  * @constructor
  */
-var ScaleListController = function ScaleListControllerConstructor($uibModal, entities) {
+var ScaleListController = function ScaleListControllerConstructor($uibModal, resources) {
     this.services = {};
 
     this.services['$uibModal'] = $uibModal;
 
-    this.entities = entities;
+    this.resources = resources;
 };
 
 // Set up dependency injection
-ScaleListController.$inject = ['$uibModal', 'entities'];
+ScaleListController.$inject = ['$uibModal', 'resources'];
 
 /**
  * List of entities
  * @type {Array}
  */
-ScaleListController.prototype.entities = [];
+ScaleListController.prototype.resources = [];
 
 // Register controller into angular
 angular
@@ -3560,9 +3425,9 @@ var IntervalPlayerDirective = function IntervalPlayerDirective() {
                     if (this.interval && this.direction && this.referenceNote) {
 
                         if ('ascending' === this.direction) {
-                            var newNoteValue = this.referenceNote.value + this.interval.value;
+                            var newNoteValue = this.referenceNote.attributes.value + this.interval.attributes.value;
                         } else {
-                            var newNoteValue = this.referenceNote.value - this.interval.value;
+                            var newNoteValue = this.referenceNote.attributes.value - this.interval.attributes.value;
                         }
 
                         this.calculatedNote = this.notes[newNoteValue];
@@ -3570,13 +3435,13 @@ var IntervalPlayerDirective = function IntervalPlayerDirective() {
                 };
 
                 this.incrementReference = function incrementReference() {
-                    var newNoteValue = this.referenceNote.value + 1;
+                    var newNoteValue = this.referenceNote.attributes.value + 1;
 
                     this.referenceNote = this.notes[newNoteValue];
                 };
 
                 this.decrementReference = function incrementReference() {
-                    var newNoteValue = this.referenceNote.value - 1;
+                    var newNoteValue = this.referenceNote.attributes.value - 1;
 
                     this.referenceNote = this.notes[newNoteValue];
                 };
@@ -3585,8 +3450,8 @@ var IntervalPlayerDirective = function IntervalPlayerDirective() {
                  * Play interval
                  */
                 this.playInterval = function playInterval() {
-                    SoundService.playFrequency(this.referenceNote.frequency,  0, 1);
-                    SoundService.playFrequency(this.calculatedNote.frequency, 1, 1);
+                    SoundService.playFrequency(this.referenceNote.attributes.frequency,  0, 1);
+                    SoundService.playFrequency(this.calculatedNote.attributes.frequency, 1, 1);
                 };
 
                 // Watch changes of the interval
@@ -3685,10 +3550,7 @@ var NoteMenuDirective = function NoteMenuDirectiveConstructor(NoteResource) {
         },
         controller: 'NoteMenuController',
         controllerAs: 'noteMenuCtrl',
-        bindToController: true,
-        link: function (scope, element, attrs, noteMenuCtrl) {
-
-        }
+        bindToController: true
     };
 };
 
@@ -3699,46 +3561,6 @@ NoteMenuDirective.$inject = ['NoteResource'];
 angular
     .module('Theory')
     .directive('noteMenu', NoteMenuDirective);
-// File : app/Theory/Directive/Note/NoteSelectorDirective.js
-/**
- * Note selector directive
- * @param   {NoteResource} NoteResource
- * @returns {Object}
- * @constructor
- */
-var NoteSelectorDirective = function NoteSelectorDirective(NoteResource) {
-    return {
-        restrict: 'E',
-        templateUrl: '../app/Theory/Partial/Note/selector.html',
-        replace: true,
-        scope: {
-            /**
-             * Current selected note
-             */
-            current: '='
-        },
-        controller: function NoteSelectorController() {},
-        controllerAs: 'noteSelectorCtrl',
-        bindToController: true,
-        link: function (scope, element, attrs) {
-            scope.notes = NoteResource.query().then(function (result) {
-                if (!scope.current) {
-                    scope.current = result[0];
-                }
-
-                return result;
-            });
-        }
-    };
-};
-
-// Set up dependency injection
-NoteSelectorDirective.$inject = ['NoteResource'];
-
-// Register directive into angular
-angular
-    .module('Theory')
-    .directive('noteSelector', NoteSelectorDirective);
 // File : app/Theory/Directive/Scale/ScaleRepresentationDirective.js
 angular
     .module('Theory')
@@ -3841,8 +3663,41 @@ angular
             };
         }
     ]);
+// File : app/Theory/Filter/NoteNameFilter.js
+/**
+ * Note Name filter
+ */
+angular
+    .module('Theory')
+    .filter('note_name', [
+        'NoteResource',
+        function NoteNameFilter(NoteResource) {
+            return function getName(note) {
+                var name = null;
+                if (note) {
+                    if (NoteResource.displayFlat) {
+                        // Display flat name
+                        name = note.attributes.flat_name;
+                    } else {
+                        // Display sharp name
+                        name = note.attributes.sharp_name;
+                    }
+                }
+
+                return name;
+            };
+        }
+    ]);
 // File : app/Theory/Resource/ChordResource.js
-var ChordResource = function ChordResourceConstructor() {
+/**
+ * Resource : Chord
+ *
+ * @param $http
+ * @param $q
+ * @param ApiService
+ * @constructor
+ */
+var ChordResource = function ChordResourceConstructor($http, $q, ApiService) {
     // Call parent constructor
     ApiResource.apply(this, arguments);
 };
@@ -3852,10 +3707,10 @@ ChordResource.prototype = Object.create(ApiResource.prototype);
 ChordResource.$inject = ApiResource.$inject;
 
 /**
- * Name of the Resource (used as translation key)
+ * Type of the Resource
  * @type {string}
  */
-ChordResource.prototype.name = 'chord';
+ChordResource.prototype.type = 'chord';
 
 /**
  * Path of the API resource
@@ -3869,7 +3724,15 @@ angular
     .service('ChordResource', ChordResource);
 
 // File : app/Theory/Resource/DegreeResource.js
-var DegreeResource = function DegreeResourceConstructor() {
+/**
+ * Resource : Degree
+ *
+ * @param $http
+ * @param $q
+ * @param ApiService
+ * @constructor
+ */
+var DegreeResource = function DegreeResourceConstructor($http, $q, ApiService) {
     // Call parent constructor
     ApiResource.apply(this, arguments);
 };
@@ -3879,10 +3742,10 @@ DegreeResource.prototype = Object.create(ApiResource.prototype);
 DegreeResource.$inject = ApiResource.$inject;
 
 /**
- * Name of the Resource (used as translation key)
+ * Type of the Resource
  * @type {string}
  */
-DegreeResource.prototype.name = 'degree';
+DegreeResource.prototype.type = 'degree';
 
 /**
  * Path of the API resource
@@ -3896,7 +3759,15 @@ angular
     .service('DegreeResource', DegreeResource);
 
 // File : app/Theory/Resource/IntervalResource.js
-var IntervalResource = function IntervalResourceConstructor() {
+/**
+ * Resource : Interval
+ *
+ * @param $http
+ * @param $q
+ * @param ApiService
+ * @constructor
+ */
+var IntervalResource = function IntervalResourceConstructor($http, $q, ApiService) {
     // Call parent constructor
     ApiResource.apply(this, arguments);
 };
@@ -3906,10 +3777,10 @@ IntervalResource.prototype = Object.create(ApiResource.prototype);
 IntervalResource.$inject = ApiResource.$inject;
 
 /**
- * Name of the Resource (used as translation key)
+ * Type of the Resource
  * @type {string}
  */
-IntervalResource.prototype.name = 'interval';
+IntervalResource.prototype.type = 'interval';
 
 /**
  * Path of the API resource
@@ -3925,23 +3796,26 @@ angular
 // File : app/Theory/Resource/NoteResource.js
 /**
  * Resource : Note
+ *
+ * @param $http
+ * @param $q
+ * @param ApiService
  * @constructor
  */
-var NoteResource = function NoteResourceConstructor() {
+var NoteResource = function NoteResourceConstructor($http, $q, ApiService) {
     // Call parent constructor
     ApiResource.apply(this, arguments);
 };
 
 // Extends ApiResource
 NoteResource.prototype = Object.create(ApiResource.prototype);
-// Get parent dependencies
 NoteResource.$inject = ApiResource.$inject;
 
 /**
- * Name of the Resource (used as translation key)
+ * Type of the Resource
  * @type {string}
  */
-NoteResource.prototype.name = 'note';
+NoteResource.prototype.type = 'note';
 
 /**
  * Path of the API resource
@@ -3954,13 +3828,6 @@ NoteResource.prototype.path = '/notes/{id}';
  * @type {boolean}
  */
 NoteResource.prototype.displayFlat = false;
-
-NoteResource.prototype.setElements = function setElements(elements) {
-    this.elements = elements;
-
-    // Rename notes using User configuration
-    this.renameNotes();
-};
 
 /**
  * Is the displayed name of the Note is flat (true) or sharp (false)
@@ -3977,53 +3844,7 @@ NoteResource.prototype.isDisplayFlat = function isDisplayFlat() {
 NoteResource.prototype.setDisplayFlat = function setDisplayFlat(newValue) {
     if (newValue !== this.displayFlat) {
         this.displayFlat = newValue;
-
-        // Rename the notes
-        this.renameNotes();
     }
-};
-
-/**
- * Change the displayed name of Notes
- */
-NoteResource.prototype.renameNotes = function renameNotes() {
-    this.apply(function rename(note) {
-        // Get the display name based of the configuration
-        if (this.displayFlat) {
-            // Display flat name
-            note.info.name = note.info.flat_name;
-        } else {
-            // Display sharp name
-            note.info.name = note.info.sharp_name;
-        }
-    }.bind(this));
-};
-
-/**
- * Get a Note by its value
- * @param   {Number} value
- * @returns {Object}
- */
-NoteResource.prototype.getByValue = function getByValue(value) {
-    return this.elements.find(function findByValue(element) {
-        return value == element.value;
-    });
-};
-
-/**
- * Add semitones to the Note given and get the corresponding Note
- * @param   {Object} reference
- * @param   {Number} semitones
- * @returns {Object}
- */
-NoteResource.prototype.addSemitone = function addSemitone(reference, semitones) {
-    var newValue = (reference.value + semitones) % 12;
-
-    return this.getByValue(newValue);
-};
-
-NoteResource.prototype.play = function play() {
-
 };
 
 // Register service into Angular JS
@@ -4032,7 +3853,15 @@ angular
     .service('NoteResource', NoteResource);
 
 // File : app/Theory/Resource/ScaleResource.js
-var ScaleResource = function ScaleResourceConstructor() {
+/**
+ * Resource : Scale
+ *
+ * @param $http
+ * @param $q
+ * @param ApiService
+ * @constructor
+ */
+var ScaleResource = function ScaleResourceConstructor($http, $q, ApiService) {
     // Call parent constructor
     ApiResource.apply(this, arguments);
 };
@@ -4042,10 +3871,10 @@ ScaleResource.prototype = Object.create(ApiResource.prototype);
 ScaleResource.$inject = ApiResource.$inject;
 
 /**
- * Name of the Resource (used as translation key)
+ * Type of the Resource
  * @type {string}
  */
-ScaleResource.prototype.name = 'scale';
+ScaleResource.prototype.type = 'scale';
 
 /**
  * Path of the API resource
@@ -4079,9 +3908,9 @@ angular
                     controller:   'IntervalListController',
                     controllerAs: 'intervalListCtrl',
                     resolve: {
-                        entities: [
+                        resources: [
                             'IntervalResource',
-                            function entitiesResolver(IntervalResource) {
+                            function resourcesResolver(IntervalResource) {
                                 return IntervalResource.query();
                             }
                         ]
@@ -4094,9 +3923,9 @@ angular
                     controller:   'NoteListController',
                     controllerAs: 'noteListCtrl',
                     resolve: {
-                        entities: [
+                        resources: [
                             'NoteResource',
-                            function entitiesResolver(NoteResource) {
+                            function resourcesResolver(NoteResource) {
                                 return NoteResource.query();
                             }
                         ]
@@ -4109,9 +3938,9 @@ angular
                     controller:   'DegreeListController',
                     controllerAs: 'degreeListCtrl',
                     resolve: {
-                        entities: [
+                        resources: [
                             'DegreeResource',
-                            function entitiesResolver(DegreeResource) {
+                            function resourcesResolver(DegreeResource) {
                                 return DegreeResource.query();
                             }
                         ]
@@ -4124,9 +3953,9 @@ angular
                     controller:   'ChordListController',
                     controllerAs: 'chordListCtrl',
                     resolve: {
-                        entities: [
+                        resources: [
                             'ChordResource',
-                            function entitiesResolver(ChordResource) {
+                            function resourcesResolver(ChordResource) {
                                 return ChordResource.query();
                             }
                         ]
@@ -4139,10 +3968,10 @@ angular
                     controller:   'ChordShowController',
                     controllerAs: 'chordShowCtrl',
                     resolve: {
-                        entity: [
+                        resource: [
                             '$route',
                             'ChordResource',
-                            function entityResolver($route, ChordResource) {
+                            function resourceResolver($route, ChordResource) {
                                 return ChordResource.get({ id: $route.current.params.id });
                             }
                         ],
@@ -4161,9 +3990,9 @@ angular
                     controller:   'ScaleListController',
                     controllerAs: 'scaleListCtrl',
                     resolve: {
-                        entities: [
+                        resources: [
                             'ScaleResource',
-                            function entitiesResolver(ScaleResource) {
+                            function resourcesResolver(ScaleResource) {
                                 return ScaleResource.query();
                             }
                         ]
@@ -4321,12 +4150,28 @@ angular.module('User').config([
  * Workspace Application routes
  * Defines all routes for the Application
  */
-angular.module('MusicTools').config([
-    '$routeProvider',
-    function MusicToolsConfig($routeProvider) {
-        // Bind errors routes
-    }
-]);
+angular
+    .module('MusicTools')
+    .config([
+        '$routeProvider',
+        function MusicToolsConfig($routeProvider) {
+            $routeProvider
+                // Page not found
+                .when('/page_not_found', {
+                    templateUrl:  '../app/Layout/Partial/Error/page_not_found.html'
+                })
+
+                // Default Server 5xx errors
+                .when('/error_server', {
+                    templateUrl:  '../app/Layout/Partial/Error/server.html'
+                })
+
+                // Redirect to Page not found
+                .otherwise({
+                    redirectTo: '/page_not_found'
+                })
+        }
+    ]);
 // File : app/translations.js
 /**
  * Application translations

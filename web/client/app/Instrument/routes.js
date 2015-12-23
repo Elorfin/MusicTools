@@ -13,10 +13,9 @@ angular
                     controller:   'InstrumentListController',
                     controllerAs: 'instrumentListCtrl',
                     resolve: {
-                        entities: [
-                            '$route',
+                        resources: [
                             'InstrumentResource',
-                            function entitiesResolver($route, InstrumentResource) {
+                            function resourcesResolver(InstrumentResource) {
                                 return InstrumentResource.query();
                             }
                         ]
@@ -29,8 +28,8 @@ angular
                     controller:   'InstrumentCreateController',
                     controllerAs: 'instrumentCreateCtrl',
                     resolve: {
-                        data: [
-                            function dataResolver() {
+                        resource: [
+                            function resourceResolver() {
                                 return {};
                             }
                         ],
@@ -49,10 +48,10 @@ angular
                     controller:   'InstrumentShowController',
                     controllerAs: 'instrumentShowCtrl',
                     resolve: {
-                        entity: [
+                        resource: [
                             '$route',
                             'InstrumentResource',
-                            function entityResolver($route, InstrumentResource) {
+                            function resourceResolver($route, InstrumentResource) {
                                 return InstrumentResource.get({ id: $route.current.params.id });
                             }
                         ]

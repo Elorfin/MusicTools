@@ -1,4 +1,12 @@
-var ScaleResource = function ScaleResourceConstructor() {
+/**
+ * Resource : Scale
+ *
+ * @param $http
+ * @param $q
+ * @param ApiService
+ * @constructor
+ */
+var ScaleResource = function ScaleResourceConstructor($http, $q, ApiService) {
     // Call parent constructor
     ApiResource.apply(this, arguments);
 };
@@ -8,10 +16,10 @@ ScaleResource.prototype = Object.create(ApiResource.prototype);
 ScaleResource.$inject = ApiResource.$inject;
 
 /**
- * Name of the Resource (used as translation key)
+ * Type of the Resource
  * @type {string}
  */
-ScaleResource.prototype.name = 'scale';
+ScaleResource.prototype.type = 'scale';
 
 /**
  * Path of the API resource

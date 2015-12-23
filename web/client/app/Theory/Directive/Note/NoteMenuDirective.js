@@ -17,10 +17,7 @@ var NoteMenuDirective = function NoteMenuDirectiveConstructor(NoteResource) {
         },
         controller: 'NoteMenuController',
         controllerAs: 'noteMenuCtrl',
-        bindToController: true,
-        link: function (scope, element, attrs, noteMenuCtrl) {
-
-        }
+        bindToController: true
     };
 };
 

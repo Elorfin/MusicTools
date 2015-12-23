@@ -12,7 +12,7 @@ use Elorfin\ReactorBundle\Entity\UniqueIdentifiableTrait;
  * @ORM\Entity()
  * @ORM\Table(name="game")
  */
-class Game
+class Game implements \JsonSerializable
 {
     /**
      * Add identifiable behavior
@@ -23,4 +23,15 @@ class Game
      * Add nameable behavior
      */
     use NameableTrait;
+
+    public function jsonSerialize()
+    {
+        return array(
+            'type' => 'games',
+            'id'   => $this->id,
+            'attributes' => array(
+                'name' => $this->name,
+            )
+        );
+    }
 }

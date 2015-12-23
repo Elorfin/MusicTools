@@ -2,22 +2,22 @@
  * List controller for Degrees
  * @constructor
  */
-var DegreeListController = function DegreeListControllerConstructor($uibModal, entities) {
+var DegreeListController = function DegreeListControllerConstructor($uibModal, resources) {
     this.services = {};
 
     this.services['$uibModal'] = $uibModal;
 
-    this.entities = entities;
+    this.resources = resources;
 };
 
 // Set up dependency injection
-DegreeListController.$inject = ['$uibModal', 'entities'];
+DegreeListController.$inject = ['$uibModal', 'resources'];
 
 /**
  * List of entities
  * @type {Array}
  */
-DegreeListController.prototype.entities = [];
+DegreeListController.prototype.resources = [];
 
 // Register controller into angular
 angular

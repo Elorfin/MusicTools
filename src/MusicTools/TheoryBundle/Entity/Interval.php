@@ -12,7 +12,7 @@ use Elorfin\ReactorBundle\Entity\NameableTrait;
  * @ORM\Entity()
  * @ORM\Table(name="theory_interval")
  */
-class Interval
+class Interval implements \JsonSerializable
 {
     /**
      * Add Identifiable behavior
@@ -138,5 +138,20 @@ class Interval
         $this->value = $value;
 
         return $this;
+    }
+
+    public function jsonSerialize()
+    {
+        return array (
+            'type' => 'intervals',
+            'id'   => $this->id,
+            'attributes'  => array (
+                'name'    => $this->name,
+                'symbol'  => $this->symbol,
+                'number'  => $this->number,
+                'quality' => $this->quality,
+                'value'   => $this->value,
+            )
+        );
     }
 }

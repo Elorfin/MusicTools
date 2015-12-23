@@ -5,12 +5,11 @@ namespace MusicTools\GameBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 /**
  * Game controller.
  *
- * @Route("/")
+ * @Route("/games")
  */
 class GameController extends Controller
 {
@@ -18,16 +17,13 @@ class GameController extends Controller
      * List all games
      * @return array
      *
-     * @Route("/", name="game")
+     * @Route("")
      * @Method("GET")
-     * @Template()
      */
-    public function indexAction()
+    public function listAction()
     {
         $entities = $this->container->get('doctrine.orm.entity_manager')->getRepository('MusicToolsGameBundle:Game')->findAll();
 
-        return array (
-            'entities' => $entities,
-        );
+        return $entities;
     }
 }

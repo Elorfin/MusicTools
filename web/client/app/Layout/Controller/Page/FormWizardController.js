@@ -2,8 +2,8 @@
  * Wizard Form controller
  * @constructor
  */
-var FormWizardController = function FormWizardControllerConstructor(data, ApiResource) {
-    FormWizardController.apply(this, arguments);
+var FormWizardController = function FormWizardControllerConstructor(resource, ApiResource) {
+    FormController.apply(this, arguments);
 
     this.setCurrentStep(this.steps[0]);
 };
@@ -13,7 +13,7 @@ FormWizardController.prototype             = Object.create(FormController.protot
 FormWizardController.prototype.constructor = FormWizardController;
 
 // Set up dependency injection
-FormWizardController.$inject = [ 'data', 'ApiResource' ];
+FormWizardController.$inject = [ 'resource', 'ApiResource' ];
 
 /**
  * Wizard steps
@@ -86,7 +86,7 @@ FormWizardController.prototype.validateStep = function validateStep(step) {
 
     var valid = true;
     if (this.currentStep.hasOwnProperty('validate')) {
-        valid = this.currentStep.validate(this.data, this.errors);
+        valid = this.currentStep.validate(this.resource, this.errors);
     }
 
     if (valid) {

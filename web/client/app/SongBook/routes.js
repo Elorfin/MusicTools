@@ -11,10 +11,10 @@ angular.module('SongBook').config([
                 controller:   'SongListController',
                 controllerAs: 'songListCtrl',
                 resolve: {
-                    entities: [
+                    resources: [
                         '$route',
                         'SongResource',
-                        function entitiesResolver($route, SongResource) {
+                        function resourcesResolver($route, SongResource) {
                             return SongResource.query();
                         }
                     ]
@@ -27,8 +27,8 @@ angular.module('SongBook').config([
                 controller:   'SongFormController',
                 controllerAs: 'songFormCtrl',
                 resolve: {
-                    data: [
-                        function dataResolver() {
+                    resource: [
+                        function resourceResolver() {
                             return {};
                         }
                     ]
@@ -41,10 +41,10 @@ angular.module('SongBook').config([
                 controller:   'SongShowController',
                 controllerAs: 'songShowCtrl',
                 resolve: {
-                    entity: [
+                    resource: [
                         '$route',
                         'SongResource',
-                        function entityResolver($route, SongResource) {
+                        function resourceResolver($route, SongResource) {
                             return SongResource.get({ id: $route.current.params.id });
                         }
                     ]
@@ -57,10 +57,10 @@ angular.module('SongBook').config([
                 controller:   'SongFormController',
                 controllerAs: 'songFormCtrl',
                 resolve: {
-                    data: [
+                    resource: [
                         '$route',
                         'SongResource',
-                        function dataResolver($route, SongResource) {
+                        function resourceResolver($route, SongResource) {
                             return SongResource.get({ id: $route.current.params.id });
                         }
                     ]

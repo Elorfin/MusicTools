@@ -3,9 +3,11 @@
 namespace MusicTools\SongBookBundle\Controller;
 
 use Elorfin\JsonApiBundle\Response\JsonApiResponse;
+use Elorfin\JsonApiBundle\Response\JsonErrorResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use MusicTools\SongBookBundle\Entity\Song;
 use MusicTools\SongBookBundle\Form\Type\SongType;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -20,7 +22,7 @@ class SongController extends Controller
 {
     /**
      * List all Songs
-     * @return array
+     * @return JsonApiResponse
      *
      * @Route("")
      * @Method("GET")
@@ -35,18 +37,16 @@ class SongController extends Controller
     }
 
     /**
-     * Display a Song entity
-     * @param $id
-     * @return mixed
+     * Render a Song entity
+     * @param  Song $song
+     * @return JsonApiResponse
      *
      * @Route("/{id}")
      * @Method("GET")
      */
-    public function getAction($id)
+    public function getAction(Song $song = null)
     {
-        $entity = $this->getEntity($id);
-
-        return $entity;
+        return new JsonApiResponse($song);
     }
 
     /**
@@ -59,40 +59,37 @@ class SongController extends Controller
      */
     public function createAction(Request $request)
     {
-        $entity = new Song();
-        $form = $this->createForm(new SongType(), $entity, array(
+        $song = new Song();
+        $form = $this->createForm(new SongType(), $song, array(
             'method' => 'POST',
         ));
 
         $form->submit(array( $form->getName() => $request->get('data') ));
         if ($form->isValid()) {
             // Save entity
-            $this->container->get('doctrine.orm.entity_manager')->persist($entity);
+            $this->container->get('doctrine.orm.entity_manager')->persist($song);
             /*$this->container->get('doctrine.orm.entity_manager')->flush();*/
 
-            return $entity;
+            return new JsonApiResponse($song, 201);
         }
 
-        $errors = $form->getErrors();
+        $errors = $this->getFormErrors($form);
 
-        return array(
-            'errors' => $errors,
-        );
+        return new JsonErrorResponse($errors, 422);
     }
 
     /**
      * Edit a Song
-     * @param  integer $id
+     * @param  Song $song
      * @param  Request $request
      * @return array
      *
      * @Route("/{id}")
      * @Method("PUT")
      */
-    public function updateAction($id, Request $request)
+    public function updateAction(Song $song, Request $request)
     {
-        $entity = $this->getEntity($id);
-        $form = $form = $this->createForm(new SongType(), $entity, array(
+        $form = $form = $this->createForm(new SongType(), $song, array(
             'method' => 'PUT',
         ));
 
@@ -101,49 +98,46 @@ class SongController extends Controller
         $form->submit($data);
         if ($form->isValid()) {
             // Save entity
-            $this->container->get('doctrine.orm.entity_manager')->persist($entity);
+            $this->container->get('doctrine.orm.entity_manager')->persist($song);
             /*$this->container->get('doctrine.orm.entity_manager')->flush();*/
 
-            return $entity;
+            return $song;
         }
 
-        $errors = $form->getErrors();
+        $errors = $this->getFormErrors($form);
 
-        return array(
-            'errors' => $errors,
-        );
+        return  new JsonErrorResponse($errors, 422);
     }
 
     /**
      * Delete a Song
-     * @param  integer $id
+     * @param  Song $song
      * @return array
      *
      * @Route("/{id}")
      * @Method("DELETE")
      */
-    public function deleteAction($id)
+    public function deleteAction(Song $song)
     {
 
     }
 
     /**
-     * Retrieve a Song entity
-     *
-     * @param  integer $id
-     * @return \MusicTools\SongBookBundle\Entity\Song
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+     * @param $form
+     * @return array
      */
-    private function getEntity($id)
+    private function getFormErrors(FormInterface $form)
     {
-        $entity = $this->container->get('doctrine.orm.entity_manager')->getRepository('MusicToolsSongBookBundle:Song')->findOneBy( array (
-            'id' => $id,
-        ));
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Song entity.');
+        $errors = array();
+        foreach ($form->getErrors() as $key => $error) {
+            $errors[$key] = $error->getMessage();
         }
-
-        return $entity;
+        // Get errors from children
+        foreach ($form->all() as $child) {
+            if (!$child->isValid()) {
+                $errors[$child->getName()] = $this->getFormErrors($child);
+            }
+        }
+        return $errors;
     }
 }

@@ -1,0 +1,39 @@
+# Routes for Instrument
+instrument:
+    resource: "@InstrumentBundle/Controller/"
+    type:     annotation
+
+# Routes for SongBook
+song_book:
+    resource: "@SongBookBundle/Controller/"
+    type:     annotation
+
+# Routes for Theory
+theory:
+    resource: "@TheoryBundle/Controller/"
+    type:     annotation
+
+# Routes for Lesson
+lesson:
+    resource: "@LessonBundle/Controller/"
+    type:     annotation
+
+# Routes for Game
+game:
+    resource: "@GameBundle/Controller/"
+    type:     annotation
+
+# Routes for Musician
+musician:
+    resource: "@MusicianBundle/Controller/"
+    type:     annotation
+
+# Routes for Forum
+forum:
+    resource: "@ForumBundle/Controller/"
+    type:     annotation
+
+# Routes for Advertisement
+advertisement:
+    resource: "@AdvertisementBundle/Controller/"
+    type:     annotation

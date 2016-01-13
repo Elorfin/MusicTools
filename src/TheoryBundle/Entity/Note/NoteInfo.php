@@ -17,9 +17,14 @@ class NoteInfo
     const DISPLAY_FLAT  = 'flatName';
 
     /**
-     * Add Identifiable behavior
+     * Unique identifier of the NoteInfo
+     * @var string
+     *
+     * @ORM\Column(type="guid")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="UUID")
      */
-    use UniqueIdentifiableTrait;
+    private $id;
 
     /**
      * Sharp Name of the Note
@@ -69,7 +74,7 @@ class NoteInfo
      */
     public function getName($displayType = self::DISPLAY_SHARP)
     {
-        $property = self::DISPLAY_SHARP;
+        $property = $displayType;
 
         return $this->$property;
     }

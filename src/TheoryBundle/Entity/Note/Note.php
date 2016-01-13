@@ -3,8 +3,6 @@
 namespace TheoryBundle\Entity\Note;
 
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation\Exclude as SerializerExclude;
-use Elorfin\ReactorBundle\Entity\UniqueIdentifiableTrait;
 use TheoryBundle\Entity\Interval;
 
 /**
@@ -16,9 +14,14 @@ use TheoryBundle\Entity\Interval;
 class Note implements \JsonSerializable
 {
     /**
-     * Add Identifiable behavior
+     * Unique identifier of the Note
+     * @var string
+     *
+     * @ORM\Column(type="guid")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="UUID")
      */
-    use UniqueIdentifiableTrait;
+    private $id;
 
     /**
      * Note relative value (in semitones) to C0
@@ -47,6 +50,7 @@ class Note implements \JsonSerializable
     /**
      * Midi number of the Note
      * @var integer
+     *
      * @ORM\Column(type="integer")
      */
     protected $midi;
@@ -66,8 +70,6 @@ class Note implements \JsonSerializable
      *
      * @ORM\OneToOne(targetEntity="TheoryBundle\Entity\Note\Note")
      * @ORM\JoinColumn(name="previous_id", referencedColumnName="id", nullable=true)
-     *
-     * @SerializerExclude
      */
     protected $previous;
 
@@ -77,8 +79,6 @@ class Note implements \JsonSerializable
      *
      * @ORM\OneToOne(targetEntity="TheoryBundle\Entity\Note\Note")
      * @ORM\JoinColumn(name="next_id", referencedColumnName="id", nullable=true)
-     *
-     * @SerializerExclude
      */
     protected $next;
 
@@ -287,7 +287,7 @@ class Note implements \JsonSerializable
                 'frequency'  => $this->frequency,
                 'midi'       => $this->midi,
 
-                // Flatten NoteInfo properties for simplier structure
+                // Flatten NoteInfo properties for simpler structure
                 'sharp_name' => $this->info->getSharpName(),
                 'flat_name'  => $this->info->getFlatName(),
                 'accidental' => $this->info->isAccidental(),

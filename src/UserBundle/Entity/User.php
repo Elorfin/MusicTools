@@ -1,26 +1,39 @@
 <?php
 
-namespace MusicianBundle\Entity;
+namespace UserBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Elorfin\ResourceBundle\Entity\Image;
 
 /**
- * Musician Entity
- * Used to store the configuration of a Musician
+ * User Entity
+ * Used to store the configuration of a User
  *
- * @ORM\Entity(repositoryClass="MusicianBundle\Repository\MusicianRepository")
- * @ORM\Table(name="musician")
+ * @ORM\Entity(repositoryClass="UserBundle\Repository\UserRepository")
+ * @ORM\Table(name="user")
  */
-class Musician
+class User
 {
     /**
-     * Add Identifiable behavior
+     * Unique identifier of the User
+     * @var string
+     *
+     * @ORM\Column(type="guid")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="UUID")
      */
-    use UniqueIdentifiableTrait;
+    private $id;
 
     /**
-     * Avatar of the Musician
+     * Username
+     * @var string
+     *
+     * @ORM\Column(type="string")
+     */
+    protected $username;
+
+    /**
+     * Avatar of the User
      * @var \Elorfin\ResourceBundle\Entity\Image
      *
      * @ORM\ManyToOne(targetEntity="Elorfin\ResourceBundle\Entity\Image", cascade={"remove", "persist"})
@@ -29,7 +42,7 @@ class Musician
     protected $avatar;
 
     /**
-     * Description of the Musician
+     * Description of the User
      * @var string
      *
      * @ORM\Column(type="text", nullable=true)
@@ -37,7 +50,7 @@ class Musician
     protected $description;
 
     /**
-     * Status of the Musician
+     * Status of the User
      * @var string
      *
      * @ORM\Column(type="text", nullable=true)
@@ -45,7 +58,7 @@ class Musician
     protected $status;
 
     /**
-     * First name of the Musician
+     * First name of the User
      * @var string
      *
      * @ORM\Column(type="string", nullable=true)
@@ -53,7 +66,7 @@ class Musician
     protected $firstName;
 
     /**
-     * Last name of the Musician
+     * Last name of the User
      * @var string
      *
      * @ORM\Column(type="string", nullable=true)
@@ -61,7 +74,7 @@ class Musician
     protected $lastName;
 
     /**
-     * Location of the Musician
+     * Location of the User
      * @var string
      *
      * @ORM\Column(type="string", nullable=true)
@@ -69,7 +82,7 @@ class Musician
     protected $location;
 
     /**
-     * Birth date of the Musician
+     * Birth date of the User
      * @var \DateTime
      *
      * @ORM\Column(type="date", nullable=true)
@@ -77,27 +90,56 @@ class Musician
     protected $birthDate;
 
     /**
-     * Gender of the Musician
+     * Gender of the User
      * @var string
      * @ORM\Column(type="string", nullable=true)
      */
     protected $gender;
 
     /**
-     * Website of the Musician
+     * Website of the User
      * @var string
      * @ORM\Column(type="string", nullable=true)
      */
     protected $website;
 
     /**
-     * User linked to the Musician
-     * @var \FOS\UserBundle\Model\User
+     * Last login of the User
+     * @var \DateTime
      *
-     * @ORM\OneToOne(targetEntity="Elorfin\UserBundle\Entity\User")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     * @ORM\Column(type="date", nullable=true)
      */
-    protected $user;
+    protected $lastLogin;
+
+    /**
+     * Get id
+     * @return string
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Get username
+     * @return string
+     */
+    public function getUsername()
+    {
+        return $this->username;
+    }
+
+    /**
+     * Set username
+     * @param  string $username
+     * @return User
+     */
+    public function setUsername($username)
+    {
+        $this->username = $username;
+
+        return $this;
+    }
 
     /**
      * Get avatar
@@ -111,7 +153,7 @@ class Musician
     /**
      * Set avatar
      * @param  \Elorfin\ResourceBundle\Entity\Image $avatar
-     * @return \MusicTools\MusicianBundle\Entity\Musician
+     * @return User
      */
     public function setAvatar(Image $avatar)
     {
@@ -132,7 +174,7 @@ class Musician
     /**
      * Set description
      * @param  string $description
-     * @return \MusicTools\MusicianBundle\Entity\Musician
+     * @return User
      */
     public function setDescription($description)
     {
@@ -153,7 +195,7 @@ class Musician
     /**
      * Set status
      * @param  string $status
-     * @return \MusicTools\MusicianBundle\Entity\Musician
+     * @return User
      */
     public function setStatus($status)
     {
@@ -174,7 +216,7 @@ class Musician
     /**
      * Set first name
      * @param  string $firstName
-     * @return \MusicTools\MusicianBundle\Entity\Musician
+     * @return User
      */
     public function setFirstName($firstName)
     {
@@ -195,7 +237,7 @@ class Musician
     /**
      * Set last name
      * @param  string $lastName
-     * @return \MusicTools\MusicianBundle\Entity\Musician
+     * @return User
      */
     public function setLastName($lastName)
     {
@@ -216,7 +258,7 @@ class Musician
     /**
      * Set location
      * @param  string $location
-     * @return \MusicTools\MusicianBundle\Entity\Musician
+     * @return User
      */
     public function setLocation($location)
     {
@@ -237,7 +279,7 @@ class Musician
     /**
      * Set birth date
      * @param  \DateTime $birthDate
-     * @return \MusicTools\MusicianBundle\Entity\Musician
+     * @return User
      */
     public function setBirthDate(\DateTime $birthDate = null)
     {
@@ -258,7 +300,7 @@ class Musician
     /**
      * Set gender
      * @param  string $gender
-     * @return \MusicTools\MusicianBundle\Entity\Musician
+     * @return User
      */
     public function setGender($gender)
     {
@@ -279,7 +321,7 @@ class Musician
     /**
      * Set website
      * @param  string $website
-     * @return \MusicTools\MusicianBundle\Entity\Musician
+     * @return User
      */
     public function setWebsite($website)
     {
@@ -289,37 +331,23 @@ class Musician
     }
 
     /**
-     * Get User
-     * @return \Elorfin\UserBundle\Entity\User
+     * Get last login
+     * @return \DateTime
      */
-    public function getUser()
-    {
-        return $this->user;
-    }
-
-    /**
-     * Set User
-     * @param  \FOS\UserBundle\Model\User $user
-     * @return \MusicTools\MusicianBundle\Entity\Musician
-     */
-    public function setUser(User $user)
-    {
-        $this->user = $user;
-
-        return $this;
-    }
-
-    /**
-     * Wrapper to access username of the User
-     * @return string
-     */
-    public function getUsername()
-    {
-        return $this->user->getUsername();
-    }
-
     public function getLastLogin()
     {
-        return $this->user->getLastLogin();
+        return $this->lastLogin;
+    }
+
+    /**
+     * Set last login
+     * @param  \DateTime $lastLogin
+     * @return User
+     */
+    public function setLastLogin(\DateTime $lastLogin)
+    {
+        $this->lastLogin = $lastLogin;
+
+        return $this;
     }
 }

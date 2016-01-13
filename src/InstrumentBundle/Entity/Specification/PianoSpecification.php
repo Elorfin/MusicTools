@@ -15,12 +15,26 @@ use InstrumentBundle\Entity\Instrument\PianoTrait;
 class PianoSpecification extends AbstractSpecification
 {
     /**
-     * Add Identifiable behavior
+     * Unique identifier of the Game
+     * @var string
+     *
+     * @ORM\Column(type="guid")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="UUID")
      */
-    use UniqueIdentifiableTrait;
+    private $id;
 
     /**
      * Add Piano behavior
      */
     use PianoTrait;
+
+    /**
+     * Get id
+     * @return string
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
 }

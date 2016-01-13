@@ -15,12 +15,26 @@ use InstrumentBundle\Entity\Instrument\GuitarTrait;
 class GuitarSpecification extends AbstractSpecification
 {
     /**
-     * Add Identifiable behavior
+     * Unique identifier of the Guitar
+     * @var string
+     *
+     * @ORM\Column(type="guid")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="UUID")
      */
-    use UniqueIdentifiableTrait;
+    private $id;
 
     /**
      * Add Guitar behavior
      */
     use GuitarTrait;
+
+    /**
+     * Ge id
+     * @return string
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
 }

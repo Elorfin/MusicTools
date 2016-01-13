@@ -14,14 +14,22 @@ use Doctrine\ORM\Mapping as ORM;
 class InstrumentType implements \JsonSerializable
 {
     /**
-     * Add Identifiable behavior
+     * Unique identifier of the Instrument Type
+     * @var string
+     *
+     * @ORM\Column(type="guid")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="UUID")
      */
-    use UniqueIdentifiableTrait;
+    private $id;
 
     /**
-     * Add Nameable behavior
+     * Name of the Instrument Type
+     * @var string
+     *
+     * @ORM\Column(type="string")
      */
-    use NameableTrait;
+    protected $name;
 
     /**
      * @var string
@@ -42,6 +50,36 @@ class InstrumentType implements \JsonSerializable
      * @ORM\Column(type="string")
      */
     protected $template;
+
+    /**
+     * Get id
+     * @return string
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Get name
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Set name
+     * @param  string $name
+     * @return InstrumentType
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
 
     /**
      * Get icon

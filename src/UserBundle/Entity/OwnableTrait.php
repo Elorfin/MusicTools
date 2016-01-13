@@ -1,6 +1,6 @@
 <?php
 
-namespace MusicianBundle\Entity;
+namespace UserBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -10,17 +10,17 @@ use Doctrine\ORM\Mapping as ORM;
 trait OwnableTrait
 {
     /**
-     * Musician owner
-     * @var \MusicTools\MusicianBundle\Entity\Musician
+     * User owner
+     * @var User
      *
-     * @ORM\ManyToOne(targetEntity="MusicTools\MusicianBundle\Entity\Musician")
+     * @ORM\ManyToOne(targetEntity="UserBundle\Entity\User")
      * @ORM\JoinColumn(name="owner_id", referencedColumnName="id")
      */
     protected $owner;
 
     /**
      * Get owner
-     * @return \MusicTools\MusicianBundle\Entity\Musician
+     * @return User
      */
     public function getOwner()
     {
@@ -29,10 +29,10 @@ trait OwnableTrait
 
     /**
      * Set owner
-     * @param  \MusicTools\MusicianBundle\Entity\Musician $owner
+     * @param  User $owner
      * @return $this
      */
-    public function setOwner(Musician $owner)
+    public function setOwner(User $owner)
     {
         $this->owner = $owner;
 

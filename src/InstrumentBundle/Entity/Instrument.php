@@ -3,11 +3,10 @@
 namespace InstrumentBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
-use MusicianBundle\Entity\OwnableTrait;
+use UserBundle\Entity\OwnableTrait;
 
 /**
- * Guitar Entity
+ * Instrument Entity
  * Used to store the common configuration of all types of instrument
  *
  * @ORM\Entity()
@@ -16,14 +15,22 @@ use MusicianBundle\Entity\OwnableTrait;
 class Instrument implements \JsonSerializable
 {
     /**
-     * Add Identifiable behavior
+     * Unique identifier of the Flute
+     * @var string
+     *
+     * @ORM\Column(type="guid")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="UUID")
      */
-    use UniqueIdentifiableTrait;
+    private $id;
 
     /**
-     * Add nameable behavior
+     * Name of the Instrument
+     * @var string
+     *
+     * @ORM\Column(type="string")
      */
-    use NameableTrait;
+    protected $name;
 
     /**
      * Add Ownable behavior
@@ -36,7 +43,6 @@ class Instrument implements \JsonSerializable
      *
      * @ORM\ManyToOne(targetEntity="InstrumentBundle\Entity\InstrumentType")
      * @ORM\JoinColumn(name="type_id", referencedColumnName="id", nullable=false)
-     * @Assert\NotBlank()
      */
     protected $type;
 
@@ -63,6 +69,36 @@ class Instrument implements \JsonSerializable
      * @ORM\Column(type="string", nullable=true)
      */
     protected $model;
+
+    /**
+     * Get id
+     * @return string
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Get name
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Set name
+     * @param  string $name
+     * @return Instrument
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
 
     /**
      * Get type of the Instrument

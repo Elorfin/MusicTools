@@ -4,7 +4,7 @@ namespace LessonBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
-use MusicianBundle\Entity\OwnableTrait;
+use UserBundle\Entity\OwnableTrait;
 
 /**
  * Lesson Entity
@@ -15,19 +15,30 @@ use MusicianBundle\Entity\OwnableTrait;
 class Lesson
 {
     /**
-     * Add Identifiable behavior
+     * Unique identifier of the Lesson
+     * @var string
+     *
+     * @ORM\Column(type="guid")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="UUID")
      */
-    use UniqueIdentifiableTrait;
+    private $id;
 
     /**
-     * Add Nameable behavior
+     * Name of the Lesson
+     * @var string
+     *
+     * @ORM\Column(type="string")
      */
-    use NameableTrait;
+    protected $name;
 
     /**
-     * Add Describable behavior
+     * Description of the Lesson
+     * @var string
+     *
+     * @ORM\Column(type="text")
      */
-    use DescribableTrait;
+    protected $description;
 
     /**
      * Add Ownable behavior
@@ -46,6 +57,57 @@ class Lesson
     public function __construct()
     {
         $this->sections = new ArrayCollection();
+    }
+
+    /**
+     * Get id
+     * @return string
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Get name
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Set name
+     * @param  string $name
+     * @return Lesson
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get description
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * Set description
+     * @param  string $description
+     * @return Lesson
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
     }
 
     /**

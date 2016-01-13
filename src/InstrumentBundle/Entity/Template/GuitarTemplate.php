@@ -14,12 +14,26 @@ use InstrumentBundle\Entity\Instrument\GuitarTrait;
 class GuitarTemplate extends AbstractTemplate
 {
     /**
-     * Add Identifiable behavior
+     * Unique identifier of the Game
+     * @var string
+     *
+     * @ORM\Column(type="guid")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="UUID")
      */
-    use UniqueIdentifiableTrait;
+    private $id;
 
     /**
      * Add Guitar behavior
      */
     use GuitarTrait;
+
+    /**
+     * Get id
+     * @return string
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
 }

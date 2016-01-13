@@ -12,9 +12,12 @@ use InstrumentBundle\Entity\InstrumentType;
 abstract class AbstractTemplate
 {
     /**
-     * Add nameable behavior
+     * Name of the Template
+     * @var string
+     *
+     * @ORM\Column(type="string")
      */
-    use NameableTrait;
+    protected $name;
 
     /**
      * @var InstrumentType
@@ -23,6 +26,27 @@ abstract class AbstractTemplate
      * @ORM\JoinColumn(name="type_id", referencedColumnName="id", nullable=false)
      */
     protected $type;
+
+    /**
+     * Get name
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Set name
+     * @param  string $name
+     * @return AbstractTemplate
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
 
     /**+
      * Get type of the Instrument

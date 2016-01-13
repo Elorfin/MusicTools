@@ -3,8 +3,6 @@
 namespace TheoryBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Elorfin\ReactorBundle\Entity\UniqueIdentifiableTrait;
-use Elorfin\ReactorBundle\Entity\NameableTrait;
 
 /**
  * Scale Entity
@@ -15,14 +13,52 @@ use Elorfin\ReactorBundle\Entity\NameableTrait;
 class Scale implements \JsonSerializable
 {
     /**
-     * Add Identifiable behavior
+     * Unique identifier of the Scale
+     * @var string
+     *
+     * @ORM\Column(type="guid")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="UUID")
      */
-    use UniqueIdentifiableTrait;
+    private $id;
 
     /**
-     * Add Nameable behavior
+     * Name of the Scale
+     * @var string
+     *
+     * @ORM\Column(type="string")
      */
-    use NameableTrait;
+    protected $name;
+
+    /**
+     * Get id
+     * @return string
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Get name
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Set name
+     * @param  string $name
+     * @return Scale
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
 
     public function jsonSerialize()
     {

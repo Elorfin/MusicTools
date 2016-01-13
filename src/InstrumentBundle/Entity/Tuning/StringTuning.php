@@ -14,9 +14,14 @@ use TheoryBundle\Entity\Note\Note;
 class StringTuning
 {
     /**
-     * Add Identifiable behavior
+     * Unique identifier of the StringTuning
+     * @var string
+     *
+     * @ORM\Column(type="guid")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="UUID")
      */
-    use UniqueIdentifiableTrait;
+    private $id;
 
     /**
      * Number of the String
@@ -43,6 +48,15 @@ class StringTuning
      * @ORM\JoinColumn(name="note_id", referencedColumnName="id")
      */
     protected $note;
+
+    /**
+     * Get id
+     * @return string
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
 
     /**
      * Get number

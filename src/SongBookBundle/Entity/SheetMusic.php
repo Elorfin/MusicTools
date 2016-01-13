@@ -14,9 +14,14 @@ use Elorfin\ResourceBundle\Entity\File;
 class SheetMusic extends File
 {
     /**
-     * Add Identifiable behavior
+     * Unique identifier of the SheetMusic
+     * @var string
+     *
+     * @ORM\Column(type="guid")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="UUID")
      */
-    use UniqueIdentifiableTrait;
+    private $id;
 
     /**
      * Linked Song
@@ -26,6 +31,15 @@ class SheetMusic extends File
      * @ORM\JoinColumn(name="song_id", referencedColumnName="id", onDelete="CASCADE")
      */
     protected $song;
+
+    /**
+     * Get id
+     * @return string
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
 
     /**
      * Get song

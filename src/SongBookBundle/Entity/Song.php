@@ -2,37 +2,42 @@
 
 namespace SongBookBundle\Entity;
 
-use Doctrine\ORM\Mapping                    as ORM;
-use Gedmo\Mapping\Annotation                as Gedmo;
-use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\ORM\Mapping as ORM;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Elorfin\ResourceBundle\Entity\Image;
-use MusicianBundle\Entity\OwnableTrait;
+use UserBundle\Entity\OwnableTrait;
 
 /**
  * Song
  *
  * @ORM\Table(name="song")
  * @ORM\Entity()
- * @Gedmo\Loggable
  */
 class Song implements \JsonSerializable
 {
     /**
-     * Add Identifiable behavior
+     * Unique identifier of the UserFriendship
+     * @var string
+     *
+     * @ORM\Column(type="guid")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="UUID")
      */
-    use UniqueIdentifiableTrait;
+    private $id;
+
+    /**
+     * Name of the Song
+     * @var string
+     *
+     * @ORM\Column(type="string")
+     */
+    protected $name;
 
     /**
      * Add Ownable behavior
      */
     use OwnableTrait;
-
-    /**
-     * Add Nameable behavior
-     */
-    use NameableTrait;
 
     /**
      * Artist of the Song
@@ -47,8 +52,6 @@ class Song implements \JsonSerializable
      * @var integer
      *
      * @ORM\Column(name="rating", type="integer", nullable=true)
-     * @Assert\Type(type="numeric")
-     * @Assert\Range(min = 0, max = 10)
      */
     protected $rating = 0;
 
@@ -57,8 +60,6 @@ class Song implements \JsonSerializable
      * @var integer
      *
      * @ORM\Column(name="mastery", type="integer", nullable=true)
-     * @Assert\Type(type="numeric")
-     * @Assert\Range(min = 0, max = 10)
      */
     protected $mastery = 0;
 
@@ -78,6 +79,36 @@ class Song implements \JsonSerializable
      * @ORM\JoinColumn(name="cover_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
      */
     protected $cover;
+
+    /**
+     * Get id
+     * @return string
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Get name
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Set name
+     * @param  string $name
+     * @return Song
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
 
     /**
      * Set artist

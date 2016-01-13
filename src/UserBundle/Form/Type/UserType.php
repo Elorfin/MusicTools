@@ -1,13 +1,13 @@
 <?php
 
-namespace MusicianBundle\Form\Type;
+namespace UserBundle\Form\Type;
 
 use Elorfin\ResourceBundle\Form\Type\ImageType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class MusicianType extends AbstractType
+class UserType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -41,7 +41,7 @@ class MusicianType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'MusicianBundle\Entity\Musician'
+            'data_class' => 'UserBundle\Entity\User'
         ));
     }
 
@@ -50,6 +50,6 @@ class MusicianType extends AbstractType
      */
     public function getName()
     {
-        return 'musician';
+        return 'user';
     }
 }

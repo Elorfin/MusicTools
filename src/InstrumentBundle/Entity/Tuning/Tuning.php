@@ -8,6 +8,7 @@ use Elorfin\ReactorBundle\Entity\UniqueIdentifiableTrait;
 
 /**
  * Tuning Entity
+ * Stores Tuning for a tunable Instrument
  *
  * @ORM\Entity()
  * @ORM\Table(name="instrument_tuning")
@@ -15,9 +16,14 @@ use Elorfin\ReactorBundle\Entity\UniqueIdentifiableTrait;
 class Tuning
 {
     /**
-     * Add Identifiable behavior
+     * Unique identifier of the Flute
+     * @var string
+     *
+     * @ORM\Column(type="guid")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="UUID")
      */
-    use UniqueIdentifiableTrait;
+    private $id;
 
     /**
      * Name of the Tuning
@@ -59,6 +65,15 @@ class Tuning
     public function __construct()
     {
         $this->strings = new ArrayCollection();
+    }
+
+    /**
+     * Get id
+     * @return string
+     */
+    public function getId()
+    {
+        return $this->id;
     }
 
     /**

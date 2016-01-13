@@ -17,8 +17,11 @@ class AppKernel extends Kernel
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
 
             # Application bundles
+            new Elorfin\JsonApiBundle\ElorfinJsonApiBundle(),
+            new Elorfin\ResourceBundle\ElorfinResourceBundle(),
+
             new TheoryBundle\TheoryBundle(),
-            new MusicianBundle\MusicianBundle(),
+            new UserBundle\UserBundle(),
             new InstrumentBundle\InstrumentBundle(),
             new SongBookBundle\SongBookBundle(),
             new BadgeBundle\BadgeBundle(),
@@ -28,7 +31,7 @@ class AppKernel extends Kernel
             new LessonBundle\LessonBundle(),
         ];
 
-        if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {
+        if (in_array($this->getEnvironment(), ['dev'], true)) {
             $bundles[] = new Symfony\Bundle\DebugBundle\DebugBundle();
             $bundles[] = new Symfony\Bundle\WebProfilerBundle\WebProfilerBundle();
             $bundles[] = new Sensio\Bundle\DistributionBundle\SensioDistributionBundle();

@@ -1,7 +1,0 @@
-services:
-    musician.listener.user:
-        class: MusicianBundle\EventListener\UserListener
-        calls:
-            - [setContainer, ["@service_container"]]
-        tags:
-            - { name: kernel.event_listener, event: fos_user.registration.completed, method: onRegistrationConfirmed }

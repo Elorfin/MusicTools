@@ -24,14 +24,20 @@ class Forum
     private $id;
 
     /**
-     * Add Nameable behavior
+     * Name of the Forum
+     * @var string
+     *
+     * @ORM\Column(type="string")
      */
-    use NameableTrait;
+    protected $name;
 
     /**
-     * Add Describable behavior
+     * Description of the Forum
+     * @var string
+     *
+     * @ORM\Column(type="text")
      */
-    use DescribableTrait;
+    protected $description;
 
     /**
      * Threads of the Forum
@@ -54,6 +60,48 @@ class Forum
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Get name
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Set name
+     * @param  string $name
+     * @return Forum
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get description
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * Set description
+     * @param  string $description
+     * @return Forum
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
     }
 
     /**

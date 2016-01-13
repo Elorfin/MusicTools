@@ -15,9 +15,14 @@ use Elorfin\ReactorBundle\Entity\UniqueIdentifiableTrait;
 class TuningCategory
 {
     /**
-     * Add Identifiable behavior
+     * Unique identifier of the Flute
+     * @var string
+     *
+     * @ORM\Column(type="guid")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="UUID")
      */
-    use UniqueIdentifiableTrait;
+    private $id;
 
     /**
      * Name of the Tuning
@@ -41,6 +46,15 @@ class TuningCategory
     public function __construct()
     {
         $this->tunings = new ArrayCollection();
+    }
+
+    /**
+     * Get id
+     * @return string
+     */
+    public function getId()
+    {
+        return $this->id;
     }
 
     /**

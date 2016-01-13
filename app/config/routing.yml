@@ -1,3 +1,8 @@
+# Routes for User
+user:
+    resource: "@UserBundle/Controller/"
+    type:     annotation
+
 # Routes for Instrument
 instrument:
     resource: "@InstrumentBundle/Controller/"
@@ -21,11 +26,6 @@ lesson:
 # Routes for Game
 game:
     resource: "@GameBundle/Controller/"
-    type:     annotation
-
-# Routes for Musician
-musician:
-    resource: "@MusicianBundle/Controller/"
     type:     annotation
 
 # Routes for Forum

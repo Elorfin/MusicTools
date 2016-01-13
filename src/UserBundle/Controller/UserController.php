@@ -1,34 +1,35 @@
 <?php
 
-namespace MusicianBundle\Controller;
+namespace UserBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use MusicianBundle\Entity\Musician;
-use MusicianBundle\Form\Type\MusicianType;
+use UserBundle\Entity\User;
+use UserBundle\Form\Type\UserType;
 
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 /**
  * Profile controller.
  *
- * @Route("/musician")
+ * @Route("/users")
  */
-class ProfileController extends AbstractMusicianController
+class UserController extends Controller
 {
     /**
      * Lists all Musician entities.
      *
-     * @Route("/", name="musician")
+     * @Route("/", name="user")
      * @Method("GET")
-     * @Template()
      */
     public function indexAction()
     {
         // Get current User logged in session
         $user = $this->container->get('security.token_storage')->getToken()->getUser();
 
-        $entities = $this->container->get('doctrine.orm.entity_manager')->getRepository('MusicianBundle:Musician')->findAllExceptMe($user);
+        $entities = $this->container->get('doctrine.orm.entity_manager')->getRepository('UserBundle:User')->findAllExceptMe($user);
 
         return array (
             'entities' => $entities,
@@ -38,9 +39,8 @@ class ProfileController extends AbstractMusicianController
     /**
      * Finds and displays a Musician entity.
      *
-     * @Route("/{username}", name="musician_show")
+     * @Route("/{username}", name="user_show")
      * @Method("GET")
-     * @Template()
      */
     public function showAction(User $user)
     {
@@ -54,7 +54,7 @@ class ProfileController extends AbstractMusicianController
             $isCurrentMusician = true;
         }
 
-        $repo = $this->container->get('doctrine.orm.entity_manager')->getRepository('MusicianBundle:Musician');
+        $repo = $this->container->get('doctrine.orm.entity_manager')->getRepository('UserBundle:User');
 
         return array (
             'entity'    => $entity,
@@ -68,63 +68,21 @@ class ProfileController extends AbstractMusicianController
     }
 
     /**
-     * Displays a form to edit an existing Musician entity.
-     *
-     * @Route("/{username}/edit", name="musician_edit")
-     * @Method("GET")
-     * @Template()
-     */
-    public function editAction(User $user)
-    {
-        // Get Musician entity from the User object
-        $entity = $this->getMusicianFromUser($user);
-
-        // Create edit form
-        $editForm = $this->createEditForm($entity);
-
-        return array(
-            'entity'    => $entity,
-            'edit_form' => $editForm->createView(),
-        );
-    }
-
-    /**
-     * Creates a form to edit a User entity.
-     *
-     * @param Musician $entity The entity
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createEditForm(Musician $entity)
-    {
-        $form = $this->createForm(new MusicianType(), $entity, array(
-            'action' => $this->generateUrl('musician_update', array('username' => $entity->getUsername())),
-            'method' => 'PUT',
-        ));
-
-        return $form;
-    }
-
-    /**
      * Edits an existing Musician entity.
      *
-     * @Route("/{username}", name="musician_update")
+     * @Route("/{username}", name="user_update")
      * @Method("PUT")
-     * @Template("GuitarBundle:Guitar:edit.html.twig")
      */
     public function updateAction(Request $request, User $user)
     {
-        // Retrieve musician
-        $entity = $this->getMusicianFromUser($user);
-
-        $editForm = $this->createEditForm($entity);
+        $editForm = $this->createEditForm($user);
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->flush();
 
-            return $this->redirect($this->generateUrl('musician_edit', array('username' => $entity->getUsername())));
+            return $this->redirect($this->generateUrl('user_edit', array('username' => $entity->getUsername())));
         }
 
         return array(

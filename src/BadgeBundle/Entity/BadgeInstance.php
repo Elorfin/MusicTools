@@ -4,7 +4,7 @@ namespace BadgeBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-use MusicianBundle\Entity\OwnableTrait;
+use UserBundle\Entity\OwnableTrait;
 
 /**
  * BadgeInstance

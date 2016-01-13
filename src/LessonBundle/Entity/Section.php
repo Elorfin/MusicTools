@@ -14,19 +14,30 @@ use Doctrine\ORM\Mapping as ORM;
 class Section
 {
     /**
-     * Add Identifiable behavior
+     * Unique identifier of the Section
+     * @var string
+     *
+     * @ORM\Column(type="guid")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="UUID")
      */
-    use UniqueIdentifiableTrait;
+    private $id;
 
     /**
-     * Add Nameable behavior
+     * Name of the Section
+     * @var string
+     *
+     * @ORM\Column(type="string")
      */
-    use NameableTrait;
+    protected $name;
 
     /**
-     * Add Describable behavior
+     * Description of the Section
+     * @var string
+     *
+     * @ORM\Column(type="text")
      */
-    use DescribableTrait;
+    protected $description;
 
     /**
      * Lesson
@@ -52,6 +63,57 @@ class Section
     public function __construct()
     {
         $this->children = new ArrayCollection();
+    }
+
+    /**
+     * Get id
+     * @return string
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Get name
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Set name
+     * @param  string $name
+     * @return Lesson
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get description
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * Set description
+     * @param  string $description
+     * @return Section
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
     }
 
     /**

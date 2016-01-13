@@ -5,6 +5,7 @@ namespace LessonBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use LessonBundle\Entity\Lesson;
 
 /**
  * Lesson controller.
@@ -27,5 +28,10 @@ class LessonController extends Controller
         return array (
             'entities' => $entities,
         );
+    }
+
+    public function showAction(Lesson $lesson)
+    {
+
     }
 }

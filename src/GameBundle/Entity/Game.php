@@ -13,14 +13,81 @@ use Doctrine\ORM\Mapping as ORM;
 class Game implements \JsonSerializable
 {
     /**
-     * Add identifiable behavior
+     * Unique identifier of the Game
+     * @var string
+     *
+     * @ORM\Column(type="guid")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="UUID")
      */
-    use UniqueIdentifiableTrait;
+    private $id;
 
     /**
-     * Add nameable behavior
+     * Name of the Game
+     * @var string
+     *
+     * @ORM\Column(type="string")
      */
-    use NameableTrait;
+    protected $name;
+
+    /**
+     * Description of the Game
+     * @var string
+     *
+     * @ORM\Column(type="text")
+     */
+    protected $description;
+
+    /**
+     * Get id
+     * @return string
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Get name
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Set name
+     * @param  string $name
+     * @return Game
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get description
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * Set description
+     * @param  string $description
+     * @return Game
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
 
     public function jsonSerialize()
     {
@@ -28,7 +95,8 @@ class Game implements \JsonSerializable
             'type' => 'games',
             'id'   => $this->id,
             'attributes' => array(
-                'name' => $this->name,
+                'name'        => $this->name,
+                'description' => $this->description,
             )
         );
     }

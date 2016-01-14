@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "b15189ebd42d343d6bf0a8ce32f2a1a9",
-    "content-hash": "a5d3dfc1cb80bc1e531dbfd1a8101ed5",
+    "hash": "d42b0ae1f0cf747637633a730c4366a3",
+    "content-hash": "d95006ea9de2cacf8ada9825a2a9a8aa",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -887,7 +887,7 @@
         },
         {
             "name": "elorfin/json-api-bundle",
-            "version": "dev-master",
+            "version": "v0.0.1",
             "target-dir": "Elorfin/JsonApiBundle",
             "source": {
                 "type": "git",
@@ -930,17 +930,17 @@
         },
         {
             "name": "elorfin/resource-bundle",
-            "version": "dev-master",
+            "version": "v1.1.0",
             "target-dir": "Elorfin/ResourceBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Elorfin/ResourceBundle.git",
-                "reference": "14833ceac20786712ff3bb97091d9c492cf2bf75"
+                "reference": "8702185e8d61e436e3269301d49c0b4bc8c2efb6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Elorfin/ResourceBundle/zipball/14833ceac20786712ff3bb97091d9c492cf2bf75",
-                "reference": "14833ceac20786712ff3bb97091d9c492cf2bf75",
+                "url": "https://api.github.com/repos/Elorfin/ResourceBundle/zipball/8702185e8d61e436e3269301d49c0b4bc8c2efb6",
+                "reference": "8702185e8d61e436e3269301d49c0b4bc8c2efb6",
                 "shasum": ""
             },
             "require": {
@@ -969,7 +969,7 @@
                 "library",
                 "symfony"
             ],
-            "time": "2016-01-13 12:55:06"
+            "time": "2016-01-14 08:43:11"
         },
         {
             "name": "incenteev/composer-parameter-handler",
@@ -2083,10 +2083,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "elorfin/json-api-bundle": 20,
-        "elorfin/resource-bundle": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

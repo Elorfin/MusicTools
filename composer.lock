@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "8ea35249301cfa28d5389682edd75a7d",
+    "hash": "b15189ebd42d343d6bf0a8ce32f2a1a9",
     "content-hash": "a5d3dfc1cb80bc1e531dbfd1a8101ed5",
     "packages": [
         {
@@ -892,12 +892,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Elorfin/JsonApiBundle.git",
-                "reference": "e3aa3f223d6e9599778c5f654df337b0e33ef4fc"
+                "reference": "f2be322e2b391179a8fb468752ca52763c8a75e8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Elorfin/JsonApiBundle/zipball/e3aa3f223d6e9599778c5f654df337b0e33ef4fc",
-                "reference": "e3aa3f223d6e9599778c5f654df337b0e33ef4fc",
+                "url": "https://api.github.com/repos/Elorfin/JsonApiBundle/zipball/f2be322e2b391179a8fb468752ca52763c8a75e8",
+                "reference": "f2be322e2b391179a8fb468752ca52763c8a75e8",
                 "shasum": ""
             },
             "require": {
@@ -926,7 +926,7 @@
                 "json",
                 "symfony"
             ],
-            "time": "2016-01-12 10:08:49"
+            "time": "2016-01-13 19:12:08"
         },
         {
             "name": "elorfin/resource-bundle",

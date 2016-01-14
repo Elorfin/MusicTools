@@ -2,8 +2,6 @@
 
 namespace InstrumentBundle\Entity\Instrument;
 
-use Doctrine\ORM\Mapping as ORM;
-
 /**
  * Guitar
  */

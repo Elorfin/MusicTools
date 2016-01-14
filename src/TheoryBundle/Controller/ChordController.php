@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Elorfin\JsonApiBundle\Response\JsonApiResponse;
+use TheoryBundle\Entity\Chord;
 
 /**
  * Chord CRUD Controller
@@ -31,37 +32,15 @@ class ChordController extends Controller
     }
 
     /**
-     * Display a Chord entity
-     * @param $id
-     * @return array
+     * Get a Chord entity
+     * @param  Chord $chord
+     * @return JsonApiResponse
      *
      * @Route("/{id}")
      * @Method("GET")
      */
-    public function getAction($id)
+    public function getAction(Chord $chord)
     {
-        $entity = $this->getEntity($id);
-
-        return new JsonApiResponse($entity);
-    }
-
-    /**
-     * Retrieve a Chord entity
-     *
-     * @param  integer $id
-     * @return Chord
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
-     */
-    private function getEntity($id)
-    {
-        $entity = $this->container->get('doctrine.orm.entity_manager')->getRepository('TheoryBundle:Chord')->findOneBy( array (
-            'id' => $id,
-        ));
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Chord entity.');
-        }
-
-        return $entity;
+        return new JsonApiResponse($chord);
     }
 }

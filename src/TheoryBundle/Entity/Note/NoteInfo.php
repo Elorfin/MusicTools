@@ -3,7 +3,6 @@
 namespace TheoryBundle\Entity\Note;
 
 use Doctrine\ORM\Mapping as ORM;
-use Elorfin\ReactorBundle\Entity\UniqueIdentifiableTrait;
 
 /**
  * Note Info Entity

@@ -44,7 +44,7 @@ class SongController extends Controller
      * @Route("/{id}")
      * @Method("GET")
      */
-    public function getAction(Song $song = null)
+    public function getAction(Song $song)
     {
         return new JsonApiResponse($song);
     }
@@ -68,7 +68,7 @@ class SongController extends Controller
         if ($form->isValid()) {
             // Save entity
             $this->container->get('doctrine.orm.entity_manager')->persist($song);
-            /*$this->container->get('doctrine.orm.entity_manager')->flush();*/
+            $this->container->get('doctrine.orm.entity_manager')->flush();
 
             return new JsonApiResponse($song, 201);
         }
@@ -99,14 +99,14 @@ class SongController extends Controller
         if ($form->isValid()) {
             // Save entity
             $this->container->get('doctrine.orm.entity_manager')->persist($song);
-            /*$this->container->get('doctrine.orm.entity_manager')->flush();*/
+            $this->container->get('doctrine.orm.entity_manager')->flush();
 
             return $song;
         }
 
         $errors = $this->getFormErrors($form);
 
-        return  new JsonErrorResponse($errors, 422);
+        return new JsonErrorResponse($errors, 422);
     }
 
     /**

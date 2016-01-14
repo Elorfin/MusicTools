@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Elorfin\JsonApiBundle\Response\JsonApiResponse;
+use TheoryBundle\Entity\Scale;
 
 /**
  * Scale CRUD Controller
@@ -31,37 +32,15 @@ class ScaleController extends Controller
     }
 
     /**
-     * Display a Scale entity
-     * @param $id
+     * Get a Scale entity
+     * @param Scale $scale
      * @return array
      *
      * @Route("/{id}")
      * @Method("GET")
      */
-    public function getAction($id)
+    public function getAction(Scale $scale)
     {
-        $entity = $this->getEntity($id);
-
-        return $entity;
-    }
-
-    /**
-     * Retrieve a Scale entity
-     *
-     * @param  integer $id
-     * @return Scale
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
-     */
-    private function getEntity($id)
-    {
-        $entity = $this->container->get('doctrine.orm.entity_manager')->getRepository('TheoryBundle:Scale')->findOneBy( array (
-            'id' => $id,
-        ));
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Scale entity.');
-        }
-
-        return $entity;
+        return new JsonApiResponse($scale);
     }
 }

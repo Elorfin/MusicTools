@@ -3,7 +3,6 @@
 namespace UserBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
-use MusicianBundle\Entity\Musician;
 use UserBundle\Entity\User;
 use UserBundle\Form\Type\UserType;
 
@@ -44,9 +43,6 @@ class UserController extends Controller
      */
     public function showAction(User $user)
     {
-        // Get Musician entity from the User object
-        $entity = $this->getMusicianFromUser($user);
-
         // Check if the showed Musician is the current logged User (to display edit links or not)
         $isCurrentMusician = false;
         $currentUser = $this->container->get('security.token_storage')->getToken()->getUser();
@@ -57,12 +53,12 @@ class UserController extends Controller
         $repo = $this->container->get('doctrine.orm.entity_manager')->getRepository('UserBundle:User');
 
         return array (
-            'entity'    => $entity,
+            'entity'    => $user,
             'isCurrent' => $isCurrentMusician,
             'counts' => array (
-                'songs'   => $repo->countSongs($entity),
+                'songs'   => $repo->countSongs($user),
                 'guitars' => 0,
-                'friends' => $repo->countFriends($entity),
+                'friends' => $repo->countFriends($user),
             ),
         );
     }
@@ -75,19 +71,19 @@ class UserController extends Controller
      */
     public function updateAction(Request $request, User $user)
     {
-        $editForm = $this->createEditForm($user);
-        $editForm->handleRequest($request);
+        // Initialize form
+        $form = $this->container->get('form.factory')->create(new UserType(), $user);
 
-        if ($editForm->isValid()) {
+        // Process sent data
+        $form->handleRequest($request);
+        if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->flush();
-
-            return $this->redirect($this->generateUrl('user_edit', array('username' => $entity->getUsername())));
         }
 
         return array(
-            'entity'    => $entity,
-            'edit_form' => $editForm->createView(),
+            'entity'    => $user,
+            'edit_form' => $form->createView(),
         );
     }
 }

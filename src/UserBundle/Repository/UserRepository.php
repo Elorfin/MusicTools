@@ -3,7 +3,6 @@
 namespace UserBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
-use UserBundle\Entity\User;
 use UserBundle\Entity\UserFriendship;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -14,7 +13,7 @@ class UserRepository extends EntityRepository
 {
     /**
      * Find all Musician except the specified one (used to list Users without display the current User in it)
-     * @param $user
+     * @param  UserInterface $user
      * @return array
      */
     public function findAllExceptMe(UserInterface $user)
@@ -29,10 +28,10 @@ class UserRepository extends EntityRepository
 
     /**
      * Count number of songs the Musician owns
-     * @param  User $user
+     * @param  UserInterface $user
      * @return integer
      */
-    public function countSongs(User $user)
+    public function countSongs(UserInterface $user)
     {
         return $this->getEntityManager()
             ->createQuery('SELECT COUNT(s) FROM SongBookBundle:Song s WHERE s.owner = :user')
@@ -43,10 +42,10 @@ class UserRepository extends EntityRepository
 
     /**
      * Count number of guitars the User owns
-     * @param  User $user
+     * @param  UserInterface $user
      * @return integer
      */
-    public function countGuitars(User $user)
+    public function countGuitars(UserInterface $user)
     {
         return $this->getEntityManager()
             ->createQuery('SELECT COUNT(g) FROM InstrumentBundle:Guitar g WHERE g.owner = :user')
@@ -57,10 +56,10 @@ class UserRepository extends EntityRepository
 
     /**
      * Count number of friends the User have
-     * @param  User $user
+     * @param  UserInterface $user
      * @return integer
      */
-    public function countFriends(User $user)
+    public function countFriends(UserInterface $user)
     {
         return $this->getEntityManager()
             ->createQuery('

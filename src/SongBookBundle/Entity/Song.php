@@ -35,11 +35,6 @@ class Song implements \JsonSerializable
     protected $name;
 
     /**
-     * Add Ownable behavior
-     */
-    use OwnableTrait;
-
-    /**
      * Artist of the Song
      * @var string
      *
@@ -79,6 +74,27 @@ class Song implements \JsonSerializable
      * @ORM\JoinColumn(name="cover_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
      */
     protected $cover;
+
+    /**
+     * Scores of the Song
+     * @var \Doctrine\Common\Collections\ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="SongBookBundle\Entity\SheetMusic", mappedBy="song")
+     */
+    protected $scores;
+
+    /**
+     * Entity constructor
+     */
+    public function __construct()
+    {
+        $this->scores = new ArrayCollection();
+    }
+
+    /**
+     * Add Ownable behavior
+     */
+    use OwnableTrait;
 
     /**
      * Get id

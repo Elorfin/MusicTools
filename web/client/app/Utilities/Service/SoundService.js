@@ -3,7 +3,7 @@
  * @returns {ApiService}
  * @constructor
  */
-var SoundService = function SoundServiceConstructor() {
+var SoundService = function SoundService() {
 
 };
 

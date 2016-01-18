@@ -2,7 +2,7 @@
  * HTTP Error Service
  * @constructor
  */
-var HttpErrorService = function HttpErrorServiceConstructor($q, $location) {
+var HttpErrorService = function HttpErrorService($q, $location) {
     return {
         response: function(responseData) {
             return responseData;

@@ -27,7 +27,7 @@
     <div class="row">
         <!-- List items -->
         <div data-ng-repeat="resource in songListCtrl.resources|orderBy:songListCtrl.sortBy:songListCtrl.sortReverse"
-             data-ng-include="'../app/SongBook/Partial/List/item-' + songListCtrl.format + '.html'"
+             data-ng-include="'../app/SongBook/Partial/Song/List/item-' + songListCtrl.format + '.html'"
              data-ng-class="{ 'col-md-12': 'tile' !== songListCtrl.format, 'col-xs-12 col-sm-4 col-md-3 col-lg-2': 'tile' === songListCtrl.format }"
         ></div>
     </div>

@@ -42,6 +42,9 @@ class Section
     /**
      * Lesson
      * @var Lesson
+     *
+     * @ORM\ManyToOne(targetEntity="LessonBundle\Entity\Lesson", inversedBy="sections", cascade={"all"})
+     * @ORM\JoinColumn(name="lesson_id", referencedColumnName="id")
      */
     protected $lesson;
 

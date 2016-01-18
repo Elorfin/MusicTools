@@ -1,0 +1,39 @@
+<layout-page class="page-list lesson-list">
+    <!-- Header buttons -->
+    <ui-header-buttons>
+        <!-- New Lesson button -->
+        <ui-header-button class="nav-link-default">
+            <a href="#/lessons/new">
+                <span class="fa fa-fw fa-plus"></span>
+                {{ 'new_lesson'|translate }}
+            </a>
+        </ui-header-button>
+
+        <li class="divider"></li>
+
+        <!-- List format button -->
+        <ui-header-button class="nav-link-default">
+            <layout-list-formatter data-format="lessonListCtrl.format"></layout-list-formatter>
+        </ui-header-button>
+    </ui-header-buttons>
+
+    <!-- Title of the page -->
+    <layout-page-title id="song-list">
+        {{ 'lesson_title'|translate }}
+
+        <layout-list-sorter data-element="lesson" data-count="lessonListCtrl.resources.length" data-current="lessonListCtrl.sortBy" data-reverse="lessonListCtrl.sortReverse" data-fields="lessonListCtrl.sortFields"></layout-list-sorter>
+    </layout-page-title>
+
+    <div class="row">
+        <!-- List items -->
+        <div data-ng-repeat="resource in lessonListCtrl.resources|orderBy:lessonListCtrl.sortBy:lessonListCtrl.sortReverse"
+             data-ng-include="'../app/Lesson/Partial/Lesson/List/item-' + lessonListCtrl.format + '.html'"
+             data-ng-class="{ 'col-md-12': 'tile' !== lessonListCtrl.format, 'col-xs-12 col-sm-4 col-md-3 col-lg-2': 'tile' === lessonListCtrl.format }"
+        ></div>
+    </div>
+
+    <!-- No element message -->
+    <div class="empty-list" data-ng-if="lessonListCtrl.resources.length === 0">
+        {{ 'no_lesson_found'|translate }}
+    </div>
+</layout-page>

@@ -75,7 +75,33 @@ angular
 /**
  * Lesson Module
  */
-angular.module('Lesson', []);
+angular
+    .module('Lesson', [
+        'ui.tinymce'
+    ])
+    .value('uiTinymceConfig', {
+        statusbar: false,
+        elementpath: false,
+        menubar: false,
+        plugins: [
+            'link',
+            'image',
+            'table',
+            'code'
+        ],
+        toolbar: 'undo redo | styleselect | bold italic underline | bullist numlist table | alignleft aligncenter alignright alignjustify | indent outdent | link unlink | image | code'
+    })
+    .config([
+        '$translateProvider',
+        function lessonConfig($translateProvider) {
+            // Inject translations
+            for (var lang in lessonTranslations) {
+                if (lessonTranslations.hasOwnProperty(lang)) {
+                    $translateProvider.translations(lang, lessonTranslations[lang]);
+                }
+            }
+        }
+    ]);
 // File : app/SheetMusic/module.js
 /**
  * SHeet Music renderer
@@ -235,6 +261,140 @@ angular
         }
     ]
 );
+// File : app/Utilities/Provider/ResourceRouteProvider.js
+/**
+ * Resource Router
+ * Registers standard routes for ApiResources
+ *
+ * Information about naming rules :
+ * - Resource MUST be suffixed with `Resource`
+ * - Templates MUST be located in `MY_MODULE/Partial/MY_RESOURCE/`
+ * - Templates for `list`, `show`, `new`, `edit` MUST be respectively named : `index.html`, `show.html`, `new.html`, `edit.html`
+ *
+ * @param {Object} $routeProvider
+ * @constructor
+ */
+var ResourceRouteProvider = function ResourceRouteProvider($routeProvider) {
+    this.$routeProvider = $routeProvider;
+
+    // Just return the default $route object
+    this.$get = $routeProvider.$get;
+};
+
+/**
+ * Create default routes for Resource (`list`, `show`, `create`, `update`)
+ * @param {String}  module      - The name of the module which contains the Resource
+ * @param {String}  resource    - The name of the Resource to expose
+ * @param {String}  routePrefix - Prefix to append to all routes
+ * @param {boolean} [readOnly]  - Enable or disable read only (if true, `create` and `update` routes are omitted)
+ */
+ResourceRouteProvider.prototype.register = function register(module, resource, routePrefix, readOnly) {
+    // Append `/` in route prefix if not set
+    if (routePrefix && 0 !== routePrefix.length) {
+        if ('/' !== routePrefix.charAt(0)) {
+            routePrefix = '/' + routePrefix;
+        }
+    } else {
+        routePrefix = '';
+    }
+
+    // Get Resource class to fetch data
+    var resourceClass = resource + 'Resource';
+
+    // Build url to template location
+    var templateUrl = '../app/' + module + '/Partial/' + resource + '/';
+
+    // Register LIST route
+    var listCtrl      = resource + 'ListController';
+    var listCtrlAlias = resource.toLowerCase() + 'ListCtrl';
+    this.$routeProvider.when(routePrefix, {
+        templateUrl:  templateUrl + 'index.html',
+        controller:   listCtrl,
+        controllerAs: listCtrlAlias,
+        resolve: {
+            /**
+             * Load the list of Resources
+             */
+            resources: [
+                resourceClass,
+                function resourcesResolver(Resource) {
+                    return Resource.query();
+                }
+            ]
+        }
+    });
+
+    if (!readOnly) {
+        // The resource is not READ ONLY, so add modification and creation route
+        var formCtrl      = resource + 'FormController';
+        var formCtrlAlias = resource.toLowerCase() + 'FormCtrl';
+
+        // Register NEW route
+        this.$routeProvider.when(routePrefix + '/new', {
+            templateUrl:  templateUrl + 'form.html',
+            controller:   formCtrl,
+            controllerAs: formCtrlAlias,
+            resolve: {
+                /**
+                 * Initialize an empty object that will be fill by form
+                 */
+                resource: [
+                    function resourceResolver() {
+                        return {};
+                    }
+                ]
+            }
+        });
+
+        // Register EDIT route
+        this.$routeProvider.when(routePrefix + '/:id/edit', {
+            templateUrl:  templateUrl + 'form.html',
+            controller:   formCtrl,
+            controllerAs: formCtrlAlias,
+            resolve: {
+                /**
+                 * Load the Resource to edit
+                 */
+                resource: [
+                    '$route',
+                    resourceClass,
+                    function resourceResolver($route, Resource) {
+                        return Resource.get({ id: $route.current.params.id });
+                    }
+                ]
+            }
+        });
+    }
+
+    // Register SHOW route
+    var showCtrl      = resource + 'ShowController';
+    var showCtrlAlias = resource.toLowerCase() + 'ShowCtrl';
+    this.$routeProvider.when(routePrefix + '/:id', {
+        templateUrl:  templateUrl + 'show.html',
+        controller:   showCtrl,
+        controllerAs: showCtrlAlias,
+        resolve: {
+            /**
+             * Load the Resource to display
+             */
+            resource: [
+                '$route',
+                resourceClass,
+                function resourceResolver($route, Resource) {
+                    return Resource.get({ id: $route.current.params.id });
+                }
+            ]
+        }
+    });
+};
+
+// Set up dependency injection
+ResourceRouteProvider.$inject = [ '$routeProvider' ];
+
+// Register provider into Angular JS
+angular
+    .module('Utilities')
+    .provider('resourceRoute', ResourceRouteProvider);
 // File : app/Utilities/Resource/ApiResource.js
 /**
  * Base API Resource
@@ -245,7 +405,7 @@ angular
  * @param ApiService
  * @constructor
  */
-var ApiResource = function ApiResourceConstructor($http, $q, ApiService) {
+var ApiResource = function ApiResource($http, $q, ApiService) {
     // Store services
     this.services['$http'] = $http;
     this.services['$q']    = $q;
@@ -522,7 +682,7 @@ angular
  * @returns {ApiService}
  * @constructor
  */
-var ApiService = function ApiServiceConstructor() {
+var ApiService = function ApiService() {
 
 };
 
@@ -561,7 +721,7 @@ angular
  * HTTP Error Service
  * @constructor
  */
-var HttpErrorService = function HttpErrorServiceConstructor($q, $location) {
+var HttpErrorService = function HttpErrorService($q, $location) {
     return {
         response: function(responseData) {
             return responseData;
@@ -594,7 +754,7 @@ angular
  * @returns {ApiService}
  * @constructor
  */
-var SoundService = function SoundServiceConstructor() {
+var SoundService = function SoundService() {
 
 };
 
@@ -2668,16 +2828,193 @@ instrumentTranslations['fr'] = {
     // S
     show_instrument        : 'Voir l\'instrument'
 };
+// File : app/Lesson/Controller/LessonFormController.js
+/**
+ * Form controller for Lessons
+ * @constructor
+ */
+var LessonFormController = function LessonFormController(resource, LessonResource) {
+    FormController.apply(this, arguments);
+};
+
+// Extends FormController
+LessonFormController.prototype             = Object.create(FormController.prototype);
+LessonFormController.prototype.constructor = LessonFormController;
+
+// Set up dependency injection
+LessonFormController.$inject = [ 'resource', 'LessonResource' ];
+
+/**
+ * Name of the current view
+ * @type {string}
+ */
+LessonFormController.prototype.view = 'info';
+
+/**
+ * Switch the current view
+ * @param {string} newView
+ */
+LessonFormController.prototype.changeView = function changeView(newView) {
+    if (-1 !== [ 'info', 'section', 'summary'].indexOf(newView)) {
+        this.view = newView;
+    }
+};
+
+/**
+ * Add a new Section to the Lesson
+ */
+LessonFormController.prototype.addSection = function addSection() {
+    // Initialize new sections array if not exist
+    if (typeof this.resource.sections === 'undefined') {
+        this.resource.sections = [];
+    }
+
+    this.resource.sections.push({
+        name: 'Title of the Section'
+    });
+};
+
+// Register controller into Angular JS
+angular
+    .module('Lesson')
+    .controller('LessonFormController', LessonFormController);
+
+// File : app/Lesson/Controller/LessonListController.js
+/**
+ * List controller for Lessons
+ * @constructor
+ */
+var LessonListController = function LessonListController($uibModal, resources) {
+    ListController.apply(this, arguments);
+};
+
+// Extends ListController
+LessonListController.prototype = Object.create(ListController.prototype);
+
+// Set up dependency injection
+LessonListController.$inject = ListController.$inject;
+
+/**
+ * Default field to sort by
+ * @type {string}
+ */
+LessonListController.prototype.sortBy = 'name';
+
+/**
+ * Usable fields for sort
+ * @type {Object}
+ */
+LessonListController.prototype.sortFields = {
+    name    : 'string'
+};
+
+// Register controller into angular
+angular
+    .module('Lesson')
+    .controller('LessonListController', LessonListController);
+
+// File : app/Lesson/Resource/LessonResource.js
+/**
+ * Resource : Lesson
+ *
+ * @param $http
+ * @param $q
+ * @param ApiService
+ * @constructor
+ */
+var LessonResource = function LessonResource($http, $q, ApiService) {
+    // Call parent constructor
+    ApiResource.apply(this, arguments);
+};
+
+// Extends ApiResource
+LessonResource.prototype = Object.create(ApiResource.prototype);
+LessonResource.prototype.constructor = LessonResource;
+
+// Set up dependency injection
+LessonResource.$inject = ApiResource.$inject;
+
+/**
+ * Type of the Resource
+ * @type {string}
+ */
+LessonResource.prototype.type = 'lesson';
+
+/**
+ * Path of the API resource
+ * @type {string}
+ */
+LessonResource.prototype.path = '/lessons/{id}';
+
+// Register service into Angular JS
+angular
+    .module('Lesson')
+    .service('LessonResource', LessonResource);
+
 // File : app/Lesson/routes.js
 /**
  * Lesson routes
  */
-angular.module('Lesson').config([
-    '$routeProvider',
-    function LessonRoutes($routeProvider) {
+angular
+    .module('Lesson')
+    .config([
+        'resourceRouteProvider',
+        function LessonRoutes(resourceRouteProvider) {
+            resourceRouteProvider.register('Lesson', 'Lesson', 'lessons', false);
+        }
+    ]);
+// File : app/Lesson/translations.js
+/**
+ * Lesson translations
+ * @type {Object}
+ */
+var lessonTranslations = {};
 
-    }
-]);
+/**
+ * Language = EN
+ */
+lessonTranslations['en'] = {
+    // D
+    delete_lesson   : 'Delete lesson',
+
+    // E
+    edit_lesson     : 'Edit lesson',
+
+    // M
+    lesson_title    : 'Lessons',
+
+    // N
+    new_lesson      : 'Add a new lesson',
+    no_lesson_found : 'No lesson found.',
+
+    // S
+    lesson_song     : 'Show lesson',
+    lesson          : 'lesson{COUNT, plural, =0{} one{} other{s}}'
+};
+
+
+
+/**
+ * Language = FR
+ */
+lessonTranslations['fr'] = {
+    // D
+    delete_lesson   : 'Supprimer le cours',
+
+    // E
+    edit_lesson     : 'Modifier le cours',
+
+    // M
+    lesson_title    : 'Cours',
+
+    // N
+    new_lesson      : 'Ajouter un cours',
+    no_lesson_found : 'Aucun cours trouvé.',
+
+    // S
+    show_lesson     : 'Voir le cours',
+    lesson          : 'cours{COUNT, plural, =0{} one{} other{}}'
+};
 // File : app/SheetMusic/Controller/SheetMusicController.js
 /**
  * Controller constructor
@@ -3030,73 +3367,14 @@ angular
 /**
  * SongBook routes
  */
-angular.module('SongBook').config([
-    '$routeProvider',
-    function SongBookRoutes($routeProvider) {
-        $routeProvider
-            // List
-            .when('/songs', {
-                templateUrl:  '../app/SongBook/Partial/index.html',
-                controller:   'SongListController',
-                controllerAs: 'songListCtrl',
-                resolve: {
-                    resources: [
-                        '$route',
-                        'SongResource',
-                        function resourcesResolver($route, SongResource) {
-                            return SongResource.query();
-                        }
-                    ]
-                }
-            })
-
-            // New form
-            .when('/songs/new', {
-                templateUrl:  '../app/SongBook/Partial/form.html',
-                controller:   'SongFormController',
-                controllerAs: 'songFormCtrl',
-                resolve: {
-                    resource: [
-                        function resourceResolver() {
-                            return {};
-                        }
-                    ]
-                }
-            })
-
-            // Show
-            .when('/songs/:id', {
-                templateUrl:  '../app/SongBook/Partial/show.html',
-                controller:   'SongShowController',
-                controllerAs: 'songShowCtrl',
-                resolve: {
-                    resource: [
-                        '$route',
-                        'SongResource',
-                        function resourceResolver($route, SongResource) {
-                            return SongResource.get({ id: $route.current.params.id });
-                        }
-                    ]
-                }
-            })
-
-            // Edit form
-            .when('/songs/:id/edit', {
-                templateUrl:  '../app/SongBook/Partial/form.html',
-                controller:   'SongFormController',
-                controllerAs: 'songFormCtrl',
-                resolve: {
-                    resource: [
-                        '$route',
-                        'SongResource',
-                        function resourceResolver($route, SongResource) {
-                            return SongResource.get({ id: $route.current.params.id });
-                        }
-                    ]
-                }
-            });
-    }
-]);
+angular
+    .module('SongBook')
+    .config([
+        'resourceRouteProvider',
+        function SongBookRoutes(resourceRouteProvider) {
+            resourceRouteProvider.register('SongBook', 'Song', 'songs');
+        }
+    ]);
 // File : app/SongBook/translations.js
 /**
  * SongBook translations
@@ -3937,109 +4215,18 @@ angular
     .module('Theory')
     .config([
         '$routeProvider',
-        function TheoryRoutes($routeProvider) {
-            $routeProvider
-                // Theory summary
-                .when('/theory', {
-                    templateUrl:  '../app/Theory/Partial/summary.html'
-                })
+        'resourceRouteProvider',
+        function TheoryRoutes($routeProvider, resourceRouteProvider) {
+            // Theory summary
+            $routeProvider.when('/theory', {
+                templateUrl:  '../app/Theory/Partial/summary.html'
+            });
 
-                // List of Intervals
-                .when('/theory/intervals', {
-                    templateUrl:  '../app/Theory/Partial/Interval/index.html',
-                    controller:   'IntervalListController',
-                    controllerAs: 'intervalListCtrl',
-                    resolve: {
-                        resources: [
-                            'IntervalResource',
-                            function resourcesResolver(IntervalResource) {
-                                return IntervalResource.query();
-                            }
-                        ]
-                    }
-                })
-
-                // List of Notes
-                .when('/theory/notes', {
-                    templateUrl:  '../app/Theory/Partial/Note/index.html',
-                    controller:   'NoteListController',
-                    controllerAs: 'noteListCtrl',
-                    resolve: {
-                        resources: [
-                            'NoteResource',
-                            function resourcesResolver(NoteResource) {
-                                return NoteResource.query();
-                            }
-                        ]
-                    }
-                })
-
-                // List of Degrees
-                .when('/theory/degrees', {
-                    templateUrl:  '../app/Theory/Partial/Degree/index.html',
-                    controller:   'DegreeListController',
-                    controllerAs: 'degreeListCtrl',
-                    resolve: {
-                        resources: [
-                            'DegreeResource',
-                            function resourcesResolver(DegreeResource) {
-                                return DegreeResource.query();
-                            }
-                        ]
-                    }
-                })
-
-                // List of Chords
-                .when('/theory/chords', {
-                    templateUrl:  '../app/Theory/Partial/Chord/index.html',
-                    controller:   'ChordListController',
-                    controllerAs: 'chordListCtrl',
-                    resolve: {
-                        resources: [
-                            'ChordResource',
-                            function resourcesResolver(ChordResource) {
-                                return ChordResource.query();
-                            }
-                        ]
-                    }
-                })
-
-                // Show a chord
-                .when('/theory/chords/:id', {
-                    templateUrl:  '../app/Theory/Partial/Chord/show.html',
-                    controller:   'ChordShowController',
-                    controllerAs: 'chordShowCtrl',
-                    resolve: {
-                        resource: [
-                            '$route',
-                            'ChordResource',
-                            function resourceResolver($route, ChordResource) {
-                                return ChordResource.get({ id: $route.current.params.id });
-                            }
-                        ],
-                        notes: [
-                            'NoteResource',
-                            function notesResolver(NoteResource) {
-                                return NoteResource.query();
-                            }
-                        ]
-                    }
-                })
-
-                // List of Scales
-                .when('/theory/scales', {
-                    templateUrl:  '../app/Theory/Partial/Scale/index.html',
-                    controller:   'ScaleListController',
-                    controllerAs: 'scaleListCtrl',
-                    resolve: {
-                        resources: [
-                            'ScaleResource',
-                            function resourcesResolver(ScaleResource) {
-                                return ScaleResource.query();
-                            }
-                        ]
-                    }
-                });
+            resourceRouteProvider.register('Theory', 'Note',     'theory/notes',     true);
+            resourceRouteProvider.register('Theory', 'Degree',   'theory/degrees',   true);
+            resourceRouteProvider.register('Theory', 'Interval', 'theory/intervals', true);
+            resourceRouteProvider.register('Theory', 'Chord',    'theory/chords',    true);
+            resourceRouteProvider.register('Theory', 'Scale',    'theory/scales',    true);
         }
     ]);
 // File : app/Theory/translations.js

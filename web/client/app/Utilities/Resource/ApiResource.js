@@ -7,7 +7,7 @@
  * @param ApiService
  * @constructor
  */
-var ApiResource = function ApiResourceConstructor($http, $q, ApiService) {
+var ApiResource = function ApiResource($http, $q, ApiService) {
     // Store services
     this.services['$http'] = $http;
     this.services['$q']    = $q;

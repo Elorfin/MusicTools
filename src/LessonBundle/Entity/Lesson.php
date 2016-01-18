@@ -48,11 +48,13 @@ class Lesson
     /**
      * Sections of the Lesson
      * @var \Doctrine\Common\Collections\ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="LessonBundle\Entity\Section", mappedBy="lesson")
      */
     protected $sections;
 
     /**
-     * Class constructor
+     * Entity constructor
      */
     public function __construct()
     {

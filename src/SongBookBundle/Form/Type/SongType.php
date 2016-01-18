@@ -36,7 +36,7 @@ class SongType extends AbstractType
             ->add('videos',  'collection', array ('mapped' => false))
             ->add('records', 'collection', array ('mapped' => false))
 
-            ->add('cover', new ImageType())
+            ->add('cover', 'resource_image')
         ;
     }
     

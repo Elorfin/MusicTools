@@ -26,6 +26,8 @@ module.exports = function (grunt) {
                     'bower_components/messageformat/messageformat.js',
                     'bower_components/angular-translate-interpolation-messageformat/angular-translate-interpolation-messageformat.js',
                     'bower_components/angular-loading-bar/build/loading-bar.js',
+                    'bower_components/tinymce-dist/tinymce.js',
+                    'bower_components/angular-ui-tinymce/src/tinymce.js',
                     'bower_components/ng-file-upload/ng-file-upload-shim.js',
                     'bower_components/ng-file-upload/ng-file-upload.js',
                     'bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.js',
@@ -47,6 +49,8 @@ module.exports = function (grunt) {
                     'bower_components/messageformat/messageformat.js',
                     'bower_components/angular-translate-interpolation-messageformat/angular-translate-interpolation-messageformat.min.js',
                     'bower_components/angular-loading-bar/build/loading-bar.min.js',
+                    'bower_components/tinymce-dist/tinymce.min.js',
+                    'bower_components/angular-ui-tinymce/src/tinymce.js',
                     'bower_components/ng-file-upload/ng-file-upload-shim.min.js',
                     'bower_components/ng-file-upload/ng-file-upload.min.js',
                     'bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js',
@@ -140,6 +144,17 @@ module.exports = function (grunt) {
                 expand: true,
                 flatten: true,
                 filter: 'isFile'
+            },
+
+            tiny_mce: {
+                cwd: 'bower_components/tinymce-dist/',
+                src: [
+                    'plugins/**/*',
+                    'skins/**/*',
+                    'themes/**/*'
+                ],
+                dest: '<%= distFolder %>/js/',
+                expand: true
             }
         },
 

@@ -3,7 +3,7 @@
  * @returns {ApiService}
  * @constructor
  */
-var ApiService = function ApiServiceConstructor() {
+var ApiService = function ApiService() {
 
 };
 

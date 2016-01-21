@@ -36,4 +36,15 @@ class PianoTemplate extends AbstractTemplate
     {
         return $this->id;
     }
+
+    public function jsonSerialize()
+    {
+        return [
+            'type' => 'instrument_templates',
+            'id'   => $this->id,
+            'attributes'  => [
+                'name'    => $this->name,
+            ]
+        ];
+    }
 }

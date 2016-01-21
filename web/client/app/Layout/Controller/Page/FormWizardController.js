@@ -27,8 +27,16 @@ FormWizardController.prototype.steps = [];
  */
 FormWizardController.prototype.currentStep = null;
 
+/**
+ * Is there a step BEFORE the current Step ?
+ * @type {boolean}
+ */
 FormWizardController.prototype.hasPrevious = true;
 
+/**
+ * Is there a step AFTER the current Step ?
+ * @type {boolean}
+ */
 FormWizardController.prototype.hasNext = true;
 
 /**
@@ -78,7 +86,7 @@ FormWizardController.prototype.nextStep = function nextStep() {
 
 /**
  * Validate step
- * @param step
+ * @param {object} step
  */
 FormWizardController.prototype.validateStep = function validateStep(step) {
     // Empty errors

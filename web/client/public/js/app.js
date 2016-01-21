@@ -339,8 +339,9 @@ ResourceRouteProvider.prototype.register = function register(module, resource, r
                  * Initialize an empty object that will be fill by form
                  */
                 resource: [
-                    function resourceResolver() {
-                        return {};
+                    resourceClass,
+                    function resourceResolver(Resource) {
+                        return Resource.init();
                     }
                 ]
             }
@@ -443,10 +444,46 @@ ApiResource.prototype.type = null;
 ApiResource.prototype.path = null;
 
 /**
+ * Initialize an empty Resource Object
+ */
+ApiResource.prototype.init = function init() {
+    return {
+        id         : null,
+        type       : this.type,
+        attributes : {}
+    };
+};
+
+ApiResource.prototype.addRelationship = function addRelationship(resource, relationshipName, relationshipData) {
+    if (!resource.relationships) {
+        resource.relationships = {};
+    }
+
+    resource.relationships[relationshipName] = {
+        data: relationshipData
+    };
+};
+
+ApiResource.prototype.removeRelationship = function addRelationship(resource, relationshipName, relationshipData) {
+    if (resource.relationships && resource.relationships[relationshipName] && resource.relationships[relationshipName].data) {
+        if (resource.relationships[relationshipName].data instanceof Array) {
+            // Collection of resource objects
+        } else {
+            // Single resource object
+
+        }
+    }
+
+    resource.relationships[relationshipName] = {
+        data: relationshipData
+    };
+};
+
+/**
  * List existing resources filtered by `queryParams`
  *
  * @param   {Object}  [queryParams] - The parameters used to filter the list of elements
- * @returns {Array}                 - The list of available resources
+ * @returns {promise}               - The list of available resources
  */
 ApiResource.prototype.query = function queryResources(queryParams) {
     // Initialize promise
@@ -619,15 +656,6 @@ ApiResource.prototype.getFullPath = function buildPath(params) {
     }
 
     return fullPath;
-};
-
-/**
- * Set elements
- *
- * @param {Array} elements
- */
-ApiResource.prototype.setElements = function setElements(elements) {
-    this.elements = elements;
 };
 
 /**
@@ -895,8 +923,16 @@ FormWizardController.prototype.steps = [];
  */
 FormWizardController.prototype.currentStep = null;
 
+/**
+ * Is there a step BEFORE the current Step ?
+ * @type {boolean}
+ */
 FormWizardController.prototype.hasPrevious = true;
 
+/**
+ * Is there a step AFTER the current Step ?
+ * @type {boolean}
+ */
 FormWizardController.prototype.hasNext = true;
 
 /**
@@ -946,7 +982,7 @@ FormWizardController.prototype.nextStep = function nextStep() {
 
 /**
  * Validate step
- * @param step
+ * @param {object} step
  */
 FormWizardController.prototype.validateStep = function validateStep(step) {
     // Empty errors
@@ -1679,6 +1715,40 @@ angular.module('Forum').config([
 
     }
 ]);
+// File : app/Game/Controller/GameListController.js
+/**
+ * List controller for Games
+ * @constructor
+ */
+var GameListController = function GameListControllerConstructor($uibModal, resources) {
+    ListController.apply(this, arguments);
+};
+
+// Extends ListController
+GameListController.prototype = Object.create(ListController.prototype);
+
+// Set up dependency injection
+GameListController.$inject = ListController.$inject;
+
+/**
+ * Default field to sort by
+ * @type {string}
+ */
+GameListController.prototype.sortBy = 'name';
+
+/**
+ * Usable fields for sort
+ * @type {Object}
+ */
+GameListController.prototype.sortFields = {
+    name    : 'string'
+};
+
+// Register controller into angular
+angular
+    .module('Game')
+    .controller('GameListController', GameListController);
+
 // File : app/Game/Resource/GameResource.js
 var GameResource = function GameResourceConstructor() {
     // Call parent constructor
@@ -2433,42 +2503,6 @@ InstrumentCreateController.prototype.constructor = InstrumentCreateController;
 InstrumentCreateController.$inject = [ 'resource', 'InstrumentResource', 'instrumentTypes', 'InstrumentTemplateResource' ];
 
 /**
- * Step 1 - Choose Type
- * @type {Object}
- */
-InstrumentCreateController.prototype.steps.chooseType = {
-    order       : 1,
-    title       : 'create_choose_type',
-    templateUrl : '../app/Instrument/Partial/CreateWizard/choose_type.html'
-};
-
-/**
- * Step 2 - Choose Template
- * @type {Object}
- */
-InstrumentCreateController.prototype.steps.chooseTemplate = {
-    order       : 2,
-    title       : 'create_choose_template',
-    templateUrl : '../app/Instrument/Partial/CreateWizard/choose_template.html',
-    onLoad: function onLoad() {
-
-    },
-    onUnload: function onUnload() {
-
-    }
-};
-
-/**
- * Step 3 - Customize info
- * @type {Object}
- */
-InstrumentCreateController.prototype.steps.customizeInfo = {
-    order       : 3,
-    title       : 'create_fill_info',
-    templateUrl : '../app/Instrument/Partial/CreateWizard/fill_info.html'
-};
-
-/**
  * Create steps
  * @type {Array}
  */
@@ -2520,16 +2554,23 @@ InstrumentCreateController.prototype.selectedTemplate = null;
  * Select the type of the Instrument
  * @param {Object} type
  */
-InstrumentCreateController.prototype.selectType = function (type) {
-    this.resource.type = type;
+InstrumentCreateController.prototype.selectType = function selectType(type) {
+    this.apiResource.addRelationship(this.resource, 'type', type);
 
     // Load templates for this type
     this.loadTemplates(type);
 };
 
-InstrumentCreateController.prototype.loadTemplates = function (type) {
+/**
+ * Load the list of available Templates for the selected Type
+ * @param {Object} type
+ */
+InstrumentCreateController.prototype.loadTemplates = function loadTemplates(type) {
     this.templates = this.templateResource.get({ type: type.id }).then(function (result) {
         this.templates = result;
+
+        // Jump to next step when templates are loaded
+        this.nextStep();
     }.bind(this));
 };
 
@@ -2537,11 +2578,21 @@ InstrumentCreateController.prototype.loadTemplates = function (type) {
  * Select a template for the Instrument
  * @param {Object} template
  */
-InstrumentCreateController.prototype.selectTemplate = function (template) {
+InstrumentCreateController.prototype.selectTemplate = function selectTemplate(template) {
     this.selectedTemplate = template;
+
+    // Fill instrument information with template
+    for (var attr in template.attributes) {
+        if (template.attributes.hasOwnProperty(attr)) {
+            this.resource.attributes[attr] = template.attributes[attr];
+        }
+    }
+
+    // Jump to next step
+    this.nextStep();
 };
 
-// Register controller into angular
+// Register controller into Angular JS
 angular
     .module('Instrument')
     .controller('InstrumentCreateController', InstrumentCreateController);
@@ -2734,8 +2785,9 @@ angular
                     controllerAs: 'instrumentCreateCtrl',
                     resolve: {
                         resource: [
-                            function resourceResolver() {
-                                return {};
+                            'InstrumentResource',
+                            function resourceResolver(InstrumentResource) {
+                                return InstrumentResource.init();
                             }
                         ],
                         instrumentTypes: [

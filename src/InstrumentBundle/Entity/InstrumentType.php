@@ -146,15 +146,23 @@ class InstrumentType implements \JsonSerializable
 
     public function jsonSerialize()
     {
-        return array(
+        return [
+            // Identifier of the Resource
             'type' => 'instrument_types',
             'id'   => $this->id,
-            'attributes' => array(
+
+            // Attributes of the Resource
+            'attributes' => [
                 'name'     => $this->name,
                 'icon'     => $this->icon,
                 'class'    => $this->class,
                 'template' => $this->template,
-            ),
-        );
+            ],
+
+            // Relationships with other Resources
+            'relationships' => [
+
+            ]
+        ];
     }
 }

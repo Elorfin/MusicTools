@@ -75,8 +75,9 @@ ResourceRouteProvider.prototype.register = function register(module, resource, r
                  * Initialize an empty object that will be fill by form
                  */
                 resource: [
-                    function resourceResolver() {
-                        return {};
+                    resourceClass,
+                    function resourceResolver(Resource) {
+                        return Resource.init();
                     }
                 ]
             }

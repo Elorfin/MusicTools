@@ -1,18 +1,21 @@
 <div class="panel panel-default">
+    <!-- Generic instrument information -->
     <div class="panel-body">
         <div class="form-group">
             <label class="control-label">Name</label>
-            <input type="text" class="form-control" />
+            <input type="text" class="form-control" data-ng-model="instrumentCreateCtrl.resource.attributes.name" />
         </div>
 
         <div class="form-group">
             <label class="control-label">Model</label>
-            <input type="text" class="form-control" />
+            <input type="text" class="form-control" data-ng-model="instrumentCreateCtrl.resource.attributes.model" />
         </div>
 
         <div class="form-group">
             <label class="control-label">Manufacturer</label>
-            <input type="text" class="form-control" />
+            <input type="text" class="form-control" data-ng-model="instrumentCreateCtrl.resource.attributes.manufacturer" />
         </div>
     </div>
+
+    <!-- Custom information for the InstrumentType -->
 </div>

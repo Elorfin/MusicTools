@@ -9,7 +9,7 @@ use InstrumentBundle\Entity\InstrumentType;
  * Base class for instrument templates
  * @ORM\MappedSuperclass()
  */
-abstract class AbstractTemplate
+abstract class AbstractTemplate implements \JsonSerializable
 {
     /**
      * Name of the Template

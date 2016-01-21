@@ -186,15 +186,25 @@ class Instrument implements \JsonSerializable
 
     public function jsonSerialize()
     {
-        return array (
+        return [
+            // Identifier of the Resource
             'type' => 'instruments',
             'id'   => $this->id,
-            'attributes' => array(
+
+            // Attributes of the Resource
+            'attributes'    => [
                 'name'         => $this->name,
                 'default'      => $this->default,
                 'manufacturer' => $this->manufacturer,
                 'model'        => $this->model,
-            ),
-        );
+            ],
+
+            // Relationships with other Resources
+            'relationships' => [
+                'type' => [
+                    'data' => $this->type,
+                ]
+            ],
+        ];
     }
 }

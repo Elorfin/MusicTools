@@ -20,10 +20,18 @@
         </ui-header-button>
 
         <!-- Next step -->
-        <ui-header-button class="nav-link-default">
-            <button data-ng-disabled="!instrumentCreateCtrl.hasNext" data-ng-click="instrumentCreateCtrl.nextStep()">
+        <ui-header-button class="nav-link-default" data-ng-show="instrumentCreateCtrl.hasNext">
+            <button data-ng-click="instrumentCreateCtrl.nextStep()">
                 Next
                 <span class="fa fa-fw fa-chevron-circle-right"></span>
+            </button>
+        </ui-header-button>
+
+        <!-- Create -->
+        <ui-header-button class="nav-link-default" data-ng-show="!instrumentCreateCtrl.hasNext">
+            <button data-ng-click="instrumentCreateCtrl.validate()">
+                <span class="fa fa-fw fa-check"></span>
+                Create
             </button>
         </ui-header-button>
     </ui-header-buttons>

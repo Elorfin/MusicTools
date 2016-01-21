@@ -29,8 +29,9 @@ angular
                     controllerAs: 'instrumentCreateCtrl',
                     resolve: {
                         resource: [
-                            function resourceResolver() {
-                                return {};
+                            'InstrumentResource',
+                            function resourceResolver(InstrumentResource) {
+                                return InstrumentResource.init();
                             }
                         ],
                         instrumentTypes: [

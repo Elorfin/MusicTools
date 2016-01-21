@@ -2,6 +2,7 @@
 
 namespace GameBundle\Controller;
 
+use Elorfin\JsonApiBundle\Response\JsonApiResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -24,6 +25,6 @@ class GameController extends Controller
     {
         $entities = $this->container->get('doctrine.orm.entity_manager')->getRepository('GameBundle:Game')->findAll();
 
-        return $entities;
+        return new JsonApiResponse($entities);
     }
 }

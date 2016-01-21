@@ -45,10 +45,46 @@ ApiResource.prototype.type = null;
 ApiResource.prototype.path = null;
 
 /**
+ * Initialize an empty Resource Object
+ */
+ApiResource.prototype.init = function init() {
+    return {
+        id         : null,
+        type       : this.type,
+        attributes : {}
+    };
+};
+
+ApiResource.prototype.addRelationship = function addRelationship(resource, relationshipName, relationshipData) {
+    if (!resource.relationships) {
+        resource.relationships = {};
+    }
+
+    resource.relationships[relationshipName] = {
+        data: relationshipData
+    };
+};
+
+ApiResource.prototype.removeRelationship = function addRelationship(resource, relationshipName, relationshipData) {
+    if (resource.relationships && resource.relationships[relationshipName] && resource.relationships[relationshipName].data) {
+        if (resource.relationships[relationshipName].data instanceof Array) {
+            // Collection of resource objects
+        } else {
+            // Single resource object
+
+        }
+    }
+
+    resource.relationships[relationshipName] = {
+        data: relationshipData
+    };
+};
+
+/**
  * List existing resources filtered by `queryParams`
  *
  * @param   {Object}  [queryParams] - The parameters used to filter the list of elements
- * @returns {Array}                 - The list of available resources
+ * @returns {promise}               - The list of available resources
  */
 ApiResource.prototype.query = function queryResources(queryParams) {
     // Initialize promise
@@ -221,15 +257,6 @@ ApiResource.prototype.getFullPath = function buildPath(params) {
     }
 
     return fullPath;
-};
-
-/**
- * Set elements
- *
- * @param {Array} elements
- */
-ApiResource.prototype.setElements = function setElements(elements) {
-    this.elements = elements;
 };
 
 /**

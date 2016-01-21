@@ -212,15 +212,29 @@ class Song implements \JsonSerializable
 
     public function jsonSerialize()
     {
-        return array (
+        return [
+            // Identifier of the Resource
             'type' => 'songs',
             'id'   => $this->id,
-            'attributes'  => array (
-                'name'    => $this->name,
-                'artist'  => $this->artist,
-                'rating'  => $this->rating,
-                'mastery' => $this->mastery,
-            )
-        );
+
+            // Attributes of the Resource
+            'attributes'    => [
+                'name'       => $this->name,
+                'artist'     => $this->artist,
+                'rating'     => $this->rating,
+                'mastery'    => $this->mastery,
+                'started_at' => $this->startedAt,
+            ],
+
+            // Relationships with other Resources
+            'relationships' => [
+                'cover'  => [
+                    'data' => $this->cover
+                ],
+                'scores' => [
+                    'data' => $this->scores
+                ]
+            ]
+        ];
     }
 }

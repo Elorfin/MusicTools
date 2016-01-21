@@ -2,6 +2,7 @@
 
 namespace InstrumentBundle\Controller;
 
+use InstrumentBundle\Entity\Instrument;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -32,36 +33,15 @@ class InstrumentController extends Controller
 
     /**
      * Display an Instrument entity
-     * @param  integer $id
-     * @return mixed
+     * @param  Instrument $instrument
+     * @return JsonApiResponse
      *
      * @Route("/{id}")
      * @Method("GET")
      */
-    public function getAction($id)
+    public function getAction(Instrument $instrument)
     {
-        $entity = $this->getEntity($id);
-
-        return new JsonApiResponse($entity);
+        return new JsonApiResponse($instrument);
     }
 
-    /**
-     * Retrieve an Instrument entity
-     *
-     * @param  integer $id
-     * @return Instrument
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
-     */
-    private function getEntity($id)
-    {
-        $entity = $this->container->get('doctrine.orm.entity_manager')->getRepository('InstrumentBundle:Instrument')->findOneBy( array (
-            'id' => $id,
-        ));
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Instrument entity.');
-        }
-
-        return $entity;
-    }
 }

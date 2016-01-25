@@ -68,19 +68,18 @@ module.exports = function (grunt) {
                     footer: '\n})();'
                 },
                 src: [
-                    // Load modules files
-                    'app/**/module.js',
+                    // Load core
+                    'src/core/**/module.js',
+                    'src/core/core.js',
+                    'src/core/**/*.js',
 
-                    // Load app root file when all other modules are loaded
-                    'app/app.js',
-
-                    // Load src code
-                    'app/Utilities/**/*.js',
-                    'app/Layout/**/*.js',
-                    'app/**/*.js',
+                    // Load app
+                    'src/app/**/module.js',
+                    'src/app/app.js',
+                    'src/app/**/*.js',
 
                     // Load routes
-                    'app/**/routes.js'
+                    'src/app/**/routes.js'
 
                 ],
                 dest: '<%= distFolder %>/js/app.js'
@@ -162,7 +161,7 @@ module.exports = function (grunt) {
         watch: {
             js: {
                 files: [
-                    'app/**/*.js'
+                    'src/**/*.js'
                 ],
                 tasks: ['concat', 'uglify']
             },

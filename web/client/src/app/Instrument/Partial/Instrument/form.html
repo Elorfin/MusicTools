@@ -1,0 +1,100 @@
+<layout-page>
+    <!-- Title of the page -->
+    <layout-page-title>
+        {{ 'my_instruments_title'|translate }}
+
+        <!-- New element -->
+        <small data-ng-if="formCtrl.isNew()">New</small>
+
+        <!-- Edit element -->
+        <small data-ng-if="!formCtrl.isNew()">Edit</small>
+    </layout-page-title>
+
+    <!-- Header buttons -->
+    <ui-header-buttons>
+        <!-- Delete button while editing -->
+        <ui-header-button data-ng-if="!formCtrl.isNew()" class="nav-link-danger">
+            <a href="">
+                <span class="fa fa-fw fa-trash-o"></span>
+                Delete
+            </a>
+        </ui-header-button>
+
+        <li class="divider" data-ng-if="!formCtrl.isNew()"></li>
+
+        <!-- Cancel -->
+        <ui-header-button class="nav-link-default">
+            <a href="#/instruments">
+                <span class="fa fa-fw fa-times"></span>
+                Cancel
+            </a>
+        </ui-header-button>
+
+        <!-- Validate form -->
+        <ui-header-button class="nav-link-default">
+            <a href="" data-ng-click="formCtrl.submit()">
+                <span class="fa fa-fw fa-check"></span>
+                <span data-ng-if="formCtrl.isNew()">Create</span>
+                <span data-ng-if="!formCtrl.isNew()">Edit</span>
+            </a>
+        </ui-header-button>
+    </ui-header-buttons>
+
+    <!-- Form -->
+    <form class="instrument-form row">
+        <div class="col-md-2">
+            <div class="instrument-types">
+                <div class="instrument-type-item"
+                     data-ng-repeat="instrumentType in formCtrl.instrumentTypes"
+                     data-ng-class="{ active: instrumentType == formCtrl.resource.type }"
+                     data-ng-click="formCtrl.selectType(instrumentType)"
+
+                     data-ng-mouseenter="showName = !showName"
+                     data-ng-mouseleave="showName = !showName"
+                     data-ng-init="showName = false"
+                >
+                    <img class="img-responsive" data-ng-src="{{ 'images/' + instrumentType.attributes.icon |asset_path }}" />
+                    <span data-ng-show="instrumentType != formCtrl.resource.type && showName">{{ instrumentType.attributes.name }}</span>
+                </div>
+            </div>
+
+            <div class="instrument-type-current">
+                {{ formCtrl.resource.type.name }}
+            </div>
+        </div>
+
+        <div class="col-md-10">
+            <div class="form-group">
+                <label class="control-label">Choose a template</label>
+                <select class="form-control">
+                    <option value="">-- you can select a template to prefill information --</option>
+                    <option data-ng-repeat="template in formCtrl.templates" value="{{ template.id }}" data-ng-click="formCtrl.selectTemplate(template)">{{ template.attributes.name }}</option>
+                </select>
+            </div>
+
+            <!-- Generic instrument information -->
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label class="control-label">Name</label>
+                        <input type="text" class="form-control" data-ng-model="formCtrl.resource.attributes.name" />
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label class="control-label">Manufacturer</label>
+                            <input type="text" class="form-control" data-ng-model="formCtrl.resource.attributes.manufacturer" />
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label class="control-label">Model</label>
+                            <input type="text" class="form-control" data-ng-model="formCtrl.resource.attributes.model" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Custom information for the InstrumentType -->
+        </div>
+    </form>
+</layout-page>

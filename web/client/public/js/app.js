@@ -1,65 +1,26 @@
 (function() {
 "use strict";
-// File : app/Advertisement/module.js
-/**
- * Advertisement Module
- */
-angular.module('Advertisement', []);
-// File : app/Alert/module.js
+// File : src/core/Alert/module.js
 /**
  * Alert Module
  * Manages User messages
  */
 angular.module('Alert', []);
-// File : app/Badge/module.js
+// File : src/core/ApiResource/module.js
 /**
- * Badge Module
+ * ApiResource Module
+ * Manages communication with a REST API server following the JSON API specification
  */
-angular.module('Badge', []);
-// File : app/Forum/module.js
-/**
- * Forum Module
- */
-angular.module('Forum', []);
-// File : app/Game/module.js
-/**
- * Game Module
- */
-angular.module('Game', []);
-// File : app/GuitarNeck/module.js
-/**
- * Guitar Neck
- */
-angular
-    .module('GuitarNeck', []);
-// File : app/Instrument/module.js
-/**
- * Instrument Module
- */
-angular
-    .module('Instrument', [
-        'Utilities'
-    ])
-    .config([
-        '$translateProvider',
-        function($translateProvider) {
-            // Inject translations
-            for (var lang in instrumentTranslations) {
-                if (instrumentTranslations.hasOwnProperty(lang)) {
-                    $translateProvider.translations(lang, instrumentTranslations[lang]);
-                }
-            }
-        }
-    ]);
-
-
-// File : app/Layout/module.js
+angular.module('ApiResource', []);
+// File : src/core/Layout/module.js
 /**
  * Layout Module
  * Contains all the tools for building the Layout of the application (header, sidebar, etc.)
  */
 angular
-    .module('Layout', [])
+    .module('Layout', [
+        'ui.bootstrap'
+    ])
     .config([
         '$translateProvider',
         function($translateProvider) {
@@ -71,104 +32,17 @@ angular
             }
         }
     ]);
-// File : app/Lesson/module.js
-/**
- * Lesson Module
- */
-angular
-    .module('Lesson', [
-        'ui.tinymce'
-    ])
-    .value('uiTinymceConfig', {
-        statusbar: false,
-        elementpath: false,
-        menubar: false,
-        plugins: [
-            'link',
-            'image',
-            'table',
-            'code'
-        ],
-        toolbar: 'undo redo | styleselect | bold italic underline | bullist numlist table | alignleft aligncenter alignright alignjustify | indent outdent | link unlink | image | code'
-    })
-    .config([
-        '$translateProvider',
-        function lessonConfig($translateProvider) {
-            // Inject translations
-            for (var lang in lessonTranslations) {
-                if (lessonTranslations.hasOwnProperty(lang)) {
-                    $translateProvider.translations(lang, lessonTranslations[lang]);
-                }
-            }
-        }
-    ]);
-// File : app/SheetMusic/module.js
-/**
- * SHeet Music renderer
- */
-angular.module('SheetMusic', []);
-// File : app/SongBook/module.js
-/**
- * SongBook Module
- */
-angular
-    .module('SongBook', [
-        'ngFileUpload',
-        'Utilities'
-    ])
-    .config([
-        '$translateProvider',
-        function($translateProvider) {
-            // Inject translations
-            for (var lang in songBookTranslations) {
-                if (songBookTranslations.hasOwnProperty(lang)) {
-                    $translateProvider.translations(lang, songBookTranslations[lang]);
-                }
-            }
-        }
-    ]);
-// File : app/Theory/module.js
-/**
- * Theory Module
- */
-angular
-    .module('Theory', [
-        'ngRoute',
-        'SheetMusic'
-    ])
-    .config([
-        '$translateProvider',
-        function($translateProvider) {
-            // Inject translations
-            for (var lang in theoryTranslations) {
-                if (theoryTranslations.hasOwnProperty(lang)) {
-                    $translateProvider.translations(lang, theoryTranslations[lang]);
-                }
-            }
-        }
-    ]);
-// File : app/Tuning/module.js
-/**
- * Tuning module
- */
-angular.module('Tuning', []);
-// File : app/User/module.js
-/**
- * User Module
- */
-angular.module('User', []);
-// File : app/Utilities/module.js
+// File : src/core/Utilities/module.js
 /**
  * Utilities Module
  */
 angular.module('Utilities', []);
-// File : app/app.js
+// File : src/core/core.js
 /**
- * Workspace Application Root
- * Initializes needed modules in the Angular application
+ *
  */
 angular
-    .module('MusicTools', [
+    .module('AppCore', [
         // Angular modules
         'ngRoute',
         'ngAnimate',
@@ -180,90 +54,266 @@ angular
         'pascalprecht.translate',
         'angular-loading-bar',
 
-        // Core modules
         'Utilities',
+        'ApiResource',
         'Layout',
-        'Alert',
-
-        // App modules
-        'Advertisement',
-        'Badge',
-        'Forum',
-        'Game',
-        'Instrument',
-        'GuitarNeck',
-        'Lesson',
-        'SongBook',
-        'Theory',
-        'Tuning',
-        'User'
-
-        /*
-        'Guitar',
-
-        'SheetMusic'*/
-    ])
-    .config([
-        '$httpProvider',
-        '$translateProvider',
-        'cfpLoadingBarProvider',
-        function configure($httpProvider, $translateProvider, cfpLoadingBarProvider) {
-            // Set up Http Error interceptor to catch server error response
-            $httpProvider.interceptors.push('HttpErrorService');
-
-            // Inject translations
-            for (var lang in appTranslations) {
-                if (appTranslations.hasOwnProperty(lang)) {
-                    $translateProvider.translations(lang, appTranslations[lang]);
-                }
-            }
-
-            // Enable pluralization for translator
-            $translateProvider.addInterpolation('$translateMessageFormatInterpolation');
-
-            // Set the default lang
-            $translateProvider.preferredLanguage('en');
-
-            // Set sanitize strategy for translations
-            $translateProvider.useSanitizeValueStrategy('sanitize');
-
-            // Disable loading spinner
-            cfpLoadingBarProvider.includeSpinner = false;
+        'Alert'
+    ]);
+// File : src/core/Alert/Directive/AlertsDirective.js
+/**
+ * Alerts Directive
+ * Renders user messages
+ */
+angular
+    .module('Alert')
+    .directive('alerts', [
+        '$partial',
+        function AlertsDirective($partial) {
+            return {
+                restrict: 'E',
+                templateUrl: $partial.getPath('Alert', 'alerts.html', true),
+                replace: true,
+                controllerAs: 'alertsCtrl',
+                controller: [
+                    'AlertService',
+                    function AlertsController(AlertService) {
+                        // Expose service to template
+                        this.alerts      = AlertService.getAlerts();
+                        this.removeAlert = function removeAlert(alert) {
+                            AlertService.removeAlert(alert, true);
+                        };
+                    }
+                ]
+            };
         }
     ]);
-// File : app/Utilities/Filter/AssetPathFilter.js
+// File : src/core/Alert/Service/AlertService.js
 /**
- * Asset Path filter
+ * Alert Service
+ * @constructor
  */
-angular
-    .module('Utilities')
-    .filter('asset_path', [
-        'ApiService',
-        function (ApiService) {
-            return function (path) {
-                return ApiService.getAssetPath() + path;
-            };
-        }
-    ]
-    );
-// File : app/Utilities/Filter/ResourcePathFilter.js
+var AlertService = function AlertServiceConstructor($timeout) {
+    this.$timeout = $timeout;
+};
+
 /**
- * Resource Path filter
+ * List of all current active alerts
+ * @param alert
  */
-angular
-    .module('Utilities')
-    .filter('resource_path', [
-        'ApiService',
-        function (ApiService) {
-            return function (path) {
-                return ApiService.getResourcePath() + path;
-            };
-        }
-    ]
-);
-// File : app/Utilities/Provider/ResourceRouteProvider.js
+AlertService.prototype.alerts = [];
+
 /**
- * Resource Router
+ * Display duration for the alert which are configured to be auto-hidden
+ * @type {number}
+ */
+AlertService.prototype.displayDuration = 1000;
+
+/**
+ * Get active alerts
+ * @returns {Array}
+ */
+AlertService.prototype.getAlerts = function getAlerts() {
+    return this.alerts;
+};
+
+/**
+ * Add an alert in the alerts stack
+ * @param {string}  type
+ * @param {string}  message
+ * @param {boolean} [autoHide]
+ */
+AlertService.prototype.addAlert = function addAlert(type, message, autoHide) {
+    var newAlert = {
+        type     : type,
+        message  : message
+    };
+
+    // Configure auto hide if needed
+    if (autoHide) {
+        newAlert.timeout = this.$timeout(function () {
+            this.removeAlert(newAlert);
+        }.bind(this), this.displayDuration);
+    }
+
+    // Add to the stack
+    this.alerts.push(newAlert);
+};
+
+/**
+ * Remove an alert from the alerts stack
+ * @param {Object}  alert
+ * @param {boolean} [clearTimeout]
+ */
+AlertService.prototype.removeAlert = function removeAlert(alert, clearTimeout) {
+    var pos = this.alerts.indexOf(alert);
+    if (-1 !== pos) {
+        var alert = this.alerts.splice(pos, 1);
+
+        // Clear timeout if needed
+        if (alert.timeout && clearTimeout) {
+            this.$timeout.cancel(alert.timeout);
+        }
+    }
+};
+
+// Register service into AngularJS
+angular
+    .module('Alert')
+    .service('AlertService', [ '$timeout', AlertService ]);
+// File : src/core/ApiResource/Controller/FormController.js
+/**
+ * Base Form controller
+ * @constructor
+ */
+var FormController = function FormController(resource, ApiResource) {
+    this.resource    = resource;
+    this.apiResource = ApiResource;
+};
+
+// Set up dependency injection
+FormController.$inject = [ 'resource', 'ApiResource' ];
+
+/**
+ * Errors
+ * @type {Array}
+ */
+FormController.prototype.errors = [];
+
+/**
+ * Current Resource
+ * @type {Object}
+ */
+FormController.prototype.resource = null;
+
+/**
+ * Is the edited entity a new one ?
+ * @returns {boolean}
+ */
+FormController.prototype.isNew = function isNew() {
+    var isNew = true;
+    if (null !== this.resource && 'undefined' !== typeof (this.resource.id) && null !== this.resource.id && 0 !== this.resource.id.length) {
+        isNew = false;
+    }
+
+    return isNew;
+};
+
+/**
+ * Validate the form
+ */
+FormController.prototype.validate = function validate() {
+    return true
+};
+
+/**
+ * Submit the form
+ */
+FormController.prototype.submit = function submit() {
+    if (this.validate()) {
+        if (this.isNew()) {
+            this.apiResource.new(this.resource);
+        } else {
+            this.apiResource.update(this.resource);
+        }
+    }
+};
+
+// Register controller into Angular JS
+angular
+    .module('ApiResource')
+    .controller('FormController', FormController);
+
+// File : src/core/ApiResource/Controller/ListController.js
+/**
+ * Base List controller
+ * @constructor
+ */
+var ListController = function ListController($uibModal, resources) {
+    this.services = {};
+
+    this.services['$uibModal'] = $uibModal;
+
+    this.resources = resources;
+};
+
+// Set up dependency injection
+ListController.$inject = [ '$uibModal', 'resources' ];
+
+/**
+ * List of entities
+ * @type {Array}
+ */
+ListController.prototype.resources = [];
+
+/**
+ * Format of the list
+ */
+ListController.prototype.format = 'detailed';
+
+/**
+ * Default field to sort by
+ * @type {string}
+ */
+ListController.prototype.sortBy = null;
+
+/**
+ * Reverse direction of the sort
+ * @type {boolean}
+ */
+ListController.prototype.sortReverse = false;
+
+/**
+ * Usable fields for sort
+ * @type {Object}
+ */
+ListController.prototype.sortFields = {};
+
+ListController.prototype.remove = function remove(entity) {
+    // Display confirm callback
+    var modalInstance = this.services.$uibModal.open({
+        templateUrl : '../app/Layout/Partial/Modal/confirm.html',
+        controller  : 'ConfirmModalController',
+        windowClass : 'modal-danger'
+    });
+
+    modalInstance.result.then(function (selectedItem) {
+        /*$scope.selected = selectedItem;*/
+    }, function () {
+        /*$log.info('Modal dismissed at: ' + new Date());*/
+    });
+};
+
+// Register controller into angular
+angular
+    .module('ApiResource')
+    .controller('ListController', ListController);
+
+// File : src/core/ApiResource/Controller/ShowController.js
+/**
+ * Base Show Controller
+ * @constructor
+ */
+var ShowController = function ShowController(resource) {
+    this.resource = resource;
+};
+
+// Set up dependency injection
+ShowController.$inject = [ 'resource' ];
+
+/**
+ * Current displayed entity
+ * @type {Object}
+ */
+ShowController.prototype.resource = null;
+
+// Register controller into angular
+angular
+    .module('ApiResource')
+    .controller('ShowController', ShowController);
+
+// File : src/core/ApiResource/Provider/ApiResourceRouteProvider.js
+/**
+ * ApiResource Router
  * Registers standard routes for ApiResources
  *
  * Information about naming rules :
@@ -272,23 +322,81 @@ angular
  * - Templates for `list`, `show`, `new`, `edit` MUST be respectively named : `index.html`, `show.html`, `new.html`, `edit.html`
  *
  * @param {Object} $routeProvider
+ * @param {Object} $partialProvider
  * @constructor
  */
-var ResourceRouteProvider = function ResourceRouteProvider($routeProvider) {
-    this.$routeProvider = $routeProvider;
+var ApiResourceRouteProvider = function ApiResourceRouteProvider($routeProvider, $partialProvider) {
+    this.$routeProvider   = $routeProvider;
+    this.$partialProvider = $partialProvider;
 
     // Just return the default $route object
     this.$get = $routeProvider.$get;
 };
 
+// Set up dependency injection
+ApiResourceRouteProvider.$inject = [ '$routeProvider', '$partialProvider' ];
+
+/**
+ * Default options
+ * @type {Object}
+ */
+ApiResourceRouteProvider.prototype.default = {};
+
+/**
+ * Default resource name pattern (placeholders : {resource} and {module} will be replaced on register)
+ * @type {string}
+ */
+ApiResourceRouteProvider.prototype.default.resourceName = '{resource}Resource';
+
+/**
+ * Configuration for CRUD routes (template, controller, controller alias)
+ * @type {Object}
+ */
+ApiResourceRouteProvider.prototype.default.options = {
+    list: {
+        templateUrl  : '{resource}/index.html',
+        controller   : '{resource}ListController',
+        controllerAs : 'listCtrl'
+    },
+
+    show: {
+        templateUrl  : '{resource}/show.html',
+        controller   : '{resource}ShowController',
+        controllerAs : 'showCtrl'
+    },
+
+    new: {
+        templateUrl  : '{resource}/form.html',
+        controller   : '{resource}FormController',
+        controllerAs : 'formCtrl'
+    },
+
+    edit: {
+        templateUrl  : '{resource}/form.html',
+        controller   : '{resource}FormController',
+        controllerAs : 'formCtrl'
+    }
+};
+
 /**
  * Create default routes for Resource (`list`, `show`, `create`, `update`)
- * @param {String}  module      - The name of the module which contains the Resource
- * @param {String}  resource    - The name of the Resource to expose
- * @param {String}  routePrefix - Prefix to append to all routes
- * @param {boolean} [readOnly]  - Enable or disable read only (if true, `create` and `update` routes are omitted)
+ * @param {String}  module          - The name of the module which contains the Resource
+ * @param {String}  resource        - The name of the Resource to expose
+ * @param {String}  routePrefix     - Prefix to append to all routes
+ * @param {boolean} [readOnly]      - Enable or disable read only (if true, `create` and `update` routes are omitted)
+ * @param {Object}  [customOptions] - Custom options object (is merged with ResourceRouteProvider.defaultOptions if provided)
  */
-ResourceRouteProvider.prototype.register = function register(module, resource, routePrefix, readOnly) {
+ApiResourceRouteProvider.prototype.register = function register(module, resource, routePrefix, readOnly, customOptions) {
+    var options = {};
+
+    // Set default options
+    angular.merge(options, this.default.options);
+
+    // Override default options with custom if provided
+    if (angular.isObject(customOptions)) {
+        angular.merge(options, customOptions);
+    }
+
     // Append `/` in route prefix if not set
     if (routePrefix && 0 !== routePrefix.length) {
         if ('/' !== routePrefix.charAt(0)) {
@@ -299,84 +407,74 @@ ResourceRouteProvider.prototype.register = function register(module, resource, r
     }
 
     // Get Resource class to fetch data
-    var resourceClass = resource + 'Resource';
-
-    // Build url to template location
-    var templateUrl = '../app/' + module + '/Partial/' + resource + '/';
+    var resourceClass = this.setPlaceholders(this.default.resourceName, module, resource);
 
     // Register LIST route
-    var listCtrl      = resource + 'ListController';
-    var listCtrlAlias = resource.toLowerCase() + 'ListCtrl';
+    var listTemplate  = this.$partialProvider.getPath(module, this.setPlaceholders(options.list.templateUrl, module, resource));
+    var listCtrl      = this.setPlaceholders(options.list.controller,   module, resource);
+    var listCtrlAlias = this.setPlaceholders(options.list.controllerAs, module, resource);
+    var listResolve   = {
+        /**
+         * Load the list of Resources
+         */
+        resources: [
+            resourceClass,
+            function resourcesResolver(Resource) {
+                return Resource.query();
+            }
+        ]
+    };
+
+    // Append custom resolvers
+    if (angular.isObject(options.list.resolve)) {
+        angular.merge(listResolve, options.list.resolve);
+    }
+
     this.$routeProvider.when(routePrefix, {
-        templateUrl:  templateUrl + 'index.html',
+        templateUrl:  listTemplate,
         controller:   listCtrl,
         controllerAs: listCtrlAlias,
-        resolve: {
-            /**
-             * Load the list of Resources
-             */
-            resources: [
-                resourceClass,
-                function resourcesResolver(Resource) {
-                    return Resource.query();
-                }
-            ]
-        }
+        resolve:      listResolve
     });
 
     if (!readOnly) {
         // The resource is not READ ONLY, so add modification and creation route
-        var formCtrl      = resource + 'FormController';
-        var formCtrlAlias = resource.toLowerCase() + 'FormCtrl';
 
         // Register NEW route
+        var newTemplate  = this.$partialProvider.getPath(module, this.setPlaceholders(options.new.templateUrl, module, resource));
+        var newCtrl      = this.setPlaceholders(options.new.controller,   module, resource);
+        var newCtrlAlias = this.setPlaceholders(options.new.controllerAs, module, resource);
+        var newResolve   = {
+            /**
+             * Initialize an empty object that will be fill by form
+             */
+            resource: [
+                resourceClass,
+                function resourceResolver(Resource) {
+                    return Resource.init();
+                }
+            ]
+        };
+
+        // Append custom resolvers
+        if (angular.isObject(options.new.resolve)) {
+            angular.merge(newResolve, options.new.resolve);
+        }
+
         this.$routeProvider.when(routePrefix + '/new', {
-            templateUrl:  templateUrl + 'form.html',
-            controller:   formCtrl,
-            controllerAs: formCtrlAlias,
-            resolve: {
-                /**
-                 * Initialize an empty object that will be fill by form
-                 */
-                resource: [
-                    resourceClass,
-                    function resourceResolver(Resource) {
-                        return Resource.init();
-                    }
-                ]
-            }
+            templateUrl  : newTemplate,
+            controller   : newCtrl,
+            controllerAs : newCtrlAlias,
+            resolve      : newResolve
         });
 
         // Register EDIT route
-        this.$routeProvider.when(routePrefix + '/:id/edit', {
-            templateUrl:  templateUrl + 'form.html',
-            controller:   formCtrl,
-            controllerAs: formCtrlAlias,
-            resolve: {
-                /**
-                 * Load the Resource to edit
-                 */
-                resource: [
-                    '$route',
-                    resourceClass,
-                    function resourceResolver($route, Resource) {
-                        return Resource.get({ id: $route.current.params.id });
-                    }
-                ]
-            }
-        });
-    }
-
-    // Register SHOW route
-    var showCtrl      = resource + 'ShowController';
-    var showCtrlAlias = resource.toLowerCase() + 'ShowCtrl';
-    this.$routeProvider.when(routePrefix + '/:id', {
-        templateUrl:  templateUrl + 'show.html',
-        controller:   showCtrl,
-        controllerAs: showCtrlAlias,
-        resolve: {
+        var editTemplate  = this.$partialProvider.getPath(module, this.setPlaceholders(options.edit.templateUrl, module, resource));
+        var editCtrl      = this.setPlaceholders(options.edit.controller,   module, resource);
+        var editCtrlAlias = this.setPlaceholders(options.edit.controllerAs, module, resource);
+        var editResolve   = {
             /**
-             * Load the Resource to display
+             * Load the Resource to edit
              */
             resource: [
                 '$route',
@@ -385,18 +483,71 @@ ResourceRouteProvider.prototype.register = function register(module, resource, r
                     return Resource.get({ id: $route.current.params.id });
                 }
             ]
+        };
+
+        // Append custom resolvers
+        if (angular.isObject(options.edit.resolve)) {
+            angular.merge(editResolve, options.edit.resolve);
         }
+
+        this.$routeProvider.when(routePrefix + '/:id/edit', {
+            templateUrl  : editTemplate,
+            controller   : editCtrl,
+            controllerAs : editCtrlAlias,
+            resolve      : editResolve
+        });
+    }
+
+    // Register SHOW route
+    var showTemplate  = this.$partialProvider.getPath(module, this.setPlaceholders(options.show.templateUrl, module, resource));
+    var showCtrl      = this.setPlaceholders(options.show.controller,   module, resource);
+    var showCtrlAlias = this.setPlaceholders(options.show.controllerAs, module, resource);
+    var showResolve   = {
+        /**
+         * Load the Resource to display
+         */
+        resource: [
+            '$route',
+            resourceClass,
+            function resourceResolver($route, Resource) {
+                return Resource.get({ id: $route.current.params.id });
+            }
+        ]
+    };
+
+    // Append custom resolvers
+    if (angular.isObject(options.show.resolve)) {
+        angular.merge(showResolve, options.show.resolve);
+    }
+
+    this.$routeProvider.when(routePrefix + '/:id', {
+        templateUrl  : showTemplate,
+        controller   : showCtrl,
+        controllerAs : showCtrlAlias,
+        resolve      : showResolve
     });
 };
 
-// Set up dependency injection
-ResourceRouteProvider.$inject = [ '$routeProvider' ];
+/**
+ * Replace `{module}` and `{resource}` placeholders by values
+ * @param {String} string
+ * @param {String} module
+ * @param {String} resource
+ */
+ApiResourceRouteProvider.prototype.setPlaceholders = function setPlaceholders(string, module, resource) {
+
+    return string
+        .replace('{module}',   module)
+        .replace('{resource}', resource)
+    ;
+};
 
 // Register provider into Angular JS
 angular
-    .module('Utilities')
-    .provider('resourceRoute', ResourceRouteProvider);
-// File : app/Utilities/Resource/ApiResource.js
+    .module('ApiResource')
+    .provider('apiResourceRoute', ApiResourceRouteProvider);
+
+// File : src/core/ApiResource/Resource/ApiResource.js
 /**
  * Base API Resource
  * Manages API server data
@@ -701,10 +852,10 @@ ApiResource.prototype.getRequest = function createRequest(url, method, data) {
 
 // Register service into Angular JS
 angular
-    .module('Utilities')
+    .module('ApiResource')
     .service('ApiResource', ApiResource);
 
-// File : app/Utilities/Service/ApiService.js
+// File : src/core/ApiResource/Service/ApiService.js
 /**
  * API Service
  * @returns {ApiService}
@@ -742,80 +893,9 @@ ApiService.prototype.getAssetPath = function getAssetPath() {
 
 // Inject Service into AngularJS
 angular
-    .module('Utilities')
+    .module('ApiResource')
     .service('ApiService', [ ApiService ]);
-// File : app/Utilities/Service/HttpErrorService.js
-/**
- * HTTP Error Service
- * @constructor
- */
-var HttpErrorService = function HttpErrorService($q, $location) {
-    return {
-        response: function(responseData) {
-            return responseData;
-        },
-
-        responseError: function error(response) {
-            switch (response.status) {
-                case 401:
-                    $location.path('/login');
-                    break;
-                case 404:
-                    $location.path('/404');
-                    break;
-                default:
-                    $location.path('/error_server');
-            }
-
-            return $q.reject(response);
-        }
-    };
-};
-
-// Inject Service into AngularJS
-angular
-    .module('Utilities')
-    .service('HttpErrorService', [ '$q', '$location', HttpErrorService ]);
-// File : app/Utilities/Service/SoundService.js
-/**
- * API Service
- * @returns {ApiService}
- * @constructor
- */
-var SoundService = function SoundService() {
-
-};
-
-/**
- * Current AudioContext
- * @type {AudioContext|webkitAudioContext}
- */
-SoundService.prototype.context = null;
-
-/**
- * Get server
- * @returns {String}
- */
-SoundService.prototype.playFrequency = function playFrequency(frequency, start, duration) {
-    var context = new (window.AudioContext || window.webkitAudioContext)();
-
-    var oscillator = context.createOscillator();
-
-    oscillator.type = 'sine';
-    oscillator.frequency.value = frequency;
-    oscillator.connect(context.destination);
-
-    oscillator.start(start);
-    oscillator.stop(start + duration);
-
-    return oscillator;
-};
-
-// Inject Service into AngularJS
-angular
-    .module('Utilities')
-    .service('SoundService', [ SoundService ]);
-// File : app/Layout/Controller/Modal/ConfirmModalController.js
+// File : src/core/Layout/Controller/Modal/ConfirmModalController.js
 /**
  * Confirm Modal controller
  * @constructor
@@ -830,297 +910,18 @@ angular
     .module('Layout')
     .controller('ConfirmModalController', [ '$uibModalInstance', ConfirmModalController ]);
 
-// File : app/Layout/Controller/Page/FormController.js
-/**
- * Base Form controller
- * @constructor
- */
-var FormController = function FormControllerConstructor(resource, ApiResource) {
-    this.resource    = resource;
-    this.apiResource = ApiResource;
-};
-
-// Set up dependency injection
-FormController.$inject = [ 'resource', 'ApiResource' ];
-
-/**
- * Errors
- * @type {Array}
- */
-FormController.prototype.errors = [];
-
-/**
- * Current Resource
- * @type {Object}
- */
-FormController.prototype.resource = null;
-
-/**
- * Is the edited entity a new one ?
- * @returns {boolean}
- */
-FormController.prototype.isNew = function isNew() {
-    var isNew = true;
-    if (null !== this.resource && 'undefined' !== typeof (this.resource.id) && null !== this.resource.id && 0 !== this.resource.id.length) {
-        isNew = false;
-    }
-
-    return isNew;
-};
-
-/**
- * Validate the form
- */
-FormController.prototype.validate = function validate() {
-    return true
-};
-
-/**
- * Submit the form
- */
-FormController.prototype.submit = function submit() {
-    if (this.validate()) {
-        if (this.isNew()) {
-            this.apiResource.new(this.resource);
-        } else {
-            this.apiResource.update(this.resource);
-        }
-    }
-};
-
-// Register controller into Angular JS
-angular
-    .module('Layout')
-    .controller('FormController', FormController);
-
-// File : app/Layout/Controller/Page/FormWizardController.js
-/**
- * Wizard Form controller
- * @constructor
- */
-var FormWizardController = function FormWizardControllerConstructor(resource, ApiResource) {
-    FormController.apply(this, arguments);
-
-    this.setCurrentStep(this.steps[0]);
-};
-
-// Extends FormController
-FormWizardController.prototype             = Object.create(FormController.prototype);
-FormWizardController.prototype.constructor = FormWizardController;
-
-// Set up dependency injection
-FormWizardController.$inject = [ 'resource', 'ApiResource' ];
-
-/**
- * Wizard steps
- * @type {Array}
- */
-FormWizardController.prototype.steps = [];
-
-/**
- * Current step
- * @type {Object}
- */
-FormWizardController.prototype.currentStep = null;
-
-/**
- * Is there a step BEFORE the current Step ?
- * @type {boolean}
- */
-FormWizardController.prototype.hasPrevious = true;
-
-/**
- * Is there a step AFTER the current Step ?
- * @type {boolean}
- */
-FormWizardController.prototype.hasNext = true;
-
-/**
- * Set current step wizard
- * @param step
- */
-FormWizardController.prototype.setCurrentStep = function setCurrentStep(step) {
-    if (null !== this.currentStep) {
-        // Validate step before leaving
-        this.validateStep(this.currentStep);
-    }
-
-    this.currentStep = step;
-
-    this.hasPrevious = true;
-    this.hasNext     = true;
-
-    var position = this.steps.indexOf(this.currentStep);
-    if (0 === position) {
-        this.hasPrevious = false;
-    }
-
-    if (this.steps.length - 1 === position) {
-        this.hasNext = false;
-    }
-};
-
-/**
- * Go to previous step
- */
-FormWizardController.prototype.previousStep = function previousStep() {
-    var pos = this.steps.indexOf(this.currentStep);
-    if (-1 !== pos && this.steps[pos - 1]) {
-        this.setCurrentStep(this.steps[pos - 1]);
-    }
-};
-
-/**
- * Go to next step
- */
-FormWizardController.prototype.nextStep = function nextStep() {
-    var pos = this.steps.indexOf(this.currentStep);
-    if (-1 !== pos && this.steps[pos + 1]) {
-        this.setCurrentStep(this.steps[pos + 1]);
-    }
-};
-
-/**
- * Validate step
- * @param {object} step
- */
-FormWizardController.prototype.validateStep = function validateStep(step) {
-    // Empty errors
-    this.errors.splice(0, this.errors.length);
-
-    var valid = true;
-    if (this.currentStep.hasOwnProperty('validate')) {
-        valid = this.currentStep.validate(this.resource, this.errors);
-    }
-
-    if (valid) {
-        this.currentStep.state = 'done';
-    } else {
-        this.currentStep.state = 'has-errors';
-    }
-};
-
-/**
- * Validate the whole wizard
- * @returns {boolean}
- */
-FormWizardController.prototype.validate = function validate() {
-    var valid = true;
-
-    for (var i = 0; i < this.steps.length; i++) {
-        valid = this.validateStep(this.steps[i]);
-        if (!valid) {
-            break;
-        }
-    }
-
-    return valid;
-};
-
-// Register controller into Angular JS
-angular
-    .module('Layout')
-    .controller('FormWizardController', FormWizardController);
-
-// File : app/Layout/Controller/Page/ListController.js
-/**
- * Base List controller
- * @constructor
- */
-var ListController = function ListControllerConstructor($uibModal, resources) {
-    this.services = {};
-
-    this.services['$uibModal'] = $uibModal;
-
-    this.resources = resources;
-};
-
-// Set up dependency injection
-ListController.$inject = [ '$uibModal', 'resources' ];
-
-/**
- * List of entities
- * @type {Array}
- */
-ListController.prototype.resources = [];
-
-/**
- * Format of the list
- */
-ListController.prototype.format = 'detailed';
-
-/**
- * Default field to sort by
- * @type {string}
- */
-ListController.prototype.sortBy = null;
-
-/**
- * Reverse direction of the sort
- * @type {boolean}
- */
-ListController.prototype.sortReverse = false;
-
-/**
- * Usable fields for sort
- * @type {Object}
- */
-ListController.prototype.sortFields = {};
-
-ListController.prototype.remove = function remove(entity) {
-    // Display confirm callback
-    var modalInstance = this.services.$uibModal.open({
-        templateUrl : '../app/Layout/Partial/Modal/confirm.html',
-        controller  : 'ConfirmModalController',
-        windowClass : 'modal-danger'
-    });
-
-    modalInstance.result.then(function (selectedItem) {
-        /*$scope.selected = selectedItem;*/
-    }, function () {
-        /*$log.info('Modal dismissed at: ' + new Date());*/
-    });
-};
-
-// Register controller into angular
-angular
-    .module('Utilities')
-    .controller('ListController', ListController);
-
-// File : app/Layout/Controller/Page/ShowController.js
-/**
- * Base Show Controller
- * @constructor
- */
-var ShowController = function ShowControllerConstructor(resource) {
-    this.resource = resource;
-};
-
-// Set up dependency injection
-ShowController.$inject = [ 'resource' ];
-
-/**
- * Current displayed entity
- * @type {Object}
- */
-ShowController.prototype.resource = null;
-
-// Register controller into angular
-angular
-    .module('Layout')
-    .controller('ShowController', ShowController);
-
-// File : app/Layout/Directive/Field/ScoreFieldDirective.js
+// File : src/core/Layout/Directive/Field/ScoreFieldDirective.js
 /**
  * Score Field
  */
 angular
     .module('Layout')
     .directive('scoreField', [
-        function ScoreFieldDirective() {
+        '$partial',
+        function ScoreFieldDirective($partial) {
             return {
                 restrict: 'E',
-                templateUrl: '../app/Layout/Partial/Field/score-field.html',
+                templateUrl: $partial.getPath('Layout', 'Field/score-field.html', true),
                 replace: true,
                 scope: {
                     /**
@@ -1194,7 +995,7 @@ angular
             };
         }
     ]);
-// File : app/Layout/Directive/Header/HeaderButtonDirective.js
+// File : src/core/Layout/Directive/Header/HeaderButtonDirective.js
 /**
  * Header of the application
  */
@@ -1214,7 +1015,7 @@ angular
             };
         }
     ]);
-// File : app/Layout/Directive/Header/HeaderButtonsDirective.js
+// File : src/core/Layout/Directive/Header/HeaderButtonsDirective.js
 /**
  * Header of the application
  */
@@ -1234,17 +1035,18 @@ angular
             };
         }
     ]);
-// File : app/Layout/Directive/Header/HeaderDirective.js
+// File : src/core/Layout/Directive/Header/HeaderDirective.js
 /**
  * Header of the application
  */
 angular
     .module('Layout')
     .directive('uiHeader', [
-        function HeaderDirective() {
+        '$partial',
+        function HeaderDirective($partial) {
             return {
                 restrict: 'E',
-                templateUrl: '../app/Layout/Partial/Header/navbar.html',
+                templateUrl: $partial.getPath('Layout', 'Header/navbar.html', true),
                 replace: true,
                 scope: {},
                 link: function (scope, element, attrs) {
@@ -1253,14 +1055,14 @@ angular
             };
         }
     ]);
-// File : app/Layout/Directive/ListFormatterDirective.js
+// File : src/core/Layout/Directive/ListFormatterDirective.js
 /**
  * Widget to change how lists are displayed
  */
-var LayoutListFormatterDirective = function LayoutListFormatterDirectiveConstructor() {
+var LayoutListFormatterDirective = function LayoutListFormatterDirectiveConstructor($partial) {
     return {
         restrict: 'E',
-        templateUrl: '../app/Layout/Partial/list-formatter.html',
+        templateUrl: $partial.getPath('Layout', 'list-formatter.html', true),
         replace: true,
         scope: {
             /**
@@ -1283,21 +1085,21 @@ var LayoutListFormatterDirective = function LayoutListFormatterDirectiveConstruc
 };
 
 // Set up dependency injection
-LayoutListFormatterDirective.$inject = [];
+LayoutListFormatterDirective.$inject = [ '$partial' ];
 
 // Register directive into AngularJS
 angular
     .module('Layout')
     .directive('layoutListFormatter', LayoutListFormatterDirective);
 
-// File : app/Layout/Directive/ListSorterDirective.js
+// File : src/core/Layout/Directive/ListSorterDirective.js
 /**
  * Widget to sort lists
  */
-var LayoutListSorterDirective = function LayoutListSorterDirectiveConstructor() {
+var LayoutListSorterDirective = function LayoutListSorterDirectiveConstructor($partial) {
     return {
         restrict: 'E',
-        templateUrl: '../app/Layout/Partial/list-sorter.html',
+        templateUrl: $partial.getPath('Layout', 'list-sorter.html', true),
         replace: true,
         scope: {
             /**
@@ -1367,14 +1169,14 @@ var LayoutListSorterDirective = function LayoutListSorterDirectiveConstructor() 
 };
 
 // Set up dependency injection
-LayoutListSorterDirective.$inject = [];
+LayoutListSorterDirective.$inject = [ '$partial' ];
 
 // Register directive into AngularJS
 angular
     .module('Layout')
     .directive('layoutListSorter', LayoutListSorterDirective);
 
-// File : app/Layout/Directive/Page/PageDirective.js
+// File : src/core/Layout/Directive/Page/PageDirective.js
 /**
  * Represents a page of the application
  */
@@ -1390,17 +1192,18 @@ angular
             };
         }
     ]);
-// File : app/Layout/Directive/Page/PageTitleDirective.js
+// File : src/core/Layout/Directive/Page/PageTitleDirective.js
 /**
  * Represents the title of a Page
  */
 angular
     .module('Layout')
     .directive('layoutPageTitle', [
-        function LayoutPageTitleDirective() {
+        '$partial',
+        function LayoutPageTitleDirective($partial) {
             return {
                 restrict: 'E',
-                templateUrl: '../app/Layout/Partial/Page/title.html',
+                templateUrl: $partial.getPath('Layout', 'Page/title.html', true),
                 replace: true,
                 transclude: true,
                 scope: {
@@ -1412,7 +1215,7 @@ angular
             };
         }
     ]);
-// File : app/Layout/Directive/ScrollableDirective.js
+// File : src/core/Layout/Directive/ScrollableDirective.js
 /**
  * Scrollable Directive
  */
@@ -1500,14 +1303,14 @@ angular
         }
     ]);
 
-// File : app/Layout/Directive/Sidebar/SidebarDirective.js
+// File : src/core/Layout/Directive/Sidebar/SidebarDirective.js
 /**
  * Sidebar of the application
  */
-var LayoutSidebarDirective = function LayoutSidebarDirectiveConstructor($location) {
+var LayoutSidebarDirective = function LayoutSidebarDirectiveConstructor($location, $partial) {
     return {
         restrict: 'E',
-        templateUrl: '../app/Layout/Partial/Sidebar/sidebar.html',
+        templateUrl: $partial.getPath('Layout', 'Sidebar/sidebar.html', true),
         replace: true,
         scope: {},
         link: function sidebarDirectiveLink(scope, element, attrs) {
@@ -1522,20 +1325,20 @@ var LayoutSidebarDirective = function LayoutSidebarDirectiveConstructor($locatio
 };
 
 // Set up dependency injection
-LayoutSidebarDirective.$inject = [ '$location', '$route' ];
+LayoutSidebarDirective.$inject = [ '$location', '$partial' ];
 
 // Register directive into AngularJS
 angular
     .module('Layout')
     .directive('layoutSidebar', LayoutSidebarDirective);
-// File : app/Layout/Directive/Sidebar/SidebarItemDirective.js
+// File : src/core/Layout/Directive/Sidebar/SidebarItemDirective.js
 /**
  * Represents a link in the sidebar
  */
-var LayoutSidebarItemDirective = function LayoutSidebarItemDirectiveConstructor($location) {
+var LayoutSidebarItemDirective = function LayoutSidebarItemDirective($partial) {
     return {
         restrict: 'E',
-        templateUrl: '../app/Layout/Partial/Sidebar/sidebar-item.html',
+        templateUrl: $partial.getPath('Layout', 'Sidebar/sidebar-item.html', true),
         replace: true,
         scope: {
             icon       : '@',
@@ -1553,13 +1356,13 @@ var LayoutSidebarItemDirective = function LayoutSidebarItemDirectiveConstructor(
 };
 
 // Set up dependency injection
-LayoutSidebarItemDirective.$inject = [ '$location' ];
+LayoutSidebarItemDirective.$inject = [ '$partial' ];
 
 // Register into AngularJS
 angular
     .module('Layout')
     .directive('layoutSidebarItem', LayoutSidebarItemDirective);
-// File : app/Layout/translations.js
+// File : src/core/Layout/translations.js
 /**
  * Layout translations
  * @type {Object}
@@ -1585,7 +1388,347 @@ layoutTranslations['fr'] = {
     list_display_list_detailed  : 'liste détaillée',
     list_display_list_condensed : 'liste condensée'
 };
-// File : app/Advertisement/routes.js
+// File : src/core/Utilities/Filter/AssetPathFilter.js
+/**
+ * Asset Path filter
+ */
+angular
+    .module('Utilities')
+    .filter('asset_path', [
+        'ApiService',
+        function (ApiService) {
+            return function (path) {
+                return ApiService.getAssetPath() + path;
+            };
+        }
+    ]);
+// File : src/core/Utilities/Filter/PartialPathFilter.js
+/**
+ * Partial Path filter
+ */
+angular
+    .module('Utilities')
+    .filter('partial_path', [
+        '$partial',
+        function ($partial) {
+            return function (path, module, isCore) {
+                return $partial.getPath(path, module, isCore);
+            };
+        }
+    ]);
+// File : src/core/Utilities/Filter/ResourcePathFilter.js
+/**
+ * Resource Path filter
+ */
+angular
+    .module('Utilities')
+    .filter('resource_path', [
+        'ApiService',
+        function (ApiService) {
+            return function (path) {
+                return ApiService.getResourcePath() + path;
+            };
+        }
+    ]);
+
+// File : src/core/Utilities/Provider/PartialProvider.js
+/**
+ * Partial Provider
+ * @returns {PartialProvider}
+ * @constructor
+ */
+var PartialProvider = function PartialProvider() {
+    var options = this.default;
+
+    this.$get = function () {
+        return new Partial(options);
+    };
+};
+
+PartialProvider.prototype.default = {
+    baseCorePath : '../src/core/',
+    baseAppPath  : '../src/core/',
+    partialDir   : 'Partial/'
+};
+
+/**
+ * Get partials base path
+ * @param {string}  relativePath
+ * @param {string}  module
+ * @param {boolean} [isCore]
+ */
+PartialProvider.prototype.getPath = function getPath(relativePath, module, isCore) {
+    if (!module) {
+        console.error('You must provide the module name to get the Partials path.');
+    }
+
+    var path = (isCore) ? this.default.baseCorePath : this.default.baseAppPath;
+    path += this.default.partialDir;
+
+    return path + relativePath;
+};
+
+// Inject Service into AngularJS
+angular
+    .module('Utilities')
+    .provider('$partial', PartialProvider);
+
+// File : src/core/Utilities/Service/HttpErrorService.js
+/**
+ * HTTP Error Service
+ * @constructor
+ */
+var HttpErrorService = function HttpErrorService($q, $location) {
+    return {
+        response: function(responseData) {
+            return responseData;
+        },
+
+        responseError: function error(response) {
+            switch (response.status) {
+                case 401:
+                    $location.path('/login');
+                    break;
+                case 404:
+                    $location.path('/404');
+                    break;
+                default:
+                    $location.path('/error_server');
+            }
+
+            return $q.reject(response);
+        }
+    };
+};
+
+// Inject Service into AngularJS
+angular
+    .module('Utilities')
+    .service('HttpErrorService', [ '$q', '$location', HttpErrorService ]);
+// File : src/core/Utilities/Service/SoundService.js
+/**
+ * API Service
+ * @returns {ApiService}
+ * @constructor
+ */
+var SoundService = function SoundService() {
+
+};
+
+/**
+ * Current AudioContext
+ * @type {AudioContext|webkitAudioContext}
+ */
+SoundService.prototype.context = null;
+
+/**
+ * Get server
+ * @returns {String}
+ */
+SoundService.prototype.playFrequency = function playFrequency(frequency, start, duration) {
+    var context = new (window.AudioContext || window.webkitAudioContext)();
+
+    var oscillator = context.createOscillator();
+
+    oscillator.type = 'sine';
+    oscillator.frequency.value = frequency;
+    oscillator.connect(context.destination);
+
+    oscillator.start(start);
+    oscillator.stop(start + duration);
+
+    return oscillator;
+};
+
+// Inject Service into AngularJS
+angular
+    .module('Utilities')
+    .service('SoundService', [ SoundService ]);
+// File : src/app/Advertisement/module.js
+/**
+ * Advertisement Module
+ */
+angular.module('Advertisement', []);
+// File : src/app/Badge/module.js
+/**
+ * Badge Module
+ */
+angular.module('Badge', []);
+// File : src/app/Forum/module.js
+/**
+ * Forum Module
+ */
+angular.module('Forum', []);
+// File : src/app/Game/module.js
+/**
+ * Game Module
+ */
+angular.module('Game', []);
+// File : src/app/GuitarNeck/module.js
+/**
+ * Guitar Neck
+ */
+angular
+    .module('GuitarNeck', []);
+// File : src/app/Instrument/module.js
+/**
+ * Instrument Module
+ */
+angular
+    .module('Instrument', [
+        'Utilities'
+    ])
+    .config([
+        '$translateProvider',
+        function($translateProvider) {
+            // Inject translations
+            for (var lang in instrumentTranslations) {
+                if (instrumentTranslations.hasOwnProperty(lang)) {
+                    $translateProvider.translations(lang, instrumentTranslations[lang]);
+                }
+            }
+        }
+    ]);
+
+
+// File : src/app/Lesson/module.js
+/**
+ * Lesson Module
+ */
+angular
+    .module('Lesson', [
+        'ui.tinymce'
+    ])
+    .value('uiTinymceConfig', {
+        statusbar: false,
+        elementpath: false,
+        menubar: false,
+        plugins: [
+            'link',
+            'image',
+            'table',
+            'code'
+        ],
+        toolbar: 'undo redo | styleselect | bold italic underline | bullist numlist table | alignleft aligncenter alignright alignjustify | indent outdent | link unlink | image | code'
+    })
+    .config([
+        '$translateProvider',
+        function lessonConfig($translateProvider) {
+            // Inject translations
+            for (var lang in lessonTranslations) {
+                if (lessonTranslations.hasOwnProperty(lang)) {
+                    $translateProvider.translations(lang, lessonTranslations[lang]);
+                }
+            }
+        }
+    ]);
+// File : src/app/SheetMusic/module.js
+/**
+ * SHeet Music renderer
+ */
+angular.module('SheetMusic', []);
+// File : src/app/SongBook/module.js
+/**
+ * SongBook Module
+ */
+angular
+    .module('SongBook', [
+        'ngFileUpload',
+        'Utilities'
+    ])
+    .config([
+        '$translateProvider',
+        function($translateProvider) {
+            // Inject translations
+            for (var lang in songBookTranslations) {
+                if (songBookTranslations.hasOwnProperty(lang)) {
+                    $translateProvider.translations(lang, songBookTranslations[lang]);
+                }
+            }
+        }
+    ]);
+// File : src/app/Theory/module.js
+/**
+ * Theory Module
+ */
+angular
+    .module('Theory', [
+        'ngRoute',
+        'SheetMusic'
+    ])
+    .config([
+        '$translateProvider',
+        function($translateProvider) {
+            // Inject translations
+            for (var lang in theoryTranslations) {
+                if (theoryTranslations.hasOwnProperty(lang)) {
+                    $translateProvider.translations(lang, theoryTranslations[lang]);
+                }
+            }
+        }
+    ]);
+// File : src/app/Tuning/module.js
+/**
+ * Tuning module
+ */
+angular.module('Tuning', []);
+// File : src/app/User/module.js
+/**
+ * User Module
+ */
+angular.module('User', []);
+// File : src/app/app.js
+/**
+ * Application Root
+ * Initializes needed modules in the Angular application
+ */
+angular
+    .module('App', [
+        'AppCore',
+
+        'Advertisement',
+        'Badge',
+        'Forum',
+        'Game',
+        'Instrument',
+        'GuitarNeck',
+        'Lesson',
+        'SongBook',
+        'Theory',
+        'Tuning',
+        'User'
+        // 'Guitar',
+        // 'SheetMusic'
+    ])
+    .config([
+        '$httpProvider',
+        '$translateProvider',
+        'cfpLoadingBarProvider',
+        function configure($httpProvider, $translateProvider, cfpLoadingBarProvider) {
+            // Set up Http Error interceptor to catch server error response
+            $httpProvider.interceptors.push('HttpErrorService');
+
+            // Inject translations
+            for (var lang in appTranslations) {
+                if (appTranslations.hasOwnProperty(lang)) {
+                    $translateProvider.translations(lang, appTranslations[lang]);
+                }
+            }
+
+            // Enable pluralization for translator
+            $translateProvider.addInterpolation('$translateMessageFormatInterpolation');
+
+            // Set the default lang
+            $translateProvider.preferredLanguage('en');
+
+            // Set sanitize strategy for translations
+            $translateProvider.useSanitizeValueStrategy('sanitize');
+
+            // Disable loading spinner
+            cfpLoadingBarProvider.includeSpinner = false;
+        }
+    ]);
+// File : src/app/Advertisement/routes.js
 /**
  * Advertisement routes
  */
@@ -1595,107 +1738,7 @@ angular.module('Advertisement').config([
 
     }
 ]);
-// File : app/Alert/Directive/AlertsDirective.js
-/**
- * Alerts Directive
- * Renders user messages
- */
-angular
-    .module('Alert')
-    .directive('alerts', [
-        function AlertsDirective() {
-            return {
-                restrict: 'E',
-                templateUrl: '../app/Alert/Partial/alerts.html',
-                replace: true,
-                controllerAs: 'alertsCtrl',
-                controller: [
-                    'AlertService',
-                    function AlertsController(AlertService) {
-                        // Expose service to template
-                        this.alerts      = AlertService.getAlerts();
-                        this.removeAlert = function removeAlert(alert) {
-                            AlertService.removeAlert(alert, true);
-                        };
-                    }
-                ]
-            };
-        }
-    ]);
-// File : app/Alert/Service/AlertService.js
-/**
- * Alert Service
- * @constructor
- */
-var AlertService = function AlertServiceConstructor($timeout) {
-    this.$timeout = $timeout;
-};
-
-/**
- * List of all current active alerts
- * @param alert
- */
-AlertService.prototype.alerts = [];
-
-/**
- * Display duration for the alert which are configured to be auto-hidden
- * @type {number}
- */
-AlertService.prototype.displayDuration = 1000;
-
-/**
- * Get active alerts
- * @returns {Array}
- */
-AlertService.prototype.getAlerts = function getAlerts() {
-    return this.alerts;
-};
-
-/**
- * Add an alert in the alerts stack
- * @param {string}  type
- * @param {string}  message
- * @param {boolean} [autoHide]
- */
-AlertService.prototype.addAlert = function addAlert(type, message, autoHide) {
-    var newAlert = {
-        type     : type,
-        message  : message
-    };
-
-    // Configure auto hide if needed
-    if (autoHide) {
-        newAlert.timeout = this.$timeout(function () {
-            this.removeAlert(newAlert);
-        }.bind(this), this.displayDuration);
-    }
-
-    // Add to the stack
-    this.alerts.push(newAlert);
-};
-
-/**
- * Remove an alert from the alerts stack
- * @param {Object}  alert
- * @param {boolean} [clearTimeout]
- */
-AlertService.prototype.removeAlert = function removeAlert(alert, clearTimeout) {
-    var pos = this.alerts.indexOf(alert);
-    if (-1 !== pos) {
-        var alert = this.alerts.splice(pos, 1);
-
-        // Clear timeout if needed
-        if (alert.timeout && clearTimeout) {
-            this.$timeout.cancel(alert.timeout);
-        }
-    }
-};
-
-// Register service into AngularJS
-angular
-    .module('Alert')
-    .service('AlertService', [ '$timeout', AlertService ]);
-// File : app/Badge/routes.js
+// File : src/app/Badge/routes.js
 /**
  * Badge routes
  */
@@ -1705,7 +1748,7 @@ angular.module('Badge').config([
 
     }
 ]);
-// File : app/Forum/routes.js
+// File : src/app/Forum/routes.js
 /**
  * Forum routes
  */
@@ -1715,7 +1758,7 @@ angular.module('Forum').config([
 
     }
 ]);
-// File : app/Game/Controller/GameListController.js
+// File : src/app/Game/Controller/GameListController.js
 /**
  * List controller for Games
  * @constructor
@@ -1749,7 +1792,7 @@ angular
     .module('Game')
     .controller('GameListController', GameListController);
 
-// File : app/Game/Resource/GameResource.js
+// File : src/app/Game/Resource/GameResource.js
 var GameResource = function GameResourceConstructor() {
     // Call parent constructor
     ApiResource.apply(this, arguments);
@@ -1776,32 +1819,19 @@ angular
     .module('Game')
     .service('GameResource', GameResource);
 
-// File : app/Game/routes.js
+// File : src/app/Game/routes.js
 /**
  * Game routes
  */
-angular.module('Game').config([
-    '$routeProvider',
-    function GameRoutes($routeProvider) {
-        $routeProvider
-            // List
-            .when('/games', {
-                templateUrl:  '../app/Game/Partial/index.html',
-                controller:   'GameListController',
-                controllerAs: 'gameListCtrl',
-                resolve: {
-                    resources: [
-                        '$route',
-                        'GameResource',
-                        function resourcesResolver($route, GameResource) {
-                            return GameResource.query();
-                        }
-                    ]
-                }
-            })
-    }
-]);
-// File : app/GuitarNeck/Controller/GuitarNeckController.js
+angular
+    .module('Game')
+    .config([
+        'apiResourceRouteProvider',
+        function GameRoutes(apiResourceRouteProvider) {
+            apiResourceRouteProvider.register('Game', 'Game', 'games', true);
+        }
+    ]);
+// File : src/app/GuitarNeck/Controller/GuitarNeckController.js
 var GuitarNeckController = function GuitarNeckController() {
 
 };
@@ -1813,7 +1843,7 @@ angular
     .module('GuitarNeck')
     .controller('GuitarNeckController', GuitarNeckController);
 
-// File : app/GuitarNeck/Controller/Layer/AbstractLayerController.js
+// File : src/app/GuitarNeck/Controller/Layer/AbstractLayerController.js
 /**
  * Abstract Layer Controller
  * @returns {AbstractLayerController}
@@ -1895,7 +1925,7 @@ angular
     .module('GuitarNeck')
     .controller('AbstractLayerController', AbstractLayerController);
 
-// File : app/GuitarNeck/Controller/Layer/FretLayerController.js
+// File : src/app/GuitarNeck/Controller/Layer/FretLayerController.js
 /**
  * Fret Layer Controller
  * @returns {FretLayerController}
@@ -2201,7 +2231,7 @@ angular
     .module('GuitarNeck')
     .controller('FretLayerController', FretLayerController);
 
-// File : app/GuitarNeck/Controller/Layer/NoteLayerController.js
+// File : src/app/GuitarNeck/Controller/Layer/NoteLayerController.js
 /**
  * Note Layer Controller
  * @returns {NoteLayerController}
@@ -2236,7 +2266,7 @@ angular
     .module('GuitarNeck')
     .controller('NoteLayerController', NoteLayerController);
 
-// File : app/GuitarNeck/Controller/Layer/StringLayerController.js
+// File : src/app/GuitarNeck/Controller/Layer/StringLayerController.js
 /**
  * String Layer Controller
  * @returns {StringLayerController}
@@ -2333,15 +2363,15 @@ angular
     .module('GuitarNeck')
     .controller('StringLayerController', StringLayerController);
 
-// File : app/GuitarNeck/Directive/GuitarNeckDirective.js
+// File : src/app/GuitarNeck/Directive/GuitarNeckDirective.js
 angular
     .module('GuitarNeck')
     .directive('guitarNeckWidget', [
-        function () {
-
+        '$partial',
+        function ($partial) {
             return {
                 restrict: 'E',
-                templateUrl: '../app/GuitarNeck/Partial/GuitarNeck.html',
+                templateUrl: $partial.getPath('GuitarNeck', 'GuitarNeck.html'),
                 replace: true,
                 scope: {
                     guitar: '=?'
@@ -2356,15 +2386,16 @@ angular
         }
     ]);
 
-// File : app/GuitarNeck/Directive/Layer/FretLayerDirective.js
+// File : src/app/GuitarNeck/Directive/Layer/FretLayerDirective.js
 angular
     .module('GuitarNeck')
     .directive('fretLayer', [
         '$window',
-        function FretLayerDirective($window) {
+        '$partial',
+        function FretLayerDirective($window, $partial) {
             return {
                 restrict: 'E',
-                templateUrl: '../app/GuitarNeck/Partial/Layer/FretLayer.html',
+                templateUrl: $partial.getPath('GuitarNeck', 'Layer/FretLayer.html'),
                 replace: true,
                 scope: {
                     /**
@@ -2422,15 +2453,16 @@ angular
             };
         }
     ]);
-// File : app/GuitarNeck/Directive/Layer/NoteLayerDirective.js
+// File : src/app/GuitarNeck/Directive/Layer/NoteLayerDirective.js
 angular
     .module('GuitarNeck')
     .directive('noteLayer', [
         '$window',
-        function NoteLayerDirective($window) {
+        '$partial',
+        function NoteLayerDirective($window, $partial) {
             return {
                 restrict: 'E',
-                templateUrl: '../app/GuitarNeck/Partial/Layer/NoteLayer.html',
+                templateUrl: $partial.getPath('GuitarNeck', 'Layer/NoteLayer.html'),
                 replace: true,
                 scope: {
 
@@ -2451,15 +2483,16 @@ angular
         }
     ]);
 
-// File : app/GuitarNeck/Directive/Layer/StringLayerDirective.js
+// File : src/app/GuitarNeck/Directive/Layer/StringLayerDirective.js
 angular
     .module('GuitarNeck')
     .directive('stringLayer', [
         '$window',
-        function StringLayerDirective($window) {
+        '$partial',
+        function StringLayerDirective($window, $partial) {
             return {
                 restrict: 'E',
-                templateUrl: '../app/GuitarNeck/Partial/Layer/StringLayer.html',
+                templateUrl: $partial.getPath('GuitarNeck', 'Layer/StringLayer.html'),
                 replace: true,
                 scope: {
                     strings: '=?'
@@ -2483,78 +2516,30 @@ angular
         }
     ]);
 
-// File : app/Instrument/Controller/InstrumentCreateController.js
+// File : src/app/Instrument/Controller/InstrumentFormController.js
 /**
- * Form controller for Instrument
+ * Form controller for Instruments
  * @constructor
  */
-var InstrumentCreateController = function InstrumentCreateControllerConstructor(resource, InstrumentResource, instrumentTypes, InstrumentTemplateResource) {
-    FormWizardController.apply(this, arguments);
+var InstrumentFormController = function InstrumentFormController(resource, InstrumentResource, instrumentTypes, InstrumentTemplateResource) {
+    FormController.apply(this, arguments);
 
     this.instrumentTypes  = instrumentTypes;
     this.templateResource = InstrumentTemplateResource;
 };
 
 // Extends FormController
-InstrumentCreateController.prototype             = Object.create(FormWizardController.prototype);
-InstrumentCreateController.prototype.constructor = InstrumentCreateController;
+InstrumentFormController.prototype             = Object.create(FormController.prototype);
+InstrumentFormController.prototype.constructor = InstrumentFormController;
 
 // Set up dependency injection
-InstrumentCreateController.$inject = [ 'resource', 'InstrumentResource', 'instrumentTypes', 'InstrumentTemplateResource' ];
-
-/**
- * Create steps
- * @type {Array}
- */
-InstrumentCreateController.prototype.steps = [
-    // Step 1
-    {
-        number: 1,
-        name: 'create_choose_type',
-        templateUrl: '../app/Instrument/Partial/CreateWizard/choose_type.html',
-        validate: function validate(data, errors) {
-            if (data.type) {
-                return true;
-            } else {
-                errors.push('You must choose an instrument type');
-
-                return false;
-            }
-        }
-    },
-
-    // Step 2
-    {
-        number: 2,
-        name: 'create_choose_template',
-        templateUrl: '../app/Instrument/Partial/CreateWizard/choose_template.html'
-    },
-
-    // Step 3
-    {
-        number: 3,
-        name: 'create_fill_info',
-        templateUrl: '../app/Instrument/Partial/CreateWizard/fill_info.html'
-    }
-];
-
-/**
- * Instrument templates
- * @type {Array}
- */
-InstrumentCreateController.prototype.templates = [];
-
-/**
- * Selected template
- * @type {Object}
- */
-InstrumentCreateController.prototype.selectedTemplate = null;
+InstrumentFormController.$inject = [ 'resource', 'InstrumentResource' ];
 
 /**
  * Select the type of the Instrument
  * @param {Object} type
  */
-InstrumentCreateController.prototype.selectType = function selectType(type) {
+InstrumentFormController.prototype.selectType = function selectType(type) {
     this.apiResource.addRelationship(this.resource, 'type', type);
 
     // Load templates for this type
@@ -2565,12 +2550,9 @@ InstrumentCreateController.prototype.selectType = function selectType(type) {
  * Load the list of available Templates for the selected Type
  * @param {Object} type
  */
-InstrumentCreateController.prototype.loadTemplates = function loadTemplates(type) {
+InstrumentFormController.prototype.loadTemplates = function loadTemplates(type) {
     this.templates = this.templateResource.get({ type: type.id }).then(function (result) {
         this.templates = result;
-
-        // Jump to next step when templates are loaded
-        this.nextStep();
     }.bind(this));
 };
 
@@ -2578,7 +2560,7 @@ InstrumentCreateController.prototype.loadTemplates = function loadTemplates(type
  * Select a template for the Instrument
  * @param {Object} template
  */
-InstrumentCreateController.prototype.selectTemplate = function selectTemplate(template) {
+InstrumentFormController.prototype.selectTemplate = function selectTemplate(template) {
     this.selectedTemplate = template;
 
     // Fill instrument information with template
@@ -2587,22 +2569,19 @@ InstrumentCreateController.prototype.selectTemplate = function selectTemplate(te
             this.resource.attributes[attr] = template.attributes[attr];
         }
     }
-
-    // Jump to next step
-    this.nextStep();
 };
 
 // Register controller into Angular JS
 angular
     .module('Instrument')
-    .controller('InstrumentCreateController', InstrumentCreateController);
+    .controller('InstrumentFormController', InstrumentFormController);
 
-// File : app/Instrument/Controller/InstrumentListController.js
+// File : src/app/Instrument/Controller/InstrumentListController.js
 /**
  * List controller for Instruments
  * @constructor
  */
-var InstrumentListController = function InstrumentListControllerConstructor($uibModal, resources) {
+var InstrumentListController = function InstrumentListController($uibModal, resources) {
     ListController.apply(this, arguments);
 };
 
@@ -2631,12 +2610,12 @@ angular
     .module('Instrument')
     .controller('InstrumentListController', InstrumentListController);
 
-// File : app/Instrument/Controller/InstrumentShowController.js
+// File : src/app/Instrument/Controller/InstrumentShowController.js
 /**
  * Show controller for Instruments
  * @constructor
  */
-var InstrumentShowController = function InstrumentShowControllerConstructor(resource) {
+var InstrumentShowController = function InstrumentShowController(resource) {
     ShowController.apply(this, arguments);
 };
 
@@ -2655,24 +2634,27 @@ angular
     .module('Instrument')
     .controller('InstrumentShowController', InstrumentShowController);
 
-// File : app/Instrument/Directive/InstrumentMenuDirective.js
+// File : src/app/Instrument/Directive/InstrumentMenuDirective.js
 /**
  * Instrument menu
  * Used to select the current instrument, and if relevant the tuning (e.g. for Guitar or Bass)
  */
-var InstrumentMenuDirective = function InstrumentMenuDirectiveConstructor() {
+var InstrumentMenuDirective = function InstrumentMenuDirective($partial) {
     return {
         restrict: 'E',
-        templateUrl: '../app/Instrument/Partial/menu.html',
+        templateUrl: $partial.getPath('Instrument', 'Instrument/menu.html'),
         replace: true
     };
 };
+
+// Set up dependency injection
+InstrumentMenuDirective.$inject = [ '$partial' ];
 
 // Register directive into AngularJS
 angular
     .module('Instrument')
     .directive('instrumentMenu', InstrumentMenuDirective);
-// File : app/Instrument/Resource/InstrumentResource.js
+// File : src/app/Instrument/Resource/InstrumentResource.js
 var InstrumentResource = function InstrumentResourceConstructor() {
     // Call parent constructor
     ApiResource.apply(this, arguments);
@@ -2699,7 +2681,7 @@ angular
     .module('Instrument')
     .service('InstrumentResource', InstrumentResource);
 
-// File : app/Instrument/Resource/InstrumentTemplateResource.js
+// File : src/app/Instrument/Resource/InstrumentTemplateResource.js
 var InstrumentTemplateResource = function InstrumentTemplateResourceConstructor() {
     // Call parent constructor
     ApiResource.apply(this, arguments);
@@ -2726,7 +2708,7 @@ angular
     .module('Instrument')
     .service('InstrumentTemplateResource', InstrumentTemplateResource);
 
-// File : app/Instrument/Resource/InstrumentTypeResource.js
+// File : src/app/Instrument/Resource/InstrumentTypeResource.js
 var InstrumentTypeResource = function InstrumentTypeResourceConstructor() {
     // Call parent constructor
     ApiResource.apply(this, arguments);
@@ -2753,43 +2735,19 @@ angular
     .module('Instrument')
     .service('InstrumentTypeResource', InstrumentTypeResource);
 
-// File : app/Instrument/routes.js
+// File : src/app/Instrument/routes.js
 /**
  * Instrument routes
  */
 angular
     .module('Instrument')
     .config([
-        '$routeProvider',
-        function InstrumentRoutes($routeProvider) {
-            $routeProvider
-                // List
-                .when('/instruments', {
-                    templateUrl:  '../app/Instrument/Partial/index.html',
-                    controller:   'InstrumentListController',
-                    controllerAs: 'instrumentListCtrl',
+        'apiResourceRouteProvider',
+        function InstrumentRoutes(apiResourceRouteProvider) {
+            apiResourceRouteProvider.register('Instrument', 'Instrument', 'instruments', false, {
+                // Add the list of InstrumentType to the NEW routes resolvers
+                new: {
                     resolve: {
-                        resources: [
-                            'InstrumentResource',
-                            function resourcesResolver(InstrumentResource) {
-                                return InstrumentResource.query();
-                            }
-                        ]
-                    }
-                })
-
-                // New form
-                .when('/instruments/new', {
-                    templateUrl:  '../app/Instrument/Partial/CreateWizard/layout.html',
-                    controller:   'InstrumentCreateController',
-                    controllerAs: 'instrumentCreateCtrl',
-                    resolve: {
-                        resource: [
-                            'InstrumentResource',
-                            function resourceResolver(InstrumentResource) {
-                                return InstrumentResource.init();
-                            }
-                        ],
                         instrumentTypes: [
                             'InstrumentTypeResource',
                             function instrumentTypesResolver(InstrumentTypeResource) {
@@ -2797,26 +2755,11 @@ angular
                             }
                         ]
                     }
-                })
-
-                // Show
-                .when('/instruments/:id', {
-                    templateUrl:  '../app/Instrument/Partial/show.html',
-                    controller:   'InstrumentShowController',
-                    controllerAs: 'instrumentShowCtrl',
-                    resolve: {
-                        resource: [
-                            '$route',
-                            'InstrumentResource',
-                            function resourceResolver($route, InstrumentResource) {
-                                return InstrumentResource.get({ id: $route.current.params.id });
-                            }
-                        ]
-                    }
-                });
+                }
+            });
         }
     ]);
-// File : app/Instrument/translations.js
+// File : src/app/Instrument/translations.js
 /**
  * Instrument translations
  * @type {Object}
@@ -2880,7 +2823,7 @@ instrumentTranslations['fr'] = {
     // S
     show_instrument        : 'Voir l\'instrument'
 };
-// File : app/Lesson/Controller/LessonFormController.js
+// File : src/app/Lesson/Controller/LessonFormController.js
 /**
  * Form controller for Lessons
  * @constructor
@@ -2931,7 +2874,7 @@ angular
     .module('Lesson')
     .controller('LessonFormController', LessonFormController);
 
-// File : app/Lesson/Controller/LessonListController.js
+// File : src/app/Lesson/Controller/LessonListController.js
 /**
  * List controller for Lessons
  * @constructor
@@ -2965,7 +2908,7 @@ angular
     .module('Lesson')
     .controller('LessonListController', LessonListController);
 
-// File : app/Lesson/Resource/LessonResource.js
+// File : src/app/Lesson/Resource/LessonResource.js
 /**
  * Resource : Lesson
  *
@@ -3003,19 +2946,19 @@ angular
     .module('Lesson')
     .service('LessonResource', LessonResource);
 
-// File : app/Lesson/routes.js
+// File : src/app/Lesson/routes.js
 /**
  * Lesson routes
  */
 angular
     .module('Lesson')
     .config([
-        'resourceRouteProvider',
-        function LessonRoutes(resourceRouteProvider) {
-            resourceRouteProvider.register('Lesson', 'Lesson', 'lessons', false);
+        'apiResourceRouteProvider',
+        function LessonRoutes(apiResourceRouteProvider) {
+            apiResourceRouteProvider.register('Lesson', 'Lesson', 'lessons', false);
         }
     ]);
-// File : app/Lesson/translations.js
+// File : src/app/Lesson/translations.js
 /**
  * Lesson translations
  * @type {Object}
@@ -3067,7 +3010,7 @@ lessonTranslations['fr'] = {
     show_lesson     : 'Voir le cours',
     lesson          : 'cours{COUNT, plural, =0{} one{} other{}}'
 };
-// File : app/SheetMusic/Controller/SheetMusicController.js
+// File : src/app/SheetMusic/Controller/SheetMusicController.js
 /**
  * Controller constructor
  * @constructor
@@ -3150,7 +3093,7 @@ angular
     .module('SheetMusic')
     .controller('SheetMusicController', SheetMusicController);
 
-// File : app/SheetMusic/Directive/ChordSheetDirective.js
+// File : src/app/SheetMusic/Directive/ChordSheetDirective.js
 /**
  * Display Chord score
  */
@@ -3200,17 +3143,18 @@ ChordSheetDirective.$inject = [ '$timeout' ];
 angular
     .module('SheetMusic')
     .directive('chordSheet', ChordSheetDirective);
-// File : app/SheetMusic/Directive/SheetMusicDirective.js
+// File : src/app/SheetMusic/Directive/SheetMusicDirective.js
 (function () {
     'use strict';
 
     angular.module('SheetMusic')
         .directive('sheetMusic', [
             '$timeout',
-            function ($timeout) {
+            '$partial',
+            function ($timeout, $partial) {
                 return {
                     restrict: 'E',
-                    templateUrl: '../app/SheetMusic/Partial/sheet-music.html',
+                    templateUrl: $partial.getPath('SheetMusic', 'sheet-music.html'),
                     replace: true,
                     scope: {
                         file: '@'
@@ -3295,12 +3239,12 @@ angular
             }
         ]);
 })();
-// File : app/SongBook/Controller/SongFormController.js
+// File : src/app/SongBook/Controller/SongFormController.js
 /**
  * Form controller for Songs
  * @constructor
  */
-var SongFormController = function SongFormControllerConstructor(resource, SongResource, Upload) {
+var SongFormController = function SongFormController(resource, SongResource, Upload) {
     FormController.apply(this, arguments);
 
     this.upload = Upload;
@@ -3333,12 +3277,12 @@ angular
     .module('SongBook')
     .controller('SongFormController', SongFormController);
 
-// File : app/SongBook/Controller/SongListController.js
+// File : src/app/SongBook/Controller/SongListController.js
 /**
  * List controller for Songs
  * @constructor
  */
-var SongListController = function SongListControllerConstructor($uibModal, resources) {
+var SongListController = function SongListController($uibModal, resources) {
     ListController.apply(this, arguments);
 };
 
@@ -3370,12 +3314,12 @@ angular
     .module('SongBook')
     .controller('SongListController', SongListController);
 
-// File : app/SongBook/Controller/SongShowController.js
+// File : src/app/SongBook/Controller/SongShowController.js
 /**
  * Show controller for Songs
  * @constructor
  */
-var SongShowController = function SongShowControllerConstructor(resource) {
+var SongShowController = function SongShowController(resource) {
     ShowController.apply(this, arguments);
 };
 
@@ -3388,7 +3332,7 @@ angular
     .module('SongBook')
     .controller('SongShowController', SongShowController);
 
-// File : app/SongBook/Resource/SongResource.js
+// File : src/app/SongBook/Resource/SongResource.js
 var SongResource = function SongResourceConstructor() {
     // Call parent constructor
     ApiResource.apply(this, arguments);
@@ -3415,19 +3359,19 @@ angular
     .module('SongBook')
     .service('SongResource', SongResource);
 
-// File : app/SongBook/routes.js
+// File : src/app/SongBook/routes.js
 /**
  * SongBook routes
  */
 angular
     .module('SongBook')
     .config([
-        'resourceRouteProvider',
-        function SongBookRoutes(resourceRouteProvider) {
-            resourceRouteProvider.register('SongBook', 'Song', 'songs');
+        'apiResourceRouteProvider',
+        function SongBookRoutes(apiResourceRouteProvider) {
+            apiResourceRouteProvider.register('SongBook', 'Song', 'songs');
         }
     ]);
-// File : app/SongBook/translations.js
+// File : src/app/SongBook/translations.js
 /**
  * SongBook translations
  * @type {Object}
@@ -3479,7 +3423,7 @@ songBookTranslations['fr'] = {
     show_song         : 'Voir le morceau',
     song              : 'morceau{COUNT, plural, =0{} one{} other{x}}'
 };
-// File : app/Theory/Controller/Chord/ChordListController.js
+// File : src/app/Theory/Controller/Chord/ChordListController.js
 /**
  * List controller for Chords
  * @constructor
@@ -3520,7 +3464,7 @@ angular
     .module('Theory')
     .controller('ChordListController', ChordListController);
 
-// File : app/Theory/Controller/Chord/ChordShowController.js
+// File : src/app/Theory/Controller/Chord/ChordShowController.js
 /**
  * Show controller for Songs
  * @constructor
@@ -3542,7 +3486,7 @@ angular
     .module('Theory')
     .controller('ChordShowController', ChordShowController);
 
-// File : app/Theory/Controller/DegreeListController.js
+// File : src/app/Theory/Controller/DegreeListController.js
 /**
  * List controller for Degrees
  * @constructor
@@ -3569,7 +3513,7 @@ angular
     .module('Theory')
     .controller('DegreeListController', DegreeListController);
 
-// File : app/Theory/Controller/IntervalListController.js
+// File : src/app/Theory/Controller/IntervalListController.js
 /**
  * List controller for Intervals
  * @constructor
@@ -3611,7 +3555,7 @@ angular
     .module('Theory')
     .controller('IntervalListController', IntervalListController);
 
-// File : app/Theory/Controller/Note/NoteListController.js
+// File : src/app/Theory/Controller/Note/NoteListController.js
 /**
  * List controller for Notes
  * @constructor
@@ -3638,7 +3582,7 @@ angular
     .module('Theory')
     .controller('NoteListController', NoteListController);
 
-// File : app/Theory/Controller/Note/NoteMenuController.js
+// File : src/app/Theory/Controller/Note/NoteMenuController.js
 /**
  * Menu controller for Notes
  * @constructor
@@ -3686,7 +3630,7 @@ angular
     .module('Theory')
     .controller('NoteMenuController', NoteMenuController);
 
-// File : app/Theory/Controller/ScaleListController.js
+// File : src/app/Theory/Controller/ScaleListController.js
 /**
  * List controller for Scales
  * @constructor
@@ -3713,16 +3657,16 @@ angular
     .module('Theory')
     .controller('ScaleListController', ScaleListController);
 
-// File : app/Theory/Directive/Interval/IntervalPlayerDirective.js
+// File : src/app/Theory/Directive/Interval/IntervalPlayerDirective.js
 /**
  * Interval player directive
  * @returns {Object}
  * @constructor
  */
-var IntervalPlayerDirective = function IntervalPlayerDirective() {
+var IntervalPlayerDirective = function IntervalPlayerDirective($partial) {
     return {
         restrict: 'E',
-        templateUrl: '../app/Theory/Partial/Interval/player.html',
+        templateUrl: $partial.getPath('Theory', 'Interval/player.html'),
         replace: true,
         scope: {
             interval    : '='
@@ -3861,13 +3805,13 @@ var IntervalPlayerDirective = function IntervalPlayerDirective() {
 };
 
 // Set up dependency injection
-IntervalPlayerDirective.$inject = [];
+IntervalPlayerDirective.$inject = [ '$partial' ];
 
 // Register directive into angular
 angular
     .module('Theory')
     .directive('intervalPlayer', IntervalPlayerDirective);
-// File : app/Theory/Directive/Note/NoteDisplaySwitchDirective.js
+// File : src/app/Theory/Directive/Note/NoteDisplaySwitchDirective.js
 /**
  * Note display switch directive
  * @returns {Object}
@@ -3902,17 +3846,17 @@ NoteDisplaySwitchDirective.$inject = [];
 angular
     .module('Theory')
     .directive('noteDisplaySwitch', NoteDisplaySwitchDirective);
-// File : app/Theory/Directive/Note/NoteMenuDirective.js
+// File : src/app/Theory/Directive/Note/NoteMenuDirective.js
 /**
  * Note menu directive
  * @param   {NoteResource} NoteResource
  * @returns {Object}
  * @constructor
  */
-var NoteMenuDirective = function NoteMenuDirectiveConstructor(NoteResource) {
+var NoteMenuDirective = function NoteMenuDirectiveConstructor($partial, NoteResource) {
     return {
         restrict: 'E',
-        templateUrl: '../app/Theory/Partial/Note/menu.html',
+        templateUrl: $partial.getPath('Theory', 'Note/menu.html'),
         replace: true,
         scope: {
             /**
@@ -3927,21 +3871,22 @@ var NoteMenuDirective = function NoteMenuDirectiveConstructor(NoteResource) {
 };
 
 // Set up dependency injection
-NoteMenuDirective.$inject = ['NoteResource'];
+NoteMenuDirective.$inject = ['$partial', 'NoteResource'];
 
 // Register directive into angular
 angular
     .module('Theory')
     .directive('noteMenu', NoteMenuDirective);
-// File : app/Theory/Directive/Scale/ScaleRepresentationDirective.js
+// File : src/app/Theory/Directive/Scale/ScaleRepresentationDirective.js
 angular
     .module('Theory')
     .directive('scaleRepresentation', [
+        '$partial',
         'NoteResource',
-        function ScaleRepresentationDirective(NoteResource) {
+        function ScaleRepresentationDirective($partial, NoteResource) {
             return {
                 restrict: 'E',
-                templateUrl: '../app/Theory/Partial/Scale/representation.html',
+                templateUrl: $partial.getPath('Theory', 'Scale/representation.html'),
                 replace: true,
                 scope: {
 
@@ -4035,7 +3980,7 @@ angular
             };
         }
     ]);
-// File : app/Theory/Filter/NoteNameFilter.js
+// File : src/app/Theory/Filter/NoteNameFilter.js
 /**
  * Note Name filter
  */
@@ -4060,7 +4005,7 @@ angular
             };
         }
     ]);
-// File : app/Theory/Resource/ChordResource.js
+// File : src/app/Theory/Resource/ChordResource.js
 /**
  * Resource : Chord
  *
@@ -4095,7 +4040,7 @@ angular
     .module('Theory')
     .service('ChordResource', ChordResource);
 
-// File : app/Theory/Resource/DegreeResource.js
+// File : src/app/Theory/Resource/DegreeResource.js
 /**
  * Resource : Degree
  *
@@ -4130,7 +4075,7 @@ angular
     .module('Theory')
     .service('DegreeResource', DegreeResource);
 
-// File : app/Theory/Resource/IntervalResource.js
+// File : src/app/Theory/Resource/IntervalResource.js
 /**
  * Resource : Interval
  *
@@ -4165,7 +4110,7 @@ angular
     .module('Theory')
     .service('IntervalResource', IntervalResource);
 
-// File : app/Theory/Resource/NoteResource.js
+// File : src/app/Theory/Resource/NoteResource.js
 /**
  * Resource : Note
  *
@@ -4224,7 +4169,7 @@ angular
     .module('Theory')
     .service('NoteResource', NoteResource);
 
-// File : app/Theory/Resource/ScaleResource.js
+// File : src/app/Theory/Resource/ScaleResource.js
 /**
  * Resource : Scale
  *
@@ -4259,7 +4204,7 @@ angular
     .module('Theory')
     .service('ScaleResource', ScaleResource);
 
-// File : app/Theory/routes.js
+// File : src/app/Theory/routes.js
 /**
  * Theory routes
  */
@@ -4267,21 +4212,22 @@ angular
     .module('Theory')
     .config([
         '$routeProvider',
-        'resourceRouteProvider',
-        function TheoryRoutes($routeProvider, resourceRouteProvider) {
+        '$partialProvider',
+        'apiResourceRouteProvider',
+        function TheoryRoutes($routeProvider, $partialProvider, apiResourceRouteProvider) {
             // Theory summary
             $routeProvider.when('/theory', {
-                templateUrl:  '../app/Theory/Partial/summary.html'
+                templateUrl: $partialProvider.getPath('Theory', 'summary.html')
             });
 
-            resourceRouteProvider.register('Theory', 'Note',     'theory/notes',     true);
-            resourceRouteProvider.register('Theory', 'Degree',   'theory/degrees',   true);
-            resourceRouteProvider.register('Theory', 'Interval', 'theory/intervals', true);
-            resourceRouteProvider.register('Theory', 'Chord',    'theory/chords',    true);
-            resourceRouteProvider.register('Theory', 'Scale',    'theory/scales',    true);
+            apiResourceRouteProvider.register('Theory', 'Note',     'theory/notes',     true);
+            apiResourceRouteProvider.register('Theory', 'Degree',   'theory/degrees',   true);
+            apiResourceRouteProvider.register('Theory', 'Interval', 'theory/intervals', true);
+            apiResourceRouteProvider.register('Theory', 'Chord',    'theory/chords',    true);
+            apiResourceRouteProvider.register('Theory', 'Scale',    'theory/scales',    true);
         }
     ]);
-// File : app/Theory/translations.js
+// File : src/app/Theory/translations.js
 /**
  * Theory translations
  * @type {Object}
@@ -4331,7 +4277,7 @@ theoryTranslations['fr'] = {
     // S
     semitone_count      : '{ COUNT } demi-ton{COUNT, plural, =0{} one{} other{s}}'
 };
-// File : app/Tuning/tuning-widget.js
+// File : src/app/Tuning/tuning-widget.js
 (function () {
     'use strict';
 
@@ -4351,7 +4297,7 @@ theoryTranslations['fr'] = {
             }
         ]);
 })();
-// File : app/User/Controller/ProfileController.js
+// File : src/app/User/Controller/ProfileController.js
 /**
  *
  * @constructor
@@ -4363,7 +4309,7 @@ var ProfileController = function ProfileControllerContructor() {
 // Register controller into angular
 angular.module('User').controller('ProfileController', [ ProfileController ]);
 
-// File : app/User/Controller/SettingsController.js
+// File : src/app/User/Controller/SettingsController.js
 /**
  *
  * @constructor
@@ -4375,17 +4321,18 @@ var SettingsController = function SettingsControllerContructor() {
 // Register controller into angular
 angular.module('User').controller('SettingsController', [ SettingsController ]);
 
-// File : app/User/Directive/MenuDirective.js
+// File : src/app/User/Directive/MenuDirective.js
 /**
  * User menu
  */
 angular
     .module('User')
     .directive('userMenu', [
-        function () {
+        '$partial',
+        function ($partial) {
             return {
                 restrict: 'E',
-                templateUrl: '../app/User/Partial/menu.html',
+                templateUrl: $partial.getPath('User', 'menu.html'),
                 replace: true,
                 scope: {},
                 link: function (scope, element, attrs) {
@@ -4394,17 +4341,18 @@ angular
             };
         }
     ]);
-// File : app/User/routes.js
+// File : src/app/User/routes.js
 /**
  * User routes
  */
 angular.module('User').config([
     '$routeProvider',
-    function UserRoutes($routeProvider) {
+    '$partialProvider',
+    function UserRoutes($routeProvider, $partialProvider) {
         // Users list
         $routeProvider
             .when('/users', {
-                templateUrl:  '../app/User/Partial/list.html',
+                templateUrl:  $partialProvider.getPath('User', 'list.html'),
                 controller:   'ListViewController',
                 controllerAs: 'listViewCtrl'
             });
@@ -4412,7 +4360,7 @@ angular.module('User').config([
         // Current User profile
         $routeProvider
             .when('/profile', {
-                templateUrl:  '../app/User/Partial/profile.html',
+                templateUrl:  $partialProvider.getPath('User', 'profile.html'),
                 controller:   'ProfileController',
                 controllerAs: 'profileCtrl'
             });
@@ -4420,31 +4368,32 @@ angular.module('User').config([
         // Current User settings
         $routeProvider
             .when('/profile/settings', {
-                templateUrl:  '../app/User/Partial/settings.html',
+                templateUrl:  $partialProvider.getPath('User', 'settings.html'),
                 controller:   'SettingsController',
                 controllerAs: 'settingsCtrl'
             });
     }
 ]);
-// File : app/routes.js
+// File : src/app/routes.js
 /**
- * Workspace Application routes
+ * Application routes
  * Defines all routes for the Application
  */
 angular
-    .module('MusicTools')
+    .module('App')
     .config([
         '$routeProvider',
-        function MusicToolsConfig($routeProvider) {
+        '$partialProvider',
+        function AppConfig($routeProvider, $partialProvider) {
             $routeProvider
                 // Page not found
                 .when('/page_not_found', {
-                    templateUrl:  '../app/Layout/Partial/Error/page_not_found.html'
+                    templateUrl: $partialProvider.getPath('Layout', 'Error/page_not_found.html', true)
                 })
 
                 // Default Server 5xx errors
                 .when('/error_server', {
-                    templateUrl:  '../app/Layout/Partial/Error/server.html'
+                    templateUrl: $partialProvider.getPath('Layout', 'Error/server.html', true)
                 })
 
                 // Redirect to Page not found
@@ -4453,7 +4402,7 @@ angular
                 })
         }
     ]);
-// File : app/translations.js
+// File : src/app/translations.js
 /**
  * Application translations
  * @type {Object}

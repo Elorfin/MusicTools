@@ -1,0 +1,36 @@
+<div class="list-sorter" data-uib-dropdown="" data-ng-show="0 !== listSorterCtrl.count">
+    <!-- Information about the list -->
+    <b>{{ listSorterCtrl.count }}</b>
+    <span data-translate="{{ listSorterCtrl.element }}"
+          data-translate-values="{ COUNT: listSorterCtrl.count }"
+          data-translate-interpolation="messageformat"></span>, sorted by
+
+    <!-- Choose field for sort by -->
+    <a href id="list-sorter-dropdown" data-uib-dropdown-toggle="">
+        {{ listSorterCtrl.current }}
+        <span class="caret"></span>
+    </a>
+
+    <ul class="uib-dropdown-menu dropdown-menu dropdown-menu-check dropdown-menu-right" aria-labelledby="list-sorter-dropdown">
+        <li data-ng-repeat="(field, type) in listSorterCtrl.fields" data-ng-class="{ 'active': field === listSorterCtrl.current }">
+            <a href="" role="button" data-ng-click="listSorterCtrl.setCurrent(field)">
+                {{ field }}
+                <span class="fa fa-check"></span>
+            </a>
+        </li>
+    </ul>
+
+    ,
+
+    <!-- Choose sort direction -->
+    <a href="" data-ng-click="listSorterCtrl.toggleReverse()">
+        <span class="fa fa-fw" data-ng-class="{
+            'fa-sort-amount-asc'  : !listSorterCtrl.reverse && null     === listSorterCtrl.getSortType(),
+            'fa-sort-amount-desc' : listSorterCtrl.reverse  && null     === listSorterCtrl.getSortType(),
+            'fa-sort-alpha-asc'   : !listSorterCtrl.reverse && 'string' === listSorterCtrl.getSortType(),
+            'fa-sort-alpha-desc'  : listSorterCtrl.reverse  && 'string' === listSorterCtrl.getSortType(),
+            'fa-sort-numeric-asc' : !listSorterCtrl.reverse && 'number' === listSorterCtrl.getSortType(),
+            'fa-sort-numeric-desc': listSorterCtrl.reverse  && 'number' === listSorterCtrl.getSortType(),
+        }"></span>
+    </a>
+</div>

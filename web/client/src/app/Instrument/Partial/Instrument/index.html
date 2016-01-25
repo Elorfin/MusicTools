@@ -1,0 +1,39 @@
+<layout-page class="page-list instrument-list">
+    <!-- Header buttons -->
+    <ui-header-buttons>
+        <!-- New Instrument button -->
+        <ui-header-button class="nav-link-default">
+            <a href="#/instruments/new">
+                <span class="fa fa-fw fa-plus"></span>
+                {{ 'new_instrument'|translate }}
+            </a>
+        </ui-header-button>
+
+        <li class="divider"></li>
+
+        <!-- List format button -->
+        <ui-header-button class="nav-link-default">
+            <layout-list-formatter data-format="listCtrl.format"></layout-list-formatter>
+        </ui-header-button>
+    </ui-header-buttons>
+
+    <!-- Title of the page -->
+    <layout-page-title id="song-list">
+        {{ 'my_instruments_title'|translate }}
+
+        <layout-list-sorter data-element="instrument" data-count="listCtrl.resources.length" data-current="listCtrl.sortBy" data-reverse="listCtrl.sortReverse" data-fields="listCtrl.sortFields"></layout-list-sorter>
+    </layout-page-title>
+
+    <div class="row">
+        <!-- List items -->
+        <div data-ng-repeat="resource in listCtrl.resources|orderBy:listCtrl.sortBy:listCtrl.sortReverse"
+             data-ng-include="'Instrument/List/item-' + listCtrl.format + '.html'|partial_path:'Instrument'"
+             data-ng-class="{ 'col-md-12': 'tile' !== listCtrl.format, 'col-xs-12 col-sm-4 col-md-3 col-lg-2': 'tile' === listCtrl.format }"
+        ></div>
+    </div>
+
+    <!-- No element message -->
+    <div class="empty-list" data-ng-if="listCtrl.resources.length === 0">
+        {{ 'no_instrument_found'|translate }}
+    </div>
+</layout-page>

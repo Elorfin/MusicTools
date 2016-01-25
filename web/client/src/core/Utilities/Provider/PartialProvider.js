@@ -29,9 +29,20 @@ PartialProvider.prototype.getPath = function getPath(relativePath, module, isCor
     }
 
     var path = (isCore) ? this.default.baseCorePath : this.default.baseAppPath;
-    path += this.default.partialDir;
+    path += module + '/' + this.default.partialDir;
 
     return path + relativePath;
+};
+
+var Partial = function Partial(options) {
+    this.getPath = function getPath(relativePath, module, isCore) {
+        var path = (isCore) ? options.baseCorePath : options.baseAppPath;
+        path += module + '/' + options.partialDir;
+
+        var fullPath = path + relativePath;
+
+        return fullPath;
+    };
 };
 
 // Inject Service into AngularJS

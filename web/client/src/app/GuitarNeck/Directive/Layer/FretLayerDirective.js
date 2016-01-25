@@ -6,7 +6,7 @@ angular
         function FretLayerDirective($window, $partial) {
             return {
                 restrict: 'E',
-                templateUrl: $partial.getPath('GuitarNeck', 'Layer/FretLayer.html'),
+                templateUrl: $partial.getPath('Layer/FretLayer.html', 'GuitarNeck'),
                 replace: true,
                 scope: {
                     /**

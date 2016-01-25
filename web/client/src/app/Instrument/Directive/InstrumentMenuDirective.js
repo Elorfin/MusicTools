@@ -5,7 +5,7 @@
 var InstrumentMenuDirective = function InstrumentMenuDirective($partial) {
     return {
         restrict: 'E',
-        templateUrl: $partial.getPath('Instrument', 'Instrument/menu.html'),
+        templateUrl: $partial.getPath('Instrument/menu.html', 'Instrument'),
         replace: true
     };
 };

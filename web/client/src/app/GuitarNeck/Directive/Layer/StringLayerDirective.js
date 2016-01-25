@@ -6,7 +6,7 @@ angular
         function StringLayerDirective($window, $partial) {
             return {
                 restrict: 'E',
-                templateUrl: $partial.getPath('GuitarNeck', 'Layer/StringLayer.html'),
+                templateUrl: $partial.getPath('Layer/StringLayer.html', 'GuitarNeck'),
                 replace: true,
                 scope: {
                     strings: '=?'

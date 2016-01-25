@@ -8,7 +8,7 @@
             function ($timeout, $partial) {
                 return {
                     restrict: 'E',
-                    templateUrl: $partial.getPath('SheetMusic', 'sheet-music.html'),
+                    templateUrl: $partial.getPath('sheet-music.html', 'SheetMusic'),
                     replace: true,
                     scope: {
                         file: '@'

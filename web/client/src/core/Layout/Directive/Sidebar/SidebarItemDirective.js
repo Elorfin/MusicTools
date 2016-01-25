@@ -4,7 +4,7 @@
 var LayoutSidebarItemDirective = function LayoutSidebarItemDirective($partial) {
     return {
         restrict: 'E',
-        templateUrl: $partial.getPath('Layout', 'Sidebar/sidebar-item.html', true),
+        templateUrl: $partial.getPath('Sidebar/sidebar-item.html', 'Layout', true),
         replace: true,
         scope: {
             icon       : '@',

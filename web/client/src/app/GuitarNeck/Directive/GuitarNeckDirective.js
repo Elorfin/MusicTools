@@ -5,7 +5,7 @@ angular
         function ($partial) {
             return {
                 restrict: 'E',
-                templateUrl: $partial.getPath('GuitarNeck', 'GuitarNeck.html'),
+                templateUrl: $partial.getPath('GuitarNeck.html', 'GuitarNeck'),
                 replace: true,
                 scope: {
                     guitar: '=?'

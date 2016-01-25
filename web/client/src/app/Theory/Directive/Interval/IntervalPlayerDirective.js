@@ -6,7 +6,7 @@
 var IntervalPlayerDirective = function IntervalPlayerDirective($partial) {
     return {
         restrict: 'E',
-        templateUrl: $partial.getPath('Theory', 'Interval/player.html'),
+        templateUrl: $partial.getPath('Interval/player.html', 'Theory'),
         replace: true,
         scope: {
             interval    : '='

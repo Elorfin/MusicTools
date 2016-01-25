@@ -8,7 +8,7 @@ angular
         function LayoutPageTitleDirective($partial) {
             return {
                 restrict: 'E',
-                templateUrl: $partial.getPath('Layout', 'Page/title.html', true),
+                templateUrl: $partial.getPath('Page/title.html', 'Layout', true),
                 replace: true,
                 transclude: true,
                 scope: {

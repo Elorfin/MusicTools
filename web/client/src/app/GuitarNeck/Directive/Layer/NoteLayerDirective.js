@@ -6,7 +6,7 @@ angular
         function NoteLayerDirective($window, $partial) {
             return {
                 restrict: 'E',
-                templateUrl: $partial.getPath('GuitarNeck', 'Layer/NoteLayer.html'),
+                templateUrl: $partial.getPath('Layer/NoteLayer.html', 'GuitarNeck'),
                 replace: true,
                 scope: {
 

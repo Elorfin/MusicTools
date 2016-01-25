@@ -8,7 +8,7 @@ angular
         function ScoreFieldDirective($partial) {
             return {
                 restrict: 'E',
-                templateUrl: $partial.getPath('Layout', 'Field/score-field.html', true),
+                templateUrl: $partial.getPath('Field/score-field.html', 'Layout', true),
                 replace: true,
                 scope: {
                     /**

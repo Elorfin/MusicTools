@@ -8,7 +8,7 @@ angular.module('User').config([
         // Users list
         $routeProvider
             .when('/users', {
-                templateUrl:  $partialProvider.getPath('User', 'list.html'),
+                templateUrl:  $partialProvider.getPath('list.html', 'User'),
                 controller:   'ListViewController',
                 controllerAs: 'listViewCtrl'
             });
@@ -16,7 +16,7 @@ angular.module('User').config([
         // Current User profile
         $routeProvider
             .when('/profile', {
-                templateUrl:  $partialProvider.getPath('User', 'profile.html'),
+                templateUrl:  $partialProvider.getPath('profile.html', 'User'),
                 controller:   'ProfileController',
                 controllerAs: 'profileCtrl'
             });
@@ -24,7 +24,7 @@ angular.module('User').config([
         // Current User settings
         $routeProvider
             .when('/profile/settings', {
-                templateUrl:  $partialProvider.getPath('User', 'settings.html'),
+                templateUrl:  $partialProvider.getPath('settings.html', 'User'),
                 controller:   'SettingsController',
                 controllerAs: 'settingsCtrl'
             });

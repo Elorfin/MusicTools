@@ -4,10 +4,10 @@
  * @returns {Object}
  * @constructor
  */
-var NoteMenuDirective = function NoteMenuDirectiveConstructor($partial, NoteResource) {
+var NoteMenuDirective = function NoteMenuDirectiveConstructor($partial) {
     return {
         restrict: 'E',
-        templateUrl: $partial.getPath('Theory', 'Note/menu.html'),
+        templateUrl: $partial.getPath('Note/menu.html', 'Theory'),
         replace: true,
         scope: {
             /**
@@ -22,9 +22,9 @@ var NoteMenuDirective = function NoteMenuDirectiveConstructor($partial, NoteReso
 };
 
 // Set up dependency injection
-NoteMenuDirective.$inject = ['$partial', 'NoteResource'];
+NoteMenuDirective.$inject = [ '$partial' ];
 
-// Register directive into angular
+// Register directive into Angular JS
 angular
     .module('Theory')
     .directive('noteMenu', NoteMenuDirective);

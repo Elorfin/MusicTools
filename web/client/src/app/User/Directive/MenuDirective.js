@@ -8,7 +8,7 @@ angular
         function ($partial) {
             return {
                 restrict: 'E',
-                templateUrl: $partial.getPath('User', 'menu.html'),
+                templateUrl: $partial.getPath('menu.html', 'User'),
                 replace: true,
                 scope: {},
                 link: function (scope, element, attrs) {

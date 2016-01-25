@@ -9,7 +9,7 @@ angular
         function AlertsDirective($partial) {
             return {
                 restrict: 'E',
-                templateUrl: $partial.getPath('Alert', 'alerts.html', true),
+                templateUrl: $partial.getPath('alerts.html', 'Alert', true),
                 replace: true,
                 controllerAs: 'alertsCtrl',
                 controller: [

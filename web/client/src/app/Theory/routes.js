@@ -10,7 +10,7 @@ angular
         function TheoryRoutes($routeProvider, $partialProvider, apiResourceRouteProvider) {
             // Theory summary
             $routeProvider.when('/theory', {
-                templateUrl: $partialProvider.getPath('Theory', 'summary.html')
+                templateUrl: $partialProvider.getPath('summary.html', 'Theory')
             });
 
             apiResourceRouteProvider.register('Theory', 'Note',     'theory/notes',     true);

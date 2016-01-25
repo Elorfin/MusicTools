@@ -8,7 +8,7 @@ angular
         function HeaderDirective($partial) {
             return {
                 restrict: 'E',
-                templateUrl: $partial.getPath('Layout', 'Header/navbar.html', true),
+                templateUrl: $partial.getPath('Header/navbar.html', 'Layout', true),
                 replace: true,
                 scope: {},
                 link: function (scope, element, attrs) {

@@ -6,7 +6,7 @@ angular
         function ScaleRepresentationDirective($partial, NoteResource) {
             return {
                 restrict: 'E',
-                templateUrl: $partial.getPath('Theory', 'Scale/representation.html'),
+                templateUrl: $partial.getPath('Scale/representation.html', 'Theory'),
                 replace: true,
                 scope: {
 

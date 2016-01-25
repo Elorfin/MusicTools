@@ -11,12 +11,12 @@ angular
             $routeProvider
                 // Page not found
                 .when('/page_not_found', {
-                    templateUrl: $partialProvider.getPath('Layout', 'Error/page_not_found.html', true)
+                    templateUrl: $partialProvider.getPath('Error/page_not_found.html', 'Layout', true)
                 })
 
                 // Default Server 5xx errors
                 .when('/error_server', {
-                    templateUrl: $partialProvider.getPath('Layout', 'Error/server.html', true)
+                    templateUrl: $partialProvider.getPath('Error/server.html', 'Layout', true)
                 })
 
                 // Redirect to Page not found

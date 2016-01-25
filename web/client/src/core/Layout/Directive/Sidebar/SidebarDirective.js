@@ -4,7 +4,7 @@
 var LayoutSidebarDirective = function LayoutSidebarDirectiveConstructor($location, $partial) {
     return {
         restrict: 'E',
-        templateUrl: $partial.getPath('Layout', 'Sidebar/sidebar.html', true),
+        templateUrl: $partial.getPath('Sidebar/sidebar.html', 'Layout', true),
         replace: true,
         scope: {},
         link: function sidebarDirectiveLink(scope, element, attrs) {

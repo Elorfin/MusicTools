@@ -4,7 +4,7 @@
 var LayoutListSorterDirective = function LayoutListSorterDirectiveConstructor($partial) {
     return {
         restrict: 'E',
-        templateUrl: $partial.getPath('Layout', 'list-sorter.html', true),
+        templateUrl: $partial.getPath('list-sorter.html', 'Layout', true),
         replace: true,
         scope: {
             /**

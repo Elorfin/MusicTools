@@ -4,7 +4,7 @@
 var LayoutListFormatterDirective = function LayoutListFormatterDirectiveConstructor($partial) {
     return {
         restrict: 'E',
-        templateUrl: $partial.getPath('Layout', 'list-formatter.html', true),
+        templateUrl: $partial.getPath('list-formatter.html', 'Layout', true),
         replace: true,
         scope: {
             /**

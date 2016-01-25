@@ -71,7 +71,7 @@ angular
         function AlertsDirective($partial) {
             return {
                 restrict: 'E',
-                templateUrl: $partial.getPath('Alert', 'alerts.html', true),
+                templateUrl: $partial.getPath('alerts.html', 'Alert', true),
                 replace: true,
                 controllerAs: 'alertsCtrl',
                 controller: [
@@ -410,7 +410,7 @@ ApiResourceRouteProvider.prototype.register = function register(module, resource
     var resourceClass = this.setPlaceholders(this.default.resourceName, module, resource);
 
     // Register LIST route
-    var listTemplate  = this.$partialProvider.getPath(module, this.setPlaceholders(options.list.templateUrl, module, resource));
+    var listTemplate  = this.$partialProvider.getPath(this.setPlaceholders(options.list.templateUrl, module, resource), module);
     var listCtrl      = this.setPlaceholders(options.list.controller,   module, resource);
     var listCtrlAlias = this.setPlaceholders(options.list.controllerAs, module, resource);
     var listResolve   = {
@@ -441,7 +441,7 @@ ApiResourceRouteProvider.prototype.register = function register(module, resource
         // The resource is not READ ONLY, so add modification and creation route
 
         // Register NEW route
-        var newTemplate  = this.$partialProvider.getPath(module, this.setPlaceholders(options.new.templateUrl, module, resource));
+        var newTemplate  = this.$partialProvider.getPath(this.setPlaceholders(options.new.templateUrl, module, resource), module);
         var newCtrl      = this.setPlaceholders(options.new.controller,   module, resource);
         var newCtrlAlias = this.setPlaceholders(options.new.controllerAs, module, resource);
         var newResolve   = {
@@ -469,7 +469,7 @@ ApiResourceRouteProvider.prototype.register = function register(module, resource
         });
 
         // Register EDIT route
-        var editTemplate  = this.$partialProvider.getPath(module, this.setPlaceholders(options.edit.templateUrl, module, resource));
+        var editTemplate  = this.$partialProvider.getPath(this.setPlaceholders(options.edit.templateUrl, module, resource), module);
         var editCtrl      = this.setPlaceholders(options.edit.controller,   module, resource);
         var editCtrlAlias = this.setPlaceholders(options.edit.controllerAs, module, resource);
         var editResolve   = {
@@ -499,7 +499,7 @@ ApiResourceRouteProvider.prototype.register = function register(module, resource
     }
 
     // Register SHOW route
-    var showTemplate  = this.$partialProvider.getPath(module, this.setPlaceholders(options.show.templateUrl, module, resource));
+    var showTemplate  = this.$partialProvider.getPath(this.setPlaceholders(options.show.templateUrl, module, resource), module);
     var showCtrl      = this.setPlaceholders(options.show.controller,   module, resource);
     var showCtrlAlias = this.setPlaceholders(options.show.controllerAs, module, resource);
     var showResolve   = {
@@ -921,7 +921,7 @@ angular
         function ScoreFieldDirective($partial) {
             return {
                 restrict: 'E',
-                templateUrl: $partial.getPath('Layout', 'Field/score-field.html', true),
+                templateUrl: $partial.getPath('Field/score-field.html', 'Layout', true),
                 replace: true,
                 scope: {
                     /**
@@ -1046,7 +1046,7 @@ angular
         function HeaderDirective($partial) {
             return {
                 restrict: 'E',
-                templateUrl: $partial.getPath('Layout', 'Header/navbar.html', true),
+                templateUrl: $partial.getPath('Header/navbar.html', 'Layout', true),
                 replace: true,
                 scope: {},
                 link: function (scope, element, attrs) {
@@ -1062,7 +1062,7 @@ angular
 var LayoutListFormatterDirective = function LayoutListFormatterDirectiveConstructor($partial) {
     return {
         restrict: 'E',
-        templateUrl: $partial.getPath('Layout', 'list-formatter.html', true),
+        templateUrl: $partial.getPath('list-formatter.html', 'Layout', true),
         replace: true,
         scope: {
             /**
@@ -1099,7 +1099,7 @@ angular
 var LayoutListSorterDirective = function LayoutListSorterDirectiveConstructor($partial) {
     return {
         restrict: 'E',
-        templateUrl: $partial.getPath('Layout', 'list-sorter.html', true),
+        templateUrl: $partial.getPath('list-sorter.html', 'Layout', true),
         replace: true,
         scope: {
             /**
@@ -1203,7 +1203,7 @@ angular
         function LayoutPageTitleDirective($partial) {
             return {
                 restrict: 'E',
-                templateUrl: $partial.getPath('Layout', 'Page/title.html', true),
+                templateUrl: $partial.getPath('Page/title.html', 'Layout', true),
                 replace: true,
                 transclude: true,
                 scope: {
@@ -1310,7 +1310,7 @@ angular
 var LayoutSidebarDirective = function LayoutSidebarDirectiveConstructor($location, $partial) {
     return {
         restrict: 'E',
-        templateUrl: $partial.getPath('Layout', 'Sidebar/sidebar.html', true),
+        templateUrl: $partial.getPath('Sidebar/sidebar.html', 'Layout', true),
         replace: true,
         scope: {},
         link: function sidebarDirectiveLink(scope, element, attrs) {
@@ -1338,7 +1338,7 @@ angular
 var LayoutSidebarItemDirective = function LayoutSidebarItemDirective($partial) {
     return {
         restrict: 'E',
-        templateUrl: $partial.getPath('Layout', 'Sidebar/sidebar-item.html', true),
+        templateUrl: $partial.getPath('Sidebar/sidebar-item.html', 'Layout', true),
         replace: true,
         scope: {
             icon       : '@',
@@ -1463,9 +1463,20 @@ PartialProvider.prototype.getPath = function getPath(relativePath, module, isCor
     }
 
     var path = (isCore) ? this.default.baseCorePath : this.default.baseAppPath;
-    path += this.default.partialDir;
+    path += module + '/' + this.default.partialDir;
 
     return path + relativePath;
+};
+
+var Partial = function Partial(options) {
+    this.getPath = function getPath(relativePath, module, isCore) {
+        var path = (isCore) ? options.baseCorePath : options.baseAppPath;
+        path += module + '/' + options.partialDir;
+
+        var fullPath = path + relativePath;
+
+        return fullPath;
+    };
 };
 
 // Inject Service into AngularJS
@@ -2371,7 +2382,7 @@ angular
         function ($partial) {
             return {
                 restrict: 'E',
-                templateUrl: $partial.getPath('GuitarNeck', 'GuitarNeck.html'),
+                templateUrl: $partial.getPath('GuitarNeck.html', 'GuitarNeck'),
                 replace: true,
                 scope: {
                     guitar: '=?'
@@ -2395,7 +2406,7 @@ angular
         function FretLayerDirective($window, $partial) {
             return {
                 restrict: 'E',
-                templateUrl: $partial.getPath('GuitarNeck', 'Layer/FretLayer.html'),
+                templateUrl: $partial.getPath('Layer/FretLayer.html', 'GuitarNeck'),
                 replace: true,
                 scope: {
                     /**
@@ -2462,7 +2473,7 @@ angular
         function NoteLayerDirective($window, $partial) {
             return {
                 restrict: 'E',
-                templateUrl: $partial.getPath('GuitarNeck', 'Layer/NoteLayer.html'),
+                templateUrl: $partial.getPath('Layer/NoteLayer.html', 'GuitarNeck'),
                 replace: true,
                 scope: {
 
@@ -2492,7 +2503,7 @@ angular
         function StringLayerDirective($window, $partial) {
             return {
                 restrict: 'E',
-                templateUrl: $partial.getPath('GuitarNeck', 'Layer/StringLayer.html'),
+                templateUrl: $partial.getPath('Layer/StringLayer.html', 'GuitarNeck'),
                 replace: true,
                 scope: {
                     strings: '=?'
@@ -2642,7 +2653,7 @@ angular
 var InstrumentMenuDirective = function InstrumentMenuDirective($partial) {
     return {
         restrict: 'E',
-        templateUrl: $partial.getPath('Instrument', 'Instrument/menu.html'),
+        templateUrl: $partial.getPath('Instrument/menu.html', 'Instrument'),
         replace: true
     };
 };
@@ -3154,7 +3165,7 @@ angular
             function ($timeout, $partial) {
                 return {
                     restrict: 'E',
-                    templateUrl: $partial.getPath('SheetMusic', 'sheet-music.html'),
+                    templateUrl: $partial.getPath('sheet-music.html', 'SheetMusic'),
                     replace: true,
                     scope: {
                         file: '@'
@@ -3666,7 +3677,7 @@ angular
 var IntervalPlayerDirective = function IntervalPlayerDirective($partial) {
     return {
         restrict: 'E',
-        templateUrl: $partial.getPath('Theory', 'Interval/player.html'),
+        templateUrl: $partial.getPath('Interval/player.html', 'Theory'),
         replace: true,
         scope: {
             interval    : '='
@@ -3853,10 +3864,10 @@ angular
  * @returns {Object}
  * @constructor
  */
-var NoteMenuDirective = function NoteMenuDirectiveConstructor($partial, NoteResource) {
+var NoteMenuDirective = function NoteMenuDirectiveConstructor($partial) {
     return {
         restrict: 'E',
-        templateUrl: $partial.getPath('Theory', 'Note/menu.html'),
+        templateUrl: $partial.getPath('Note/menu.html', 'Theory'),
         replace: true,
         scope: {
             /**
@@ -3871,9 +3882,9 @@ var NoteMenuDirective = function NoteMenuDirectiveConstructor($partial, NoteReso
 };
 
 // Set up dependency injection
-NoteMenuDirective.$inject = ['$partial', 'NoteResource'];
+NoteMenuDirective.$inject = [ '$partial' ];
 
-// Register directive into angular
+// Register directive into Angular JS
 angular
     .module('Theory')
     .directive('noteMenu', NoteMenuDirective);
@@ -3886,7 +3897,7 @@ angular
         function ScaleRepresentationDirective($partial, NoteResource) {
             return {
                 restrict: 'E',
-                templateUrl: $partial.getPath('Theory', 'Scale/representation.html'),
+                templateUrl: $partial.getPath('Scale/representation.html', 'Theory'),
                 replace: true,
                 scope: {
 
@@ -4217,7 +4228,7 @@ angular
         function TheoryRoutes($routeProvider, $partialProvider, apiResourceRouteProvider) {
             // Theory summary
             $routeProvider.when('/theory', {
-                templateUrl: $partialProvider.getPath('Theory', 'summary.html')
+                templateUrl: $partialProvider.getPath('summary.html', 'Theory')
             });
 
             apiResourceRouteProvider.register('Theory', 'Note',     'theory/notes',     true);
@@ -4332,7 +4343,7 @@ angular
         function ($partial) {
             return {
                 restrict: 'E',
-                templateUrl: $partial.getPath('User', 'menu.html'),
+                templateUrl: $partial.getPath('menu.html', 'User'),
                 replace: true,
                 scope: {},
                 link: function (scope, element, attrs) {
@@ -4352,7 +4363,7 @@ angular.module('User').config([
         // Users list
         $routeProvider
             .when('/users', {
-                templateUrl:  $partialProvider.getPath('User', 'list.html'),
+                templateUrl:  $partialProvider.getPath('list.html', 'User'),
                 controller:   'ListViewController',
                 controllerAs: 'listViewCtrl'
             });
@@ -4360,7 +4371,7 @@ angular.module('User').config([
         // Current User profile
         $routeProvider
             .when('/profile', {
-                templateUrl:  $partialProvider.getPath('User', 'profile.html'),
+                templateUrl:  $partialProvider.getPath('profile.html', 'User'),
                 controller:   'ProfileController',
                 controllerAs: 'profileCtrl'
             });
@@ -4368,7 +4379,7 @@ angular.module('User').config([
         // Current User settings
         $routeProvider
             .when('/profile/settings', {
-                templateUrl:  $partialProvider.getPath('User', 'settings.html'),
+                templateUrl:  $partialProvider.getPath('settings.html', 'User'),
                 controller:   'SettingsController',
                 controllerAs: 'settingsCtrl'
             });
@@ -4388,12 +4399,12 @@ angular
             $routeProvider
                 // Page not found
                 .when('/page_not_found', {
-                    templateUrl: $partialProvider.getPath('Layout', 'Error/page_not_found.html', true)
+                    templateUrl: $partialProvider.getPath('Error/page_not_found.html', 'Layout', true)
                 })
 
                 // Default Server 5xx errors
                 .when('/error_server', {
-                    templateUrl: $partialProvider.getPath('Layout', 'Error/server.html', true)
+                    templateUrl: $partialProvider.getPath('Error/server.html', 'Layout', true)
                 })
 
                 // Redirect to Page not found

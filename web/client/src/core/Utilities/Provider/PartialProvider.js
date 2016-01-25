@@ -13,7 +13,7 @@ var PartialProvider = function PartialProvider() {
 
 PartialProvider.prototype.default = {
     baseCorePath : '../src/core/',
-    baseAppPath  : '../src/core/',
+    baseAppPath  : '../src/app/',
     partialDir   : 'Partial/'
 };
 
@@ -28,7 +28,7 @@ PartialProvider.prototype.getPath = function getPath(relativePath, module, isCor
         console.error('You must provide the module name to get the Partials path.');
     }
 
-    var path = (isCore) ? this.default.baseCorePath : this.default.baseAppPath;
+    var path = (isCore !== 'undefined' && isCore) ? this.default.baseCorePath : this.default.baseAppPath;
     path += module + '/' + this.default.partialDir;
 
     return path + relativePath;
@@ -36,7 +36,7 @@ PartialProvider.prototype.getPath = function getPath(relativePath, module, isCor
 
 var Partial = function Partial(options) {
     this.getPath = function getPath(relativePath, module, isCore) {
-        var path = (isCore) ? options.baseCorePath : options.baseAppPath;
+        var path = (typeof isCore !== 'undefined' && isCore) ? options.baseCorePath : options.baseAppPath;
         path += module + '/' + options.partialDir;
 
         var fullPath = path + relativePath;

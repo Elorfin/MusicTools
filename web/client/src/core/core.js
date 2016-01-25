@@ -15,6 +15,7 @@ angular
         'angular-loading-bar',
 
         'Utilities',
+        'Server',
         'ApiResource',
         'Layout',
         'Alert'

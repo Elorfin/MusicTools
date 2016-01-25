@@ -2,12 +2,14 @@
  * Confirm Modal controller
  * @constructor
  */
-var ConfirmModalController = function ConfirmModalControllerConstructor($uibModalInstance) {
+var ConfirmModalController = function ConfirmModalController($uibModalInstance) {
     this.instance = $uibModalInstance;
 };
 
+// Set up dependency injection
+ConfirmModalController.$inject = [ '$uibModalInstance' ];
 
-// Register controller into angular
+// Register controller into Angular JS
 angular
     .module('Layout')
-    .controller('ConfirmModalController', [ '$uibModalInstance', ConfirmModalController ]);
+    .controller('ConfirmModalController', ConfirmModalController);

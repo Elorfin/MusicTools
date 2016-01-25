@@ -2,9 +2,12 @@
  * Alert Service
  * @constructor
  */
-var AlertService = function AlertServiceConstructor($timeout) {
+var AlertService = function AlertService($timeout) {
     this.$timeout = $timeout;
 };
+
+// Set up dependency injection
+AlertService.$inject = [ '$timeout' ];
 
 /**
  * List of all current active alerts
@@ -69,4 +72,4 @@ AlertService.prototype.removeAlert = function removeAlert(alert, clearTimeout) {
 // Register service into AngularJS
 angular
     .module('Alert')
-    .service('AlertService', [ '$timeout', AlertService ]);
+    .service('AlertService', AlertService);

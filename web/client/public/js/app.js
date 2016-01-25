@@ -32,6 +32,12 @@ angular
             }
         }
     ]);
+// File : src/core/Server/module.js
+/**
+ * Server module
+ */
+angular
+    .module('Server', []);
 // File : src/core/Utilities/module.js
 /**
  * Utilities Module
@@ -55,6 +61,7 @@ angular
         'angular-loading-bar',
 
         'Utilities',
+        'Server',
         'ApiResource',
         'Layout',
         'Alert'
@@ -64,37 +71,43 @@ angular
  * Alerts Directive
  * Renders user messages
  */
+var AlertsDirective = function AlertsDirective($partial) {
+    return {
+        restrict: 'E',
+        templateUrl: $partial.getPath('alerts.html', 'Alert', true),
+        replace: true,
+        controllerAs: 'alertsCtrl',
+        controller: [
+            'AlertService',
+            function AlertsController(AlertService) {
+                // Expose service to template
+                this.alerts      = AlertService.getAlerts();
+                this.removeAlert = function removeAlert(alert) {
+                    AlertService.removeAlert(alert, true);
+                };
+            }
+        ]
+    };
+};
+
+// Set up dependency injection
+AlertsDirective.$inject = [ '$partial' ];
+
+// Register directive into Angular JS
 angular
     .module('Alert')
-    .directive('alerts', [
-        '$partial',
-        function AlertsDirective($partial) {
-            return {
-                restrict: 'E',
-                templateUrl: $partial.getPath('alerts.html', 'Alert', true),
-                replace: true,
-                controllerAs: 'alertsCtrl',
-                controller: [
-                    'AlertService',
-                    function AlertsController(AlertService) {
-                        // Expose service to template
-                        this.alerts      = AlertService.getAlerts();
-                        this.removeAlert = function removeAlert(alert) {
-                            AlertService.removeAlert(alert, true);
-                        };
-                    }
-                ]
-            };
-        }
-    ]);
+    .directive('alerts', AlertsDirective);
 // File : src/core/Alert/Service/AlertService.js
 /**
  * Alert Service
  * @constructor
  */
-var AlertService = function AlertServiceConstructor($timeout) {
+var AlertService = function AlertService($timeout) {
     this.$timeout = $timeout;
 };
+
+// Set up dependency injection
+AlertService.$inject = [ '$timeout' ];
 
 /**
  * List of all current active alerts
@@ -159,7 +172,7 @@ AlertService.prototype.removeAlert = function removeAlert(alert, clearTimeout) {
 // Register service into AngularJS
 angular
     .module('Alert')
-    .service('AlertService', [ '$timeout', AlertService ]);
+    .service('AlertService', AlertService);
 // File : src/core/ApiResource/Controller/FormController.js
 /**
  * Base Form controller
@@ -865,6 +878,9 @@ var ApiService = function ApiService() {
 
 };
 
+// Set up dependency injection
+ApiService.$inject = [];
+
 /**
  * Server base path
  * @type {String}
@@ -894,21 +910,23 @@ ApiService.prototype.getAssetPath = function getAssetPath() {
 // Inject Service into AngularJS
 angular
     .module('ApiResource')
-    .service('ApiService', [ ApiService ]);
+    .service('ApiService', ApiService);
 // File : src/core/Layout/Controller/Modal/ConfirmModalController.js
 /**
  * Confirm Modal controller
  * @constructor
  */
-var ConfirmModalController = function ConfirmModalControllerConstructor($uibModalInstance) {
+var ConfirmModalController = function ConfirmModalController($uibModalInstance) {
     this.instance = $uibModalInstance;
 };
 
+// Set up dependency injection
+ConfirmModalController.$inject = [ '$uibModalInstance' ];
 
-// Register controller into angular
+// Register controller into Angular JS
 angular
     .module('Layout')
-    .controller('ConfirmModalController', [ '$uibModalInstance', ConfirmModalController ]);
+    .controller('ConfirmModalController', ConfirmModalController);
 
 // File : src/core/Layout/Directive/Field/ScoreFieldDirective.js
 /**
@@ -1388,6 +1406,22 @@ layoutTranslations['fr'] = {
     list_display_list_detailed  : 'liste détaillée',
     list_display_list_condensed : 'liste condensée'
 };
+// File : src/core/Server/Provider/ServerProvider.js
+/**
+ * Server Provider
+ * @constructor
+ */
+var ServerProvider = function ServerProvider() {
+
+};
+
+// Set up dependency injection
+ServerProvider.$inject = [];
+
+// Register provider into Angular JS
+angular
+    .module('Server')
+    .provider('ServerProvider', ServerProvider);
 // File : src/core/Utilities/Filter/AssetPathFilter.js
 /**
  * Asset Path filter
@@ -1441,10 +1475,22 @@ var PartialProvider = function PartialProvider() {
     var options = this.default;
 
     this.$get = function () {
-        return new Partial(options);
+        return {
+            options: options,
+            getPath: function getPath(relativePath, module, isCore) {
+                var path = (typeof isCore !== 'undefined' && isCore) ? this.options.baseCorePath : this.options.baseAppPath;
+                path += module + '/' + this.options.partialDir;
+
+                return path + relativePath;
+            }
+        };
     };
 };
 
+/**
+ * Configuration of the provider
+ * @type {Object}
+ */
 PartialProvider.prototype.default = {
     baseCorePath : '../src/core/',
     baseAppPath  : '../src/app/',
@@ -1466,17 +1512,6 @@ PartialProvider.prototype.getPath = function getPath(relativePath, module, isCor
     path += module + '/' + this.default.partialDir;
 
     return path + relativePath;
-};
-
-var Partial = function Partial(options) {
-    this.getPath = function getPath(relativePath, module, isCore) {
-        var path = (typeof isCore !== 'undefined' && isCore) ? options.baseCorePath : options.baseAppPath;
-        path += module + '/' + options.partialDir;
-
-        var fullPath = path + relativePath;
-
-        return fullPath;
-    };
 };
 
 // Inject Service into AngularJS

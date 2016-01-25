@@ -7,6 +7,9 @@ var ApiService = function ApiService() {
 
 };
 
+// Set up dependency injection
+ApiService.$inject = [];
+
 /**
  * Server base path
  * @type {String}
@@ -36,4 +39,4 @@ ApiService.prototype.getAssetPath = function getAssetPath() {
 // Inject Service into AngularJS
 angular
     .module('ApiResource')
-    .service('ApiService', [ ApiService ]);
+    .service('ApiService', ApiService);

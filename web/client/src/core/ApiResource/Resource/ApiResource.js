@@ -216,19 +216,6 @@ ApiResource.prototype.remove = function removeResource(resource) {
 };
 
 /**
- * Apply a callback to all resources
- *
- * @param {Function} callback - The callback to apply
- */
-ApiResource.prototype.apply = function apply(callback) {
-    if (typeof callback === 'function') {
-        for (var i = 0; i < this.elements.length; i++) {
-            callback(this.elements[i]);
-        }
-    }
-};
-
-/**
  * Build API path of the resource
  *
  * @returns {string}
@@ -257,15 +244,6 @@ ApiResource.prototype.getFullPath = function buildPath(params) {
     }
 
     return fullPath;
-};
-
-/**
- * Count elements
- *
- * @returns {Number} - The number of resources in the list
- */
-ApiResource.prototype.count = function countResources() {
-    return this.elements.length;
 };
 
 /**

@@ -25,7 +25,10 @@ var HttpErrorService = function HttpErrorService($q, $location) {
     };
 };
 
+// Set up dependency injection
+HttpErrorService.$inject = [ '$q', '$location' ];
+
 // Inject Service into AngularJS
 angular
     .module('Utilities')
-    .service('HttpErrorService', [ '$q', '$location', HttpErrorService ]);
+    .service('HttpErrorService', HttpErrorService);

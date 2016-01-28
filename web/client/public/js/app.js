@@ -779,19 +779,6 @@ ApiResource.prototype.remove = function removeResource(resource) {
 };
 
 /**
- * Apply a callback to all resources
- *
- * @param {Function} callback - The callback to apply
- */
-ApiResource.prototype.apply = function apply(callback) {
-    if (typeof callback === 'function') {
-        for (var i = 0; i < this.elements.length; i++) {
-            callback(this.elements[i]);
-        }
-    }
-};
-
-/**
  * Build API path of the resource
  *
  * @returns {string}
@@ -820,15 +807,6 @@ ApiResource.prototype.getFullPath = function buildPath(params) {
     }
 
     return fullPath;
-};
-
-/**
- * Count elements
- *
- * @returns {Number} - The number of resources in the list
- */
-ApiResource.prototype.count = function countResources() {
-    return this.elements.length;
 };
 
 /**
@@ -1412,16 +1390,86 @@ layoutTranslations['fr'] = {
  * @constructor
  */
 var ServerProvider = function ServerProvider() {
+    this.$get = function () {
+        var provider = this;
 
+        return {
+            paths: {
+                /**
+                 * Access to the Data API
+                 * @param relativePath
+                 */
+                getApi: function getApi(relativePath) {
+                    provider.getApi(relativePath);
+                },
+
+                getResource: function getResource(relativePath) {
+                    provider.getResource(relativePath);
+                },
+
+                /**
+                 * Access to the client assets
+                 * @param relativePath
+                 */
+                getAsset: function getAsset(relativePath) {
+                    provider.getAsset(relativePath);
+                },
+
+                /**
+                 * Access to the client partials
+                 * @param relativePath
+                 * @param module
+                 * @param isCore
+                 */
+                getPartial: function (relativePath, module, isCore) {
+                    provider.getPartial(relativePath, module, isCore);
+                }
+            }
+        };
+    };
 };
 
 // Set up dependency injection
 ServerProvider.$inject = [];
 
+/**
+ * Server base path
+ * @type {String}
+ */
+ServerProvider.prototype.api       = '/MusicTools/web/app_dev.php';
+
+ServerProvider.prototype.resourcePath = '/MusicTools/web/';
+
+ServerProvider.prototype.assetPath    = '/MusicTools/web/client/public/';
+
+/**
+ * Configure Server URLs
+ * @param config
+ */
+ServerProvider.prototype.configure = function configure(config) {
+
+};
+
+ServerProvider.prototype.getApi = function getApi(relativePath) {
+
+};
+
+ServerProvider.prototype.getResource = function getResource(relativePath) {
+
+};
+
+ServerProvider.prototype.getAsset = function getAsset(relativePath) {
+
+};
+
+ServerProvider.prototype.getPartial = function getPartial(relativePath, module, isCore) {
+
+};
+
 // Register provider into Angular JS
 angular
     .module('Server')
-    .provider('ServerProvider', ServerProvider);
+    .provider('$server', ServerProvider);
 // File : src/core/Utilities/Filter/AssetPathFilter.js
 /**
  * Asset Path filter
@@ -1547,10 +1595,13 @@ var HttpErrorService = function HttpErrorService($q, $location) {
     };
 };
 
+// Set up dependency injection
+HttpErrorService.$inject = [ '$q', '$location' ];
+
 // Inject Service into AngularJS
 angular
     .module('Utilities')
-    .service('HttpErrorService', [ '$q', '$location', HttpErrorService ]);
+    .service('HttpErrorService', HttpErrorService);
 // File : src/core/Utilities/Service/SoundService.js
 /**
  * API Service
@@ -1749,10 +1800,23 @@ angular
     .config([
         '$httpProvider',
         '$translateProvider',
+        '$serverProvider',
         'cfpLoadingBarProvider',
-        function configure($httpProvider, $translateProvider, cfpLoadingBarProvider) {
+        function configure($httpProvider, $serverProvider, $translateProvider, cfpLoadingBarProvider) {
             // Set up Http Error interceptor to catch server error response
             $httpProvider.interceptors.push('HttpErrorService');
+
+            // Configure server
+            $serverProvider.configure({
+                api       : 'http://localhost/MusicTools/web/app_dev.php',
+                resources : '/MusicTools/web/',
+                assets    : '/MusicTools/web/client/public/'
+            });
+
+            $serverProvider.setApi('http://localhost/MusicTools/web/app_dev.php');
+            $serverProvider.setResource('http://localhost/MusicTools/web/app_dev.php');
+            $serverProvider.setAsset('http://localhost/MusicTools/web/app_dev.php');
+            $serverProvider.setPartial('');
 
             // Inject translations
             for (var lang in appTranslations) {

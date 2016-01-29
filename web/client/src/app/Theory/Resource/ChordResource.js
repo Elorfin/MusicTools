@@ -3,10 +3,10 @@
  *
  * @param $http
  * @param $q
- * @param ApiService
+ * @param $api
  * @constructor
  */
-var ChordResource = function ChordResourceConstructor($http, $q, ApiService) {
+var ChordResource = function ChordResourceConstructor($http, $q, $api) {
     // Call parent constructor
     ApiResource.apply(this, arguments);
 };

@@ -17,5 +17,5 @@ ShowController.prototype.resource = null;
 
 // Register controller into angular
 angular
-    .module('ApiResource')
+    .module('Api')
     .controller('ShowController', ShowController);

@@ -57,5 +57,5 @@ FormController.prototype.submit = function submit() {
 
 // Register controller into Angular JS
 angular
-    .module('ApiResource')
+    .module('Api')
     .controller('FormController', FormController);

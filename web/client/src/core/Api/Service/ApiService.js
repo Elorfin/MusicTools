@@ -38,5 +38,5 @@ ApiService.prototype.getAssetPath = function getAssetPath() {
 
 // Inject Service into AngularJS
 angular
-    .module('ApiResource')
+    .module('Api')
     .service('ApiService', ApiService);

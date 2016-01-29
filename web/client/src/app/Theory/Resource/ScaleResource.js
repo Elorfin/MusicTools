@@ -3,10 +3,10 @@
  *
  * @param $http
  * @param $q
- * @param ApiService
+ * @param $api
  * @constructor
  */
-var ScaleResource = function ScaleResourceConstructor($http, $q, ApiService) {
+var ScaleResource = function ScaleResourceConstructor($http, $q, $api) {
     // Call parent constructor
     ApiResource.apply(this, arguments);
 };

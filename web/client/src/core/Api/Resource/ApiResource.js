@@ -4,14 +4,14 @@
  *
  * @param $http
  * @param $q
- * @param ApiService
+ * @param $api
  * @constructor
  */
-var ApiResource = function ApiResource($http, $q, ApiService) {
+var ApiResource = function ApiResource($http, $q, $api) {
     // Store services
     this.services['$http'] = $http;
     this.services['$q']    = $q;
-    this.services['api']   = ApiService;
+    this.services['$api']  = $api;
 
     // Validate required properties
     if (null === this.type) {
@@ -24,7 +24,7 @@ var ApiResource = function ApiResource($http, $q, ApiService) {
 };
 
 // Set up dependency injection
-ApiResource.$inject = [ '$http', '$q', 'ApiService' ];
+ApiResource.$inject = [ '$http', '$q', '$api' ];
 
 /**
  * List of dependencies
@@ -280,5 +280,5 @@ ApiResource.prototype.getRequest = function createRequest(url, method, data) {
 
 // Register service into Angular JS
 angular
-    .module('ApiResource')
+    .module('Api')
     .service('ApiResource', ApiResource);

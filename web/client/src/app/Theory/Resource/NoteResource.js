@@ -3,10 +3,10 @@
  *
  * @param $http
  * @param $q
- * @param ApiService
+ * @param $api
  * @constructor
  */
-var NoteResource = function NoteResourceConstructor($http, $q, ApiService) {
+var NoteResource = function NoteResourceConstructor($http, $q, $api) {
     // Call parent constructor
     ApiResource.apply(this, arguments);
 };

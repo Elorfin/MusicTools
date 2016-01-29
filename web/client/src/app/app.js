@@ -3,9 +3,15 @@
  * Initializes needed modules in the Angular application
  */
 angular
+    // Initialize Application
     .module('App', [
+        // Load Configuration
+        'AppConfiguration',
+
+        // Load Core features
         'AppCore',
 
+        // Load modules
         'Advertisement',
         'Badge',
         'Forum',
@@ -17,29 +23,15 @@ angular
         'Theory',
         'Tuning',
         'User'
-        // 'Guitar',
-        // 'SheetMusic'
     ])
+
+    // Configure Application
     .config([
         '$httpProvider',
         '$translateProvider',
-        '$serverProvider',
-        'cfpLoadingBarProvider',
-        function configure($httpProvider, $serverProvider, $translateProvider, cfpLoadingBarProvider) {
+        function configure($httpProvider, $translateProvider) {
             // Set up Http Error interceptor to catch server error response
             $httpProvider.interceptors.push('HttpErrorService');
-
-            // Configure server
-            $serverProvider.configure({
-                api       : 'http://localhost/MusicTools/web/app_dev.php',
-                resources : '/MusicTools/web/',
-                assets    : '/MusicTools/web/client/public/'
-            });
-
-            $serverProvider.setApi('http://localhost/MusicTools/web/app_dev.php');
-            $serverProvider.setResource('http://localhost/MusicTools/web/app_dev.php');
-            $serverProvider.setAsset('http://localhost/MusicTools/web/app_dev.php');
-            $serverProvider.setPartial('');
 
             // Inject translations
             for (var lang in appTranslations) {
@@ -47,17 +39,5 @@ angular
                     $translateProvider.translations(lang, appTranslations[lang]);
                 }
             }
-
-            // Enable pluralization for translator
-            $translateProvider.addInterpolation('$translateMessageFormatInterpolation');
-
-            // Set the default lang
-            $translateProvider.preferredLanguage('en');
-
-            // Set sanitize strategy for translations
-            $translateProvider.useSanitizeValueStrategy('sanitize');
-
-            // Disable loading spinner
-            cfpLoadingBarProvider.includeSpinner = false;
         }
     ]);

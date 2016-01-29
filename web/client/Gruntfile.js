@@ -78,9 +78,11 @@ module.exports = function (grunt) {
                     'src/app/app.js',
                     'src/app/**/*.js',
 
+                    // Load configuration
+                    'src/parameters.js',
+
                     // Load routes
                     'src/app/**/routes.js'
-
                 ],
                 dest: '<%= distFolder %>/js/app.js'
             }

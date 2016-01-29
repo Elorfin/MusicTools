@@ -1,6 +1,6 @@
 /**
- * API Service
- * @returns {ApiService}
+ * Sound Service
+ * @returns {SoundService}
  * @constructor
  */
 var SoundService = function SoundService() {

@@ -3,10 +3,10 @@
  *
  * @param $http
  * @param $q
- * @param ApiService
+ * @param $api
  * @constructor
  */
-var IntervalResource = function IntervalResourceConstructor($http, $q, ApiService) {
+var IntervalResource = function IntervalResourceConstructor($http, $q, $api) {
     // Call parent constructor
     ApiResource.apply(this, arguments);
 };

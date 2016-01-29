@@ -59,5 +59,5 @@ ListController.prototype.remove = function remove(entity) {
 
 // Register controller into angular
 angular
-    .module('ApiResource')
+    .module('Api')
     .controller('ListController', ListController);

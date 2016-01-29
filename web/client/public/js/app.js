@@ -6,12 +6,15 @@
  * Manages User messages
  */
 angular.module('Alert', []);
-// File : src/core/ApiResource/module.js
+// File : src/core/Api/module.js
 /**
- * ApiResource Module
+ * Api Module
  * Manages communication with a REST API server following the JSON API specification
  */
-angular.module('ApiResource', []);
+angular.module('Api', []);
+// File : src/core/Client/module.js
+angular
+    .module('Client', []);
 // File : src/core/Layout/module.js
 /**
  * Layout Module
@@ -32,12 +35,6 @@ angular
             }
         }
     ]);
-// File : src/core/Server/module.js
-/**
- * Server module
- */
-angular
-    .module('Server', []);
 // File : src/core/Utilities/module.js
 /**
  * Utilities Module
@@ -45,9 +42,11 @@ angular
 angular.module('Utilities', []);
 // File : src/core/core.js
 /**
- *
+ * Application Core
+ * Manages low level application components such as API, translations, etc.
  */
 angular
+    // Initialize Core
     .module('AppCore', [
         // Angular modules
         'ngRoute',
@@ -60,11 +59,43 @@ angular
         'pascalprecht.translate',
         'angular-loading-bar',
 
+        // Configuration of the Application
+        'AppConfiguration',
+
+        // Core modules
         'Utilities',
-        'Server',
-        'ApiResource',
+        'Api',
         'Layout',
         'Alert'
+    ])
+
+    // Configure Core
+    .config([
+        '$apiProvider',
+        'apiConfiguration',
+        '$clientProvider',
+        'clientConfiguration',
+        '$translateProvider',
+        'cfpLoadingBarProvider',
+        function configure($apiProvider, apiConfiguration, $clientProvider, clientConfiguration, $translateProvider, cfpLoadingBarProvider) {
+            // Configure API
+            $apiProvider.configure(apiConfiguration);
+
+            // Configure Client
+            $clientProvider.configure(clientConfiguration);
+
+            // Enable pluralization for translator
+            $translateProvider.addInterpolation('$translateMessageFormatInterpolation');
+
+            // Set the default lang
+            $translateProvider.preferredLanguage('en');
+
+            // Set sanitize strategy for translations
+            $translateProvider.useSanitizeValueStrategy('sanitize');
+
+            // Disable loading spinner
+            cfpLoadingBarProvider.includeSpinner = false;
+        }
     ]);
 // File : src/core/Alert/Directive/AlertsDirective.js
 /**
@@ -173,7 +204,7 @@ AlertService.prototype.removeAlert = function removeAlert(alert, clearTimeout) {
 angular
     .module('Alert')
     .service('AlertService', AlertService);
-// File : src/core/ApiResource/Controller/FormController.js
+// File : src/core/Api/Controller/FormController.js
 /**
  * Base Form controller
  * @constructor
@@ -233,10 +264,10 @@ FormController.prototype.submit = function submit() {
 
 // Register controller into Angular JS
 angular
-    .module('ApiResource')
+    .module('Api')
     .controller('FormController', FormController);
 
-// File : src/core/ApiResource/Controller/ListController.js
+// File : src/core/Api/Controller/ListController.js
 /**
  * Base List controller
  * @constructor
@@ -298,10 +329,10 @@ ListController.prototype.remove = function remove(entity) {
 
 // Register controller into angular
 angular
-    .module('ApiResource')
+    .module('Api')
     .controller('ListController', ListController);
 
-// File : src/core/ApiResource/Controller/ShowController.js
+// File : src/core/Api/Controller/ShowController.js
 /**
  * Base Show Controller
  * @constructor
@@ -321,13 +352,151 @@ ShowController.prototype.resource = null;
 
 // Register controller into angular
 angular
-    .module('ApiResource')
+    .module('Api')
     .controller('ShowController', ShowController);
 
-// File : src/core/ApiResource/Provider/ApiResourceRouteProvider.js
+// File : src/core/Api/Provider/ApiProvider.js
+var ApiProvider = function ApiProvider() {
+    this.$get = function () {
+        var provider = this;
+
+        return {
+            /**
+             * Allow access to the API configuration at runtime
+             */
+            config: {
+                protocol : provider.protocol,
+                host     : provider.host,
+                port     : provider.port,
+                basePath : provider.basePath,
+                fullPath : provider.fullPath
+            },
+
+            /**
+             * Get API url for the path
+             * @param {String} path
+             */
+            getUrl: function getUrl(path) {
+                provider.getUrl(path);
+            }
+        };
+    };
+};
+
+// Set up dependency injection
+ApiProvider.$inject = [];
+
+/**
+ * Protocol used to call the API
+ * @var {String}
+ */
+ApiProvider.prototype.protocol = 'http:';
+
+/**
+ * Hostname of the API
+ * @var {String}
+ */
+ApiProvider.prototype.host     = 'localhost';
+
+/**
+ * Port number
+ * @var {Number}
+ */
+ApiProvider.prototype.port     = 80;
+
+/**
+ * Base path from the API server root
+ * @var {String}
+ */
+ApiProvider.prototype.basePath = null;
+
+/**
+ * Full path to the API server (generated on provider configuration)
+ * @type {String}
+ */
+ApiProvider.prototype.fullPath = null;
+
+/**
+ * Configure API
+ * @param {Object} configuration
+ */
+ApiProvider.prototype.configure = function configure(configuration) {
+    if (configuration.protocol) {
+        // Override default protocol
+        this.protocol = configuration.protocol.replace(/^\/+|\/+$/g, ''); // Trim trailing slashes
+    }
+
+    if (configuration.host) {
+        // Override default host
+        this.host = configuration.host.replace(/^\/+|\/+$/g, ''); // Trim trailing slashes
+    }
+
+    if (configuration.port) {
+        // Override default port
+        this.port = configuration.port;
+    }
+
+    if (configuration.basePath) {
+        // Override default base path
+        this.basePath = configuration.basePath.replace(/^\/+|\/+$/g, ''); // Trim trailing slashes
+    }
+
+    // Generate full server path
+    this.generateFullPath();
+};
+
+/**
+ * Generate full path to the API server
+ */
+ApiProvider.prototype.generateFullPath = function () {
+    var fullPath = '';
+    if (this.protocol) {
+        fullPath += this.protocol;
+    }
+
+    fullPath += '//';
+
+    if (this.host) {
+        fullPath += this.host;
+    } else {
+        console.error('$apiProvider : API host can not be empty.')
+    }
+
+    if (this.port) {
+        fullPath += ':' + this.port;
+    }
+
+    if (this.basePath) {
+        fullPath += '/' + this.basePath;
+    }
+
+    fullPath += '/';
+
+    // Store generated path
+    this.fullPath = fullPath;
+};
+
+/**
+ * Get API url for the path
+ * @param {String} path
+ */
+ApiProvider.prototype.getUrl = function getUrl(path) {
+    if (!this.fullPath) {
+        // API not configured
+        console.error('$apiProvider : You must configure the provider before calling `getUrl`.');
+    }
+
+    return this.fullPath + path;
+};
+
+// Register provider into Angular JS
+angular
+    .module('Api')
+    .provider('$api', ApiProvider);
+// File : src/core/Api/Provider/ApiResourceRouteProvider.js
 /**
  * ApiResource Router
- * Registers standard routes for ApiResources
+ * Registers CRUD client routes for ApiResources
  *
  * Information about naming rules :
  * - Resource MUST be suffixed with `Resource`
@@ -557,24 +726,24 @@ ApiResourceRouteProvider.prototype.setPlaceholders = function setPlaceholders(st
 
 // Register provider into Angular JS
 angular
-    .module('ApiResource')
+    .module('Api')
     .provider('apiResourceRoute', ApiResourceRouteProvider);
 
-// File : src/core/ApiResource/Resource/ApiResource.js
+// File : src/core/Api/Resource/ApiResource.js
 /**
  * Base API Resource
  * Manages API server data
  *
  * @param $http
  * @param $q
- * @param ApiService
+ * @param $api
  * @constructor
  */
-var ApiResource = function ApiResource($http, $q, ApiService) {
+var ApiResource = function ApiResource($http, $q, $api) {
     // Store services
     this.services['$http'] = $http;
     this.services['$q']    = $q;
-    this.services['api']   = ApiService;
+    this.services['$api']  = $api;
 
     // Validate required properties
     if (null === this.type) {
@@ -587,7 +756,7 @@ var ApiResource = function ApiResource($http, $q, ApiService) {
 };
 
 // Set up dependency injection
-ApiResource.$inject = [ '$http', '$q', 'ApiService' ];
+ApiResource.$inject = [ '$http', '$q', '$api' ];
 
 /**
  * List of dependencies
@@ -843,10 +1012,10 @@ ApiResource.prototype.getRequest = function createRequest(url, method, data) {
 
 // Register service into Angular JS
 angular
-    .module('ApiResource')
+    .module('Api')
     .service('ApiResource', ApiResource);
 
-// File : src/core/ApiResource/Service/ApiService.js
+// File : src/core/Api/Service/ApiService.js
 /**
  * API Service
  * @returns {ApiService}
@@ -887,8 +1056,67 @@ ApiService.prototype.getAssetPath = function getAssetPath() {
 
 // Inject Service into AngularJS
 angular
-    .module('ApiResource')
+    .module('Api')
     .service('ApiService', ApiService);
+// File : src/core/Client/Provider/ClientProvider.js
+var ClientProvider = function ClientProvider() {
+    this.$get = function () {
+        var provider = this;
+
+        return {
+            /**
+             * Allow access to the Client configuration at runtime
+             */
+            config: {
+
+            },
+
+            /**
+             * Get Asset URL
+             * @param {String} path
+             */
+            getAsset: function getAsset(path) {
+                provider.getAsset(path);
+            },
+
+            /**
+             * Get Partial path
+             * @param {String} path
+             */
+            getPartial: function getPartial(path) {
+                provider.getPartial(path);
+            }
+        };
+    };
+};
+
+// Set up dependency injection
+ClientProvider.$inject = [];
+
+ClientProvider.prototype.configure = function configure(configuration) {
+
+};
+
+/**
+ * Get Asset path
+ * @param {String} path
+ */
+ClientProvider.prototype.getAsset = function getAsset(path) {
+
+};
+
+/**
+ * Get Partial path
+ * @param {String} path
+ */
+ClientProvider.prototype.getPartial = function getPartial(path) {
+
+};
+
+// Register provider into Angular JS
+angular
+    .module('Client')
+    .provider('$client', ClientProvider);
 // File : src/core/Layout/Controller/Modal/ConfirmModalController.js
 /**
  * Confirm Modal controller
@@ -1384,92 +1612,6 @@ layoutTranslations['fr'] = {
     list_display_list_detailed  : 'liste détaillée',
     list_display_list_condensed : 'liste condensée'
 };
-// File : src/core/Server/Provider/ServerProvider.js
-/**
- * Server Provider
- * @constructor
- */
-var ServerProvider = function ServerProvider() {
-    this.$get = function () {
-        var provider = this;
-
-        return {
-            paths: {
-                /**
-                 * Access to the Data API
-                 * @param relativePath
-                 */
-                getApi: function getApi(relativePath) {
-                    provider.getApi(relativePath);
-                },
-
-                getResource: function getResource(relativePath) {
-                    provider.getResource(relativePath);
-                },
-
-                /**
-                 * Access to the client assets
-                 * @param relativePath
-                 */
-                getAsset: function getAsset(relativePath) {
-                    provider.getAsset(relativePath);
-                },
-
-                /**
-                 * Access to the client partials
-                 * @param relativePath
-                 * @param module
-                 * @param isCore
-                 */
-                getPartial: function (relativePath, module, isCore) {
-                    provider.getPartial(relativePath, module, isCore);
-                }
-            }
-        };
-    };
-};
-
-// Set up dependency injection
-ServerProvider.$inject = [];
-
-/**
- * Server base path
- * @type {String}
- */
-ServerProvider.prototype.api       = '/MusicTools/web/app_dev.php';
-
-ServerProvider.prototype.resourcePath = '/MusicTools/web/';
-
-ServerProvider.prototype.assetPath    = '/MusicTools/web/client/public/';
-
-/**
- * Configure Server URLs
- * @param config
- */
-ServerProvider.prototype.configure = function configure(config) {
-
-};
-
-ServerProvider.prototype.getApi = function getApi(relativePath) {
-
-};
-
-ServerProvider.prototype.getResource = function getResource(relativePath) {
-
-};
-
-ServerProvider.prototype.getAsset = function getAsset(relativePath) {
-
-};
-
-ServerProvider.prototype.getPartial = function getPartial(relativePath, module, isCore) {
-
-};
-
-// Register provider into Angular JS
-angular
-    .module('Server')
-    .provider('$server', ServerProvider);
 // File : src/core/Utilities/Filter/AssetPathFilter.js
 /**
  * Asset Path filter
@@ -1604,8 +1746,8 @@ angular
     .service('HttpErrorService', HttpErrorService);
 // File : src/core/Utilities/Service/SoundService.js
 /**
- * API Service
- * @returns {ApiService}
+ * Sound Service
+ * @returns {SoundService}
  * @constructor
  */
 var SoundService = function SoundService() {
@@ -1780,9 +1922,15 @@ angular.module('User', []);
  * Initializes needed modules in the Angular application
  */
 angular
+    // Initialize Application
     .module('App', [
+        // Load Configuration
+        'AppConfiguration',
+
+        // Load Core features
         'AppCore',
 
+        // Load modules
         'Advertisement',
         'Badge',
         'Forum',
@@ -1794,29 +1942,15 @@ angular
         'Theory',
         'Tuning',
         'User'
-        // 'Guitar',
-        // 'SheetMusic'
     ])
+
+    // Configure Application
     .config([
         '$httpProvider',
         '$translateProvider',
-        '$serverProvider',
-        'cfpLoadingBarProvider',
-        function configure($httpProvider, $serverProvider, $translateProvider, cfpLoadingBarProvider) {
+        function configure($httpProvider, $translateProvider) {
             // Set up Http Error interceptor to catch server error response
             $httpProvider.interceptors.push('HttpErrorService');
-
-            // Configure server
-            $serverProvider.configure({
-                api       : 'http://localhost/MusicTools/web/app_dev.php',
-                resources : '/MusicTools/web/',
-                assets    : '/MusicTools/web/client/public/'
-            });
-
-            $serverProvider.setApi('http://localhost/MusicTools/web/app_dev.php');
-            $serverProvider.setResource('http://localhost/MusicTools/web/app_dev.php');
-            $serverProvider.setAsset('http://localhost/MusicTools/web/app_dev.php');
-            $serverProvider.setPartial('');
 
             // Inject translations
             for (var lang in appTranslations) {
@@ -1824,18 +1958,6 @@ angular
                     $translateProvider.translations(lang, appTranslations[lang]);
                 }
             }
-
-            // Enable pluralization for translator
-            $translateProvider.addInterpolation('$translateMessageFormatInterpolation');
-
-            // Set the default lang
-            $translateProvider.preferredLanguage('en');
-
-            // Set sanitize strategy for translations
-            $translateProvider.useSanitizeValueStrategy('sanitize');
-
-            // Disable loading spinner
-            cfpLoadingBarProvider.includeSpinner = false;
         }
     ]);
 // File : src/app/Advertisement/routes.js
@@ -3024,10 +3146,10 @@ angular
  *
  * @param $http
  * @param $q
- * @param ApiService
+ * @param $api
  * @constructor
  */
-var LessonResource = function LessonResource($http, $q, ApiService) {
+var LessonResource = function LessonResource($http, $q, $api) {
     // Call parent constructor
     ApiResource.apply(this, arguments);
 };
@@ -4121,10 +4243,10 @@ angular
  *
  * @param $http
  * @param $q
- * @param ApiService
+ * @param $api
  * @constructor
  */
-var ChordResource = function ChordResourceConstructor($http, $q, ApiService) {
+var ChordResource = function ChordResourceConstructor($http, $q, $api) {
     // Call parent constructor
     ApiResource.apply(this, arguments);
 };
@@ -4156,10 +4278,10 @@ angular
  *
  * @param $http
  * @param $q
- * @param ApiService
+ * @param $api
  * @constructor
  */
-var DegreeResource = function DegreeResourceConstructor($http, $q, ApiService) {
+var DegreeResource = function DegreeResourceConstructor($http, $q, $api) {
     // Call parent constructor
     ApiResource.apply(this, arguments);
 };
@@ -4191,10 +4313,10 @@ angular
  *
  * @param $http
  * @param $q
- * @param ApiService
+ * @param $api
  * @constructor
  */
-var IntervalResource = function IntervalResourceConstructor($http, $q, ApiService) {
+var IntervalResource = function IntervalResourceConstructor($http, $q, $api) {
     // Call parent constructor
     ApiResource.apply(this, arguments);
 };
@@ -4226,10 +4348,10 @@ angular
  *
  * @param $http
  * @param $q
- * @param ApiService
+ * @param $api
  * @constructor
  */
-var NoteResource = function NoteResourceConstructor($http, $q, ApiService) {
+var NoteResource = function NoteResourceConstructor($http, $q, $api) {
     // Call parent constructor
     ApiResource.apply(this, arguments);
 };
@@ -4285,10 +4407,10 @@ angular
  *
  * @param $http
  * @param $q
- * @param ApiService
+ * @param $api
  * @constructor
  */
-var ScaleResource = function ScaleResourceConstructor($http, $q, ApiService) {
+var ScaleResource = function ScaleResourceConstructor($http, $q, $api) {
     // Call parent constructor
     ApiResource.apply(this, arguments);
 };
@@ -4546,4 +4668,23 @@ appTranslations['fr'] = {
     'link.forum':         'forum',
     'link.lesson':        'cours'
 };
+// File : src/parameters.js
+/**
+ * Defines parameters of the Application
+ */
+angular
+    .module('AppConfiguration', [])
+
+    // Set default lang for Localization
+    .constant('defaultLang', 'en')
+
+    // Configure API access
+    .constant('apiConfiguration', {
+        basePath: 'MusicTools/web/app_dev.php'
+    })
+
+    // Configure Client
+    .constant('clientConfiguration', {
+        basePath: 'MusicTools/web'
+    });
 })();

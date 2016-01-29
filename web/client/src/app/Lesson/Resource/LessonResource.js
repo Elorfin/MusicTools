@@ -3,10 +3,10 @@
  *
  * @param $http
  * @param $q
- * @param ApiService
+ * @param $api
  * @constructor
  */
-var LessonResource = function LessonResource($http, $q, ApiService) {
+var LessonResource = function LessonResource($http, $q, $api) {
     // Call parent constructor
     ApiResource.apply(this, arguments);
 };

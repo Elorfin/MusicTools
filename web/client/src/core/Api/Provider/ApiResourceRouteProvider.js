@@ -1,6 +1,6 @@
 /**
  * ApiResource Router
- * Registers standard routes for ApiResources
+ * Registers CRUD client routes for ApiResources
  *
  * Information about naming rules :
  * - Resource MUST be suffixed with `Resource`
@@ -230,5 +230,5 @@ ApiResourceRouteProvider.prototype.setPlaceholders = function setPlaceholders(st
 
 // Register provider into Angular JS
 angular
-    .module('ApiResource')
+    .module('Api')
     .provider('apiResourceRoute', ApiResourceRouteProvider);

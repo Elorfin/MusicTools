@@ -1,10 +1,10 @@
 /**
  * Represents a link in the sidebar
  */
-var LayoutSidebarItemDirective = function LayoutSidebarItemDirective($partial) {
+var LayoutSidebarItemDirective = function LayoutSidebarItemDirective($client) {
     return {
         restrict: 'E',
-        templateUrl: $partial.getPath('Sidebar/sidebar-item.html', 'Layout', true),
+        templateUrl: $client.getPartial('Sidebar/sidebar-item.html', 'core/Layout'),
         replace: true,
         scope: {
             icon       : '@',
@@ -22,7 +22,7 @@ var LayoutSidebarItemDirective = function LayoutSidebarItemDirective($partial) {
 };
 
 // Set up dependency injection
-LayoutSidebarItemDirective.$inject = [ '$partial' ];
+LayoutSidebarItemDirective.$inject = [ '$client' ];
 
 // Register into AngularJS
 angular

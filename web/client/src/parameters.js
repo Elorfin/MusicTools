@@ -4,15 +4,13 @@
 angular
     .module('AppConfiguration', [])
 
-    // Set default lang for Localization
-    .constant('defaultLang', 'en')
-
     // Configure API access
     .constant('apiConfiguration', {
-        basePath: 'MusicTools/web/app_dev.php'
+        basePath   : 'MusicTools/web/app_dev.php',
+        uploadPath : 'MusicTools/web'
     })
 
     // Configure Client
     .constant('clientConfiguration', {
-        basePath: 'MusicTools/web'
+        basePath: '/MusicTools/web/client'
     });

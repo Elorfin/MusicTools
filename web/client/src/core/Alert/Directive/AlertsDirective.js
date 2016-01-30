@@ -2,10 +2,10 @@
  * Alerts Directive
  * Renders user messages
  */
-var AlertsDirective = function AlertsDirective($partial) {
+var AlertsDirective = function AlertsDirective($client) {
     return {
         restrict: 'E',
-        templateUrl: $partial.getPath('alerts.html', 'Alert', true),
+        templateUrl: $client.getPartial('alerts.html', 'core/Alert'),
         replace: true,
         controllerAs: 'alertsCtrl',
         controller: [
@@ -22,7 +22,7 @@ var AlertsDirective = function AlertsDirective($partial) {
 };
 
 // Set up dependency injection
-AlertsDirective.$inject = [ '$partial' ];
+AlertsDirective.$inject = [ '$client' ];
 
 // Register directive into Angular JS
 angular

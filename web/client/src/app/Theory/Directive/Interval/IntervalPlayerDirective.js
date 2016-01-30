@@ -3,10 +3,10 @@
  * @returns {Object}
  * @constructor
  */
-var IntervalPlayerDirective = function IntervalPlayerDirective($partial) {
+var IntervalPlayerDirective = function IntervalPlayerDirective($client) {
     return {
         restrict: 'E',
-        templateUrl: $partial.getPath('Interval/player.html', 'Theory'),
+        templateUrl: $client.getPartial('Interval/player.html', 'app/Theory'),
         replace: true,
         scope: {
             interval    : '='
@@ -145,7 +145,7 @@ var IntervalPlayerDirective = function IntervalPlayerDirective($partial) {
 };
 
 // Set up dependency injection
-IntervalPlayerDirective.$inject = [ '$partial' ];
+IntervalPlayerDirective.$inject = [ '$client' ];
 
 // Register directive into angular
 angular

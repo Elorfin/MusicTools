@@ -4,11 +4,11 @@
     angular.module('SheetMusic')
         .directive('sheetMusic', [
             '$timeout',
-            '$partial',
-            function ($timeout, $partial) {
+            '$client',
+            function ($timeout, $client) {
                 return {
                     restrict: 'E',
-                    templateUrl: $partial.getPath('sheet-music.html', 'SheetMusic'),
+                    templateUrl: $client.getPartial('sheet-music.html', 'app/SheetMusic'),
                     replace: true,
                     scope: {
                         file: '@'

@@ -1,11 +1,11 @@
 angular
     .module('GuitarNeck')
     .directive('guitarNeckWidget', [
-        '$partial',
-        function ($partial) {
+        '$client',
+        function ($client) {
             return {
                 restrict: 'E',
-                templateUrl: $partial.getPath('GuitarNeck.html', 'GuitarNeck'),
+                templateUrl: $client.getPartial('GuitarNeck.html', 'app/GuitarNeck'),
                 replace: true,
                 scope: {
                     guitar: '=?'

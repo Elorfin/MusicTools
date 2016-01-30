@@ -4,11 +4,11 @@
 angular
     .module('User')
     .directive('userMenu', [
-        '$partial',
-        function ($partial) {
+        '$client',
+        function ($client) {
             return {
                 restrict: 'E',
-                templateUrl: $partial.getPath('menu.html', 'User'),
+                templateUrl: $client.getPartial('menu.html', 'app/User'),
                 replace: true,
                 scope: {},
                 link: function (scope, element, attrs) {

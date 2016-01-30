@@ -4,11 +4,11 @@
 angular
     .module('Layout')
     .directive('layoutPageTitle', [
-        '$partial',
-        function LayoutPageTitleDirective($partial) {
+        '$client',
+        function LayoutPageTitleDirective($client) {
             return {
                 restrict: 'E',
-                templateUrl: $partial.getPath('Page/title.html', 'Layout', true),
+                templateUrl: $client.getPartial('Page/title.html', 'core/Layout'),
                 replace: true,
                 transclude: true,
                 scope: {

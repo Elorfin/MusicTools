@@ -1,12 +1,12 @@
 angular
     .module('Theory')
     .directive('scaleRepresentation', [
-        '$partial',
+        '$client',
         'NoteResource',
-        function ScaleRepresentationDirective($partial, NoteResource) {
+        function ScaleRepresentationDirective($client, NoteResource) {
             return {
                 restrict: 'E',
-                templateUrl: $partial.getPath('Scale/representation.html', 'Theory'),
+                templateUrl: $client.getPath('Scale/representation.html', 'app/Theory'),
                 replace: true,
                 scope: {
 

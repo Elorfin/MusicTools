@@ -27,12 +27,8 @@ angular
 
     // Configure Application
     .config([
-        '$httpProvider',
         '$translateProvider',
-        function configure($httpProvider, $translateProvider) {
-            // Set up Http Error interceptor to catch server error response
-            $httpProvider.interceptors.push('HttpErrorService');
-
+        function configure($translateProvider) {
             // Inject translations
             for (var lang in appTranslations) {
                 if (appTranslations.hasOwnProperty(lang)) {

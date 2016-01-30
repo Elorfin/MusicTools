@@ -11,10 +11,23 @@ angular.module('Alert', []);
  * Api Module
  * Manages communication with a REST API server following the JSON API specification
  */
-angular.module('Api', []);
-// File : src/core/Client/module.js
 angular
-    .module('Client', []);
+    .module('Api', [
+        'Client'
+    ])
+    .config([
+        '$httpProvider',
+        function configure($httpProvider) {
+            // Register API Error interceptor
+            // Set up Http Error interceptor to catch server error response
+            $httpProvider.interceptors.push('ApiErrorService');
+        }
+    ]);
+// File : src/core/Client/module.js
+/**
+ * Client Module
+ */
+angular.module('Client', []);
 // File : src/core/Layout/module.js
 /**
  * Layout Module
@@ -65,6 +78,7 @@ angular
         // Core modules
         'Utilities',
         'Api',
+        'Client',
         'Layout',
         'Alert'
     ])
@@ -102,10 +116,10 @@ angular
  * Alerts Directive
  * Renders user messages
  */
-var AlertsDirective = function AlertsDirective($partial) {
+var AlertsDirective = function AlertsDirective($client) {
     return {
         restrict: 'E',
-        templateUrl: $partial.getPath('alerts.html', 'Alert', true),
+        templateUrl: $client.getPartial('alerts.html', 'core/Alert'),
         replace: true,
         controllerAs: 'alertsCtrl',
         controller: [
@@ -122,7 +136,7 @@ var AlertsDirective = function AlertsDirective($partial) {
 };
 
 // Set up dependency injection
-AlertsDirective.$inject = [ '$partial' ];
+AlertsDirective.$inject = [ '$client' ];
 
 // Register directive into Angular JS
 angular
@@ -355,6 +369,24 @@ angular
     .module('Api')
     .controller('ShowController', ShowController);
 
+// File : src/core/Api/Filter/UploadPathFilter.js
+/**
+ * Upload Path filter
+ */
+var UploadPathFilter = function UploadPathFilter($api) {
+    return function upload_path(path) {
+        return $api.getUpload(path);
+    };
+};
+
+// Set up dependency injection
+UploadPathFilter.$inject = [ '$api' ];
+
+// Register filter into Angular JS
+angular
+    .module('Api')
+    .filter('upload_path', UploadPathFilter);
+
 // File : src/core/Api/Provider/ApiProvider.js
 var ApiProvider = function ApiProvider() {
     this.$get = function () {
@@ -365,11 +397,9 @@ var ApiProvider = function ApiProvider() {
              * Allow access to the API configuration at runtime
              */
             config: {
-                protocol : provider.protocol,
-                host     : provider.host,
-                port     : provider.port,
-                basePath : provider.basePath,
-                fullPath : provider.fullPath
+                serverName : provider.serverName,
+                basePath   : provider.basePath,
+                uploadPath : provider.uploadPath
             },
 
             /**
@@ -377,7 +407,15 @@ var ApiProvider = function ApiProvider() {
              * @param {String} path
              */
             getUrl: function getUrl(path) {
-                provider.getUrl(path);
+                return provider.getUrl(path);
+            },
+
+            /**
+             * Get uploaded file
+             * @param {String} path
+             */
+            getUpload: function getUpload(path) {
+                return provider.getUpload(path);
             }
         };
     };
@@ -402,19 +440,25 @@ ApiProvider.prototype.host     = 'localhost';
  * Port number
  * @var {Number}
  */
-ApiProvider.prototype.port     = 80;
+ApiProvider.prototype.port       = 80;
+
+/**
+ * Full server name (generated on provider configuration)
+ * @type {String}
+ */
+ApiProvider.prototype.serverName = null;
 
 /**
  * Base path from the API server root
  * @var {String}
  */
-ApiProvider.prototype.basePath = null;
+ApiProvider.prototype.basePath   = null;
 
 /**
- * Full path to the API server (generated on provider configuration)
+ * Path to uploads
  * @type {String}
  */
-ApiProvider.prototype.fullPath = null;
+ApiProvider.prototype.uploadPath = null;
 
 /**
  * Configure API
@@ -441,39 +485,38 @@ ApiProvider.prototype.configure = function configure(configuration) {
         this.basePath = configuration.basePath.replace(/^\/+|\/+$/g, ''); // Trim trailing slashes
     }
 
+    if (configuration.uploadPath) {
+        // Override default upload path
+        this.uploadPath = configuration.uploadPath.replace(/^\/+|\/+$/g, ''); // Trim trailing slashes
+    }
+
     // Generate full server path
-    this.generateFullPath();
+    this.generateServerName();
 };
 
 /**
  * Generate full path to the API server
  */
-ApiProvider.prototype.generateFullPath = function () {
-    var fullPath = '';
+ApiProvider.prototype.generateServerName = function generateServerName() {
+    var serverName = '';
     if (this.protocol) {
-        fullPath += this.protocol;
+        serverName += this.protocol;
     }
 
-    fullPath += '//';
+    serverName += '//';
 
     if (this.host) {
-        fullPath += this.host;
+        serverName += this.host;
     } else {
         console.error('$apiProvider : API host can not be empty.')
     }
 
     if (this.port) {
-        fullPath += ':' + this.port;
+        serverName += ':' + this.port;
     }
 
-    if (this.basePath) {
-        fullPath += '/' + this.basePath;
-    }
-
-    fullPath += '/';
-
-    // Store generated path
-    this.fullPath = fullPath;
+    // Store generated name
+    this.serverName = serverName;
 };
 
 /**
@@ -481,12 +524,25 @@ ApiProvider.prototype.generateFullPath = function () {
  * @param {String} path
  */
 ApiProvider.prototype.getUrl = function getUrl(path) {
-    if (!this.fullPath) {
+    if (!this.serverName) {
         // API not configured
         console.error('$apiProvider : You must configure the provider before calling `getUrl`.');
     }
 
-    return this.fullPath + path;
+    return (this.serverName + '/' + this.basePath + '/' + path.replace(/^\/+|\/+$/g, ''));
+};
+
+/**
+ * Get uploaded file
+ * @param {String} path
+ */
+ApiProvider.prototype.getUpload = function getUpload(path) {
+    if (!this.serverName) {
+        // API not configured
+        console.error('$apiProvider : You must configure the provider before calling `getUpload`.');
+    }
+
+    return (this.serverName + '/' + this.uploadPath + '/' + path.replace(/^\/+|\/+$/g, ''));
 };
 
 // Register provider into Angular JS
@@ -504,19 +560,19 @@ angular
  * - Templates for `list`, `show`, `new`, `edit` MUST be respectively named : `index.html`, `show.html`, `new.html`, `edit.html`
  *
  * @param {Object} $routeProvider
- * @param {Object} $partialProvider
+ * @param {Object} $clientProvider
  * @constructor
  */
-var ApiResourceRouteProvider = function ApiResourceRouteProvider($routeProvider, $partialProvider) {
-    this.$routeProvider   = $routeProvider;
-    this.$partialProvider = $partialProvider;
+var ApiResourceRouteProvider = function ApiResourceRouteProvider($routeProvider, $clientProvider) {
+    this.$routeProvider  = $routeProvider;
+    this.$clientProvider = $clientProvider;
 
     // Just return the default $route object
     this.$get = $routeProvider.$get;
 };
 
 // Set up dependency injection
-ApiResourceRouteProvider.$inject = [ '$routeProvider', '$partialProvider' ];
+ApiResourceRouteProvider.$inject = [ '$routeProvider', '$clientProvider' ];
 
 /**
  * Default options
@@ -592,7 +648,7 @@ ApiResourceRouteProvider.prototype.register = function register(module, resource
     var resourceClass = this.setPlaceholders(this.default.resourceName, module, resource);
 
     // Register LIST route
-    var listTemplate  = this.$partialProvider.getPath(this.setPlaceholders(options.list.templateUrl, module, resource), module);
+    var listTemplate  = this.$clientProvider.getPartial(this.setPlaceholders(options.list.templateUrl, module, resource), 'app/' + module);
     var listCtrl      = this.setPlaceholders(options.list.controller,   module, resource);
     var listCtrlAlias = this.setPlaceholders(options.list.controllerAs, module, resource);
     var listResolve   = {
@@ -623,7 +679,7 @@ ApiResourceRouteProvider.prototype.register = function register(module, resource
         // The resource is not READ ONLY, so add modification and creation route
 
         // Register NEW route
-        var newTemplate  = this.$partialProvider.getPath(this.setPlaceholders(options.new.templateUrl, module, resource), module);
+        var newTemplate  = this.$clientProvider.getPartial(this.setPlaceholders(options.new.templateUrl, module, resource), 'app/' + module);
         var newCtrl      = this.setPlaceholders(options.new.controller,   module, resource);
         var newCtrlAlias = this.setPlaceholders(options.new.controllerAs, module, resource);
         var newResolve   = {
@@ -651,7 +707,7 @@ ApiResourceRouteProvider.prototype.register = function register(module, resource
         });
 
         // Register EDIT route
-        var editTemplate  = this.$partialProvider.getPath(this.setPlaceholders(options.edit.templateUrl, module, resource), module);
+        var editTemplate  = this.$clientProvider.getPartial(this.setPlaceholders(options.edit.templateUrl, module, resource), 'app/' + module);
         var editCtrl      = this.setPlaceholders(options.edit.controller,   module, resource);
         var editCtrlAlias = this.setPlaceholders(options.edit.controllerAs, module, resource);
         var editResolve   = {
@@ -681,7 +737,7 @@ ApiResourceRouteProvider.prototype.register = function register(module, resource
     }
 
     // Register SHOW route
-    var showTemplate  = this.$partialProvider.getPath(this.setPlaceholders(options.show.templateUrl, module, resource), module);
+    var showTemplate  = this.$clientProvider.getPartial(this.setPlaceholders(options.show.templateUrl, module, resource), 'app/' + module);
     var showCtrl      = this.setPlaceholders(options.show.controller,   module, resource);
     var showCtrlAlias = this.setPlaceholders(options.show.controllerAs, module, resource);
     var showResolve   = {
@@ -953,7 +1009,7 @@ ApiResource.prototype.remove = function removeResource(resource) {
  * @returns {string}
  */
 ApiResource.prototype.getFullPath = function buildPath(params) {
-    var fullPath = this.services.api.getServer() + this.path;
+    var fullPath = this.services.$api.getUrl(this.path);
 
     // Extracts params from path (delimited by {})
     var matches = this.path.match(/{([^}]+)}/gi);
@@ -1015,50 +1071,80 @@ angular
     .module('Api')
     .service('ApiResource', ApiResource);
 
-// File : src/core/Api/Service/ApiService.js
+// File : src/core/Api/Service/ApiErrorService.js
 /**
- * API Service
- * @returns {ApiService}
+ * API Error Service
  * @constructor
  */
-var ApiService = function ApiService() {
+var ApiErrorService = function ApiErrorService($q, $location) {
+    return {
+        response: function onResponseSuccess(responseData) {
+            return responseData;
+        },
 
+        responseError: function onResponseError(response) {
+            switch (response.status) {
+                case 401:
+                    $location.path('/login');
+                    break;
+                case 404:
+                    $location.path('/404');
+                    break;
+                default:
+                    $location.path('/error_server');
+            }
+
+            return $q.reject(response);
+        }
+    };
 };
 
 // Set up dependency injection
-ApiService.$inject = [];
-
-/**
- * Server base path
- * @type {String}
- */
-ApiService.prototype.server       = '/MusicTools/web/app_dev.php';
-
-ApiService.prototype.resourcePath = '/MusicTools/web/';
-
-ApiService.prototype.assetPath    = '/MusicTools/web/client/public/';
-
-/**
- * Get server
- * @returns {String}
- */
-ApiService.prototype.getServer = function getServer() {
-    return this.server;
-};
-
-ApiService.prototype.getResourcePath = function getResourcePath() {
-    return this.resourcePath;
-};
-
-ApiService.prototype.getAssetPath = function getAssetPath() {
-    return this.assetPath;
-};
+ApiErrorService.$inject = [ '$q', '$location' ];
 
 // Inject Service into AngularJS
 angular
     .module('Api')
-    .service('ApiService', ApiService);
+    .service('ApiErrorService', ApiErrorService);
+// File : src/core/Client/Filter/AssetPathFilter.js
+/**
+ * Asset Path filter
+ */
+var AssetPathFilter = function AssetPathFilter($client) {
+    return function asset_path(path) {
+        return $client.getAsset(path);
+    };
+};
+
+// Set up dependency injection
+AssetPathFilter.$inject = [ '$client' ];
+
+// Register filter into Angular JS
+angular
+    .module('Client')
+    .filter('asset_path', AssetPathFilter);
+// File : src/core/Client/Filter/PartialPathFilter.js
+/**
+ * Partial Path filter
+ */
+var PartialPathFilter = function PartialPathFilter($client) {
+    return function partial_path(path, module) {
+        return $client.getPartial(path, module);
+    };
+};
+
+// Set up dependency injection
+PartialPathFilter.$inject = [ '$client' ];
+
+// Register filter into Angular JS
+angular
+    .module('Client')
+    .filter('partial_path', PartialPathFilter);
 // File : src/core/Client/Provider/ClientProvider.js
+/**
+ * Client Provider
+ * @constructor
+ */
 var ClientProvider = function ClientProvider() {
     this.$get = function () {
         var provider = this;
@@ -1068,7 +1154,10 @@ var ClientProvider = function ClientProvider() {
              * Allow access to the Client configuration at runtime
              */
             config: {
-
+                basePath   : provider.basePath,
+                srcDir     : provider.srcDir,
+                assetDir   : provider.assetDir,
+                partialDir : provider.partialDir
             },
 
             /**
@@ -1076,15 +1165,15 @@ var ClientProvider = function ClientProvider() {
              * @param {String} path
              */
             getAsset: function getAsset(path) {
-                provider.getAsset(path);
+                return provider.getAsset(path);
             },
 
             /**
              * Get Partial path
              * @param {String} path
              */
-            getPartial: function getPartial(path) {
-                provider.getPartial(path);
+            getPartial: function getPartial(path, module) {
+                return provider.getPartial(path, module);
             }
         };
     };
@@ -1093,8 +1182,54 @@ var ClientProvider = function ClientProvider() {
 // Set up dependency injection
 ClientProvider.$inject = [];
 
-ClientProvider.prototype.configure = function configure(configuration) {
+/**
+ * Client sources base path
+ * @type {string}
+ */
+ClientProvider.prototype.basePath   = null;
 
+/**
+ * Directory of the client sources
+ * @type {string}
+ */
+ClientProvider.prototype.srcDir     = 'src';
+
+/**
+ * Assets directory
+ * @type {string}
+ */
+ClientProvider.prototype.assetDir   = 'public';
+
+/**
+ * Partials directory
+ * @type {string}
+ */
+ClientProvider.prototype.partialDir = 'Partial';
+
+/**
+ * Configure provider
+ * @param {Object} configuration
+ */
+ClientProvider.prototype.configure = function configure(configuration) {
+    if (configuration.basePath) {
+        // Override default base path
+        this.basePath = configuration.basePath.replace(/\/+$/, ""); // Trim last slashes
+    }
+
+    if (configuration.srcDir) {
+        // Override default asset directory
+        this.srcDir = configuration.srcDir.replace(/^\/+|\/+$/g, ''); // Trim trailing slashes
+    }
+
+    if (configuration.assetDir) {
+        // Override default asset directory
+        this.assetDir = configuration.assetDir.replace(/^\/+|\/+$/g, ''); // Trim trailing slashes
+    }
+
+    if (configuration.partialDir) {
+        // Override default partial directory
+        this.partialDir = configuration.partialDir.replace(/^\/+|\/+$/g, ''); // Trim trailing slashes
+    }
 };
 
 /**
@@ -1102,15 +1237,16 @@ ClientProvider.prototype.configure = function configure(configuration) {
  * @param {String} path
  */
 ClientProvider.prototype.getAsset = function getAsset(path) {
-
+    return this.basePath + '/' + this.assetDir + '/' + path.replace(/^\/+|\/+$/g, '');
 };
 
 /**
  * Get Partial path
  * @param {String} path
+ * @param {String} module
  */
-ClientProvider.prototype.getPartial = function getPartial(path) {
-
+ClientProvider.prototype.getPartial = function getPartial(path, module) {
+    return this.basePath + '/' + this.srcDir + '/' + module + '/' + this.partialDir + '/' + path.replace(/^\/+|\/+$/g, '');
 };
 
 // Register provider into Angular JS
@@ -1141,11 +1277,11 @@ angular
 angular
     .module('Layout')
     .directive('scoreField', [
-        '$partial',
-        function ScoreFieldDirective($partial) {
+        '$client',
+        function ScoreFieldDirective($client) {
             return {
                 restrict: 'E',
-                templateUrl: $partial.getPath('Field/score-field.html', 'Layout', true),
+                templateUrl: $client.getPartial('Field/score-field.html', 'core/Layout'),
                 replace: true,
                 scope: {
                     /**
@@ -1266,11 +1402,11 @@ angular
 angular
     .module('Layout')
     .directive('uiHeader', [
-        '$partial',
-        function HeaderDirective($partial) {
+        '$client',
+        function HeaderDirective($client) {
             return {
                 restrict: 'E',
-                templateUrl: $partial.getPath('Header/navbar.html', 'Layout', true),
+                templateUrl: $client.getPartial('Header/navbar.html', 'core/Layout'),
                 replace: true,
                 scope: {},
                 link: function (scope, element, attrs) {
@@ -1283,10 +1419,10 @@ angular
 /**
  * Widget to change how lists are displayed
  */
-var LayoutListFormatterDirective = function LayoutListFormatterDirectiveConstructor($partial) {
+var LayoutListFormatterDirective = function LayoutListFormatterDirectiveConstructor($client) {
     return {
         restrict: 'E',
-        templateUrl: $partial.getPath('list-formatter.html', 'Layout', true),
+        templateUrl: $client.getPartial('list-formatter.html', 'core/Layout'),
         replace: true,
         scope: {
             /**
@@ -1309,7 +1445,7 @@ var LayoutListFormatterDirective = function LayoutListFormatterDirectiveConstruc
 };
 
 // Set up dependency injection
-LayoutListFormatterDirective.$inject = [ '$partial' ];
+LayoutListFormatterDirective.$inject = [ '$client' ];
 
 // Register directive into AngularJS
 angular
@@ -1320,10 +1456,10 @@ angular
 /**
  * Widget to sort lists
  */
-var LayoutListSorterDirective = function LayoutListSorterDirectiveConstructor($partial) {
+var LayoutListSorterDirective = function LayoutListSorterDirectiveConstructor($client) {
     return {
         restrict: 'E',
-        templateUrl: $partial.getPath('list-sorter.html', 'Layout', true),
+        templateUrl: $client.getPartial('list-sorter.html', 'core/Layout'),
         replace: true,
         scope: {
             /**
@@ -1393,7 +1529,7 @@ var LayoutListSorterDirective = function LayoutListSorterDirectiveConstructor($p
 };
 
 // Set up dependency injection
-LayoutListSorterDirective.$inject = [ '$partial' ];
+LayoutListSorterDirective.$inject = [ '$client' ];
 
 // Register directive into AngularJS
 angular
@@ -1423,11 +1559,11 @@ angular
 angular
     .module('Layout')
     .directive('layoutPageTitle', [
-        '$partial',
-        function LayoutPageTitleDirective($partial) {
+        '$client',
+        function LayoutPageTitleDirective($client) {
             return {
                 restrict: 'E',
-                templateUrl: $partial.getPath('Page/title.html', 'Layout', true),
+                templateUrl: $client.getPartial('Page/title.html', 'core/Layout'),
                 replace: true,
                 transclude: true,
                 scope: {
@@ -1531,10 +1667,10 @@ angular
 /**
  * Sidebar of the application
  */
-var LayoutSidebarDirective = function LayoutSidebarDirectiveConstructor($location, $partial) {
+var LayoutSidebarDirective = function LayoutSidebarDirectiveConstructor($location, $client) {
     return {
         restrict: 'E',
-        templateUrl: $partial.getPath('Sidebar/sidebar.html', 'Layout', true),
+        templateUrl: $client.getPartial('Sidebar/sidebar.html', 'core/Layout'),
         replace: true,
         scope: {},
         link: function sidebarDirectiveLink(scope, element, attrs) {
@@ -1549,7 +1685,7 @@ var LayoutSidebarDirective = function LayoutSidebarDirectiveConstructor($locatio
 };
 
 // Set up dependency injection
-LayoutSidebarDirective.$inject = [ '$location', '$partial' ];
+LayoutSidebarDirective.$inject = [ '$location', '$client' ];
 
 // Register directive into AngularJS
 angular
@@ -1559,10 +1695,10 @@ angular
 /**
  * Represents a link in the sidebar
  */
-var LayoutSidebarItemDirective = function LayoutSidebarItemDirective($partial) {
+var LayoutSidebarItemDirective = function LayoutSidebarItemDirective($client) {
     return {
         restrict: 'E',
-        templateUrl: $partial.getPath('Sidebar/sidebar-item.html', 'Layout', true),
+        templateUrl: $client.getPartial('Sidebar/sidebar-item.html', 'core/Layout'),
         replace: true,
         scope: {
             icon       : '@',
@@ -1580,7 +1716,7 @@ var LayoutSidebarItemDirective = function LayoutSidebarItemDirective($partial) {
 };
 
 // Set up dependency injection
-LayoutSidebarItemDirective.$inject = [ '$partial' ];
+LayoutSidebarItemDirective.$inject = [ '$client' ];
 
 // Register into AngularJS
 angular
@@ -1612,138 +1748,6 @@ layoutTranslations['fr'] = {
     list_display_list_detailed  : 'liste détaillée',
     list_display_list_condensed : 'liste condensée'
 };
-// File : src/core/Utilities/Filter/AssetPathFilter.js
-/**
- * Asset Path filter
- */
-angular
-    .module('Utilities')
-    .filter('asset_path', [
-        'ApiService',
-        function (ApiService) {
-            return function (path) {
-                return ApiService.getAssetPath() + path;
-            };
-        }
-    ]);
-// File : src/core/Utilities/Filter/PartialPathFilter.js
-/**
- * Partial Path filter
- */
-angular
-    .module('Utilities')
-    .filter('partial_path', [
-        '$partial',
-        function ($partial) {
-            return function (path, module, isCore) {
-                return $partial.getPath(path, module, isCore);
-            };
-        }
-    ]);
-// File : src/core/Utilities/Filter/ResourcePathFilter.js
-/**
- * Resource Path filter
- */
-angular
-    .module('Utilities')
-    .filter('resource_path', [
-        'ApiService',
-        function (ApiService) {
-            return function (path) {
-                return ApiService.getResourcePath() + path;
-            };
-        }
-    ]);
-
-// File : src/core/Utilities/Provider/PartialProvider.js
-/**
- * Partial Provider
- * @returns {PartialProvider}
- * @constructor
- */
-var PartialProvider = function PartialProvider() {
-    var options = this.default;
-
-    this.$get = function () {
-        return {
-            options: options,
-            getPath: function getPath(relativePath, module, isCore) {
-                var path = (typeof isCore !== 'undefined' && isCore) ? this.options.baseCorePath : this.options.baseAppPath;
-                path += module + '/' + this.options.partialDir;
-
-                return path + relativePath;
-            }
-        };
-    };
-};
-
-/**
- * Configuration of the provider
- * @type {Object}
- */
-PartialProvider.prototype.default = {
-    baseCorePath : '../src/core/',
-    baseAppPath  : '../src/app/',
-    partialDir   : 'Partial/'
-};
-
-/**
- * Get partials base path
- * @param {string}  relativePath
- * @param {string}  module
- * @param {boolean} [isCore]
- */
-PartialProvider.prototype.getPath = function getPath(relativePath, module, isCore) {
-    if (!module) {
-        console.error('You must provide the module name to get the Partials path.');
-    }
-
-    var path = (isCore !== 'undefined' && isCore) ? this.default.baseCorePath : this.default.baseAppPath;
-    path += module + '/' + this.default.partialDir;
-
-    return path + relativePath;
-};
-
-// Inject Service into AngularJS
-angular
-    .module('Utilities')
-    .provider('$partial', PartialProvider);
-
-// File : src/core/Utilities/Service/HttpErrorService.js
-/**
- * HTTP Error Service
- * @constructor
- */
-var HttpErrorService = function HttpErrorService($q, $location) {
-    return {
-        response: function(responseData) {
-            return responseData;
-        },
-
-        responseError: function error(response) {
-            switch (response.status) {
-                case 401:
-                    $location.path('/login');
-                    break;
-                case 404:
-                    $location.path('/404');
-                    break;
-                default:
-                    $location.path('/error_server');
-            }
-
-            return $q.reject(response);
-        }
-    };
-};
-
-// Set up dependency injection
-HttpErrorService.$inject = [ '$q', '$location' ];
-
-// Inject Service into AngularJS
-angular
-    .module('Utilities')
-    .service('HttpErrorService', HttpErrorService);
 // File : src/core/Utilities/Service/SoundService.js
 /**
  * Sound Service
@@ -1946,12 +1950,8 @@ angular
 
     // Configure Application
     .config([
-        '$httpProvider',
         '$translateProvider',
-        function configure($httpProvider, $translateProvider) {
-            // Set up Http Error interceptor to catch server error response
-            $httpProvider.interceptors.push('HttpErrorService');
-
+        function configure($translateProvider) {
             // Inject translations
             for (var lang in appTranslations) {
                 if (appTranslations.hasOwnProperty(lang)) {
@@ -2599,11 +2599,11 @@ angular
 angular
     .module('GuitarNeck')
     .directive('guitarNeckWidget', [
-        '$partial',
-        function ($partial) {
+        '$client',
+        function ($client) {
             return {
                 restrict: 'E',
-                templateUrl: $partial.getPath('GuitarNeck.html', 'GuitarNeck'),
+                templateUrl: $client.getPartial('GuitarNeck.html', 'app/GuitarNeck'),
                 replace: true,
                 scope: {
                     guitar: '=?'
@@ -2623,11 +2623,11 @@ angular
     .module('GuitarNeck')
     .directive('fretLayer', [
         '$window',
-        '$partial',
-        function FretLayerDirective($window, $partial) {
+        '$client',
+        function FretLayerDirective($window, $client) {
             return {
                 restrict: 'E',
-                templateUrl: $partial.getPath('Layer/FretLayer.html', 'GuitarNeck'),
+                templateUrl: $client.getPartial('Layer/FretLayer.html', 'app/GuitarNeck'),
                 replace: true,
                 scope: {
                     /**
@@ -2690,11 +2690,11 @@ angular
     .module('GuitarNeck')
     .directive('noteLayer', [
         '$window',
-        '$partial',
-        function NoteLayerDirective($window, $partial) {
+        '$client',
+        function NoteLayerDirective($window, $client) {
             return {
                 restrict: 'E',
-                templateUrl: $partial.getPath('Layer/NoteLayer.html', 'GuitarNeck'),
+                templateUrl: $client.getPartial('Layer/NoteLayer.html', 'app/GuitarNeck'),
                 replace: true,
                 scope: {
 
@@ -2720,11 +2720,11 @@ angular
     .module('GuitarNeck')
     .directive('stringLayer', [
         '$window',
-        '$partial',
-        function StringLayerDirective($window, $partial) {
+        '$client',
+        function StringLayerDirective($window, $client) {
             return {
                 restrict: 'E',
-                templateUrl: $partial.getPath('Layer/StringLayer.html', 'GuitarNeck'),
+                templateUrl: $client.getPartial('Layer/StringLayer.html', 'app/GuitarNeck'),
                 replace: true,
                 scope: {
                     strings: '=?'
@@ -2871,16 +2871,16 @@ angular
  * Instrument menu
  * Used to select the current instrument, and if relevant the tuning (e.g. for Guitar or Bass)
  */
-var InstrumentMenuDirective = function InstrumentMenuDirective($partial) {
+var InstrumentMenuDirective = function InstrumentMenuDirective($client) {
     return {
         restrict: 'E',
-        templateUrl: $partial.getPath('Instrument/menu.html', 'Instrument'),
+        templateUrl: $client.getPartial('Instrument/menu.html', 'app/Instrument'),
         replace: true
     };
 };
 
 // Set up dependency injection
-InstrumentMenuDirective.$inject = [ '$partial' ];
+InstrumentMenuDirective.$inject = [ '$client' ];
 
 // Register directive into AngularJS
 angular
@@ -3382,11 +3382,11 @@ angular
     angular.module('SheetMusic')
         .directive('sheetMusic', [
             '$timeout',
-            '$partial',
-            function ($timeout, $partial) {
+            '$client',
+            function ($timeout, $client) {
                 return {
                     restrict: 'E',
-                    templateUrl: $partial.getPath('sheet-music.html', 'SheetMusic'),
+                    templateUrl: $client.getPartial('sheet-music.html', 'app/SheetMusic'),
                     replace: true,
                     scope: {
                         file: '@'
@@ -3895,10 +3895,10 @@ angular
  * @returns {Object}
  * @constructor
  */
-var IntervalPlayerDirective = function IntervalPlayerDirective($partial) {
+var IntervalPlayerDirective = function IntervalPlayerDirective($client) {
     return {
         restrict: 'E',
-        templateUrl: $partial.getPath('Interval/player.html', 'Theory'),
+        templateUrl: $client.getPartial('Interval/player.html', 'app/Theory'),
         replace: true,
         scope: {
             interval    : '='
@@ -4037,7 +4037,7 @@ var IntervalPlayerDirective = function IntervalPlayerDirective($partial) {
 };
 
 // Set up dependency injection
-IntervalPlayerDirective.$inject = [ '$partial' ];
+IntervalPlayerDirective.$inject = [ '$client' ];
 
 // Register directive into angular
 angular
@@ -4085,10 +4085,10 @@ angular
  * @returns {Object}
  * @constructor
  */
-var NoteMenuDirective = function NoteMenuDirectiveConstructor($partial) {
+var NoteMenuDirective = function NoteMenuDirectiveConstructor($client) {
     return {
         restrict: 'E',
-        templateUrl: $partial.getPath('Note/menu.html', 'Theory'),
+        templateUrl: $client.getPartial('Note/menu.html', 'app/Theory'),
         replace: true,
         scope: {
             /**
@@ -4103,7 +4103,7 @@ var NoteMenuDirective = function NoteMenuDirectiveConstructor($partial) {
 };
 
 // Set up dependency injection
-NoteMenuDirective.$inject = [ '$partial' ];
+NoteMenuDirective.$inject = [ '$client' ];
 
 // Register directive into Angular JS
 angular
@@ -4113,12 +4113,12 @@ angular
 angular
     .module('Theory')
     .directive('scaleRepresentation', [
-        '$partial',
+        '$client',
         'NoteResource',
-        function ScaleRepresentationDirective($partial, NoteResource) {
+        function ScaleRepresentationDirective($client, NoteResource) {
             return {
                 restrict: 'E',
-                templateUrl: $partial.getPath('Scale/representation.html', 'Theory'),
+                templateUrl: $client.getPath('Scale/representation.html', 'app/Theory'),
                 replace: true,
                 scope: {
 
@@ -4444,12 +4444,12 @@ angular
     .module('Theory')
     .config([
         '$routeProvider',
-        '$partialProvider',
+        '$clientProvider',
         'apiResourceRouteProvider',
-        function TheoryRoutes($routeProvider, $partialProvider, apiResourceRouteProvider) {
+        function TheoryRoutes($routeProvider, $clientProvider, apiResourceRouteProvider) {
             // Theory summary
             $routeProvider.when('/theory', {
-                templateUrl: $partialProvider.getPath('summary.html', 'Theory')
+                templateUrl: $clientProvider.getPartial('summary.html', 'app/Theory')
             });
 
             apiResourceRouteProvider.register('Theory', 'Note',     'theory/notes',     true);
@@ -4560,11 +4560,11 @@ angular.module('User').controller('SettingsController', [ SettingsController ]);
 angular
     .module('User')
     .directive('userMenu', [
-        '$partial',
-        function ($partial) {
+        '$client',
+        function ($client) {
             return {
                 restrict: 'E',
-                templateUrl: $partial.getPath('menu.html', 'User'),
+                templateUrl: $client.getPartial('menu.html', 'app/User'),
                 replace: true,
                 scope: {},
                 link: function (scope, element, attrs) {
@@ -4579,12 +4579,12 @@ angular
  */
 angular.module('User').config([
     '$routeProvider',
-    '$partialProvider',
-    function UserRoutes($routeProvider, $partialProvider) {
+    '$clientProvider',
+    function UserRoutes($routeProvider, $clientProvider) {
         // Users list
         $routeProvider
             .when('/users', {
-                templateUrl:  $partialProvider.getPath('list.html', 'User'),
+                templateUrl:  $clientProvider.getPartial('list.html', 'app/User'),
                 controller:   'ListViewController',
                 controllerAs: 'listViewCtrl'
             });
@@ -4592,7 +4592,7 @@ angular.module('User').config([
         // Current User profile
         $routeProvider
             .when('/profile', {
-                templateUrl:  $partialProvider.getPath('profile.html', 'User'),
+                templateUrl:  $clientProvider.getPartial('profile.html', 'app/User'),
                 controller:   'ProfileController',
                 controllerAs: 'profileCtrl'
             });
@@ -4600,7 +4600,7 @@ angular.module('User').config([
         // Current User settings
         $routeProvider
             .when('/profile/settings', {
-                templateUrl:  $partialProvider.getPath('settings.html', 'User'),
+                templateUrl:  $clientProvider.getPartial('settings.html', 'app/User'),
                 controller:   'SettingsController',
                 controllerAs: 'settingsCtrl'
             });
@@ -4615,17 +4615,17 @@ angular
     .module('App')
     .config([
         '$routeProvider',
-        '$partialProvider',
-        function AppConfig($routeProvider, $partialProvider) {
+        '$clientProvider',
+        function AppConfig($routeProvider, $clientProvider) {
             $routeProvider
                 // Page not found
                 .when('/page_not_found', {
-                    templateUrl: $partialProvider.getPath('Error/page_not_found.html', 'Layout', true)
+                    templateUrl: $clientProvider.getPartial('Error/page_not_found.html', 'core/Layout', true)
                 })
 
                 // Default Server 5xx errors
                 .when('/error_server', {
-                    templateUrl: $partialProvider.getPath('Error/server.html', 'Layout', true)
+                    templateUrl: $clientProvider.getPartial('Error/server.html', 'core/Layout', true)
                 })
 
                 // Redirect to Page not found
@@ -4675,16 +4675,14 @@ appTranslations['fr'] = {
 angular
     .module('AppConfiguration', [])
 
-    // Set default lang for Localization
-    .constant('defaultLang', 'en')
-
     // Configure API access
     .constant('apiConfiguration', {
-        basePath: 'MusicTools/web/app_dev.php'
+        basePath   : 'MusicTools/web/app_dev.php',
+        uploadPath : 'MusicTools/web'
     })
 
     // Configure Client
     .constant('clientConfiguration', {
-        basePath: 'MusicTools/web'
+        basePath: '/MusicTools/web/client'
     });
 })();

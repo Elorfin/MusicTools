@@ -1,10 +1,10 @@
 /**
  * Sidebar of the application
  */
-var LayoutSidebarDirective = function LayoutSidebarDirectiveConstructor($location, $partial) {
+var LayoutSidebarDirective = function LayoutSidebarDirectiveConstructor($location, $client) {
     return {
         restrict: 'E',
-        templateUrl: $partial.getPath('Sidebar/sidebar.html', 'Layout', true),
+        templateUrl: $client.getPartial('Sidebar/sidebar.html', 'core/Layout'),
         replace: true,
         scope: {},
         link: function sidebarDirectiveLink(scope, element, attrs) {
@@ -19,7 +19,7 @@ var LayoutSidebarDirective = function LayoutSidebarDirectiveConstructor($locatio
 };
 
 // Set up dependency injection
-LayoutSidebarDirective.$inject = [ '$location', '$partial' ];
+LayoutSidebarDirective.$inject = [ '$location', '$client' ];
 
 // Register directive into AngularJS
 angular

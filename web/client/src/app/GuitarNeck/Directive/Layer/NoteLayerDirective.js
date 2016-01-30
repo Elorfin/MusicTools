@@ -2,11 +2,11 @@ angular
     .module('GuitarNeck')
     .directive('noteLayer', [
         '$window',
-        '$partial',
-        function NoteLayerDirective($window, $partial) {
+        '$client',
+        function NoteLayerDirective($window, $client) {
             return {
                 restrict: 'E',
-                templateUrl: $partial.getPath('Layer/NoteLayer.html', 'GuitarNeck'),
+                templateUrl: $client.getPartial('Layer/NoteLayer.html', 'app/GuitarNeck'),
                 replace: true,
                 scope: {
 

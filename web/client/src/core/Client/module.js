@@ -1,2 +1,4 @@
-angular
-    .module('Client', []);
+/**
+ * Client Module
+ */
+angular.module('Client', []);

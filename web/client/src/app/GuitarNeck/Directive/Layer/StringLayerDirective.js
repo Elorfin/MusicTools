@@ -2,11 +2,11 @@ angular
     .module('GuitarNeck')
     .directive('stringLayer', [
         '$window',
-        '$partial',
-        function StringLayerDirective($window, $partial) {
+        '$client',
+        function StringLayerDirective($window, $client) {
             return {
                 restrict: 'E',
-                templateUrl: $partial.getPath('Layer/StringLayer.html', 'GuitarNeck'),
+                templateUrl: $client.getPartial('Layer/StringLayer.html', 'app/GuitarNeck'),
                 replace: true,
                 scope: {
                     strings: '=?'

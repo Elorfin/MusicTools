@@ -1,14 +1,14 @@
 /**
- * HTTP Error Service
+ * API Error Service
  * @constructor
  */
-var HttpErrorService = function HttpErrorService($q, $location) {
+var ApiErrorService = function ApiErrorService($q, $location) {
     return {
-        response: function(responseData) {
+        response: function onResponseSuccess(responseData) {
             return responseData;
         },
 
-        responseError: function error(response) {
+        responseError: function onResponseError(response) {
             switch (response.status) {
                 case 401:
                     $location.path('/login');
@@ -26,9 +26,9 @@ var HttpErrorService = function HttpErrorService($q, $location) {
 };
 
 // Set up dependency injection
-HttpErrorService.$inject = [ '$q', '$location' ];
+ApiErrorService.$inject = [ '$q', '$location' ];
 
 // Inject Service into AngularJS
 angular
-    .module('Utilities')
-    .service('HttpErrorService', HttpErrorService);
+    .module('Api')
+    .service('ApiErrorService', ApiErrorService);

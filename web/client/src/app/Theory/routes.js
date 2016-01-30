@@ -5,12 +5,12 @@ angular
     .module('Theory')
     .config([
         '$routeProvider',
-        '$partialProvider',
+        '$clientProvider',
         'apiResourceRouteProvider',
-        function TheoryRoutes($routeProvider, $partialProvider, apiResourceRouteProvider) {
+        function TheoryRoutes($routeProvider, $clientProvider, apiResourceRouteProvider) {
             // Theory summary
             $routeProvider.when('/theory', {
-                templateUrl: $partialProvider.getPath('summary.html', 'Theory')
+                templateUrl: $clientProvider.getPartial('summary.html', 'app/Theory')
             });
 
             apiResourceRouteProvider.register('Theory', 'Note',     'theory/notes',     true);

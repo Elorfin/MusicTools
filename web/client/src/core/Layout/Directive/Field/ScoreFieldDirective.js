@@ -4,11 +4,11 @@
 angular
     .module('Layout')
     .directive('scoreField', [
-        '$partial',
-        function ScoreFieldDirective($partial) {
+        '$client',
+        function ScoreFieldDirective($client) {
             return {
                 restrict: 'E',
-                templateUrl: $partial.getPath('Field/score-field.html', 'Layout', true),
+                templateUrl: $client.getPartial('Field/score-field.html', 'core/Layout'),
                 replace: true,
                 scope: {
                     /**

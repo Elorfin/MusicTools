@@ -2,11 +2,11 @@ angular
     .module('GuitarNeck')
     .directive('fretLayer', [
         '$window',
-        '$partial',
-        function FretLayerDirective($window, $partial) {
+        '$client',
+        function FretLayerDirective($window, $client) {
             return {
                 restrict: 'E',
-                templateUrl: $partial.getPath('Layer/FretLayer.html', 'GuitarNeck'),
+                templateUrl: $client.getPartial('Layer/FretLayer.html', 'app/GuitarNeck'),
                 replace: true,
                 scope: {
                     /**

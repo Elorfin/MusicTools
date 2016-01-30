@@ -22,6 +22,7 @@ angular
         // Core modules
         'Utilities',
         'Api',
+        'Client',
         'Layout',
         'Alert'
     ])

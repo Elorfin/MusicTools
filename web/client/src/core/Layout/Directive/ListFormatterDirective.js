@@ -1,10 +1,10 @@
 /**
  * Widget to change how lists are displayed
  */
-var LayoutListFormatterDirective = function LayoutListFormatterDirectiveConstructor($partial) {
+var LayoutListFormatterDirective = function LayoutListFormatterDirectiveConstructor($client) {
     return {
         restrict: 'E',
-        templateUrl: $partial.getPath('list-formatter.html', 'Layout', true),
+        templateUrl: $client.getPartial('list-formatter.html', 'core/Layout'),
         replace: true,
         scope: {
             /**
@@ -27,7 +27,7 @@ var LayoutListFormatterDirective = function LayoutListFormatterDirectiveConstruc
 };
 
 // Set up dependency injection
-LayoutListFormatterDirective.$inject = [ '$partial' ];
+LayoutListFormatterDirective.$inject = [ '$client' ];
 
 // Register directive into AngularJS
 angular

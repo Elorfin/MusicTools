@@ -7,11 +7,9 @@ var ApiProvider = function ApiProvider() {
              * Allow access to the API configuration at runtime
              */
             config: {
-                protocol : provider.protocol,
-                host     : provider.host,
-                port     : provider.port,
-                basePath : provider.basePath,
-                fullPath : provider.fullPath
+                serverName : provider.serverName,
+                basePath   : provider.basePath,
+                uploadPath : provider.uploadPath
             },
 
             /**
@@ -19,7 +17,15 @@ var ApiProvider = function ApiProvider() {
              * @param {String} path
              */
             getUrl: function getUrl(path) {
-                provider.getUrl(path);
+                return provider.getUrl(path);
+            },
+
+            /**
+             * Get uploaded file
+             * @param {String} path
+             */
+            getUpload: function getUpload(path) {
+                return provider.getUpload(path);
             }
         };
     };
@@ -44,19 +50,25 @@ ApiProvider.prototype.host     = 'localhost';
  * Port number
  * @var {Number}
  */
-ApiProvider.prototype.port     = 80;
+ApiProvider.prototype.port       = 80;
+
+/**
+ * Full server name (generated on provider configuration)
+ * @type {String}
+ */
+ApiProvider.prototype.serverName = null;
 
 /**
  * Base path from the API server root
  * @var {String}
  */
-ApiProvider.prototype.basePath = null;
+ApiProvider.prototype.basePath   = null;
 
 /**
- * Full path to the API server (generated on provider configuration)
+ * Path to uploads
  * @type {String}
  */
-ApiProvider.prototype.fullPath = null;
+ApiProvider.prototype.uploadPath = null;
 
 /**
  * Configure API
@@ -83,39 +95,38 @@ ApiProvider.prototype.configure = function configure(configuration) {
         this.basePath = configuration.basePath.replace(/^\/+|\/+$/g, ''); // Trim trailing slashes
     }
 
+    if (configuration.uploadPath) {
+        // Override default upload path
+        this.uploadPath = configuration.uploadPath.replace(/^\/+|\/+$/g, ''); // Trim trailing slashes
+    }
+
     // Generate full server path
-    this.generateFullPath();
+    this.generateServerName();
 };
 
 /**
  * Generate full path to the API server
  */
-ApiProvider.prototype.generateFullPath = function () {
-    var fullPath = '';
+ApiProvider.prototype.generateServerName = function generateServerName() {
+    var serverName = '';
     if (this.protocol) {
-        fullPath += this.protocol;
+        serverName += this.protocol;
     }
 
-    fullPath += '//';
+    serverName += '//';
 
     if (this.host) {
-        fullPath += this.host;
+        serverName += this.host;
     } else {
         console.error('$apiProvider : API host can not be empty.')
     }
 
     if (this.port) {
-        fullPath += ':' + this.port;
+        serverName += ':' + this.port;
     }
 
-    if (this.basePath) {
-        fullPath += '/' + this.basePath;
-    }
-
-    fullPath += '/';
-
-    // Store generated path
-    this.fullPath = fullPath;
+    // Store generated name
+    this.serverName = serverName;
 };
 
 /**
@@ -123,12 +134,25 @@ ApiProvider.prototype.generateFullPath = function () {
  * @param {String} path
  */
 ApiProvider.prototype.getUrl = function getUrl(path) {
-    if (!this.fullPath) {
+    if (!this.serverName) {
         // API not configured
         console.error('$apiProvider : You must configure the provider before calling `getUrl`.');
     }
 
-    return this.fullPath + path;
+    return (this.serverName + '/' + this.basePath + '/' + path.replace(/^\/+|\/+$/g, ''));
+};
+
+/**
+ * Get uploaded file
+ * @param {String} path
+ */
+ApiProvider.prototype.getUpload = function getUpload(path) {
+    if (!this.serverName) {
+        // API not configured
+        console.error('$apiProvider : You must configure the provider before calling `getUpload`.');
+    }
+
+    return (this.serverName + '/' + this.uploadPath + '/' + path.replace(/^\/+|\/+$/g, ''));
 };
 
 // Register provider into Angular JS

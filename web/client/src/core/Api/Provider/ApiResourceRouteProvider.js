@@ -8,19 +8,19 @@
  * - Templates for `list`, `show`, `new`, `edit` MUST be respectively named : `index.html`, `show.html`, `new.html`, `edit.html`
  *
  * @param {Object} $routeProvider
- * @param {Object} $partialProvider
+ * @param {Object} $clientProvider
  * @constructor
  */
-var ApiResourceRouteProvider = function ApiResourceRouteProvider($routeProvider, $partialProvider) {
-    this.$routeProvider   = $routeProvider;
-    this.$partialProvider = $partialProvider;
+var ApiResourceRouteProvider = function ApiResourceRouteProvider($routeProvider, $clientProvider) {
+    this.$routeProvider  = $routeProvider;
+    this.$clientProvider = $clientProvider;
 
     // Just return the default $route object
     this.$get = $routeProvider.$get;
 };
 
 // Set up dependency injection
-ApiResourceRouteProvider.$inject = [ '$routeProvider', '$partialProvider' ];
+ApiResourceRouteProvider.$inject = [ '$routeProvider', '$clientProvider' ];
 
 /**
  * Default options
@@ -96,7 +96,7 @@ ApiResourceRouteProvider.prototype.register = function register(module, resource
     var resourceClass = this.setPlaceholders(this.default.resourceName, module, resource);
 
     // Register LIST route
-    var listTemplate  = this.$partialProvider.getPath(this.setPlaceholders(options.list.templateUrl, module, resource), module);
+    var listTemplate  = this.$clientProvider.getPartial(this.setPlaceholders(options.list.templateUrl, module, resource), 'app/' + module);
     var listCtrl      = this.setPlaceholders(options.list.controller,   module, resource);
     var listCtrlAlias = this.setPlaceholders(options.list.controllerAs, module, resource);
     var listResolve   = {
@@ -127,7 +127,7 @@ ApiResourceRouteProvider.prototype.register = function register(module, resource
         // The resource is not READ ONLY, so add modification and creation route
 
         // Register NEW route
-        var newTemplate  = this.$partialProvider.getPath(this.setPlaceholders(options.new.templateUrl, module, resource), module);
+        var newTemplate  = this.$clientProvider.getPartial(this.setPlaceholders(options.new.templateUrl, module, resource), 'app/' + module);
         var newCtrl      = this.setPlaceholders(options.new.controller,   module, resource);
         var newCtrlAlias = this.setPlaceholders(options.new.controllerAs, module, resource);
         var newResolve   = {
@@ -155,7 +155,7 @@ ApiResourceRouteProvider.prototype.register = function register(module, resource
         });
 
         // Register EDIT route
-        var editTemplate  = this.$partialProvider.getPath(this.setPlaceholders(options.edit.templateUrl, module, resource), module);
+        var editTemplate  = this.$clientProvider.getPartial(this.setPlaceholders(options.edit.templateUrl, module, resource), 'app/' + module);
         var editCtrl      = this.setPlaceholders(options.edit.controller,   module, resource);
         var editCtrlAlias = this.setPlaceholders(options.edit.controllerAs, module, resource);
         var editResolve   = {
@@ -185,7 +185,7 @@ ApiResourceRouteProvider.prototype.register = function register(module, resource
     }
 
     // Register SHOW route
-    var showTemplate  = this.$partialProvider.getPath(this.setPlaceholders(options.show.templateUrl, module, resource), module);
+    var showTemplate  = this.$clientProvider.getPartial(this.setPlaceholders(options.show.templateUrl, module, resource), 'app/' + module);
     var showCtrl      = this.setPlaceholders(options.show.controller,   module, resource);
     var showCtrlAlias = this.setPlaceholders(options.show.controllerAs, module, resource);
     var showResolve   = {

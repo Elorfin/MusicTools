@@ -221,7 +221,7 @@ ApiResource.prototype.remove = function removeResource(resource) {
  * @returns {string}
  */
 ApiResource.prototype.getFullPath = function buildPath(params) {
-    var fullPath = this.services.api.getServer() + this.path;
+    var fullPath = this.services.$api.getUrl(this.path);
 
     // Extracts params from path (delimited by {})
     var matches = this.path.match(/{([^}]+)}/gi);

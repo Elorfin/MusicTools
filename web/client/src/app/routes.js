@@ -6,17 +6,17 @@ angular
     .module('App')
     .config([
         '$routeProvider',
-        '$partialProvider',
-        function AppConfig($routeProvider, $partialProvider) {
+        '$clientProvider',
+        function AppConfig($routeProvider, $clientProvider) {
             $routeProvider
                 // Page not found
                 .when('/page_not_found', {
-                    templateUrl: $partialProvider.getPath('Error/page_not_found.html', 'Layout', true)
+                    templateUrl: $clientProvider.getPartial('Error/page_not_found.html', 'core/Layout', true)
                 })
 
                 // Default Server 5xx errors
                 .when('/error_server', {
-                    templateUrl: $partialProvider.getPath('Error/server.html', 'Layout', true)
+                    templateUrl: $clientProvider.getPartial('Error/server.html', 'core/Layout', true)
                 })
 
                 // Redirect to Page not found

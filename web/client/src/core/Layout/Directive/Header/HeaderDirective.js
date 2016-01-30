@@ -4,11 +4,11 @@
 angular
     .module('Layout')
     .directive('uiHeader', [
-        '$partial',
-        function HeaderDirective($partial) {
+        '$client',
+        function HeaderDirective($client) {
             return {
                 restrict: 'E',
-                templateUrl: $partial.getPath('Header/navbar.html', 'Layout', true),
+                templateUrl: $client.getPartial('Header/navbar.html', 'core/Layout'),
                 replace: true,
                 scope: {},
                 link: function (scope, element, attrs) {

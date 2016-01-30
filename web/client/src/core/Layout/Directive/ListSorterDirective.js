@@ -1,10 +1,10 @@
 /**
  * Widget to sort lists
  */
-var LayoutListSorterDirective = function LayoutListSorterDirectiveConstructor($partial) {
+var LayoutListSorterDirective = function LayoutListSorterDirectiveConstructor($client) {
     return {
         restrict: 'E',
-        templateUrl: $partial.getPath('list-sorter.html', 'Layout', true),
+        templateUrl: $client.getPartial('list-sorter.html', 'core/Layout'),
         replace: true,
         scope: {
             /**
@@ -74,7 +74,7 @@ var LayoutListSorterDirective = function LayoutListSorterDirectiveConstructor($p
 };
 
 // Set up dependency injection
-LayoutListSorterDirective.$inject = [ '$partial' ];
+LayoutListSorterDirective.$inject = [ '$client' ];
 
 // Register directive into AngularJS
 angular

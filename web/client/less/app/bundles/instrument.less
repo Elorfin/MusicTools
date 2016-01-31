@@ -6,40 +6,23 @@
         text-align: center;
         cursor: pointer;
         display: inline-block;
-        margin: floor(@grid-gutter-width / 2);
-        width: 200px;
-        height: 200px;
+        width: 100%;
         overflow: hidden;
-        border-radius: 250px;
         font-size: 0;
-        border: 2px solid transparent;
 
-        img {
-            opacity: 0.5;
 
-        }
-
-        &.active {
-            border: 2px solid @brand-primary;
-        }
-
-        span {
-            position: absolute;
-            height: 100%;
-            width: 100%;
-            font-size: @font-size-base;
-            display: block;
-            line-height: 200px;
-            color: @brand-primary;
-            background: rgba(0, 0, 0, 0.4);
-            /*opacity: 0.5;*/
-            top: 0;
-        }
     }
 }
 
-.instrument-type-current {
-    text-align: center;
-    font-size: @font-size-large;
-    color: @brand-primary;
+.instrument-type {
+    img {
+        opacity: 0.3;
+    }
+
+    span {
+        font-size: @font-size-large;
+        display: block;
+        color: @brand-primary;
+        text-align: center;
+    }
 }

@@ -6,7 +6,7 @@
  * @param $api
  * @constructor
  */
-var NoteResource = function NoteResourceConstructor($http, $q, $api) {
+var NoteResource = function NoteResource($http, $q, $api) {
     // Call parent constructor
     ApiResource.apply(this, arguments);
 };

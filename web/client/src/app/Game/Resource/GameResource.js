@@ -1,10 +1,17 @@
-var GameResource = function GameResourceConstructor() {
+/**
+ * Game Resource
+ * @constructor
+ */
+var GameResource = function GameResource() {
     // Call parent constructor
     ApiResource.apply(this, arguments);
 };
 
 // Extends ApiResource
 GameResource.prototype = Object.create(ApiResource.prototype);
+GameResource.prototype.constructor = GameResource;
+
+// Set up dependency injection
 GameResource.$inject = ApiResource.$inject;
 
 /**

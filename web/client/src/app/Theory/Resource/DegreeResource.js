@@ -6,7 +6,7 @@
  * @param $api
  * @constructor
  */
-var DegreeResource = function DegreeResourceConstructor($http, $q, $api) {
+var DegreeResource = function DegreeResource($http, $q, $api) {
     // Call parent constructor
     ApiResource.apply(this, arguments);
 };

@@ -43,35 +43,15 @@
     <!-- Form -->
     <form class="instrument-form row">
         <div class="col-md-2">
-            <div class="instrument-types">
-                <div class="instrument-type-item"
-                     data-ng-repeat="instrumentType in formCtrl.instrumentTypes"
-                     data-ng-class="{ active: instrumentType == formCtrl.resource.type }"
-                     data-ng-click="formCtrl.selectType(instrumentType)"
-
-                     data-ng-mouseenter="showName = !showName"
-                     data-ng-mouseleave="showName = !showName"
-                     data-ng-init="showName = false"
-                >
-                    <img class="img-responsive" data-ng-src="{{ 'images/' + instrumentType.attributes.icon |asset_path }}" />
-                    <span data-ng-show="instrumentType != formCtrl.resource.type && showName">{{ instrumentType.attributes.name }}</span>
+            <div class="form-group">
+                <div class="instrument-type">
+                    <img class="img-responsive" data-ng-src="{{ 'images/' + formCtrl.resource.relationships.type.data.attributes.icon |asset_path }}" />
+                    <span>{{ formCtrl.resource.relationships.type.data.attributes.name }}</span>
                 </div>
-            </div>
-
-            <div class="instrument-type-current">
-                {{ formCtrl.resource.type.name }}
             </div>
         </div>
 
         <div class="col-md-10">
-            <div class="form-group">
-                <label class="control-label">Choose a template</label>
-                <select class="form-control">
-                    <option value="">-- you can select a template to prefill information --</option>
-                    <option data-ng-repeat="template in formCtrl.templates" value="{{ template.id }}" data-ng-click="formCtrl.selectTemplate(template)">{{ template.attributes.name }}</option>
-                </select>
-            </div>
-
             <!-- Generic instrument information -->
             <div class="panel panel-default">
                 <div class="panel-body">
@@ -93,7 +73,18 @@
                     </div>
                 </div>
             </div>
+        </div>
 
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <label class="control-label sr-only">Choose a template</label>
+                    <select class="form-control">
+                        <option value="">-- you can select a template to prefill information --</option>
+                        <option data-ng-repeat="template in formCtrl.templates" value="{{ template.id }}" data-ng-click="formCtrl.selectTemplate(template)">{{ template.attributes.name }}</option>
+                    </select>
+                </div>
+            </div>
             <!-- Custom information for the InstrumentType -->
         </div>
     </form>

@@ -6,7 +6,7 @@
  * @param $api
  * @constructor
  */
-var ChordResource = function ChordResourceConstructor($http, $q, $api) {
+var ChordResource = function ChordResource($http, $q, $api) {
     // Call parent constructor
     ApiResource.apply(this, arguments);
 };

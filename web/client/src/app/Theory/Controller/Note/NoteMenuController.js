@@ -2,7 +2,7 @@
  * Menu controller for Notes
  * @constructor
  */
-var NoteMenuController = function NoteMenuControllerConstructor(NoteResource) {
+var NoteMenuController = function NoteMenuController(NoteResource) {
     this.notes = NoteResource.query().then(function (result) {
         this.notes = result;
         if (!this.current) {
@@ -40,7 +40,7 @@ NoteMenuController.prototype.next = function next() {
     }
 };
 
-// Register controller into angular
+// Register controller into Angular JS
 angular
     .module('Theory')
     .controller('NoteMenuController', NoteMenuController);

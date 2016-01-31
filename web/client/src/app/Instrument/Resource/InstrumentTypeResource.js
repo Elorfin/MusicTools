@@ -1,10 +1,17 @@
-var InstrumentTypeResource = function InstrumentTypeResourceConstructor() {
+/**
+ * Instrument Type Resource
+ * @constructor
+ */
+var InstrumentTypeResource = function InstrumentTypeResource() {
     // Call parent constructor
     ApiResource.apply(this, arguments);
 };
 
 // Extends ApiResource
 InstrumentTypeResource.prototype = Object.create(ApiResource.prototype);
+InstrumentTypeResource.prototype.constructor = InstrumentTypeResource;
+
+// Set up dependency injection
 InstrumentTypeResource.$inject = ApiResource.$inject;
 
 /**

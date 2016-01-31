@@ -7,6 +7,10 @@ var InstrumentFormController = function InstrumentFormController(resource, Instr
 
     this.instrumentTypes  = instrumentTypes;
     this.templateResource = InstrumentTemplateResource;
+
+    this.apiResource.addRelationship(this.resource, 'type', this.instrumentTypes[0]);
+
+    console.log(this.resource);
 };
 
 // Extends FormController
@@ -14,7 +18,7 @@ InstrumentFormController.prototype             = Object.create(FormController.pr
 InstrumentFormController.prototype.constructor = InstrumentFormController;
 
 // Set up dependency injection
-InstrumentFormController.$inject = [ 'resource', 'InstrumentResource' ];
+InstrumentFormController.$inject = [ 'resource', 'InstrumentResource', 'instrumentTypes', 'InstrumentTemplateResource' ];
 
 /**
  * Select the type of the Instrument

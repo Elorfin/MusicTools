@@ -2,7 +2,7 @@
  * List controller for Games
  * @constructor
  */
-var GameListController = function GameListControllerConstructor($uibModal, resources) {
+var GameListController = function GameListController($uibModal, resources) {
     ListController.apply(this, arguments);
 };
 

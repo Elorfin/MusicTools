@@ -1,7 +1,7 @@
 /**
  * Display Chord score
  */
-var ChordSheetDirective = function ChordSheetDirectiveConstructor($timeout) {
+var ChordSheetDirective = function ChordSheetDirective($timeout) {
     return {
         restrict: 'E',
         replace: true,

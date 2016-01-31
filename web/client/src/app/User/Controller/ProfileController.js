@@ -1,10 +1,15 @@
 /**
- *
+ * Profile Controller
  * @constructor
  */
-var ProfileController = function ProfileControllerContructor() {
+var ProfileController = function ProfileController() {
 
 };
 
-// Register controller into angular
-angular.module('User').controller('ProfileController', [ ProfileController ]);
+// Set up dependency injection
+ProfileController.$inject = [];
+
+// Register controller into Angular JS
+angular
+    .module('User')
+    .controller('ProfileController', ProfileController);

@@ -2,7 +2,7 @@
  * Controller constructor
  * @constructor
  */
-var SheetMusicController = function SheetMusicControllerConstructor() {
+var SheetMusicController = function SheetMusicController() {
 
 };
 

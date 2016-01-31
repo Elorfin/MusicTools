@@ -1,10 +1,10 @@
 /**
  * Note menu directive
- * @param   {NoteResource} NoteResource
+ * @param   {Object} $client
  * @returns {Object}
  * @constructor
  */
-var NoteMenuDirective = function NoteMenuDirectiveConstructor($client) {
+var NoteMenuDirective = function NoteMenuDirective($client) {
     return {
         restrict: 'E',
         templateUrl: $client.getPartial('Note/menu.html', 'app/Theory'),

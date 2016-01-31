@@ -69,7 +69,7 @@ AlertService.prototype.removeAlert = function removeAlert(alert, clearTimeout) {
     }
 };
 
-// Register service into AngularJS
+// Register service into Angular JS
 angular
     .module('Alert')
     .service('AlertService', AlertService);

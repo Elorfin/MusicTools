@@ -2,7 +2,7 @@
  * List controller for Notes
  * @constructor
  */
-var NoteListController = function NoteListControllerConstructor($uibModal, resources) {
+var NoteListController = function NoteListController($uibModal, resources) {
     this.services = {};
 
     this.services['$uibModal'] = $uibModal;
@@ -19,7 +19,7 @@ NoteListController.$inject = ['$uibModal', 'resources'];
  */
 NoteListController.prototype.resources = [];
 
-// Register controller into angular
+// Register controller into Angular JS
 angular
     .module('Theory')
     .controller('NoteListController', NoteListController);

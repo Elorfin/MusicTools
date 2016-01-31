@@ -1,10 +1,15 @@
 /**
- *
+ * Settings Controller
  * @constructor
  */
-var SettingsController = function SettingsControllerContructor() {
+var SettingsController = function SettingsController() {
 
 };
 
-// Register controller into angular
-angular.module('User').controller('SettingsController', [ SettingsController ]);
+// Set up dependency injection
+SettingsController.$inject = [];
+
+// Register controller into Angular JS
+angular
+    .module('User')
+    .controller('SettingsController', SettingsController);

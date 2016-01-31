@@ -2,7 +2,7 @@
  * List controller for Chords
  * @constructor
  */
-var ChordListController = function ChordListControllerConstructor($uibModal, entities) {
+var ChordListController = function ChordListController($uibModal, entities) {
     ListController.apply(this, arguments);
 };
 
@@ -33,7 +33,7 @@ ChordListController.prototype.sortFields = {
  */
 ChordListController.prototype.root = null;
 
-// Register controller into angular
+// Register controller into Angular JS
 angular
     .module('Theory')
     .controller('ChordListController', ChordListController);

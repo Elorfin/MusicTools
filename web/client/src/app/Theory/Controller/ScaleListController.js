@@ -2,7 +2,7 @@
  * List controller for Scales
  * @constructor
  */
-var ScaleListController = function ScaleListControllerConstructor($uibModal, resources) {
+var ScaleListController = function ScaleListController($uibModal, resources) {
     this.services = {};
 
     this.services['$uibModal'] = $uibModal;
@@ -19,7 +19,7 @@ ScaleListController.$inject = ['$uibModal', 'resources'];
  */
 ScaleListController.prototype.resources = [];
 
-// Register controller into angular
+// Register controller into Angular JS
 angular
     .module('Theory')
     .controller('ScaleListController', ScaleListController);

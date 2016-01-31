@@ -214,7 +214,7 @@ AlertService.prototype.removeAlert = function removeAlert(alert, clearTimeout) {
     }
 };
 
-// Register service into AngularJS
+// Register service into Angular JS
 angular
     .module('Alert')
     .service('AlertService', AlertService);
@@ -1995,7 +1995,7 @@ angular.module('Forum').config([
  * List controller for Games
  * @constructor
  */
-var GameListController = function GameListControllerConstructor($uibModal, resources) {
+var GameListController = function GameListController($uibModal, resources) {
     ListController.apply(this, arguments);
 };
 
@@ -2025,13 +2025,20 @@ angular
     .controller('GameListController', GameListController);
 
 // File : src/app/Game/Resource/GameResource.js
-var GameResource = function GameResourceConstructor() {
+/**
+ * Game Resource
+ * @constructor
+ */
+var GameResource = function GameResource() {
     // Call parent constructor
     ApiResource.apply(this, arguments);
 };
 
 // Extends ApiResource
 GameResource.prototype = Object.create(ApiResource.prototype);
+GameResource.prototype.constructor = GameResource;
+
+// Set up dependency injection
 GameResource.$inject = ApiResource.$inject;
 
 /**
@@ -2758,6 +2765,10 @@ var InstrumentFormController = function InstrumentFormController(resource, Instr
 
     this.instrumentTypes  = instrumentTypes;
     this.templateResource = InstrumentTemplateResource;
+
+    this.apiResource.addRelationship(this.resource, 'type', this.instrumentTypes[0]);
+
+    console.log(this.resource);
 };
 
 // Extends FormController
@@ -2765,7 +2776,7 @@ InstrumentFormController.prototype             = Object.create(FormController.pr
 InstrumentFormController.prototype.constructor = InstrumentFormController;
 
 // Set up dependency injection
-InstrumentFormController.$inject = [ 'resource', 'InstrumentResource' ];
+InstrumentFormController.$inject = [ 'resource', 'InstrumentResource', 'instrumentTypes', 'InstrumentTemplateResource' ];
 
 /**
  * Select the type of the Instrument
@@ -2887,13 +2898,19 @@ angular
     .module('Instrument')
     .directive('instrumentMenu', InstrumentMenuDirective);
 // File : src/app/Instrument/Resource/InstrumentResource.js
-var InstrumentResource = function InstrumentResourceConstructor() {
+/**
+ * Instrument Resource
+ * @constructor
+ */
+var InstrumentResource = function InstrumentResource() {
     // Call parent constructor
     ApiResource.apply(this, arguments);
 };
 
 // Extends ApiResource
 InstrumentResource.prototype = Object.create(ApiResource.prototype);
+
+// Set up dependency injection
 InstrumentResource.$inject = ApiResource.$inject;
 
 /**
@@ -2914,13 +2931,20 @@ angular
     .service('InstrumentResource', InstrumentResource);
 
 // File : src/app/Instrument/Resource/InstrumentTemplateResource.js
-var InstrumentTemplateResource = function InstrumentTemplateResourceConstructor() {
+/**
+ * Instrument Template Resource
+ * @constructor
+ */
+var InstrumentTemplateResource = function InstrumentTemplateResource() {
     // Call parent constructor
     ApiResource.apply(this, arguments);
 };
 
 // Extends ApiResource
 InstrumentTemplateResource.prototype = Object.create(ApiResource.prototype);
+InstrumentTemplateResource.prototype.constructor = InstrumentTemplateResource;
+
+// Set up dependency injection
 InstrumentTemplateResource.$inject = ApiResource.$inject;
 
 /**
@@ -2941,13 +2965,20 @@ angular
     .service('InstrumentTemplateResource', InstrumentTemplateResource);
 
 // File : src/app/Instrument/Resource/InstrumentTypeResource.js
-var InstrumentTypeResource = function InstrumentTypeResourceConstructor() {
+/**
+ * Instrument Type Resource
+ * @constructor
+ */
+var InstrumentTypeResource = function InstrumentTypeResource() {
     // Call parent constructor
     ApiResource.apply(this, arguments);
 };
 
 // Extends ApiResource
 InstrumentTypeResource.prototype = Object.create(ApiResource.prototype);
+InstrumentTypeResource.prototype.constructor = InstrumentTypeResource;
+
+// Set up dependency injection
 InstrumentTypeResource.$inject = ApiResource.$inject;
 
 /**
@@ -3247,7 +3278,7 @@ lessonTranslations['fr'] = {
  * Controller constructor
  * @constructor
  */
-var SheetMusicController = function SheetMusicControllerConstructor() {
+var SheetMusicController = function SheetMusicController() {
 
 };
 
@@ -3329,7 +3360,7 @@ angular
 /**
  * Display Chord score
  */
-var ChordSheetDirective = function ChordSheetDirectiveConstructor($timeout) {
+var ChordSheetDirective = function ChordSheetDirective($timeout) {
     return {
         restrict: 'E',
         replace: true,
@@ -3565,13 +3596,20 @@ angular
     .controller('SongShowController', SongShowController);
 
 // File : src/app/SongBook/Resource/SongResource.js
-var SongResource = function SongResourceConstructor() {
+/**
+ * Song Resource
+ * @constructor
+ */
+var SongResource = function SongResource() {
     // Call parent constructor
     ApiResource.apply(this, arguments);
 };
 
 // Extends ApiResource
 SongResource.prototype = Object.create(ApiResource.prototype);
+SongResource.prototype.constructor = SongResource;
+
+// Set up dependency injection
 SongResource.$inject = ApiResource.$inject;
 
 /**
@@ -3660,7 +3698,7 @@ songBookTranslations['fr'] = {
  * List controller for Chords
  * @constructor
  */
-var ChordListController = function ChordListControllerConstructor($uibModal, entities) {
+var ChordListController = function ChordListController($uibModal, entities) {
     ListController.apply(this, arguments);
 };
 
@@ -3691,7 +3729,7 @@ ChordListController.prototype.sortFields = {
  */
 ChordListController.prototype.root = null;
 
-// Register controller into angular
+// Register controller into Angular JS
 angular
     .module('Theory')
     .controller('ChordListController', ChordListController);
@@ -3701,7 +3739,7 @@ angular
  * Show controller for Songs
  * @constructor
  */
-var ChordShowController = function ChordShowControllerConstructor(resource, notes) {
+var ChordShowController = function ChordShowController(resource, notes) {
     ShowController.apply(this, arguments);
 
     this.notes = notes;
@@ -3713,7 +3751,7 @@ ChordShowController.prototype = Object.create(ShowController.prototype);
 // Set up dependency injection
 ChordShowController.$inject = ShowController.$inject;
 
-// Register controller into angular
+// Register controller into Angular JS
 angular
     .module('Theory')
     .controller('ChordShowController', ChordShowController);
@@ -3723,7 +3761,7 @@ angular
  * List controller for Degrees
  * @constructor
  */
-var DegreeListController = function DegreeListControllerConstructor($uibModal, resources) {
+var DegreeListController = function DegreeListController($uibModal, resources) {
     this.services = {};
 
     this.services['$uibModal'] = $uibModal;
@@ -3740,7 +3778,7 @@ DegreeListController.$inject = ['$uibModal', 'resources'];
  */
 DegreeListController.prototype.resources = [];
 
-// Register controller into angular
+// Register controller into Angular JS
 angular
     .module('Theory')
     .controller('DegreeListController', DegreeListController);
@@ -3750,7 +3788,7 @@ angular
  * List controller for Intervals
  * @constructor
  */
-var IntervalListController = function IntervalListControllerConstructor($uibModal, resources) {
+var IntervalListController = function IntervalListController($uibModal, resources) {
     this.services = {};
     this.services['$uibModal'] = $uibModal;
 
@@ -3782,7 +3820,7 @@ IntervalListController.prototype.selectInterval = function selectInterval(interv
     }
 };
 
-// Register controller into angular
+// Register controller into Angular JS
 angular
     .module('Theory')
     .controller('IntervalListController', IntervalListController);
@@ -3792,7 +3830,7 @@ angular
  * List controller for Notes
  * @constructor
  */
-var NoteListController = function NoteListControllerConstructor($uibModal, resources) {
+var NoteListController = function NoteListController($uibModal, resources) {
     this.services = {};
 
     this.services['$uibModal'] = $uibModal;
@@ -3809,7 +3847,7 @@ NoteListController.$inject = ['$uibModal', 'resources'];
  */
 NoteListController.prototype.resources = [];
 
-// Register controller into angular
+// Register controller into Angular JS
 angular
     .module('Theory')
     .controller('NoteListController', NoteListController);
@@ -3819,7 +3857,7 @@ angular
  * Menu controller for Notes
  * @constructor
  */
-var NoteMenuController = function NoteMenuControllerConstructor(NoteResource) {
+var NoteMenuController = function NoteMenuController(NoteResource) {
     this.notes = NoteResource.query().then(function (result) {
         this.notes = result;
         if (!this.current) {
@@ -3857,7 +3895,7 @@ NoteMenuController.prototype.next = function next() {
     }
 };
 
-// Register controller into angular
+// Register controller into Angular JS
 angular
     .module('Theory')
     .controller('NoteMenuController', NoteMenuController);
@@ -3867,7 +3905,7 @@ angular
  * List controller for Scales
  * @constructor
  */
-var ScaleListController = function ScaleListControllerConstructor($uibModal, resources) {
+var ScaleListController = function ScaleListController($uibModal, resources) {
     this.services = {};
 
     this.services['$uibModal'] = $uibModal;
@@ -3884,7 +3922,7 @@ ScaleListController.$inject = ['$uibModal', 'resources'];
  */
 ScaleListController.prototype.resources = [];
 
-// Register controller into angular
+// Register controller into Angular JS
 angular
     .module('Theory')
     .controller('ScaleListController', ScaleListController);
@@ -4081,11 +4119,11 @@ angular
 // File : src/app/Theory/Directive/Note/NoteMenuDirective.js
 /**
  * Note menu directive
- * @param   {NoteResource} NoteResource
+ * @param   {Object} $client
  * @returns {Object}
  * @constructor
  */
-var NoteMenuDirective = function NoteMenuDirectiveConstructor($client) {
+var NoteMenuDirective = function NoteMenuDirective($client) {
     return {
         restrict: 'E',
         templateUrl: $client.getPartial('Note/menu.html', 'app/Theory'),
@@ -4215,28 +4253,32 @@ angular
 // File : src/app/Theory/Filter/NoteNameFilter.js
 /**
  * Note Name filter
+ * @constructor
  */
+var NoteNameFilter = function NoteNameFilter(NoteResource) {
+    return function getName(note) {
+        var name = null;
+        if (note) {
+            if (NoteResource.displayFlat) {
+                // Display flat name
+                name = note.attributes.flat_name;
+            } else {
+                // Display sharp name
+                name = note.attributes.sharp_name;
+            }
+        }
+
+        return name;
+    };
+};
+
+// Set up dependency injection
+NoteNameFilter.$inject = [ 'NoteResource' ];
+
+// Register filter into Angular JS
 angular
     .module('Theory')
-    .filter('note_name', [
-        'NoteResource',
-        function NoteNameFilter(NoteResource) {
-            return function getName(note) {
-                var name = null;
-                if (note) {
-                    if (NoteResource.displayFlat) {
-                        // Display flat name
-                        name = note.attributes.flat_name;
-                    } else {
-                        // Display sharp name
-                        name = note.attributes.sharp_name;
-                    }
-                }
-
-                return name;
-            };
-        }
-    ]);
+    .filter('note_name', NoteNameFilter);
 // File : src/app/Theory/Resource/ChordResource.js
 /**
  * Resource : Chord
@@ -4246,7 +4288,7 @@ angular
  * @param $api
  * @constructor
  */
-var ChordResource = function ChordResourceConstructor($http, $q, $api) {
+var ChordResource = function ChordResource($http, $q, $api) {
     // Call parent constructor
     ApiResource.apply(this, arguments);
 };
@@ -4281,7 +4323,7 @@ angular
  * @param $api
  * @constructor
  */
-var DegreeResource = function DegreeResourceConstructor($http, $q, $api) {
+var DegreeResource = function DegreeResource($http, $q, $api) {
     // Call parent constructor
     ApiResource.apply(this, arguments);
 };
@@ -4316,7 +4358,7 @@ angular
  * @param $api
  * @constructor
  */
-var IntervalResource = function IntervalResourceConstructor($http, $q, $api) {
+var IntervalResource = function IntervalResource($http, $q, $api) {
     // Call parent constructor
     ApiResource.apply(this, arguments);
 };
@@ -4351,7 +4393,7 @@ angular
  * @param $api
  * @constructor
  */
-var NoteResource = function NoteResourceConstructor($http, $q, $api) {
+var NoteResource = function NoteResource($http, $q, $api) {
     // Call parent constructor
     ApiResource.apply(this, arguments);
 };
@@ -4410,7 +4452,7 @@ angular
  * @param $api
  * @constructor
  */
-var ScaleResource = function ScaleResourceConstructor($http, $q, $api) {
+var ScaleResource = function ScaleResource($http, $q, $api) {
     // Call parent constructor
     ApiResource.apply(this, arguments);
 };
@@ -4531,27 +4573,37 @@ theoryTranslations['fr'] = {
 })();
 // File : src/app/User/Controller/ProfileController.js
 /**
- *
+ * Profile Controller
  * @constructor
  */
-var ProfileController = function ProfileControllerContructor() {
+var ProfileController = function ProfileController() {
 
 };
 
-// Register controller into angular
-angular.module('User').controller('ProfileController', [ ProfileController ]);
+// Set up dependency injection
+ProfileController.$inject = [];
+
+// Register controller into Angular JS
+angular
+    .module('User')
+    .controller('ProfileController', ProfileController);
 
 // File : src/app/User/Controller/SettingsController.js
 /**
- *
+ * Settings Controller
  * @constructor
  */
-var SettingsController = function SettingsControllerContructor() {
+var SettingsController = function SettingsController() {
 
 };
 
-// Register controller into angular
-angular.module('User').controller('SettingsController', [ SettingsController ]);
+// Set up dependency injection
+SettingsController.$inject = [];
+
+// Register controller into Angular JS
+angular
+    .module('User')
+    .controller('SettingsController', SettingsController);
 
 // File : src/app/User/Directive/MenuDirective.js
 /**

@@ -2,7 +2,7 @@
  * List controller for Intervals
  * @constructor
  */
-var IntervalListController = function IntervalListControllerConstructor($uibModal, resources) {
+var IntervalListController = function IntervalListController($uibModal, resources) {
     this.services = {};
     this.services['$uibModal'] = $uibModal;
 
@@ -34,7 +34,7 @@ IntervalListController.prototype.selectInterval = function selectInterval(interv
     }
 };
 
-// Register controller into angular
+// Register controller into Angular JS
 angular
     .module('Theory')
     .controller('IntervalListController', IntervalListController);

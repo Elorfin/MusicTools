@@ -2,7 +2,7 @@
  * List controller for Degrees
  * @constructor
  */
-var DegreeListController = function DegreeListControllerConstructor($uibModal, resources) {
+var DegreeListController = function DegreeListController($uibModal, resources) {
     this.services = {};
 
     this.services['$uibModal'] = $uibModal;
@@ -19,7 +19,7 @@ DegreeListController.$inject = ['$uibModal', 'resources'];
  */
 DegreeListController.prototype.resources = [];
 
-// Register controller into angular
+// Register controller into Angular JS
 angular
     .module('Theory')
     .controller('DegreeListController', DegreeListController);

@@ -6,7 +6,7 @@
  * @param $api
  * @constructor
  */
-var ScaleResource = function ScaleResourceConstructor($http, $q, $api) {
+var ScaleResource = function ScaleResource($http, $q, $api) {
     // Call parent constructor
     ApiResource.apply(this, arguments);
 };

@@ -1018,7 +1018,7 @@ ApiResource.prototype.getFullPath = function buildPath(params) {
         for (var i = 0; i < matches.length; i++) {
             var resourceProperty = matches[i].replace('{', '').replace('}', '');
             var resourceValue = '';
-            if (params && params.hasOwnProperty(resourceProperty)) {
+            if (params && params.hasOwnProperty(resourceProperty) && null != params[resourceProperty]) {
                 resourceValue = params[resourceProperty];
             }
 
@@ -2767,8 +2767,6 @@ var InstrumentFormController = function InstrumentFormController(resource, Instr
     this.templateResource = InstrumentTemplateResource;
 
     this.apiResource.addRelationship(this.resource, 'type', this.instrumentTypes[0]);
-
-    console.log(this.resource);
 };
 
 // Extends FormController

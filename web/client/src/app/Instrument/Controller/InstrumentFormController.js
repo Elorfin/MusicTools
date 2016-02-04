@@ -9,8 +9,6 @@ var InstrumentFormController = function InstrumentFormController(resource, Instr
     this.templateResource = InstrumentTemplateResource;
 
     this.apiResource.addRelationship(this.resource, 'type', this.instrumentTypes[0]);
-
-    console.log(this.resource);
 };
 
 // Extends FormController

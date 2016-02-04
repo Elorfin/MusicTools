@@ -230,10 +230,11 @@ ApiResource.prototype.getFullPath = function buildPath(params) {
         for (var i = 0; i < matches.length; i++) {
             var resourceProperty = matches[i].replace('{', '').replace('}', '');
             var resourceValue = '';
-            if (params && params.hasOwnProperty(resourceProperty)) {
+            if (params && params.hasOwnProperty(resourceProperty) && null != params[resourceProperty]) {
                 resourceValue = params[resourceProperty];
             }
 
+            // Inject value into the path
             fullPath = fullPath.replace(matches[i], resourceValue);
         }
     }

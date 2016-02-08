@@ -31,7 +31,7 @@ class SongController extends Controller
     {
         $entities = $this->container->get('doctrine.orm.entity_manager')
             ->getRepository('SongBookBundle:Song')
-            ->findBy(array(), array('name' => 'ASC'));
+            ->findBy([], ['name' => 'ASC']);
 
         return new JsonApiResponse($entities);
     }
@@ -60,11 +60,11 @@ class SongController extends Controller
     public function createAction(Request $request)
     {
         $song = new Song();
-        $form = $this->createForm(new SongType(), $song, array(
+        $form = $this->createForm(new SongType(), $song, [
             'method' => 'POST',
-        ));
+        ]);
 
-        $form->submit(array( $form->getName() => $request->get('data') ));
+        $form->submit([ $form->getName() => $request->get('data') ]);
         if ($form->isValid()) {
             // Save entity
             $this->container->get('doctrine.orm.entity_manager')->persist($song);
@@ -89,19 +89,17 @@ class SongController extends Controller
      */
     public function updateAction(Song $song, Request $request)
     {
-        $form = $form = $this->createForm(new SongType(), $song, array(
+        $form = $this->createForm(new SongType(), $song, [
             'method' => 'PUT',
-        ));
+        ]);
 
-        $data = $request->get('data');
-
-        $form->submit($data);
+        $form->submit([ $form->getName() => $request->get('data') ]);
         if ($form->isValid()) {
             // Save entity
             $this->container->get('doctrine.orm.entity_manager')->persist($song);
             $this->container->get('doctrine.orm.entity_manager')->flush();
 
-            return $song;
+            return new JsonApiResponse($song);
         }
 
         $errors = $this->getFormErrors($form);
@@ -128,16 +126,18 @@ class SongController extends Controller
      */
     private function getFormErrors(FormInterface $form)
     {
-        $errors = array();
+        $errors = [];
         foreach ($form->getErrors() as $key => $error) {
             $errors[$key] = $error->getMessage();
         }
+
         // Get errors from children
         foreach ($form->all() as $child) {
             if (!$child->isValid()) {
                 $errors[$child->getName()] = $this->getFormErrors($child);
             }
         }
+
         return $errors;
     }
 }

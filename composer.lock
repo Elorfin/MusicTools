@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "d42b0ae1f0cf747637633a730c4366a3",
-    "content-hash": "d95006ea9de2cacf8ada9825a2a9a8aa",
+    "hash": "c88ed4bcd7ed05e2786b7b2caab15261",
+    "content-hash": "d666c4038020477a9cd9e3b34b3d0ef6",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -888,17 +888,16 @@
         },
         {
             "name": "elorfin/json-api-bundle",
-            "version": "v0.0.1",
-            "target-dir": "Elorfin/JsonApiBundle",
+            "version": "v0.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Elorfin/JsonApiBundle.git",
-                "reference": "f2be322e2b391179a8fb468752ca52763c8a75e8"
+                "reference": "649f9a715020e6ae68395a6fff2ac7f51847636d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Elorfin/JsonApiBundle/zipball/f2be322e2b391179a8fb468752ca52763c8a75e8",
-                "reference": "f2be322e2b391179a8fb468752ca52763c8a75e8",
+                "url": "https://api.github.com/repos/Elorfin/JsonApiBundle/zipball/649f9a715020e6ae68395a6fff2ac7f51847636d",
+                "reference": "649f9a715020e6ae68395a6fff2ac7f51847636d",
                 "shasum": ""
             },
             "require": {
@@ -906,8 +905,8 @@
             },
             "type": "bundle",
             "autoload": {
-                "psr-0": {
-                    "Elorfin\\JsonApiBundle": "."
+                "psr-4": {
+                    "Elorfin\\JsonApiBundle\\": ""
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -927,7 +926,7 @@
                 "json",
                 "symfony"
             ],
-            "time": "2016-01-13 19:12:08"
+            "time": "2016-02-04 11:43:02"
         },
         {
             "name": "elorfin/resource-bundle",
@@ -1151,16 +1150,16 @@
         },
         {
             "name": "paragonie/random_compat",
-            "version": "1.1.6",
+            "version": "v1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/paragonie/random_compat.git",
-                "reference": "e6f80ab77885151908d0ec743689ca700886e8b0"
+                "reference": "b0e69d10852716b2ccbdff69c75c477637220790"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/paragonie/random_compat/zipball/e6f80ab77885151908d0ec743689ca700886e8b0",
-                "reference": "e6f80ab77885151908d0ec743689ca700886e8b0",
+                "url": "https://api.github.com/repos/paragonie/random_compat/zipball/b0e69d10852716b2ccbdff69c75c477637220790",
+                "reference": "b0e69d10852716b2ccbdff69c75c477637220790",
                 "shasum": ""
             },
             "require": {
@@ -1195,7 +1194,7 @@
                 "pseudorandom",
                 "random"
             ],
-            "time": "2016-01-29 16:19:52"
+            "time": "2016-02-06 03:52:05"
         },
         {
             "name": "psr/log",

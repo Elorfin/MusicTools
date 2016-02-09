@@ -1,12 +1,12 @@
 (function() {
 "use strict";
-// File : src/core/Alert/module.js
+/* File : src/core/Alert/module.js */ 
 /**
  * Alert Module
  * Manages User messages
  */
 angular.module('Alert', []);
-// File : src/core/Api/module.js
+/* File : src/core/Api/module.js */ 
 /**
  * Api Module
  * Manages communication with a REST API server following the JSON API specification
@@ -23,12 +23,12 @@ angular
             $httpProvider.interceptors.push('ApiErrorService');
         }
     ]);
-// File : src/core/Client/module.js
+/* File : src/core/Client/module.js */ 
 /**
  * Client Module
  */
 angular.module('Client', []);
-// File : src/core/Layout/module.js
+/* File : src/core/Layout/module.js */ 
 /**
  * Layout Module
  * Contains all the tools for building the Layout of the application (header, sidebar, etc.)
@@ -48,12 +48,12 @@ angular
             }
         }
     ]);
-// File : src/core/Utilities/module.js
+/* File : src/core/Utilities/module.js */ 
 /**
  * Utilities Module
  */
 angular.module('Utilities', []);
-// File : src/core/core.js
+/* File : src/core/core.js */ 
 /**
  * Application Core
  * Manages low level application components such as API, translations, etc.
@@ -111,7 +111,7 @@ angular
             cfpLoadingBarProvider.includeSpinner = false;
         }
     ]);
-// File : src/core/Alert/Directive/AlertsDirective.js
+/* File : src/core/Alert/Directive/AlertsDirective.js */ 
 /**
  * Alerts Directive
  * Renders user messages
@@ -142,7 +142,7 @@ AlertsDirective.$inject = [ '$client' ];
 angular
     .module('Alert')
     .directive('alerts', AlertsDirective);
-// File : src/core/Alert/Service/AlertService.js
+/* File : src/core/Alert/Service/AlertService.js */ 
 /**
  * Alert Service
  * @constructor
@@ -218,7 +218,7 @@ AlertService.prototype.removeAlert = function removeAlert(alert, clearTimeout) {
 angular
     .module('Alert')
     .service('AlertService', AlertService);
-// File : src/core/Api/Controller/FormController.js
+/* File : src/core/Api/Controller/FormController.js */ 
 /**
  * Base Form controller
  * @constructor
@@ -281,7 +281,7 @@ angular
     .module('Api')
     .controller('FormController', FormController);
 
-// File : src/core/Api/Controller/ListController.js
+/* File : src/core/Api/Controller/ListController.js */ 
 /**
  * Base List controller
  * @constructor
@@ -346,7 +346,7 @@ angular
     .module('Api')
     .controller('ListController', ListController);
 
-// File : src/core/Api/Controller/ShowController.js
+/* File : src/core/Api/Controller/ShowController.js */ 
 /**
  * Base Show Controller
  * @constructor
@@ -369,7 +369,7 @@ angular
     .module('Api')
     .controller('ShowController', ShowController);
 
-// File : src/core/Api/Filter/UploadPathFilter.js
+/* File : src/core/Api/Filter/UploadPathFilter.js */ 
 /**
  * Upload Path filter
  */
@@ -387,7 +387,7 @@ angular
     .module('Api')
     .filter('upload_path', UploadPathFilter);
 
-// File : src/core/Api/Provider/ApiProvider.js
+/* File : src/core/Api/Provider/ApiProvider.js */ 
 var ApiProvider = function ApiProvider() {
     this.$get = function () {
         var provider = this;
@@ -549,7 +549,7 @@ ApiProvider.prototype.getUpload = function getUpload(path) {
 angular
     .module('Api')
     .provider('$api', ApiProvider);
-// File : src/core/Api/Provider/ApiResourceRouteProvider.js
+/* File : src/core/Api/Provider/ApiResourceRouteProvider.js */ 
 /**
  * ApiResource Router
  * Registers CRUD client routes for ApiResources
@@ -785,7 +785,7 @@ angular
     .module('Api')
     .provider('apiResourceRoute', ApiResourceRouteProvider);
 
-// File : src/core/Api/Resource/ApiResource.js
+/* File : src/core/Api/Resource/ApiResource.js */ 
 /**
  * Base API Resource
  * Manages API server data
@@ -1022,6 +1022,7 @@ ApiResource.prototype.getFullPath = function buildPath(params) {
                 resourceValue = params[resourceProperty];
             }
 
+            // Inject value into the path
             fullPath = fullPath.replace(matches[i], resourceValue);
         }
     }
@@ -1071,7 +1072,7 @@ angular
     .module('Api')
     .service('ApiResource', ApiResource);
 
-// File : src/core/Api/Service/ApiErrorService.js
+/* File : src/core/Api/Service/ApiErrorService.js */ 
 /**
  * API Error Service
  * @constructor
@@ -1106,7 +1107,7 @@ ApiErrorService.$inject = [ '$q', '$location' ];
 angular
     .module('Api')
     .service('ApiErrorService', ApiErrorService);
-// File : src/core/Client/Filter/AssetPathFilter.js
+/* File : src/core/Client/Filter/AssetPathFilter.js */ 
 /**
  * Asset Path filter
  */
@@ -1123,7 +1124,7 @@ AssetPathFilter.$inject = [ '$client' ];
 angular
     .module('Client')
     .filter('asset_path', AssetPathFilter);
-// File : src/core/Client/Filter/PartialPathFilter.js
+/* File : src/core/Client/Filter/PartialPathFilter.js */ 
 /**
  * Partial Path filter
  */
@@ -1140,7 +1141,7 @@ PartialPathFilter.$inject = [ '$client' ];
 angular
     .module('Client')
     .filter('partial_path', PartialPathFilter);
-// File : src/core/Client/Provider/ClientProvider.js
+/* File : src/core/Client/Provider/ClientProvider.js */ 
 /**
  * Client Provider
  * @constructor
@@ -1253,7 +1254,7 @@ ClientProvider.prototype.getPartial = function getPartial(path, module) {
 angular
     .module('Client')
     .provider('$client', ClientProvider);
-// File : src/core/Layout/Controller/Modal/ConfirmModalController.js
+/* File : src/core/Layout/Controller/Modal/ConfirmModalController.js */ 
 /**
  * Confirm Modal controller
  * @constructor
@@ -1270,7 +1271,7 @@ angular
     .module('Layout')
     .controller('ConfirmModalController', ConfirmModalController);
 
-// File : src/core/Layout/Directive/Field/ScoreFieldDirective.js
+/* File : src/core/Layout/Directive/Field/ScoreFieldDirective.js */ 
 /**
  * Score Field
  */
@@ -1355,7 +1356,7 @@ angular
             };
         }
     ]);
-// File : src/core/Layout/Directive/Header/HeaderButtonDirective.js
+/* File : src/core/Layout/Directive/Header/HeaderButtonDirective.js */ 
 /**
  * Header of the application
  */
@@ -1375,7 +1376,7 @@ angular
             };
         }
     ]);
-// File : src/core/Layout/Directive/Header/HeaderButtonsDirective.js
+/* File : src/core/Layout/Directive/Header/HeaderButtonsDirective.js */ 
 /**
  * Header of the application
  */
@@ -1395,7 +1396,7 @@ angular
             };
         }
     ]);
-// File : src/core/Layout/Directive/Header/HeaderDirective.js
+/* File : src/core/Layout/Directive/Header/HeaderDirective.js */ 
 /**
  * Header of the application
  */
@@ -1415,7 +1416,7 @@ angular
             };
         }
     ]);
-// File : src/core/Layout/Directive/ListFormatterDirective.js
+/* File : src/core/Layout/Directive/ListFormatterDirective.js */ 
 /**
  * Widget to change how lists are displayed
  */
@@ -1452,7 +1453,7 @@ angular
     .module('Layout')
     .directive('layoutListFormatter', LayoutListFormatterDirective);
 
-// File : src/core/Layout/Directive/ListSorterDirective.js
+/* File : src/core/Layout/Directive/ListSorterDirective.js */ 
 /**
  * Widget to sort lists
  */
@@ -1536,7 +1537,7 @@ angular
     .module('Layout')
     .directive('layoutListSorter', LayoutListSorterDirective);
 
-// File : src/core/Layout/Directive/Page/PageDirective.js
+/* File : src/core/Layout/Directive/Page/PageDirective.js */ 
 /**
  * Represents a page of the application
  */
@@ -1552,7 +1553,7 @@ angular
             };
         }
     ]);
-// File : src/core/Layout/Directive/Page/PageTitleDirective.js
+/* File : src/core/Layout/Directive/Page/PageTitleDirective.js */ 
 /**
  * Represents the title of a Page
  */
@@ -1575,7 +1576,7 @@ angular
             };
         }
     ]);
-// File : src/core/Layout/Directive/ScrollableDirective.js
+/* File : src/core/Layout/Directive/ScrollableDirective.js */ 
 /**
  * Scrollable Directive
  */
@@ -1663,7 +1664,7 @@ angular
         }
     ]);
 
-// File : src/core/Layout/Directive/Sidebar/SidebarDirective.js
+/* File : src/core/Layout/Directive/Sidebar/SidebarDirective.js */ 
 /**
  * Sidebar of the application
  */
@@ -1691,7 +1692,7 @@ LayoutSidebarDirective.$inject = [ '$location', '$client' ];
 angular
     .module('Layout')
     .directive('layoutSidebar', LayoutSidebarDirective);
-// File : src/core/Layout/Directive/Sidebar/SidebarItemDirective.js
+/* File : src/core/Layout/Directive/Sidebar/SidebarItemDirective.js */ 
 /**
  * Represents a link in the sidebar
  */
@@ -1722,7 +1723,7 @@ LayoutSidebarItemDirective.$inject = [ '$client' ];
 angular
     .module('Layout')
     .directive('layoutSidebarItem', LayoutSidebarItemDirective);
-// File : src/core/Layout/translations.js
+/* File : src/core/Layout/translations.js */ 
 /**
  * Layout translations
  * @type {Object}
@@ -1748,7 +1749,7 @@ layoutTranslations['fr'] = {
     list_display_list_detailed  : 'liste détaillée',
     list_display_list_condensed : 'liste condensée'
 };
-// File : src/core/Utilities/Service/SoundService.js
+/* File : src/core/Utilities/Service/SoundService.js */ 
 /**
  * Sound Service
  * @returns {SoundService}
@@ -1787,33 +1788,33 @@ SoundService.prototype.playFrequency = function playFrequency(frequency, start, 
 angular
     .module('Utilities')
     .service('SoundService', [ SoundService ]);
-// File : src/app/Advertisement/module.js
+/* File : src/app/Advertisement/module.js */ 
 /**
  * Advertisement Module
  */
 angular.module('Advertisement', []);
-// File : src/app/Badge/module.js
+/* File : src/app/Badge/module.js */ 
 /**
  * Badge Module
  */
 angular.module('Badge', []);
-// File : src/app/Forum/module.js
+/* File : src/app/Forum/module.js */ 
 /**
  * Forum Module
  */
 angular.module('Forum', []);
-// File : src/app/Game/module.js
+/* File : src/app/Game/module.js */ 
 /**
  * Game Module
  */
 angular.module('Game', []);
-// File : src/app/GuitarNeck/module.js
+/* File : src/app/GuitarNeck/module.js */ 
 /**
  * Guitar Neck
  */
 angular
     .module('GuitarNeck', []);
-// File : src/app/Instrument/module.js
+/* File : src/app/Instrument/module.js */ 
 /**
  * Instrument Module
  */
@@ -1834,7 +1835,7 @@ angular
     ]);
 
 
-// File : src/app/Lesson/module.js
+/* File : src/app/Lesson/module.js */ 
 /**
  * Lesson Module
  */
@@ -1865,12 +1866,12 @@ angular
             }
         }
     ]);
-// File : src/app/SheetMusic/module.js
+/* File : src/app/SheetMusic/module.js */ 
 /**
  * SHeet Music renderer
  */
 angular.module('SheetMusic', []);
-// File : src/app/SongBook/module.js
+/* File : src/app/SongBook/module.js */ 
 /**
  * SongBook Module
  */
@@ -1890,7 +1891,7 @@ angular
             }
         }
     ]);
-// File : src/app/Theory/module.js
+/* File : src/app/Theory/module.js */ 
 /**
  * Theory Module
  */
@@ -1910,17 +1911,17 @@ angular
             }
         }
     ]);
-// File : src/app/Tuning/module.js
+/* File : src/app/Tuning/module.js */ 
 /**
  * Tuning module
  */
 angular.module('Tuning', []);
-// File : src/app/User/module.js
+/* File : src/app/User/module.js */ 
 /**
  * User Module
  */
 angular.module('User', []);
-// File : src/app/app.js
+/* File : src/app/app.js */ 
 /**
  * Application Root
  * Initializes needed modules in the Angular application
@@ -1960,7 +1961,7 @@ angular
             }
         }
     ]);
-// File : src/app/Advertisement/routes.js
+/* File : src/app/Advertisement/routes.js */ 
 /**
  * Advertisement routes
  */
@@ -1970,7 +1971,7 @@ angular.module('Advertisement').config([
 
     }
 ]);
-// File : src/app/Badge/routes.js
+/* File : src/app/Badge/routes.js */ 
 /**
  * Badge routes
  */
@@ -1980,7 +1981,7 @@ angular.module('Badge').config([
 
     }
 ]);
-// File : src/app/Forum/routes.js
+/* File : src/app/Forum/routes.js */ 
 /**
  * Forum routes
  */
@@ -1990,7 +1991,7 @@ angular.module('Forum').config([
 
     }
 ]);
-// File : src/app/Game/Controller/GameListController.js
+/* File : src/app/Game/Controller/GameListController.js */ 
 /**
  * List controller for Games
  * @constructor
@@ -2024,7 +2025,7 @@ angular
     .module('Game')
     .controller('GameListController', GameListController);
 
-// File : src/app/Game/Resource/GameResource.js
+/* File : src/app/Game/Resource/GameResource.js */ 
 /**
  * Game Resource
  * @constructor
@@ -2058,7 +2059,7 @@ angular
     .module('Game')
     .service('GameResource', GameResource);
 
-// File : src/app/Game/routes.js
+/* File : src/app/Game/routes.js */ 
 /**
  * Game routes
  */
@@ -2070,7 +2071,7 @@ angular
             apiResourceRouteProvider.register('Game', 'Game', 'games', true);
         }
     ]);
-// File : src/app/GuitarNeck/Controller/GuitarNeckController.js
+/* File : src/app/GuitarNeck/Controller/GuitarNeckController.js */ 
 var GuitarNeckController = function GuitarNeckController() {
 
 };
@@ -2082,7 +2083,7 @@ angular
     .module('GuitarNeck')
     .controller('GuitarNeckController', GuitarNeckController);
 
-// File : src/app/GuitarNeck/Controller/Layer/AbstractLayerController.js
+/* File : src/app/GuitarNeck/Controller/Layer/AbstractLayerController.js */ 
 /**
  * Abstract Layer Controller
  * @returns {AbstractLayerController}
@@ -2164,7 +2165,7 @@ angular
     .module('GuitarNeck')
     .controller('AbstractLayerController', AbstractLayerController);
 
-// File : src/app/GuitarNeck/Controller/Layer/FretLayerController.js
+/* File : src/app/GuitarNeck/Controller/Layer/FretLayerController.js */ 
 /**
  * Fret Layer Controller
  * @returns {FretLayerController}
@@ -2470,7 +2471,7 @@ angular
     .module('GuitarNeck')
     .controller('FretLayerController', FretLayerController);
 
-// File : src/app/GuitarNeck/Controller/Layer/NoteLayerController.js
+/* File : src/app/GuitarNeck/Controller/Layer/NoteLayerController.js */ 
 /**
  * Note Layer Controller
  * @returns {NoteLayerController}
@@ -2505,7 +2506,7 @@ angular
     .module('GuitarNeck')
     .controller('NoteLayerController', NoteLayerController);
 
-// File : src/app/GuitarNeck/Controller/Layer/StringLayerController.js
+/* File : src/app/GuitarNeck/Controller/Layer/StringLayerController.js */ 
 /**
  * String Layer Controller
  * @returns {StringLayerController}
@@ -2602,7 +2603,7 @@ angular
     .module('GuitarNeck')
     .controller('StringLayerController', StringLayerController);
 
-// File : src/app/GuitarNeck/Directive/GuitarNeckDirective.js
+/* File : src/app/GuitarNeck/Directive/GuitarNeckDirective.js */ 
 angular
     .module('GuitarNeck')
     .directive('guitarNeckWidget', [
@@ -2625,7 +2626,7 @@ angular
         }
     ]);
 
-// File : src/app/GuitarNeck/Directive/Layer/FretLayerDirective.js
+/* File : src/app/GuitarNeck/Directive/Layer/FretLayerDirective.js */ 
 angular
     .module('GuitarNeck')
     .directive('fretLayer', [
@@ -2692,7 +2693,7 @@ angular
             };
         }
     ]);
-// File : src/app/GuitarNeck/Directive/Layer/NoteLayerDirective.js
+/* File : src/app/GuitarNeck/Directive/Layer/NoteLayerDirective.js */ 
 angular
     .module('GuitarNeck')
     .directive('noteLayer', [
@@ -2722,7 +2723,7 @@ angular
         }
     ]);
 
-// File : src/app/GuitarNeck/Directive/Layer/StringLayerDirective.js
+/* File : src/app/GuitarNeck/Directive/Layer/StringLayerDirective.js */ 
 angular
     .module('GuitarNeck')
     .directive('stringLayer', [
@@ -2755,7 +2756,7 @@ angular
         }
     ]);
 
-// File : src/app/Instrument/Controller/InstrumentFormController.js
+/* File : src/app/Instrument/Controller/InstrumentFormController.js */ 
 /**
  * Form controller for Instruments
  * @constructor
@@ -2817,7 +2818,7 @@ angular
     .module('Instrument')
     .controller('InstrumentFormController', InstrumentFormController);
 
-// File : src/app/Instrument/Controller/InstrumentListController.js
+/* File : src/app/Instrument/Controller/InstrumentListController.js */ 
 /**
  * List controller for Instruments
  * @constructor
@@ -2851,7 +2852,7 @@ angular
     .module('Instrument')
     .controller('InstrumentListController', InstrumentListController);
 
-// File : src/app/Instrument/Controller/InstrumentShowController.js
+/* File : src/app/Instrument/Controller/InstrumentShowController.js */ 
 /**
  * Show controller for Instruments
  * @constructor
@@ -2875,7 +2876,7 @@ angular
     .module('Instrument')
     .controller('InstrumentShowController', InstrumentShowController);
 
-// File : src/app/Instrument/Directive/InstrumentMenuDirective.js
+/* File : src/app/Instrument/Directive/InstrumentMenuDirective.js */ 
 /**
  * Instrument menu
  * Used to select the current instrument, and if relevant the tuning (e.g. for Guitar or Bass)
@@ -2895,7 +2896,7 @@ InstrumentMenuDirective.$inject = [ '$client' ];
 angular
     .module('Instrument')
     .directive('instrumentMenu', InstrumentMenuDirective);
-// File : src/app/Instrument/Resource/InstrumentResource.js
+/* File : src/app/Instrument/Resource/InstrumentResource.js */ 
 /**
  * Instrument Resource
  * @constructor
@@ -2928,7 +2929,7 @@ angular
     .module('Instrument')
     .service('InstrumentResource', InstrumentResource);
 
-// File : src/app/Instrument/Resource/InstrumentTemplateResource.js
+/* File : src/app/Instrument/Resource/InstrumentTemplateResource.js */ 
 /**
  * Instrument Template Resource
  * @constructor
@@ -2962,7 +2963,7 @@ angular
     .module('Instrument')
     .service('InstrumentTemplateResource', InstrumentTemplateResource);
 
-// File : src/app/Instrument/Resource/InstrumentTypeResource.js
+/* File : src/app/Instrument/Resource/InstrumentTypeResource.js */ 
 /**
  * Instrument Type Resource
  * @constructor
@@ -2996,7 +2997,7 @@ angular
     .module('Instrument')
     .service('InstrumentTypeResource', InstrumentTypeResource);
 
-// File : src/app/Instrument/routes.js
+/* File : src/app/Instrument/routes.js */ 
 /**
  * Instrument routes
  */
@@ -3020,7 +3021,7 @@ angular
             });
         }
     ]);
-// File : src/app/Instrument/translations.js
+/* File : src/app/Instrument/translations.js */ 
 /**
  * Instrument translations
  * @type {Object}
@@ -3084,7 +3085,7 @@ instrumentTranslations['fr'] = {
     // S
     show_instrument        : 'Voir l\'instrument'
 };
-// File : src/app/Lesson/Controller/LessonFormController.js
+/* File : src/app/Lesson/Controller/LessonFormController.js */ 
 /**
  * Form controller for Lessons
  * @constructor
@@ -3135,7 +3136,7 @@ angular
     .module('Lesson')
     .controller('LessonFormController', LessonFormController);
 
-// File : src/app/Lesson/Controller/LessonListController.js
+/* File : src/app/Lesson/Controller/LessonListController.js */ 
 /**
  * List controller for Lessons
  * @constructor
@@ -3169,7 +3170,7 @@ angular
     .module('Lesson')
     .controller('LessonListController', LessonListController);
 
-// File : src/app/Lesson/Resource/LessonResource.js
+/* File : src/app/Lesson/Resource/LessonResource.js */ 
 /**
  * Resource : Lesson
  *
@@ -3207,7 +3208,7 @@ angular
     .module('Lesson')
     .service('LessonResource', LessonResource);
 
-// File : src/app/Lesson/routes.js
+/* File : src/app/Lesson/routes.js */ 
 /**
  * Lesson routes
  */
@@ -3219,7 +3220,7 @@ angular
             apiResourceRouteProvider.register('Lesson', 'Lesson', 'lessons', false);
         }
     ]);
-// File : src/app/Lesson/translations.js
+/* File : src/app/Lesson/translations.js */ 
 /**
  * Lesson translations
  * @type {Object}
@@ -3271,7 +3272,7 @@ lessonTranslations['fr'] = {
     show_lesson     : 'Voir le cours',
     lesson          : 'cours{COUNT, plural, =0{} one{} other{}}'
 };
-// File : src/app/SheetMusic/Controller/SheetMusicController.js
+/* File : src/app/SheetMusic/Controller/SheetMusicController.js */ 
 /**
  * Controller constructor
  * @constructor
@@ -3354,7 +3355,7 @@ angular
     .module('SheetMusic')
     .controller('SheetMusicController', SheetMusicController);
 
-// File : src/app/SheetMusic/Directive/ChordSheetDirective.js
+/* File : src/app/SheetMusic/Directive/ChordSheetDirective.js */ 
 /**
  * Display Chord score
  */
@@ -3404,7 +3405,7 @@ ChordSheetDirective.$inject = [ '$timeout' ];
 angular
     .module('SheetMusic')
     .directive('chordSheet', ChordSheetDirective);
-// File : src/app/SheetMusic/Directive/SheetMusicDirective.js
+/* File : src/app/SheetMusic/Directive/SheetMusicDirective.js */ 
 (function () {
     'use strict';
 
@@ -3500,7 +3501,7 @@ angular
             }
         ]);
 })();
-// File : src/app/SongBook/Controller/SongFormController.js
+/* File : src/app/SongBook/Controller/SongFormController.js */ 
 /**
  * Form controller for Songs
  * @constructor
@@ -3538,7 +3539,7 @@ angular
     .module('SongBook')
     .controller('SongFormController', SongFormController);
 
-// File : src/app/SongBook/Controller/SongListController.js
+/* File : src/app/SongBook/Controller/SongListController.js */ 
 /**
  * List controller for Songs
  * @constructor
@@ -3575,7 +3576,7 @@ angular
     .module('SongBook')
     .controller('SongListController', SongListController);
 
-// File : src/app/SongBook/Controller/SongShowController.js
+/* File : src/app/SongBook/Controller/SongShowController.js */ 
 /**
  * Show controller for Songs
  * @constructor
@@ -3593,7 +3594,7 @@ angular
     .module('SongBook')
     .controller('SongShowController', SongShowController);
 
-// File : src/app/SongBook/Resource/SongResource.js
+/* File : src/app/SongBook/Resource/SongResource.js */ 
 /**
  * Song Resource
  * @constructor
@@ -3627,7 +3628,7 @@ angular
     .module('SongBook')
     .service('SongResource', SongResource);
 
-// File : src/app/SongBook/routes.js
+/* File : src/app/SongBook/routes.js */ 
 /**
  * SongBook routes
  */
@@ -3639,7 +3640,7 @@ angular
             apiResourceRouteProvider.register('SongBook', 'Song', 'songs');
         }
     ]);
-// File : src/app/SongBook/translations.js
+/* File : src/app/SongBook/translations.js */ 
 /**
  * SongBook translations
  * @type {Object}
@@ -3691,7 +3692,7 @@ songBookTranslations['fr'] = {
     show_song         : 'Voir le morceau',
     song              : 'morceau{COUNT, plural, =0{} one{} other{x}}'
 };
-// File : src/app/Theory/Controller/Chord/ChordListController.js
+/* File : src/app/Theory/Controller/Chord/ChordListController.js */ 
 /**
  * List controller for Chords
  * @constructor
@@ -3732,7 +3733,7 @@ angular
     .module('Theory')
     .controller('ChordListController', ChordListController);
 
-// File : src/app/Theory/Controller/Chord/ChordShowController.js
+/* File : src/app/Theory/Controller/Chord/ChordShowController.js */ 
 /**
  * Show controller for Songs
  * @constructor
@@ -3754,7 +3755,7 @@ angular
     .module('Theory')
     .controller('ChordShowController', ChordShowController);
 
-// File : src/app/Theory/Controller/DegreeListController.js
+/* File : src/app/Theory/Controller/DegreeListController.js */ 
 /**
  * List controller for Degrees
  * @constructor
@@ -3781,7 +3782,7 @@ angular
     .module('Theory')
     .controller('DegreeListController', DegreeListController);
 
-// File : src/app/Theory/Controller/IntervalListController.js
+/* File : src/app/Theory/Controller/IntervalListController.js */ 
 /**
  * List controller for Intervals
  * @constructor
@@ -3823,7 +3824,7 @@ angular
     .module('Theory')
     .controller('IntervalListController', IntervalListController);
 
-// File : src/app/Theory/Controller/Note/NoteListController.js
+/* File : src/app/Theory/Controller/Note/NoteListController.js */ 
 /**
  * List controller for Notes
  * @constructor
@@ -3850,7 +3851,7 @@ angular
     .module('Theory')
     .controller('NoteListController', NoteListController);
 
-// File : src/app/Theory/Controller/Note/NoteMenuController.js
+/* File : src/app/Theory/Controller/Note/NoteMenuController.js */ 
 /**
  * Menu controller for Notes
  * @constructor
@@ -3898,7 +3899,7 @@ angular
     .module('Theory')
     .controller('NoteMenuController', NoteMenuController);
 
-// File : src/app/Theory/Controller/ScaleListController.js
+/* File : src/app/Theory/Controller/ScaleListController.js */ 
 /**
  * List controller for Scales
  * @constructor
@@ -3925,7 +3926,7 @@ angular
     .module('Theory')
     .controller('ScaleListController', ScaleListController);
 
-// File : src/app/Theory/Directive/Interval/IntervalPlayerDirective.js
+/* File : src/app/Theory/Directive/Interval/IntervalPlayerDirective.js */ 
 /**
  * Interval player directive
  * @returns {Object}
@@ -4079,7 +4080,7 @@ IntervalPlayerDirective.$inject = [ '$client' ];
 angular
     .module('Theory')
     .directive('intervalPlayer', IntervalPlayerDirective);
-// File : src/app/Theory/Directive/Note/NoteDisplaySwitchDirective.js
+/* File : src/app/Theory/Directive/Note/NoteDisplaySwitchDirective.js */ 
 /**
  * Note display switch directive
  * @returns {Object}
@@ -4114,7 +4115,7 @@ NoteDisplaySwitchDirective.$inject = [];
 angular
     .module('Theory')
     .directive('noteDisplaySwitch', NoteDisplaySwitchDirective);
-// File : src/app/Theory/Directive/Note/NoteMenuDirective.js
+/* File : src/app/Theory/Directive/Note/NoteMenuDirective.js */ 
 /**
  * Note menu directive
  * @param   {Object} $client
@@ -4145,7 +4146,7 @@ NoteMenuDirective.$inject = [ '$client' ];
 angular
     .module('Theory')
     .directive('noteMenu', NoteMenuDirective);
-// File : src/app/Theory/Directive/Scale/ScaleRepresentationDirective.js
+/* File : src/app/Theory/Directive/Scale/ScaleRepresentationDirective.js */ 
 angular
     .module('Theory')
     .directive('scaleRepresentation', [
@@ -4248,7 +4249,7 @@ angular
             };
         }
     ]);
-// File : src/app/Theory/Filter/NoteNameFilter.js
+/* File : src/app/Theory/Filter/NoteNameFilter.js */ 
 /**
  * Note Name filter
  * @constructor
@@ -4277,7 +4278,7 @@ NoteNameFilter.$inject = [ 'NoteResource' ];
 angular
     .module('Theory')
     .filter('note_name', NoteNameFilter);
-// File : src/app/Theory/Resource/ChordResource.js
+/* File : src/app/Theory/Resource/ChordResource.js */ 
 /**
  * Resource : Chord
  *
@@ -4312,7 +4313,7 @@ angular
     .module('Theory')
     .service('ChordResource', ChordResource);
 
-// File : src/app/Theory/Resource/DegreeResource.js
+/* File : src/app/Theory/Resource/DegreeResource.js */ 
 /**
  * Resource : Degree
  *
@@ -4347,7 +4348,7 @@ angular
     .module('Theory')
     .service('DegreeResource', DegreeResource);
 
-// File : src/app/Theory/Resource/IntervalResource.js
+/* File : src/app/Theory/Resource/IntervalResource.js */ 
 /**
  * Resource : Interval
  *
@@ -4382,7 +4383,7 @@ angular
     .module('Theory')
     .service('IntervalResource', IntervalResource);
 
-// File : src/app/Theory/Resource/NoteResource.js
+/* File : src/app/Theory/Resource/NoteResource.js */ 
 /**
  * Resource : Note
  *
@@ -4441,7 +4442,7 @@ angular
     .module('Theory')
     .service('NoteResource', NoteResource);
 
-// File : src/app/Theory/Resource/ScaleResource.js
+/* File : src/app/Theory/Resource/ScaleResource.js */ 
 /**
  * Resource : Scale
  *
@@ -4476,7 +4477,7 @@ angular
     .module('Theory')
     .service('ScaleResource', ScaleResource);
 
-// File : src/app/Theory/routes.js
+/* File : src/app/Theory/routes.js */ 
 /**
  * Theory routes
  */
@@ -4499,7 +4500,7 @@ angular
             apiResourceRouteProvider.register('Theory', 'Scale',    'theory/scales',    true);
         }
     ]);
-// File : src/app/Theory/translations.js
+/* File : src/app/Theory/translations.js */ 
 /**
  * Theory translations
  * @type {Object}
@@ -4549,7 +4550,7 @@ theoryTranslations['fr'] = {
     // S
     semitone_count      : '{ COUNT } demi-ton{COUNT, plural, =0{} one{} other{s}}'
 };
-// File : src/app/Tuning/tuning-widget.js
+/* File : src/app/Tuning/tuning-widget.js */ 
 (function () {
     'use strict';
 
@@ -4569,7 +4570,7 @@ theoryTranslations['fr'] = {
             }
         ]);
 })();
-// File : src/app/User/Controller/ProfileController.js
+/* File : src/app/User/Controller/ProfileController.js */ 
 /**
  * Profile Controller
  * @constructor
@@ -4586,7 +4587,7 @@ angular
     .module('User')
     .controller('ProfileController', ProfileController);
 
-// File : src/app/User/Controller/SettingsController.js
+/* File : src/app/User/Controller/SettingsController.js */ 
 /**
  * Settings Controller
  * @constructor
@@ -4603,7 +4604,7 @@ angular
     .module('User')
     .controller('SettingsController', SettingsController);
 
-// File : src/app/User/Directive/MenuDirective.js
+/* File : src/app/User/Directive/MenuDirective.js */ 
 /**
  * User menu
  */
@@ -4623,7 +4624,7 @@ angular
             };
         }
     ]);
-// File : src/app/User/routes.js
+/* File : src/app/User/routes.js */ 
 /**
  * User routes
  */
@@ -4656,7 +4657,7 @@ angular.module('User').config([
             });
     }
 ]);
-// File : src/app/routes.js
+/* File : src/app/routes.js */ 
 /**
  * Application routes
  * Defines all routes for the Application
@@ -4684,7 +4685,7 @@ angular
                 })
         }
     ]);
-// File : src/app/translations.js
+/* File : src/app/translations.js */ 
 /**
  * Application translations
  * @type {Object}
@@ -4718,7 +4719,7 @@ appTranslations['fr'] = {
     'link.forum':         'forum',
     'link.lesson':        'cours'
 };
-// File : src/parameters.js
+/* File : src/parameters.js */ 
 /**
  * Defines parameters of the Application
  */

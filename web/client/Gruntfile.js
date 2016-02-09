@@ -1,66 +1,118 @@
+/**
+ * Project builder
+ */
 module.exports = function (grunt) {
-
     // All upfront config goes in a massive nested object.
     grunt.initConfig({
+        libFolder : 'bower_components',
         distFolder: 'public',
 
-        // Concatenate JS task
+        // Compile LESS files task
+        less: {
+            options: {
+                compress: true,
+                yuicompress: true
+            },
+
+            // Application styles
+            app: {
+                src: [
+                    'styles/app.less'
+                ],
+                dest: '<%= distFolder %>/css/theme.min.css'
+            },
+
+            // Font Awesome
+            font_awesome: {
+                src: [
+                    '<%= libFolder %>/font-awesome/less/font-awesome.less'
+                ],
+                dest: '<%= distFolder %>/css/font-awesome.min.css'
+            },
+
+            // Custom icon font
+            music_font: {
+                src: [
+                    'fonts/MusicFont/less/music-font.less'
+                ],
+                dest: '<%= distFolder %>/css/music-font.min.css'
+            }
+        },
+
+        // Concatenate files
         concat: {
             // Common options for all concatenate task
             options: {
                 process: function(src, filepath) {
-                    return '// File : ' + filepath + '\n' + src;
+                    return '/* File : ' + filepath + ' */ \n' + src;
                 }
             },
 
-            // Concatenate libraries
+            // Concatenate CSS
+            css: {
+                src: [
+                    // Loading bar
+                    '<%= libFolder %>/angular-loading-bar/build/loading-bar.css',
+                    // AlphaTab
+                    '<%= libFolder %>/AlphaTab/Build/JavaScript/AlphaTab.css',
+                    // Font Awesome
+                    '<%= distFolder %>/css/font-awesome.min.css',
+                    // Music Font
+                    '<%= distFolder %>/css/music-font.min.css',
+                    // Application styles
+                    '<%= distFolder %>/css/theme.min.css'
+                ],
+                dest: '<%= distFolder %>/css/app.min.css'
+            },
+
+            // Concatenate JS libraries
             lib: {
                 src: [
-                    'bower_components/jquery/dist/jquery.js',
-                    'bower_components/angular/angular.js',
-                    'bower_components/angular-route/angular-route.js',
-                    'bower_components/angular-animate/angular-animate.js',
-                    'bower_components/angular-sanitize/angular-sanitize.js',
-                    'bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
-                    'bower_components/angular-translate/angular-translate.js',
-                    'bower_components/messageformat/messageformat.js',
-                    'bower_components/angular-translate-interpolation-messageformat/angular-translate-interpolation-messageformat.js',
-                    'bower_components/angular-loading-bar/build/loading-bar.js',
-                    'bower_components/tinymce-dist/tinymce.js',
-                    'bower_components/angular-ui-tinymce/src/tinymce.js',
-                    'bower_components/ng-file-upload/ng-file-upload-shim.js',
-                    'bower_components/ng-file-upload/ng-file-upload.js',
-                    'bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.js',
-                    'bower_components/AlphaTab/Build/JavaScript/AlphaTab.js',
-                    'bower_components/AlphaTab/Build/JavaScript/jquery.alphaTab.js'
+                    '<%= libFolder %>/jquery/dist/jquery.js',
+                    '<%= libFolder %>/angular/angular.js',
+                    '<%= libFolder %>/angular-route/angular-route.js',
+                    '<%= libFolder %>/angular-animate/angular-animate.js',
+                    '<%= libFolder %>/angular-sanitize/angular-sanitize.js',
+                    '<%= libFolder %>/angular-bootstrap/ui-bootstrap-tpls.js',
+                    '<%= libFolder %>/angular-translate/angular-translate.js',
+                    '<%= libFolder %>/messageformat/messageformat.js',
+                    '<%= libFolder %>/angular-translate-interpolation-messageformat/angular-translate-interpolation-messageformat.js',
+                    '<%= libFolder %>/angular-loading-bar/build/loading-bar.js',
+                    '<%= libFolder %>/tinymce-dist/tinymce.js',
+                    '<%= libFolder %>/angular-ui-tinymce/src/tinymce.js',
+                    '<%= libFolder %>/ng-file-upload/ng-file-upload-shim.js',
+                    '<%= libFolder %>/ng-file-upload/ng-file-upload.js',
+                    '<%= libFolder %>/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.js',
+                    '<%= libFolder %>/AlphaTab/Build/JavaScript/AlphaTab.js',
+                    '<%= libFolder %>/AlphaTab/Build/JavaScript/jquery.alphaTab.js'
                 ],
                 dest: '<%= distFolder %>/js/lib.js'
             },
 
             lib_min: {
                 src: [
-                    'bower_components/jquery/dist/jquery.min.js',
-                    'bower_components/angular/angular.min.js',
-                    'bower_components/angular-route/angular-route.min.js',
-                    'bower_components/angular-animate/angular-animate.min.js',
-                    'bower_components/angular-sanitize/angular-sanitize.min.js',
-                    'bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js',
-                    'bower_components/angular-translate/angular-translate.min.js',
-                    'bower_components/messageformat/messageformat.js',
-                    'bower_components/angular-translate-interpolation-messageformat/angular-translate-interpolation-messageformat.min.js',
-                    'bower_components/angular-loading-bar/build/loading-bar.min.js',
-                    'bower_components/tinymce-dist/tinymce.min.js',
-                    'bower_components/angular-ui-tinymce/src/tinymce.js',
-                    'bower_components/ng-file-upload/ng-file-upload-shim.min.js',
-                    'bower_components/ng-file-upload/ng-file-upload.min.js',
-                    'bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js',
-                    'bower_components/AlphaTab/Build/JavaScript/AlphaTab.min.js',
-                    'bower_components/AlphaTab/Build/JavaScript/jquery.alphaTab.js'
+                    '<%= libFolder %>/jquery/dist/jquery.min.js',
+                    '<%= libFolder %>/angular/angular.min.js',
+                    '<%= libFolder %>/angular-route/angular-route.min.js',
+                    '<%= libFolder %>/angular-animate/angular-animate.min.js',
+                    '<%= libFolder %>/angular-sanitize/angular-sanitize.min.js',
+                    '<%= libFolder %>/angular-bootstrap/ui-bootstrap-tpls.min.js',
+                    '<%= libFolder %>/angular-translate/angular-translate.min.js',
+                    '<%= libFolder %>/messageformat/messageformat.js',
+                    '<%= libFolder %>/angular-translate-interpolation-messageformat/angular-translate-interpolation-messageformat.min.js',
+                    '<%= libFolder %>/angular-loading-bar/build/loading-bar.min.js',
+                    '<%= libFolder %>/tinymce-dist/tinymce.min.js',
+                    '<%= libFolder %>/angular-ui-tinymce/src/tinymce.js',
+                    '<%= libFolder %>/ng-file-upload/ng-file-upload-shim.min.js',
+                    '<%= libFolder %>/ng-file-upload/ng-file-upload.min.js',
+                    '<%= libFolder %>/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js',
+                    '<%= libFolder %>/AlphaTab/Build/JavaScript/AlphaTab.min.js',
+                    '<%= libFolder %>/AlphaTab/Build/JavaScript/jquery.alphaTab.js'
                 ],
                 dest: '<%= distFolder %>/js/lib.min.js'
             },
 
-            // Concatenate app
+            // Concatenate JS Application
             app: {
                 // Wrap all application into an anonymous auto-callable function using 'use strict' env ( as recommended for angular app)
                 options: {
@@ -99,27 +151,11 @@ module.exports = function (grunt) {
             }
         },
 
-        // Compile LESS files task
-        less: {
-            options: {
-                compress: true,
-                yuicompress: true,
-                optimization: 2
-            },
-
-            app: {
-                src: [
-                    'less/app/app.less'
-                ],
-                dest: '<%= distFolder %>/css/app.min.css'
-            }
-        },
-
         // Copy fonts in public directory
         copy: {
             glyphicon: {
                 src: [
-                    'bower_components/bootstrap/fonts/*'
+                    '<%= libFolder %>/bootstrap/fonts/*'
                 ],
                 dest: '<%= distFolder %>/fonts/',
                 expand: true,
@@ -129,7 +165,7 @@ module.exports = function (grunt) {
 
             font_awesome: {
                 src: [
-                    'bower_components/font-awesome/fonts/*'
+                    '<%= libFolder %>/font-awesome/fonts/*'
                 ],
                 dest: '<%= distFolder %>/fonts/',
                 expand: true,
@@ -139,7 +175,7 @@ module.exports = function (grunt) {
 
             music_font: {
                 src: [
-                    'less/fonts/MusicFont/fonts/*'
+                    'fonts/MusicFont/fonts/*'
                 ],
                 dest: '<%= distFolder %>/fonts/',
                 expand: true,
@@ -148,7 +184,7 @@ module.exports = function (grunt) {
             },
 
             tiny_mce: {
-                cwd: 'bower_components/tinymce-dist/',
+                cwd: '<%= libFolder %>/tinymce-dist/',
                 src: [
                     'plugins/**/*',
                     'skins/**/*',

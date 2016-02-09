@@ -1,4 +1,4 @@
-// File : bower_components/jquery/dist/jquery.js
+/* File : bower_components/jquery/dist/jquery.js */ 
 /*!
  * jQuery JavaScript Library v2.1.4
  * http://jquery.com/
@@ -9210,7 +9210,7 @@ return jQuery;
 
 }));
 
-// File : bower_components/angular/angular.js
+/* File : bower_components/angular/angular.js */ 
 /**
  * @license AngularJS v1.4.7
  * (c) 2010-2015 Google, Inc. http://angularjs.org
@@ -38115,7 +38115,7 @@ $provide.value("$locale", {
 })(window, document);
 
 !window.angular.$$csp().noInlineStyle && window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
-// File : bower_components/angular-route/angular-route.js
+/* File : bower_components/angular-route/angular-route.js */ 
 /**
  * @license AngularJS v1.4.7
  * (c) 2010-2015 Google, Inc. http://angularjs.org
@@ -39108,7 +39108,7 @@ function ngViewFillContentFactory($compile, $controller, $route) {
 
 })(window, window.angular);
 
-// File : bower_components/angular-animate/angular-animate.js
+/* File : bower_components/angular-animate/angular-animate.js */ 
 /**
  * @license AngularJS v1.4.7
  * (c) 2010-2015 Google, Inc. http://angularjs.org
@@ -43038,7 +43038,7 @@ angular.module('ngAnimate', [])
 
 })(window, window.angular);
 
-// File : bower_components/angular-sanitize/angular-sanitize.js
+/* File : bower_components/angular-sanitize/angular-sanitize.js */ 
 /**
  * @license AngularJS v1.4.7
  * (c) 2010-2015 Google, Inc. http://angularjs.org
@@ -43723,7 +43723,7 @@ angular.module('ngSanitize').filter('linky', ['$sanitize', function($sanitize) {
 
 })(window, window.angular);
 
-// File : bower_components/angular-bootstrap/ui-bootstrap-tpls.js
+/* File : bower_components/angular-bootstrap/ui-bootstrap-tpls.js */ 
 /*
  * angular-ui-bootstrap
  * http://angular-ui.github.io/bootstrap/
@@ -52227,7 +52227,7 @@ angular.module("template/typeahead/typeahead-popup.html", []).run(["$templateCac
     "");
 }]);
 !angular.$$csp() && angular.element(document).find('head').prepend('<style type="text/css">.ng-animate.item:not(.left):not(.right){-webkit-transition:0s ease-in-out left;transition:0s ease-in-out left}</style>');
-// File : bower_components/angular-translate/angular-translate.js
+/* File : bower_components/angular-translate/angular-translate.js */ 
 /*!
  * angular-translate - v2.8.1 - 2015-10-01
  * 
@@ -55367,7 +55367,7 @@ return 'pascalprecht.translate';
 
 }));
 
-// File : bower_components/messageformat/messageformat.js
+/* File : bower_components/messageformat/messageformat.js */ 
 /**
  * messageformat.js
  *
@@ -56950,7 +56950,7 @@ return 'pascalprecht.translate';
 
 })( this );
 
-// File : bower_components/angular-translate-interpolation-messageformat/angular-translate-interpolation-messageformat.js
+/* File : bower_components/angular-translate-interpolation-messageformat/angular-translate-interpolation-messageformat.js */ 
 /*!
  * angular-translate - v2.8.1 - 2015-10-01
  * 
@@ -57109,7 +57109,7 @@ return 'pascalprecht.translate';
 
 }));
 
-// File : bower_components/angular-loading-bar/build/loading-bar.js
+/* File : bower_components/angular-loading-bar/build/loading-bar.js */ 
 /*! 
  * angular-loading-bar v0.8.0
  * https://chieffancypants.github.io/angular-loading-bar
@@ -57440,7 +57440,7 @@ angular.module('cfp.loadingBar', [])
   });       // wtf javascript. srsly
 })();       //
 
-// File : bower_components/tinymce-dist/tinymce.js
+/* File : bower_components/tinymce-dist/tinymce.js */ 
 // 4.3.3 (2016-01-14)
 
 /**
@@ -102619,7 +102619,7 @@ define("tinymce/ui/Throbber", [
 
 expose(["tinymce/geom/Rect","tinymce/util/Promise","tinymce/util/Delay","tinymce/dom/EventUtils","tinymce/dom/Sizzle","tinymce/Env","tinymce/util/Tools","tinymce/dom/DomQuery","tinymce/html/Styles","tinymce/dom/TreeWalker","tinymce/html/Entities","tinymce/dom/DOMUtils","tinymce/dom/ScriptLoader","tinymce/AddOnManager","tinymce/dom/RangeUtils","tinymce/html/Node","tinymce/html/Schema","tinymce/html/SaxParser","tinymce/html/DomParser","tinymce/html/Writer","tinymce/html/Serializer","tinymce/dom/Serializer","tinymce/util/VK","tinymce/dom/ControlSelection","tinymce/dom/BookmarkManager","tinymce/dom/Selection","tinymce/Formatter","tinymce/UndoManager","tinymce/EditorCommands","tinymce/util/URI","tinymce/util/Class","tinymce/util/EventDispatcher","tinymce/util/Observable","tinymce/ui/Selector","tinymce/ui/Collection","tinymce/ui/ReflowQueue","tinymce/ui/Control","tinymce/ui/Factory","tinymce/ui/KeyboardNavigation","tinymce/ui/Container","tinymce/ui/DragHelper","tinymce/ui/Scrollable","tinymce/ui/Panel","tinymce/ui/Movable","tinymce/ui/Resizable","tinymce/ui/FloatPanel","tinymce/ui/Window","tinymce/ui/MessageBox","tinymce/WindowManager","tinymce/ui/Tooltip","tinymce/ui/Widget","tinymce/ui/Progress","tinymce/ui/Notification","tinymce/NotificationManager","tinymce/EditorObservable","tinymce/Shortcuts","tinymce/Editor","tinymce/util/I18n","tinymce/FocusManager","tinymce/EditorManager","tinymce/util/XHR","tinymce/util/JSON","tinymce/util/JSONRequest","tinymce/util/JSONP","tinymce/util/LocalStorage","tinymce/Compat","tinymce/ui/Layout","tinymce/ui/AbsoluteLayout","tinymce/ui/Button","tinymce/ui/ButtonGroup","tinymce/ui/Checkbox","tinymce/ui/ComboBox","tinymce/ui/ColorBox","tinymce/ui/PanelButton","tinymce/ui/ColorButton","tinymce/util/Color","tinymce/ui/ColorPicker","tinymce/ui/Path","tinymce/ui/ElementPath","tinymce/ui/FormItem","tinymce/ui/Form","tinymce/ui/FieldSet","tinymce/ui/FilePicker","tinymce/ui/FitLayout","tinymce/ui/FlexLayout","tinymce/ui/FlowLayout","tinymce/ui/FormatControls","tinymce/ui/GridLayout","tinymce/ui/Iframe","tinymce/ui/Label","tinymce/ui/Toolbar","tinymce/ui/MenuBar","tinymce/ui/MenuButton","tinymce/ui/MenuItem","tinymce/ui/Menu","tinymce/ui/ListBox","tinymce/ui/Radio","tinymce/ui/ResizeHandle","tinymce/ui/SelectBox","tinymce/ui/Slider","tinymce/ui/Spacer","tinymce/ui/SplitButton","tinymce/ui/StackLayout","tinymce/ui/TabPanel","tinymce/ui/TextBox","tinymce/ui/Throbber"]);
 })(this);
-// File : bower_components/angular-ui-tinymce/src/tinymce.js
+/* File : bower_components/angular-ui-tinymce/src/tinymce.js */ 
 /**
  * Binds a TinyMCE widget to <textarea> elements.
  */
@@ -102800,7 +102800,7 @@ angular.module('ui.tinymce', [])
     };
   }]);
 
-// File : bower_components/ng-file-upload/ng-file-upload-shim.js
+/* File : bower_components/ng-file-upload/ng-file-upload-shim.js */ 
 /**!
  * AngularJS file upload directives and services. Supoorts: file upload/drop/paste, resume, cancel/abort,
  * progress, resize, thumbnail, preview, validation and CORS
@@ -103220,7 +103220,7 @@ if (!window.FileReader) {
   };
 }
 
-// File : bower_components/ng-file-upload/ng-file-upload.js
+/* File : bower_components/ng-file-upload/ng-file-upload.js */ 
 /**!
  * AngularJS file upload directives and services. Supoorts: file upload/drop/paste, resume, cancel/abort,
  * progress, resize, thumbnail, preview, validation and CORS
@@ -105193,7 +105193,7 @@ ngFileUpload.service('UploadExif', ['UploadResize', '$q', function (UploadResize
 }]);
 
 
-// File : bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.js
+/* File : bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.js */ 
 /*
 == malihu jquery custom scrollbar plugin == 
 Version: 3.1.1 
@@ -107579,7 +107579,7 @@ and dependencies (minified).
 	});
 
 }))}));
-// File : bower_components/AlphaTab/Build/JavaScript/AlphaTab.js
+/* File : bower_components/AlphaTab/Build/JavaScript/AlphaTab.js */ 
 var $StaticConstructors = [];
 var $StaticConstructor = function(f) { 
     $StaticConstructors.push(f);  
@@ -122534,7 +122534,7 @@ for(var i = 0; i < $StaticConstructors.length; i++) {
 
 
 
-// File : bower_components/AlphaTab/Build/JavaScript/jquery.alphaTab.js
+/* File : bower_components/AlphaTab/Build/JavaScript/jquery.alphaTab.js */ 
 /*
  * This file is part of alphaTab.
  * Copyright c 2013, Daniel Kuschny and Contributors, All rights reserved.

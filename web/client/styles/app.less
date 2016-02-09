@@ -1,22 +1,12 @@
-@lib-path: "../../bower_components";
+/**
+ * Application Styles
+ */
 
-// Bootstrap
-@import "@{lib-path}/bootstrap/less/bootstrap.less";
-
-// Font Awesome
-@import "@{lib-path}/font-awesome/less/font-awesome.less";
-
-// Music Font
-@import "../fonts/MusicFont/less/music-font.less";
-
-// Loading bar
-@import "@{lib-path}/angular-loading-bar/build/loading-bar.css";
-
-// AlphaTab
-@import "@{lib-path}/AlphaTab/Build/JavaScript/AlphaTab.css";
+// Extends Bootstrap
+@import "../bower_components/bootstrap/less/bootstrap.less";
 
 // Variables (override bootstrap default)
-@import "variables";
+@import "variables.less";
 @import "variables.custom.less";
 
 @import "boilerplate.less";

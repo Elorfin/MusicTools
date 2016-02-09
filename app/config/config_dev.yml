@@ -1,10 +1,7 @@
 imports:
     - { resource: config.yml }
 
-framework:
-    router:
-        strict_requirements: true
-
+// Configure logs
 monolog:
     handlers:
         main:
@@ -16,6 +13,3 @@ monolog:
             type:   console
             bubble: false
             channels: [!event, !doctrine]
-
-#swiftmailer:
-#    delivery_address: me@example.com

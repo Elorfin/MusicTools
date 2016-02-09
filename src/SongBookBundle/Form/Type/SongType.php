@@ -2,7 +2,6 @@
 
 namespace SongBookBundle\Form\Type;
 
-use Elorfin\ResourceBundle\Form\Type\ImageType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;

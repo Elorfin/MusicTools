@@ -22,9 +22,9 @@ framework:
     validation:
         enable_annotations: true
 
-    # Templating configuration
+    # Templating configuration (remove twig as the UI is managed by AngularJS)
     templating:
-        engines: ['php']
+        engines: [ 'php' ]
 
     fragments:       ~
     http_method_override: true
@@ -36,11 +36,6 @@ framework:
         name:        "%app_name%"
         handler_id:  session.handler.native_file
         save_path:   "%kernel.root_dir%/../var/sessions/%kernel.environment%"
-
-# Twig Configuration
-twig:
-    debug:            "%kernel.debug%"
-    strict_variables: "%kernel.debug%"
 
 # Doctrine Configuration
 doctrine:

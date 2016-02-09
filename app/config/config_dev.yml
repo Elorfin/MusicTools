@@ -1,7 +1,7 @@
 imports:
     - { resource: config.yml }
 
-// Configure logs
+# Configure logs
 monolog:
     handlers:
         main:

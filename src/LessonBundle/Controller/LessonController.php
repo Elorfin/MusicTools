@@ -24,7 +24,10 @@ class LessonController extends Controller
      */
     public function listAction()
     {
-        $entities = $this->container->get('doctrine.orm.entity_manager')->getRepository('LessonBundle:Lesson')->findAll();
+        $entities = $this->container
+            ->get('doctrine.orm.entity_manager')
+            ->getRepository('LessonBundle:Lesson')
+            ->findAll();
 
         return new JsonApiResponse($entities);
     }

@@ -12,7 +12,7 @@ use Elorfin\JsonApiBundle\Response\JsonApiResponse;
 use Elorfin\JsonApiBundle\Response\JsonErrorResponse;
 
 use InstrumentBundle\Entity\Instrument;
-use InstrumentBundle\Form\Type\InstrumentType;
+use InstrumentBundle\Form\InstrumentType;
 
 /**
  * Instrument CRUD Controller
@@ -23,14 +23,15 @@ class InstrumentController extends Controller
 {
     /**
      * List all Instruments
-     * @return array
+     * @return JsonApiResponse
      *
      * @Route("")
      * @Method("GET")
      */
     public function listAction()
     {
-        $entities = $this->container->get('doctrine.orm.entity_manager')
+        $entities = $this->container
+            ->get('doctrine.orm.entity_manager')
             ->getRepository('InstrumentBundle:Instrument')
             ->findBy([], ['model' => 'ASC']);
 
@@ -52,8 +53,8 @@ class InstrumentController extends Controller
 
     /**
      * Create a new Instrument
-     * @param Request $request
-     * @return array
+     * @param  Request $request
+     * @return JsonApiResponse
      *
      * @Route("")
      * @Method("POST")
@@ -61,12 +62,10 @@ class InstrumentController extends Controller
     public function createAction(Request $request)
     {
         $instrument = new Instrument();
-        $form = $this->createForm(new InstrumentType(), $instrument, [
-            'method' => 'POST',
-        ]);
+        $form = $this->createForm(InstrumentType::class, $instrument);
 
-        $form->submit([ $form->getName() => $request->get('data') ]);
-        if ($form->isValid()) {
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
             // Save entity
             $this->container->get('doctrine.orm.entity_manager')->persist($instrument);
             $this->container->get('doctrine.orm.entity_manager')->flush();
@@ -82,7 +81,7 @@ class InstrumentController extends Controller
     /**
      * Edit an Instrument
      * @param  Instrument $instrument
-     * @param  Request $request
+     * @param  Request    $request
      * @return array
      *
      * @Route("/{id}")
@@ -90,11 +89,11 @@ class InstrumentController extends Controller
      */
     public function updateAction(Instrument $instrument, Request $request)
     {
-        $form = $this->createForm(new InstrumentType(), $instrument, [
+        $form = $this->createForm(InstrumentType::class, $instrument, [
             'method' => 'PUT',
         ]);
 
-        $form->submit([ $form->getName() => $request->get('data') ]);
+        $form->submit($request->get('data'));
         if ($form->isValid()) {
             // Save entity
             $this->container->get('doctrine.orm.entity_manager')->persist($instrument);

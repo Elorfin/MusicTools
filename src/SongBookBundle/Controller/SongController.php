@@ -6,7 +6,7 @@ use Elorfin\JsonApiBundle\Response\JsonApiResponse;
 use Elorfin\JsonApiBundle\Response\JsonErrorResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use SongBookBundle\Entity\Song;
-use SongBookBundle\Form\Type\SongType;
+use SongBookBundle\Form\SongType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -29,7 +29,8 @@ class SongController extends Controller
      */
     public function listAction()
     {
-        $entities = $this->container->get('doctrine.orm.entity_manager')
+        $entities = $this->container
+            ->get('doctrine.orm.entity_manager')
             ->getRepository('SongBookBundle:Song')
             ->findBy([], ['name' => 'ASC']);
 
@@ -60,11 +61,9 @@ class SongController extends Controller
     public function createAction(Request $request)
     {
         $song = new Song();
-        $form = $this->createForm(new SongType(), $song, [
-            'method' => 'POST',
-        ]);
+        $form = $this->createForm(SongType::class, $song);
 
-        $form->submit([ $form->getName() => $request->get('data') ]);
+        $form->submit($request->get('data'));
         if ($form->isValid()) {
             // Save entity
             $this->container->get('doctrine.orm.entity_manager')->persist($song);
@@ -89,7 +88,7 @@ class SongController extends Controller
      */
     public function updateAction(Song $song, Request $request)
     {
-        $form = $this->createForm(new SongType(), $song, [
+        $form = $this->createForm(SongType::class, $song, [
             'method' => 'PUT',
         ]);
 

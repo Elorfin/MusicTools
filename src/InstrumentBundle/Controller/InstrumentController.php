@@ -93,7 +93,7 @@ class InstrumentController extends Controller
             'method' => 'PUT',
         ]);
 
-        $form->submit($request->get('data'));
+        $form->handleRequest($request);
         if ($form->isValid()) {
             // Save entity
             $this->container->get('doctrine.orm.entity_manager')->persist($instrument);

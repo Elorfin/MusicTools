@@ -11,6 +11,7 @@ class InstrumentType extends AbstractType
 {
     /**
      * Create the Form definition
+     *
      * @param FormBuilderInterface $builder
      * @param array                $options
      */
@@ -32,7 +33,7 @@ class InstrumentType extends AbstractType
     {
         $resolver->setDefaults(array(
             'csrf_protection' => false,
-            'data_class' => 'InstrumentBundle\Entity\Instrument'
+            'data_class'      => 'InstrumentBundle\Entity\Instrument'
         ));
     }
 }

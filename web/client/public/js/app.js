@@ -286,16 +286,17 @@ angular
  * Base List controller
  * @constructor
  */
-var ListController = function ListController($uibModal, resources) {
+var ListController = function ListController($uibModal, $client, resources) {
     this.services = {};
 
     this.services['$uibModal'] = $uibModal;
-
+    this.services['$client']   = $client;
+    
     this.resources = resources;
 };
 
 // Set up dependency injection
-ListController.$inject = [ '$uibModal', 'resources' ];
+ListController.$inject = [ '$uibModal', '$client', 'resources' ];
 
 /**
  * List of entities
@@ -329,7 +330,7 @@ ListController.prototype.sortFields = {};
 ListController.prototype.remove = function remove(entity) {
     // Display confirm callback
     var modalInstance = this.services.$uibModal.open({
-        templateUrl : '../app/Layout/Partial/Modal/confirm.html',
+        templateUrl : this.services.$client.getPartial('Modal/confirm.html', 'core/Layout'),
         controller  : 'ConfirmModalController',
         windowClass : 'modal-danger'
     });
@@ -795,11 +796,12 @@ angular
  * @param $api
  * @constructor
  */
-var ApiResource = function ApiResource($http, $q, $api) {
+var ApiResource = function ApiResource($http, $cacheFactory, $q, $api) {
     // Store services
-    this.services['$http'] = $http;
-    this.services['$q']    = $q;
-    this.services['$api']  = $api;
+    this.services['$http']         = $http;
+    this.services['$cacheFactory'] = $cacheFactory;
+    this.services['$q']            = $q;
+    this.services['$api']          = $api;
 
     // Validate required properties
     if (null === this.type) {
@@ -812,7 +814,7 @@ var ApiResource = function ApiResource($http, $q, $api) {
 };
 
 // Set up dependency injection
-ApiResource.$inject = [ '$http', '$q', '$api' ];
+ApiResource.$inject = [ '$http', '$cacheFactory', '$q', '$api' ];
 
 /**
  * List of dependencies
@@ -832,14 +834,17 @@ ApiResource.prototype.type = null;
  */
 ApiResource.prototype.path = null;
 
+ApiResource.prototype.forceReload = false;
+
 /**
  * Initialize an empty Resource Object
  */
 ApiResource.prototype.init = function init() {
     return {
-        id         : null,
-        type       : this.type,
-        attributes : {}
+        id            : null,
+        type          : this.type,
+        attributes    : {},
+        relationships : {}
     };
 };
 
@@ -878,8 +883,15 @@ ApiResource.prototype.query = function queryResources(queryParams) {
     // Initialize promise
     var deferred = this.services.$q.defer();
 
+    var fullPath = this.getFullPath(queryParams);
+
     // Build request
-    var request = this.getRequest(this.getFullPath(queryParams));
+    var request = this.getRequest(fullPath);
+
+    if (this.forceReload) {
+        var $httpDefaultCache = this.services.$cacheFactory.get('$http');
+        $httpDefaultCache.remove(fullPath);
+    }
 
     // Call API
     this.services.$http(request).then(
@@ -888,8 +900,10 @@ ApiResource.prototype.query = function queryResources(queryParams) {
             // Set default data if empty
             var data = response.data.data ? response.data.data : [];
 
+            this.forceReload = false;
+
             deferred.resolve(data);
-        },
+        }.bind(this),
 
         // Error callback
         function onServerError(response) {
@@ -914,20 +928,21 @@ ApiResource.prototype.get = function getResource(params) {
     var request = this.getRequest(this.getFullPath(params));
 
     // Call API
-    this.services.$http(request).then(
-        // Success callback
-        function onServerSuccess(response) {
-            // Set default data if empty
-            var data = response.data.data ? response.data.data : {};
+    this.services.$http(request)
+        .then(
+            // Success callback
+            function onServerSuccess(response) {
+                // Set default data if empty
+                var data = response.data.data ? response.data.data : {};
 
-            deferred.resolve(data);
-        },
+                deferred.resolve(data);
+            },
 
-        // Error callback
-        function onServerError(response) {
-            deferred.reject(response);
-        }
-    );
+            // Error callback
+            function onServerError(response) {
+                deferred.reject(response);
+            }
+        );
 
     return deferred.promise;
 };
@@ -951,8 +966,10 @@ ApiResource.prototype.new = function newResource(resource) {
         .then(
             // Success callback
             function onServerSuccess(response) {
+                this.forceReload = true;
+
                 deferred.resolve(response.data);
-            },
+            }.bind(this),
 
             // Error callback
             function onServerError(response) {
@@ -1000,7 +1017,31 @@ ApiResource.prototype.update = function updateResource(resource) {
  * @param {Object} resource - The resource to remove
  */
 ApiResource.prototype.remove = function removeResource(resource) {
+    // Initialize promise
+    var deferred = this.services.$q.defer();
 
+    // Build request
+    var request = this.getRequest(this.getFullPath(resource), 'DELETE', resource);
+
+    // Call API
+    this.services.$http(request)
+
+        // API results
+        .then(
+            // Success callback
+            function onServerSuccess(response) {
+                this.forceReload = true;
+
+                deferred.resolve(response);
+            }.bind(this),
+
+            // Error callback
+            function onServerError(response) {
+                deferred.reject(response);
+            }
+        );
+
+    return deferred.promise;
 };
 
 /**
@@ -2767,7 +2808,7 @@ var InstrumentFormController = function InstrumentFormController(resource, Instr
     this.instrumentTypes  = instrumentTypes;
     this.templateResource = InstrumentTemplateResource;
 
-    this.apiResource.addRelationship(this.resource, 'type', this.instrumentTypes[0]);
+    this.apiResource.addRelationship(this.resource, 'instrumentType', this.instrumentTypes[0]);
 };
 
 // Extends FormController
@@ -2782,7 +2823,7 @@ InstrumentFormController.$inject = [ 'resource', 'InstrumentResource', 'instrume
  * @param {Object} type
  */
 InstrumentFormController.prototype.selectType = function selectType(type) {
-    this.apiResource.addRelationship(this.resource, 'type', type);
+    this.apiResource.addRelationship(this.resource, 'instrumentType', type);
 
     // Load templates for this type
     this.loadTemplates(type);
@@ -3009,6 +3050,16 @@ angular
             apiResourceRouteProvider.register('Instrument', 'Instrument', 'instruments', false, {
                 // Add the list of InstrumentType to the NEW routes resolvers
                 new: {
+                    resolve: {
+                        instrumentTypes: [
+                            'InstrumentTypeResource',
+                            function instrumentTypesResolver(InstrumentTypeResource) {
+                                return InstrumentTypeResource.query();
+                            }
+                        ]
+                    }
+                },
+                edit: {
                     resolve: {
                         instrumentTypes: [
                             'InstrumentTypeResource',

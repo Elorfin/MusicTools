@@ -17,6 +17,16 @@ angular
                             }
                         ]
                     }
+                },
+                edit: {
+                    resolve: {
+                        instrumentTypes: [
+                            'InstrumentTypeResource',
+                            function instrumentTypesResolver(InstrumentTypeResource) {
+                                return InstrumentTypeResource.query();
+                            }
+                        ]
+                    }
                 }
             });
         }

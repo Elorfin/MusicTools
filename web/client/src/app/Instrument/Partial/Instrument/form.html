@@ -45,8 +45,18 @@
         <div class="col-md-2">
             <div class="form-group">
                 <div class="instrument-type">
-                    <img class="img-responsive" data-ng-src="{{ 'images/' + formCtrl.resource.relationships.type.data.attributes.icon |asset_path }}" />
-                    <span>{{ formCtrl.resource.relationships.type.data.attributes.name }}</span>
+                    <img class="img-responsive instrument-type-img" data-ng-src="{{ 'images/' + formCtrl.resource.relationships.instrumentType.data.attributes.icon |asset_path }}" />
+
+                    <div uib-dropdown="" class="dropup">
+                        <a href id="simple-dropdown" uib-dropdown-toggle="" class="btn btn-block btn-default">
+                            {{ formCtrl.resource.relationships.instrumentType.data.attributes.name }}
+                        </a>
+                        <ul uib-dropdown-menu="" aria-labelledby="simple-dropdown">
+                            <li data-ng-repeat="instrumentType in formCtrl.instrumentTypes" data-ng-class="{'active': instrumentType.id == formCtrl.resource.relationships.instrumentType.data.id }">
+                                <a href="" data-ng-click="formCtrl.selectType(instrumentType)">{{ instrumentType.attributes.name }}</a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>

@@ -8,7 +8,7 @@ var InstrumentFormController = function InstrumentFormController(resource, Instr
     this.instrumentTypes  = instrumentTypes;
     this.templateResource = InstrumentTemplateResource;
 
-    this.apiResource.addRelationship(this.resource, 'type', this.instrumentTypes[0]);
+    this.apiResource.addRelationship(this.resource, 'instrumentType', this.instrumentTypes[0]);
 };
 
 // Extends FormController
@@ -23,7 +23,7 @@ InstrumentFormController.$inject = [ 'resource', 'InstrumentResource', 'instrume
  * @param {Object} type
  */
 InstrumentFormController.prototype.selectType = function selectType(type) {
-    this.apiResource.addRelationship(this.resource, 'type', type);
+    this.apiResource.addRelationship(this.resource, 'instrumentType', type);
 
     // Load templates for this type
     this.loadTemplates(type);

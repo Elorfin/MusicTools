@@ -2,16 +2,17 @@
  * Base List controller
  * @constructor
  */
-var ListController = function ListController($uibModal, resources) {
+var ListController = function ListController($uibModal, $client, resources) {
     this.services = {};
 
     this.services['$uibModal'] = $uibModal;
+    this.services['$client']   = $client;
 
     this.resources = resources;
 };
 
 // Set up dependency injection
-ListController.$inject = [ '$uibModal', 'resources' ];
+ListController.$inject = [ '$uibModal', '$client', 'resources' ];
 
 /**
  * List of entities
@@ -45,7 +46,7 @@ ListController.prototype.sortFields = {};
 ListController.prototype.remove = function remove(entity) {
     // Display confirm callback
     var modalInstance = this.services.$uibModal.open({
-        templateUrl : '../app/Layout/Partial/Modal/confirm.html',
+        templateUrl : this.services.$client.getPartial('Modal/confirm.html', 'core/Layout'),
         controller  : 'ConfirmModalController',
         windowClass : 'modal-danger'
     });

@@ -108,6 +108,23 @@ class InstrumentController extends Controller
     }
 
     /**
+     * Delete an Instrument
+     * @param  Instrument $instrument
+     * @return array
+     *
+     * @Route("/{id}")
+     * @Method("DELETE")
+     */
+    public function deleteAction(Instrument $instrument)
+    {
+        /*204 No Content*/
+        $this->getDoctrine()->getManager()->remove($instrument);
+        $this->getDoctrine()->getManager()->flush;
+
+        return new JsonApiResponse(null, 204);
+    }
+
+    /**
      * @param $form
      * @return array
      */

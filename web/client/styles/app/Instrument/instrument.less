@@ -1,28 +1,32 @@
-.instrument-types {
-    text-align: center;
-
-    .instrument-type-item {
-        position: relative;
-        text-align: center;
-        cursor: pointer;
-        display: inline-block;
-        width: 100%;
-        overflow: hidden;
-        font-size: 0;
-
-
-    }
+.instrument-type-img {
+    opacity: 0.3;
 }
 
 .instrument-type {
-    img {
-        opacity: 0.3;
-    }
-
     span {
         font-size: @font-size-large;
         display: block;
         color: @brand-primary;
         text-align: center;
+    }
+
+    .dropdown {
+        .dropdown-menu {
+            background: @panel-bg;
+            border: none;
+            border-radius: 0;
+            box-shadow: none;
+            margin: 0;
+            width: 100%;
+
+            li {
+
+                &.active a,
+                a:hover {
+                    color: @brand-primary;
+                    background: @panel-bg;
+                }
+            }
+        }
     }
 }

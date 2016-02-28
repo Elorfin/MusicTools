@@ -1,3 +1,27 @@
+/**
+ * List of Instruments
+ */
 .instrument-list {
+    .list-item {
+        &.list-item-condensed {
+            display: table;
+            vertical-align: middle;
+            width: 100%;
 
+            .item-image,
+            .item-info {
+                display: table-cell;
+                vertical-align: middle;
+            }
+
+            .item-image {
+                width: 60px;
+
+                img {
+                    width: 60px;
+                    height: auto;
+                }
+            }
+        }
+    }
 }

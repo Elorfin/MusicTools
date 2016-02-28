@@ -6,12 +6,12 @@ use Elorfin\JsonApiBundle\Form\JsonApiRequestHandler;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;;
 
 class InstrumentType extends AbstractType
 {
     /**
      * Create the Form definition
-     *
      * @param FormBuilderInterface $builder
      * @param array                $options
      */
@@ -23,6 +23,9 @@ class InstrumentType extends AbstractType
             ->add('name')
             ->add('manufacturer')
             ->add('model')
+            ->add('instrumentType', EntityType::class, array(
+                'class' => 'InstrumentBundle:InstrumentType',
+            ))
         ;
     }
 
@@ -31,9 +34,9 @@ class InstrumentType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'csrf_protection' => false,
             'data_class'      => 'InstrumentBundle\Entity\Instrument'
-        ));
+        ]);
     }
 }

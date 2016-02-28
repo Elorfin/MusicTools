@@ -44,7 +44,7 @@ class Instrument implements \JsonSerializable
      * @ORM\ManyToOne(targetEntity="InstrumentBundle\Entity\InstrumentType")
      * @ORM\JoinColumn(name="type_id", referencedColumnName="id", nullable=false)
      */
-    protected $type;
+    protected $instrumentType;
 
     /**
      * Use Guitar as the default User's guitar
@@ -58,7 +58,7 @@ class Instrument implements \JsonSerializable
      * Manufacturer of the Guitar
      * @var string
      *
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      */
     protected $manufacturer;
 
@@ -104,19 +104,19 @@ class Instrument implements \JsonSerializable
      * Get type of the Instrument
      * @return InstrumentType
      */
-    public function getType()
+    public function getInstrumentType()
     {
-        return $this->type;
+        return $this->instrumentType;
     }
 
     /**
      * Set type of the Instrument
-     * @param InstrumentType $type
+     * @param InstrumentType $instrumentType
      * @return Instrument
      */
-    public function setType(InstrumentType $type)
+    public function setInstrumentType(InstrumentType $instrumentType)
     {
-        $this->type = $type;
+        $this->instrumentType = $instrumentType;
 
         return $this;
     }
@@ -201,8 +201,8 @@ class Instrument implements \JsonSerializable
 
             // Relationships with other Resources
             'relationships' => [
-                'type' => [
-                    'data' => $this->type,
+                'instrumentType' => [
+                    'data' => $this->instrumentType,
                 ]
             ],
         ];

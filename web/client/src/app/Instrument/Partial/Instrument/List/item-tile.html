@@ -1,4 +1,9 @@
 <div class="list-item list-item-tile panel panel-default">
+    <!-- Image -->
+    <div class="item-image">
+        <img class="img-responsive instrument-type-img" data-ng-src="{{ 'images/' + resource.relationships.instrumentType.data.attributes.icon |asset_path }}" />
+    </div>
+
     <!-- Info -->
     <div class="item-info panel-body">
         {{ resource.attributes.manufacturer }}

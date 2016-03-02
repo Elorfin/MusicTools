@@ -1,6 +1,53 @@
 <div class="tuning-widget">
-    <div class="tuning-list">
-        <select class="form-control">
+    <div class="tuning-list" data-uib-dropdown="">
+        <button data-uib-dropdown-toggle="" class="btn btn-default btn-block dropdown-toggle" type="button" id="dropdownMenu1" aria-haspopup="true" aria-expanded="true">
+            Dropdown
+            <span class="fa fa-caret-down"></span>
+        </button>
+
+        <ul class="dropdown-menu dropdown-menu-check" aria-labelledby="dropdownMenu1">
+            <li class="active">
+                <a href="#" class="scale-link">
+                    <span class="link-label">Standard</span>
+                    <small>E A D G B E</small>
+
+                    <span class="fa fa-check"></span>
+                </a>
+            </li>
+
+            <li class="dropdown-header">Power</li>
+
+            <li>
+                <a href="#" class="scale-link">
+                    <span class="link-label">Drop D</span>
+                    <small>D A D G B E</small>
+
+                    <span class="fa fa-check"></span>
+                </a>
+            </li>
+
+            <li>
+                <a href="#" class="scale-link">
+                    <span class="link-label">Drop C</span>
+                    <small>C G C F A D</small>
+
+                    <span class="fa fa-check"></span>
+                </a>
+            </li>
+
+            <li class="dropdown-header">Open</li>
+
+            <li>
+                <a href="#" class="scale-link">
+                    <span class="link-label">Open C</span>
+                    <small>C G C G C E</small>
+
+                    <span class="fa fa-check"></span>
+                </a>
+            </li>
+        </ul>
+
+        <!--<select class="form-control">
             <option value="">Standard (EADGBE)</option>
 
             <optgroup label="Drop">
@@ -8,10 +55,10 @@
                 <option value="">Drop C (CGCFAD)</option>
             </optgroup>
 
-            <optgroup lobal="Open">
+            <optgroup label="Open">
 
             </optgroup>
-        </select>
+        </select>-->
     </div>
 
     <div class="tuning-edit">

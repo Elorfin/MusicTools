@@ -27,38 +27,33 @@ class LoadInstrumentTypeData extends AbstractFixture implements OrderedFixtureIn
     {
         $types = array (
             array (
-                'name'     => 'Guitar',
-                'icon'     => 'instrument/guitar.svg',
-                'class'    => '\\InstrumentBundle\\Entity\\Specification\\GuitarSpecification',
-                'template' => '\\InstrumentBundle\\Entity\\Template\\GuitarTemplate',
+                'name'   => 'Guitar',
+                'icon'   => 'instrument/guitar.svg',
+                'prefix' => 'Guitar',
             ),
 
             array (
-                'name'     => 'Ukulele',
-                'icon'     => 'instrument/ukulele.svg',
-                'class'    => '\\InstrumentBundle\\Entity\\Specification\\GuitarSpecification',
-                'template' => '\\InstrumentBundle\\Entity\\Template\\GuitarTemplate',
+                'name'   => 'Ukulele',
+                'icon'   => 'instrument/ukulele.svg',
+                'prefix' => 'Guitar',
             ),
 
             array (
-                'name'     => 'Bass',
-                'icon'     => 'instrument/bass.svg',
-                'class'    => '\\InstrumentBundle\\Entity\\Specification\\GuitarSpecification',
-                'template' => '\\InstrumentBundle\\Entity\\Template\\GuitarTemplate',
+                'name'   => 'Bass',
+                'icon'   => 'instrument/bass.svg',
+                'prefix' => 'Guitar',
             ),
 
             array (
-                'name'     => 'Flute',
-                'icon'     => 'instrument/flute.svg',
-                'class'    => '\\InstrumentBundle\\Entity\\Specification\\FluteSpecification',
-                'template' => '\\InstrumentBundle\\Entity\\Template\\FluteTemplate',
+                'name'   => 'Flute',
+                'icon'   => 'instrument/flute.svg',
+                'prefix' => 'Flute',
             ),
 
             array (
-                'name'     => 'Piano',
-                'icon'     => 'instrument/piano.svg',
-                'class'    => '\\InstrumentBundle\\Entity\\Specification\\PianoSpecification',
-                'template' => '\\InstrumentBundle\\Entity\\Template\\PianoTemplate',
+                'name'   => 'Piano',
+                'icon'   => 'instrument/piano.svg',
+                'prefix' => 'Piano',
             ),
         );
 
@@ -67,8 +62,7 @@ class LoadInstrumentTypeData extends AbstractFixture implements OrderedFixtureIn
 
             $entity->setName($type['name']);
             $entity->setIcon($type['icon']);
-            $entity->setClass($type['class']);
-            $entity->setTemplate($type['template']);
+            $entity->setPrefix($type['prefix']);
 
             $manager->persist($entity);
 

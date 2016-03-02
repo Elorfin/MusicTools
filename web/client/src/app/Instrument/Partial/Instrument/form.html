@@ -83,9 +83,8 @@
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div class="col-md-12">
+            <!-- List of avbailable templates for the current InstrumentType -->
             <div class="panel panel-default">
                 <div class="panel-body">
                     <label class="control-label sr-only">Choose a template</label>
@@ -95,8 +94,11 @@
                     </select>
                 </div>
             </div>
+        </div>
 
+        <div class="col-md-12" data-ng-if="formCtrl.resource.relationships.instrumentType">
             <!-- Custom information for the InstrumentType -->
+            <div data-ng-include="'Specification/' + formCtrl.resource.relationships.instrumentType.data.attributes.prefix + '/form.html'|partial_path:'app/Instrument'"></div>
         </div>
     </form>
 </layout-page>

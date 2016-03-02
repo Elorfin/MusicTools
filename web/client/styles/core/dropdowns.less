@@ -10,6 +10,13 @@
         opacity: 0;
         visibility: hidden;
 
+        .dropdown-header {
+            background: @dropdown-link-hover-bg;
+            padding-top: 5px;
+            padding-bottom: 5px;
+            font-weight: 600;
+        }
+
         /* We need to redefine Bootstrap styles because the scrollbar break the DOM structure */
         li {
             border-top: 1px dashed #0c0c0c;

@@ -32,6 +32,14 @@ trait GuitarTrait
     protected $frets = 24;
 
     /**
+     * Is the Guitar left-handed ?
+     * @var boolean
+     *
+     * @ORM\Column(type="boolean")
+     */
+    protected $leftHanded = false;
+
+    /**
      * Tuning of the Guitar
      * @var
      */

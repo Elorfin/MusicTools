@@ -291,7 +291,7 @@ var ListController = function ListController($uibModal, $client, resources) {
 
     this.services['$uibModal'] = $uibModal;
     this.services['$client']   = $client;
-    
+
     this.resources = resources;
 };
 
@@ -1861,7 +1861,8 @@ angular
  */
 angular
     .module('Instrument', [
-        'Utilities'
+        'Utilities',
+        'Tuning'
     ])
     .config([
         '$translateProvider',
@@ -4601,26 +4602,31 @@ theoryTranslations['fr'] = {
     // S
     semitone_count      : '{ COUNT } demi-ton{COUNT, plural, =0{} one{} other{s}}'
 };
-/* File : src/app/Tuning/tuning-widget.js */ 
-(function () {
-    'use strict';
+/* File : src/app/Tuning/Directive/TuningWidgetDirective.js */ 
+/**
+ * Tuning Widget (Choose and Edit widgets)
+ * @param   {Object} $client
+ * @returns {Object}
+ * @constructor
+ */
+var TuningWidgetDirective = function TuningWidgetDirective($client) {
+    return {
+        restrict: 'E',
+        templateUrl: $client.getPartial('widget.html', 'app/Tuning'),
+        replace: true,
+        scope: {
+            strings: '='
+        }
+    };
+};
 
-    angular
-        .module('GuitarTuning', [])
-        .directive('tuningEdit', [
-            function () {
-                return {
-                    restrict: 'E',
-                    templateUrl: '',
-                    replace: true,
-                    scope: {
-                        headstock: '=',
-                        strings: '='
-                    }
-                };
-            }
-        ]);
-})();
+// Set up dependency injection
+TuningWidgetDirective.$inject = [ '$client' ];
+
+// Inject directive into Angular JS
+angular
+    .module('Tuning')
+    .directive('tuningWidget', TuningWidgetDirective);
 /* File : src/app/User/Controller/ProfileController.js */ 
 /**
  * Profile Controller

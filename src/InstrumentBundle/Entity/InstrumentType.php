@@ -38,18 +38,11 @@ class InstrumentType implements \JsonSerializable
     protected $icon;
 
     /**
-     * Entity class
+     * Prefix used to retrieve corresponding Specification and Template class
      * @var string
      * @ORM\Column(type="string")
      */
-    protected $class;
-
-    /**
-     * Template class
-     * @var string
-     * @ORM\Column(type="string")
-     */
-    protected $template;
+    protected $prefix;
 
     /**
      * Get id
@@ -103,45 +96,42 @@ class InstrumentType implements \JsonSerializable
     }
 
     /**
-     * Get class
+     * Get prefix
+     * @return string
+     */
+    public function getPrefix()
+    {
+        return $this->prefix;
+    }
+
+    /**
+     * Set prefix
+     * @param  string $prefix
+     * @return $this
+     */
+    public function setPrefix($prefix)
+    {
+        $this->prefix = $prefix;
+
+        return $this;
+    }
+
+    /**
+     * Get Specification class name
      * @return string
      */
     public function getClass()
     {
-        return $this->class;
+        return '\\InstrumentBundle\\Entity\\Specification\\' . $this->prefix . 'Specification';
     }
 
     /**
-     * Set class
-     * @param  string $class
-     * @return $this
-     */
-    public function setClass($class)
-    {
-        $this->class = $class;
-
-        return $this;
-    }
-
-    /**
-     * Get template
+     * Get Template class name
      * @return string
      */
     public function getTemplate()
     {
-        return $this->template;
-    }
-
-    /**
-     * Set template
-     * @param  string $template
-     * @return $this
-     */
-    public function setTemplate($template)
-    {
-        $this->template = $template;
-
-        return $this;
+        return '\\InstrumentBundle\\Entity\\Template\\' . $this->prefix . 'Template';
     }
 
     public function jsonSerialize()
@@ -155,8 +145,7 @@ class InstrumentType implements \JsonSerializable
             'attributes' => [
                 'name'     => $this->name,
                 'icon'     => $this->icon,
-                'class'    => $this->class,
-                'template' => $this->template,
+                'prefix'   => $this->prefix,
             ],
 
             // Relationships with other Resources

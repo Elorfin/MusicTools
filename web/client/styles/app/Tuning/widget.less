@@ -1,0 +1,95 @@
+.tuning-widget {
+    .tuning-list {
+        margin-bottom: floor(@grid-gutter-width / 2);
+
+        .btn {
+            position: relative;
+            text-align: left;
+
+            .fa-caret-down {
+                position: absolute;
+                right: @padding-base-horizontal;
+                top: 50% - @font-size-base;
+            }
+        }
+
+        .dropdown-menu {
+            width: 100%;
+        }
+    }
+
+    .tuning-edit {
+        display: table;
+
+        .tuning-col {
+            display: table-cell;
+
+            &.strings-col {
+                width: 25%;
+                height: 100%;
+                vertical-align: top;
+
+                .strings-wrapper {
+                    position: relative;
+                    display: table;
+                    height: 100%;
+                    width: 100%;
+
+                    .strings-row {
+                        display: table-row;
+                        position: relative;
+                        height: floor(100% / 3);
+
+                        .strings-cell {
+                            font-size: 0;
+                            display: table-cell;
+                            vertical-align: middle;
+                            border-bottom: 1px solid fadeout(@brand-primary, 50%);
+
+                            .note-up {
+                                border-bottom-left-radius: 0;
+                                border-bottom-right-radius: 0;
+                                width: 50px;
+                                border-bottom: none;
+                            }
+
+                            input {
+                                text-align: center;
+                                vertical-align: middle;
+                                border-radius: 0;
+
+                                width: 50px;
+                                margin: 0 auto;
+                                padding: 4px;
+                            }
+
+                            .note-down {
+                                border-top-left-radius: 0;
+                                border-top-right-radius: 0;
+                                width: 50px;
+                                border-top: none;
+                            }
+                        }
+
+                        &:first-child {
+                            > div {
+                                border-top: 1px solid fadeout(@brand-primary, 50%);
+                            }
+                        }
+                    }
+                }
+
+                &.headstock {
+                    padding: 0 5px;
+                    font-size: 0;
+                    width: 50%;
+                    opacity: 0.5;
+
+                    .headstock-img {
+                        width: 100%;
+                    }
+                }
+            }
+        }
+    }
+}

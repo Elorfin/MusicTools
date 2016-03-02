@@ -3,7 +3,8 @@
  */
 angular
     .module('Instrument', [
-        'Utilities'
+        'Utilities',
+        'Tuning'
     ])
     .config([
         '$translateProvider',

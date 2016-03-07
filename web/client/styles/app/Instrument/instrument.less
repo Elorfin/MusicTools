@@ -2,17 +2,39 @@
     opacity: 0.3;
 }
 
+.instrument-templates {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    color: @gray;
+    font-size: @font-size-base;
+    font-variant: normal;
+    font-weight: normal;
+    line-height: normal;
+
+    a {
+        color: @gray;;
+
+        &:hover,
+        &:focus {
+            color: @brand-primary;
+        }
+    }
+}
+
 .instrument-type {
     .dropdown {
         .dropdown-menu {
             background: @panel-bg;
-            border: none;
+            border: none !important;
             border-radius: 0;
             box-shadow: none;
             margin: 0;
             width: 100%;
 
             li {
+                border: none;
+
                 &.active a,
                 a:hover {
                     color: @brand-primary;

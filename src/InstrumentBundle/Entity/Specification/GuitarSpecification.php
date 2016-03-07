@@ -44,10 +44,13 @@ class GuitarSpecification extends AbstractSpecification
             'type' => 'instrument_specifications',
             'id'   => $this->id,
             'attributes'  => [
-                'headstock'  => $this->headstock,
-                'strings'    => $this->strings,
-                'frets'      => $this->frets,
-                'leftHanded' => $this->leftHanded
+                'leftHanded'    => $this->leftHanded,
+                'headstock'     => $this->headstock,
+                'body'          => $this->body,
+                'amplification' => $this->amplification,
+                'strings'       => $this->strings,
+                'frets'         => $this->frets,
+                'tuning'        => $this->tuning,
             ]
         ];
     }

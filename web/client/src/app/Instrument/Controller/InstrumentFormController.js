@@ -13,6 +13,7 @@ var InstrumentFormController = function InstrumentFormController(resource, Instr
     }
 
     if (!this.apiResource.hasRelationship(this.resource, 'specification')) {
+        console.log('coucou test');
         this.apiResource.addRelationship(this.resource, 'specification', {});
     }
 };
@@ -23,6 +24,12 @@ InstrumentFormController.prototype.constructor = InstrumentFormController;
 
 // Set up dependency injection
 InstrumentFormController.$inject = [ 'resource', 'InstrumentResource', 'instrumentTypes', 'InstrumentTemplateResource' ];
+
+/**
+ * List of Templates for the current InstrumentType
+ * @type {Object}
+ */
+InstrumentFormController.prototype.templates = null;
 
 /**
  * Select the type of the Instrument
@@ -62,10 +69,12 @@ InstrumentFormController.prototype.selectTemplate = function selectTemplate(temp
         this.apiResource.addRelationship(this.resource, 'specification', {});
     }
 
+    var specification = this.apiResource.getRelationship(this.resource, 'specification');
+
     // Fill instrument specification with template
     for (var attr in template.attributes) {
         if ('name' !== attr && template.attributes.hasOwnProperty(attr)) {
-            this.resource.attributes[attr] = template.attributes[attr];
+            specification.attributes[attr] = template.attributes[attr];
         }
     }
 };

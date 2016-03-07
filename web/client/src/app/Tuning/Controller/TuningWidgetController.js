@@ -104,6 +104,7 @@ TuningWidgetController.prototype.drawHeadstock = function drawHeadstock(context)
 
     switch (this.headstock) {
         case 'top-bottom':
+            console.log('top-bottom');
             context.bezierCurveTo(300, 850, 275, 745, 395, 590);
             context.bezierCurveTo(415, 500, 310, 440, 380, 5);
             context.bezierCurveTo(195, -30, 5,   125, 10,  150);
@@ -113,6 +114,7 @@ TuningWidgetController.prototype.drawHeadstock = function drawHeadstock(context)
             break;
 
         case 'in-line':
+            console.log('in-line');
             context.bezierCurveTo(300, 775, 385, 700, 385, 700);
             context.bezierCurveTo(315, 435, 355, 265, 365, 20);
             context.bezierCurveTo(365, 20,  355, -5,  340, 10);

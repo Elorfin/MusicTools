@@ -19,20 +19,26 @@ var TuningWidgetDirective = function TuningWidgetDirective($client) {
         controllerAs: 'tuningWidgetCtrl',
         controller: 'TuningWidgetController',
         link: function link(scope, element, attrs, tuningWidgetCtrl) {
+            var init = true;
+
             var canvas = element.find('canvas').get(0);
 
             tuningWidgetCtrl.draw(canvas);
 
-            /*scope.$watch('headstock', function (newValue, oldValue) {
+            console.log(scope.headstock);
+
+            scope.$watch('headstock', function (newValue, oldValue) {
                 console.log('coucou');
-                if (newValue != oldValue) {
+                if (!init && newValue != oldValue) {
                     tuningWidgetCtrl.draw(canvas);
                 }
-            });*/
+            });
 
             element.on('resize', function () {
                 tuningWidgetCtrl.draw(canvas);
             });
+
+            init = false;
         }/*,
         compile: function compile() {
             return {

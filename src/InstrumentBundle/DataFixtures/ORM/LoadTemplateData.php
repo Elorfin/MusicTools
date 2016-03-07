@@ -30,7 +30,13 @@ class LoadTemplateData extends AbstractFixture implements OrderedFixtureInterfac
                 'type' => 'guitar',
                 'name' => 'Classic guitar',
                 'specification' => array (
-
+                    'leftHanded'    => false,
+                    'headstock'     => 'top-bottom',
+                    'body'          => 'hollow',
+                    'amplification' => 'acoustic',
+                    'strings'       => 6,
+                    'frets'         => 19,
+                    'tuning'        => null,
                 ),
             ),
 
@@ -38,7 +44,13 @@ class LoadTemplateData extends AbstractFixture implements OrderedFixtureInterfac
                 'type' => 'guitar',
                 'name' => 'Folk guitar',
                 'specification' => array (
-
+                    'leftHanded'    => false,
+                    'headstock'     => 'top-bottom',
+                    'body'          => 'hollow',
+                    'amplification' => 'acoustic',
+                    'strings'       => 6,
+                    'frets'         => 20,
+                    'tuning'        => null,
                 ),
             ),
 
@@ -46,7 +58,13 @@ class LoadTemplateData extends AbstractFixture implements OrderedFixtureInterfac
                 'type' => 'guitar',
                 'name' => 'Electric guitar',
                 'specification' => array (
-
+                    'leftHanded'    => false,
+                    'headstock'     => 'in-line',
+                    'body'          => 'solid',
+                    'amplification' => 'electric',
+                    'strings'       => 6,
+                    'frets'         => 24,
+                    'tuning'        => null,
                 ),
             ),
         );

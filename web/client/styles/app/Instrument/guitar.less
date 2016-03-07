@@ -6,6 +6,71 @@
         display: table-cell;
         border: 1px solid transparent;
         width: 50%;
+        cursor: pointer;
+
+        img {
+            opacity: 0.3;
+        }
+
+        span {
+            color: @gray;
+            display: block;
+            text-align: center;
+            padding: @padding-base-vertical @padding-base-horizontal;
+            background: @panel-bg;
+        }
+
+        &.selected {
+            border-color: @brand-primary;
+
+            span {
+                color: @brand-primary;
+            }
+        }
+    }
+}
+
+.body-types {
+    display: table;
+    width: 100%;
+
+    .body-type {
+        display: table-cell;
+        border: 1px solid transparent;
+        width: 33.33%;
+        cursor: pointer;
+
+        img {
+            opacity: 0.3;
+        }
+
+        span {
+            color: @gray;
+            display: block;
+            text-align: center;
+            padding: @padding-base-vertical @padding-base-horizontal;
+            background: @panel-bg;
+        }
+
+        &.selected {
+            border-color: @brand-primary;
+
+            span {
+                color: @brand-primary;
+            }
+        }
+    }
+}
+
+.amplification-types {
+    display: table;
+    width: 100%;
+
+    .amplification-type {
+        display: table-cell;
+        border: 1px solid transparent;
+        width: 33.33%;
+        cursor: pointer;
 
         img {
             opacity: 0.3;

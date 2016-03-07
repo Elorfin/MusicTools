@@ -67,12 +67,33 @@ ApiResource.prototype.init = function init() {
     };
 };
 
+/**
+ *
+ * @param   {object} resource
+ * @param   {string} relationshipName
+ * @returns {boolean}
+ */
 ApiResource.prototype.hasRelationship = function hasRelationship(resource, relationshipName) {
     if (resource.relationships && resource.relationships[relationshipName] && null !== resource.relationships[relationshipName] && 0 !== resource.relationships[relationshipName].length) {
         return true;
     }
 
     return false;
+};
+
+/**
+ *
+ * @param   {object} resource
+ * @param   {string} relationshipName
+ * @returns {Object|null}
+ */
+ApiResource.prototype.getRelationship = function getRelationship(resource, relationshipName) {
+    var relationship = null;
+    if (this.hasRelationship(resource, relationshipName)) {
+        relationship = resource.relationships[relationshipName].data;
+    }
+
+    return relationship;
 };
 
 ApiResource.prototype.addRelationship = function addRelationship(resource, relationshipName, relationshipData) {

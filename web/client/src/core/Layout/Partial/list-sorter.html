@@ -6,12 +6,12 @@
           data-translate-interpolation="messageformat"></span>, sorted by
 
     <!-- Choose field for sort by -->
-    <a href id="list-sorter-dropdown" data-uib-dropdown-toggle="">
+    <a href="" id="list-sorter-dropdown" data-uib-dropdown-toggle="">
         {{ listSorterCtrl.current }}
         <span class="caret"></span>
     </a>
 
-    <ul class="uib-dropdown-menu dropdown-menu dropdown-menu-check dropdown-menu-right" aria-labelledby="list-sorter-dropdown">
+    <ul data-uib-dropdown-menu="" class="dropdown-menu-check dropdown-menu-right" aria-labelledby="list-sorter-dropdown">
         <li data-ng-repeat="(field, type) in listSorterCtrl.fields" data-ng-class="{ 'active': field === listSorterCtrl.current }">
             <a href="" role="button" data-ng-click="listSorterCtrl.setCurrent(field)">
                 {{ field }}

@@ -32,7 +32,9 @@ class InstrumentType implements \JsonSerializable
     protected $name;
 
     /**
+     * Icon of the Instrument Type
      * @var string
+     *
      * @ORM\Column(type="string")
      */
     protected $icon;
@@ -40,9 +42,18 @@ class InstrumentType implements \JsonSerializable
     /**
      * Prefix used to retrieve corresponding Specification and Template class
      * @var string
+     *
      * @ORM\Column(type="string")
      */
     protected $prefix;
+
+    /**
+     * Is the instrument can play several notes simultaneously ? (to play chords)
+     * @var boolean
+     *
+     * @ORM\Column(type="boolean")
+     */
+    protected $polyphonic = true;
 
     /**
      * Get id
@@ -134,6 +145,27 @@ class InstrumentType implements \JsonSerializable
         return '\\InstrumentBundle\\Entity\\Template\\' . $this->prefix . 'Template';
     }
 
+    /**
+     * Is polyphonic ?
+     * @return boolean
+     */
+    public function isPolyphonic()
+    {
+        return $this->polyphonic;
+    }
+
+    /**
+     * Set polyphonic
+     * @param  boolean $polyphonic
+     * @return $this
+     */
+    public function setPolyphonic($polyphonic)
+    {
+        $this->polyphonic = $polyphonic;
+
+        return $this;
+    }
+
     public function jsonSerialize()
     {
         return [
@@ -143,15 +175,11 @@ class InstrumentType implements \JsonSerializable
 
             // Attributes of the Resource
             'attributes' => [
-                'name'     => $this->name,
-                'icon'     => $this->icon,
-                'prefix'   => $this->prefix,
+                'name'       => $this->name,
+                'icon'       => $this->icon,
+                'prefix'     => $this->prefix,
+                'polyphonic' => $this->polyphonic,
             ],
-
-            // Relationships with other Resources
-            'relationships' => [
-
-            ]
         ];
     }
 }

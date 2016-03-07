@@ -25,37 +25,42 @@ class LoadInstrumentTypeData extends AbstractFixture implements OrderedFixtureIn
      */
     public function load(ObjectManager $manager)
     {
-        $types = array (
-            array (
-                'name'   => 'Guitar',
-                'icon'   => 'instrument/guitar.svg',
-                'prefix' => 'Guitar',
-            ),
+        $types = [
+            [
+                'name'       => 'Guitar',
+                'icon'       => 'instrument/guitar.svg',
+                'prefix'     => 'Guitar',
+                'polyphonic' => true,
+            ],
 
-            array (
-                'name'   => 'Ukulele',
-                'icon'   => 'instrument/ukulele.svg',
-                'prefix' => 'Guitar',
-            ),
+            [
+                'name'       => 'Ukulele',
+                'icon'       => 'instrument/ukulele.svg',
+                'prefix'     => 'Guitar',
+                'polyphonic' => true,
+            ],
 
-            array (
-                'name'   => 'Bass',
-                'icon'   => 'instrument/bass.svg',
-                'prefix' => 'Guitar',
-            ),
+            [
+                'name'       => 'Bass',
+                'icon'       => 'instrument/bass.svg',
+                'prefix'     => 'Guitar',
+                'polyphonic' => true,
+            ],
 
-            array (
-                'name'   => 'Recorder',
-                'icon'   => 'instrument/recorder.svg',
-                'prefix' => 'Recorder',
-            ),
+            [
+                'name'       => 'Recorder',
+                'icon'       => 'instrument/recorder.svg',
+                'prefix'     => 'Recorder',
+                'polyphonic' => false,
+            ],
 
-            array (
-                'name'   => 'Piano',
-                'icon'   => 'instrument/piano.svg',
-                'prefix' => 'Piano',
-            ),
-        );
+            [
+                'name'       => 'Piano',
+                'icon'       => 'instrument/piano.svg',
+                'prefix'     => 'Piano',
+                'polyphonic' => true,
+            ],
+        ];
 
         foreach ($types as $type) {
             $entity = new InstrumentType();
@@ -63,6 +68,7 @@ class LoadInstrumentTypeData extends AbstractFixture implements OrderedFixtureIn
             $entity->setName($type['name']);
             $entity->setIcon($type['icon']);
             $entity->setPrefix($type['prefix']);
+            $entity->setPolyphonic($type['polyphonic']);
 
             $manager->persist($entity);
 

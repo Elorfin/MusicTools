@@ -8,6 +8,21 @@
 
         <!-- Edit element -->
         <small data-ng-if="formCtrl.resource.id">Edit</small>
+
+        <!-- List of available templates for the current InstrumentType -->
+        <div class="instrument-templates" data-uib-dropdown="" data-ng-if="formCtrl.templates && 0 !== formCtrl.templates.length">
+            <a href="" id="templates-dropdown" data-uib-dropdown-toggle="">
+                <span class="fa fa-fw fa-database"></span>
+                select a template to prefill information
+                <span class="caret"></span>
+            </a>
+
+            <ul data-uib-dropdown-menu="" aria-labelledby="templates-dropdown">
+                <li data-ng-repeat="template in formCtrl.templates">
+                    <a href="" role="button" data-ng-click="formCtrl.selectTemplate(template)">{{ template.attributes.name }}</a>
+                </li>
+            </ul>
+        </div>
     </layout-page-title>
 
     <!-- Header buttons -->
@@ -46,12 +61,12 @@
             <div class="form-group" style="margin-bottom: 30px;">
                 <div class="widget instrument-type">
                     <div data-uib-dropdown="">
-                        <a href="" id="simple-dropdown" data-uib-dropdown-toggle="">
+                        <a href="" id="types-dropdown" data-uib-dropdown-toggle="">
                             {{ formCtrl.resource.relationships.instrumentType.data.attributes.name }}
 
                             <span class="fa fa-caret-down pull-right"></span>
                         </a>
-                        <ul data-uib-dropdown-menu="" aria-labelledby="simple-dropdown">
+                        <ul data-uib-dropdown-menu="" aria-labelledby="types-dropdown">
                             <li data-ng-repeat="instrumentType in formCtrl.instrumentTypes" data-ng-class="{'active': instrumentType.id == formCtrl.resource.relationships.instrumentType.data.id }">
                                 <a href="" data-ng-click="formCtrl.selectType(instrumentType)">{{ instrumentType.attributes.name }}</a>
                             </li>
@@ -60,13 +75,6 @@
 
                     <img class="img-responsive instrument-type-img" data-ng-src="{{ 'images/' + formCtrl.resource.relationships.instrumentType.data.attributes.icon |asset_path }}" />
                 </div>
-            </div>
-
-            <div class="form-group" style="margin-bottom: 30px;">
-                <ui-flag data-type="default" data-value="isLeftHanded">
-                    <span class="fa fa-hand-paper-o fa-flip-horizontal"></span>
-                    <span>Left-handed</span>
-                </ui-flag>
             </div>
 
             <ui-flag data-type="primary" data-value="isFavorite">
@@ -81,17 +89,6 @@
         </div>
 
         <div class="col-md-9">
-            <!-- List of available templates for the current InstrumentType -->
-            <!--<div class="panel panel-default">
-                <div class="panel-body">
-                    <label class="control-label sr-only">Choose a template</label>
-                    <select class="form-control">
-                        <option value="">&#45;&#45; you can select a template to prefill information &#45;&#45;</option>
-                        <option data-ng-repeat="template in formCtrl.templates" value="{{ template.id }}" data-ng-click="formCtrl.selectTemplate(template)">{{ template.attributes.name }}</option>
-                    </select>
-                </div>
-            </div>-->
-
             <!-- Generic instrument information -->
             <div class="panel panel-default">
                 <div class="panel-body">

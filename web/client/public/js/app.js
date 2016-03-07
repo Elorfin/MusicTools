@@ -867,12 +867,33 @@ ApiResource.prototype.init = function init() {
     };
 };
 
+/**
+ *
+ * @param   {object} resource
+ * @param   {string} relationshipName
+ * @returns {boolean}
+ */
 ApiResource.prototype.hasRelationship = function hasRelationship(resource, relationshipName) {
     if (resource.relationships && resource.relationships[relationshipName] && null !== resource.relationships[relationshipName] && 0 !== resource.relationships[relationshipName].length) {
         return true;
     }
 
     return false;
+};
+
+/**
+ *
+ * @param   {object} resource
+ * @param   {string} relationshipName
+ * @returns {Object|null}
+ */
+ApiResource.prototype.getRelationship = function getRelationship(resource, relationshipName) {
+    var relationship = null;
+    if (this.hasRelationship(resource, relationshipName)) {
+        relationship = resource.relationships[relationshipName].data;
+    }
+
+    return relationship;
 };
 
 ApiResource.prototype.addRelationship = function addRelationship(resource, relationshipName, relationshipData) {
@@ -2958,6 +2979,7 @@ var InstrumentFormController = function InstrumentFormController(resource, Instr
     }
 
     if (!this.apiResource.hasRelationship(this.resource, 'specification')) {
+        console.log('coucou test');
         this.apiResource.addRelationship(this.resource, 'specification', {});
     }
 };
@@ -2968,6 +2990,12 @@ InstrumentFormController.prototype.constructor = InstrumentFormController;
 
 // Set up dependency injection
 InstrumentFormController.$inject = [ 'resource', 'InstrumentResource', 'instrumentTypes', 'InstrumentTemplateResource' ];
+
+/**
+ * List of Templates for the current InstrumentType
+ * @type {Object}
+ */
+InstrumentFormController.prototype.templates = null;
 
 /**
  * Select the type of the Instrument
@@ -3007,10 +3035,12 @@ InstrumentFormController.prototype.selectTemplate = function selectTemplate(temp
         this.apiResource.addRelationship(this.resource, 'specification', {});
     }
 
+    var specification = this.apiResource.getRelationship(this.resource, 'specification');
+
     // Fill instrument specification with template
     for (var attr in template.attributes) {
         if ('name' !== attr && template.attributes.hasOwnProperty(attr)) {
-            this.resource.attributes[attr] = template.attributes[attr];
+            specification.attributes[attr] = template.attributes[attr];
         }
     }
 };
@@ -4898,6 +4928,7 @@ TuningWidgetController.prototype.drawHeadstock = function drawHeadstock(context)
 
     switch (this.headstock) {
         case 'top-bottom':
+            console.log('top-bottom');
             context.bezierCurveTo(300, 850, 275, 745, 395, 590);
             context.bezierCurveTo(415, 500, 310, 440, 380, 5);
             context.bezierCurveTo(195, -30, 5,   125, 10,  150);
@@ -4907,6 +4938,7 @@ TuningWidgetController.prototype.drawHeadstock = function drawHeadstock(context)
             break;
 
         case 'in-line':
+            console.log('in-line');
             context.bezierCurveTo(300, 775, 385, 700, 385, 700);
             context.bezierCurveTo(315, 435, 355, 265, 365, 20);
             context.bezierCurveTo(365, 20,  355, -5,  340, 10);
@@ -5097,20 +5129,26 @@ var TuningWidgetDirective = function TuningWidgetDirective($client) {
         controllerAs: 'tuningWidgetCtrl',
         controller: 'TuningWidgetController',
         link: function link(scope, element, attrs, tuningWidgetCtrl) {
+            var init = true;
+
             var canvas = element.find('canvas').get(0);
 
             tuningWidgetCtrl.draw(canvas);
 
-            /*scope.$watch('headstock', function (newValue, oldValue) {
+            console.log(scope.headstock);
+
+            scope.$watch('headstock', function (newValue, oldValue) {
                 console.log('coucou');
-                if (newValue != oldValue) {
+                if (!init && newValue != oldValue) {
                     tuningWidgetCtrl.draw(canvas);
                 }
-            });*/
+            });
 
             element.on('resize', function () {
                 tuningWidgetCtrl.draw(canvas);
             });
+
+            init = false;
         }/*,
         compile: function compile() {
             return {

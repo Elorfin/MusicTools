@@ -28,6 +28,11 @@ angular
  * Client Module
  */
 angular.module('Client', []);
+/* File : src/core/Confirm/module.js */ 
+/**
+ * Confirm Module
+ */
+angular.module('Confirm', []);
 /* File : src/core/Layout/module.js */ 
 /**
  * Layout Module
@@ -77,6 +82,7 @@ angular
 
         // Core modules
         'Utilities',
+        'Confirm',
         'Api',
         'Client',
         'Layout',
@@ -369,6 +375,11 @@ ShowController.prototype.resource = null;
 angular
     .module('Api')
     .controller('ShowController', ShowController);
+
+/* File : src/core/Api/Directive/ApiResourceDeleteDirective.js */ 
+/**
+ * Created by Corum on 03/03/2016.
+ */
 
 /* File : src/core/Api/Filter/UploadPathFilter.js */ 
 /**
@@ -791,17 +802,20 @@ angular
  * Base API Resource
  * Manages API server data
  *
- * @param $http
- * @param $q
- * @param $api
+ * @param {Object}       $http
+ * @param {Object}       $cacheFactory
+ * @param {Object}       $q
+ * @param {Object}       $api
+ * @param {AlertService} AlertService
  * @constructor
  */
-var ApiResource = function ApiResource($http, $cacheFactory, $q, $api) {
+var ApiResource = function ApiResource($http, $cacheFactory, $q, $api, AlertService) {
     // Store services
     this.services['$http']         = $http;
     this.services['$cacheFactory'] = $cacheFactory;
     this.services['$q']            = $q;
     this.services['$api']          = $api;
+    this.services['AlertService']  = AlertService;
 
     // Validate required properties
     if (null === this.type) {
@@ -814,7 +828,7 @@ var ApiResource = function ApiResource($http, $cacheFactory, $q, $api) {
 };
 
 // Set up dependency injection
-ApiResource.$inject = [ '$http', '$cacheFactory', '$q', '$api' ];
+ApiResource.$inject = [ '$http', '$cacheFactory', '$q', '$api', 'AlertService' ];
 
 /**
  * List of dependencies
@@ -834,10 +848,15 @@ ApiResource.prototype.type = null;
  */
 ApiResource.prototype.path = null;
 
+/**
+ * If TRUE, the http cache will be emptied and the next query resent
+ * @type {boolean}
+ */
 ApiResource.prototype.forceReload = false;
 
 /**
  * Initialize an empty Resource Object
+ * @returns {Object}
  */
 ApiResource.prototype.init = function init() {
     return {
@@ -846,6 +865,14 @@ ApiResource.prototype.init = function init() {
         attributes    : {},
         relationships : {}
     };
+};
+
+ApiResource.prototype.hasRelationship = function hasRelationship(resource, relationshipName) {
+    if (resource.relationships && resource.relationships[relationshipName] && null !== resource.relationships[relationshipName] && 0 !== resource.relationships[relationshipName].length) {
+        return true;
+    }
+
+    return false;
 };
 
 ApiResource.prototype.addRelationship = function addRelationship(resource, relationshipName, relationshipData) {
@@ -858,7 +885,7 @@ ApiResource.prototype.addRelationship = function addRelationship(resource, relat
     };
 };
 
-ApiResource.prototype.removeRelationship = function addRelationship(resource, relationshipName, relationshipData) {
+ApiResource.prototype.removeRelationship = function removeRelationship(resource, relationshipName, relationshipData) {
     if (resource.relationships && resource.relationships[relationshipName] && resource.relationships[relationshipName].data) {
         if (resource.relationships[relationshipName].data instanceof Array) {
             // Collection of resource objects
@@ -966,8 +993,16 @@ ApiResource.prototype.new = function newResource(resource) {
         .then(
             // Success callback
             function onServerSuccess(response) {
+                // Invalid cache
                 this.forceReload = true;
 
+                // Update Resource data with server response
+                angular.copy(response.data.data, resource);
+
+                // Display message to User
+                this.services['AlertService'].addAlert('success', 'Entity created', true);
+
+                // Resolve promise
                 deferred.resolve(response.data);
             }.bind(this),
 
@@ -1295,6 +1330,50 @@ ClientProvider.prototype.getPartial = function getPartial(path, module) {
 angular
     .module('Client')
     .provider('$client', ClientProvider);
+/* File : src/core/Confirm/Directive/ConfirmDirective.js */ 
+var ConfirmDirective = function ConfirmDirective($uibModal, $client) {
+    this.services = {};
+    this.services['$uibModal'] = $uibModal;
+    this.services['$client']   = $client;
+
+    return {
+
+    };
+};
+
+// Set up dependency injection
+ConfirmDirective.$inject = [ '$uibModal', '$client' ];
+
+// Register directive into Angular JS
+angular
+    .module('Confirm')
+    .directive('confirm', ConfirmDirective);
+/* File : src/core/Confirm/Service/ConfirmService.js */ 
+/**
+ * Confirm Service
+ * @constructor
+ */
+var ConfirmService = function ConfirmService($uibModal, $client) {
+    this.services = {};
+    this.services['$uibModal'] = $uibModal;
+    this.services['$client']   = $client;
+};
+
+// Set up dependency injection
+ConfirmService.$inject = [];
+
+ConfirmService.prototype.confirm = function confirm() {
+    var modalInstance = this.services.$uibModal.open({
+        templateUrl : this.services.$client.getPartial('Modal/confirm.html', 'core/Layout'),
+        controller  : 'ConfirmModalController',
+        windowClass : 'modal-danger'
+    });
+};
+
+// Register service into Angular JS
+angular
+    .module('Confirm')
+    .service('ConfirmService', ConfirmService);
 /* File : src/core/Layout/Controller/Modal/ConfirmModalController.js */ 
 /**
  * Confirm Modal controller
@@ -1397,6 +1476,50 @@ angular
             };
         }
     ]);
+/* File : src/core/Layout/Directive/FlagDirective.js */ 
+/**
+ * Widget to display a flag field
+ * @constructor
+ */
+var FlagDirective = function FlagDirective($client) {
+    return {
+        restrict: 'E',
+        template: '<a class="flag flag-{{ flagCtrl.type }}" role="button" href="" data-ng-transclude="" data-ng-click="flagCtrl.toggle()" data-ng-class="{ on: flagCtrl.value }"></a>',
+        replace: true,
+        transclude: true,
+        scope: {
+            /**
+             * Flag value
+             */
+            value: '=',
+            type: '@?'
+        },
+        controllerAs: 'flagCtrl',
+        bindToController: true,
+        controller: function LayoutListFormatterController () {
+            this.value = false;
+
+            this.type = 'default';
+
+            /**
+             * Switch display format of the list
+             * @param format
+             */
+            this.toggle = function toggle() {
+                this.value = !this.value;
+            };
+        }
+    };
+};
+
+// Set up dependency injection
+FlagDirective.$inject = [  ];
+
+// Register directive into AngularJS
+angular
+    .module('Layout')
+    .directive('uiFlag', FlagDirective);
+
 /* File : src/core/Layout/Directive/Header/HeaderButtonDirective.js */ 
 /**
  * Header of the application
@@ -1461,7 +1584,7 @@ angular
 /**
  * Widget to change how lists are displayed
  */
-var LayoutListFormatterDirective = function LayoutListFormatterDirectiveConstructor($client) {
+var LayoutListFormatterDirective = function LayoutListFormatterDirective($client) {
     return {
         restrict: 'E',
         templateUrl: $client.getPartial('list-formatter.html', 'core/Layout'),
@@ -1581,42 +1704,51 @@ angular
 /* File : src/core/Layout/Directive/Page/PageDirective.js */ 
 /**
  * Represents a page of the application
+ * @constructor
  */
+var LayoutPageDirective = function LayoutPageDirective() {
+    return {
+        restrict: 'E',
+        template: '<div class="container-fluid" data-ng-transclude=""></div>',
+        replace: true,
+        transclude: true
+    };
+};
+
+// Set up dependency injection
+LayoutPageDirective.$inject = [];
+
+// Register directive into Angular JS
 angular
     .module('Layout')
-    .directive('layoutPage', [
-        function LayoutPageDirective() {
-            return {
-                restrict: 'E',
-                template: '<div class="container-fluid" data-ng-transclude=""></div>',
-                replace: true,
-                transclude: true
-            };
-        }
-    ]);
+    .directive('layoutPage', LayoutPageDirective);
 /* File : src/core/Layout/Directive/Page/PageTitleDirective.js */ 
 /**
  * Represents the title of a Page
+ * @constructor
  */
+var LayoutPageTitleDirective = function LayoutPageTitleDirective($client) {
+    return {
+        restrict: 'E',
+        templateUrl: $client.getPartial('Page/title.html', 'core/Layout'),
+        replace: true,
+        transclude: true,
+        scope: {
+            /**
+             * If true, the title is hidden with the `sr-only` class
+             */
+            hideTitle: '@'
+        }
+    };
+};
+
+// Set up dependency injection
+LayoutPageTitleDirective.$inject = [ '$client' ];
+
+// Register directive into ANgular JS
 angular
     .module('Layout')
-    .directive('layoutPageTitle', [
-        '$client',
-        function LayoutPageTitleDirective($client) {
-            return {
-                restrict: 'E',
-                templateUrl: $client.getPartial('Page/title.html', 'core/Layout'),
-                replace: true,
-                transclude: true,
-                scope: {
-                    /**
-                     * If true, the title is hidden with the `sr-only` class
-                     */
-                    hideTitle: '@'
-                }
-            };
-        }
-    ]);
+    .directive('layoutPageTitle', LayoutPageTitleDirective);
 /* File : src/core/Layout/Directive/ScrollableDirective.js */ 
 /**
  * Scrollable Directive
@@ -1957,7 +2089,19 @@ angular
 /**
  * Tuning module
  */
-angular.module('Tuning', []);
+angular
+    .module('Tuning', [])
+    .config([
+        '$translateProvider',
+        function configureTuning($translateProvider) {
+            // Inject translations
+            for (var lang in tuningTranslations) {
+                if (tuningTranslations.hasOwnProperty(lang)) {
+                    $translateProvider.translations(lang, tuningTranslations[lang]);
+                }
+            }
+        }
+    ]);
 /* File : src/app/User/module.js */ 
 /**
  * User Module
@@ -2809,7 +2953,13 @@ var InstrumentFormController = function InstrumentFormController(resource, Instr
     this.instrumentTypes  = instrumentTypes;
     this.templateResource = InstrumentTemplateResource;
 
-    this.apiResource.addRelationship(this.resource, 'instrumentType', this.instrumentTypes[0]);
+    if (!this.apiResource.hasRelationship(this.resource, 'instrumentType')) {
+        this.apiResource.addRelationship(this.resource, 'instrumentType', this.instrumentTypes[0]);
+    }
+
+    if (!this.apiResource.hasRelationship(this.resource, 'specification')) {
+        this.apiResource.addRelationship(this.resource, 'specification', {});
+    }
 };
 
 // Extends FormController
@@ -2847,9 +2997,19 @@ InstrumentFormController.prototype.loadTemplates = function loadTemplates(type) 
 InstrumentFormController.prototype.selectTemplate = function selectTemplate(template) {
     this.selectedTemplate = template;
 
-    // Fill instrument information with template
+    // Use the Template name as default name
+    if (!this.resource.attributes.name) {
+        this.resource.attributes.name = template.attributes.name;
+    }
+
+    if (!this.apiResource.hasRelationship(this.resource, 'specification')) {
+        // Initialize object
+        this.apiResource.addRelationship(this.resource, 'specification', {});
+    }
+
+    // Fill instrument specification with template
     for (var attr in template.attributes) {
-        if (template.attributes.hasOwnProperty(attr)) {
+        if ('name' !== attr && template.attributes.hasOwnProperty(attr)) {
             this.resource.attributes[attr] = template.attributes[attr];
         }
     }
@@ -2938,6 +3098,35 @@ InstrumentMenuDirective.$inject = [ '$client' ];
 angular
     .module('Instrument')
     .directive('instrumentMenu', InstrumentMenuDirective);
+/* File : src/app/Instrument/Directive/SpecificationFormDirective.js */ 
+/**
+ * Specification Form
+ */
+var SpecificationFormDirective = function SpecificationFormDirective($client) {
+    return {
+        restrict: 'E',
+        template: /*$client.getPartial('Instrument/menu.html', 'app/Instrument')*/ '<div></div>',
+        replace: true,
+        scope: {
+            specification: '='
+        },
+        bindToController: true,
+        controllerAs: 'specificationFormCtrl',
+        controller: [
+            function SpecificationFormController() {
+
+            }
+        ]
+    };
+};
+
+// Set up dependency injection
+SpecificationFormDirective.$inject = [ '$client' ];
+
+// Register directive into AngularJS
+angular
+    .module('Instrument')
+    .directive('instrumentSpecificationForm', SpecificationFormDirective);
 /* File : src/app/Instrument/Resource/InstrumentResource.js */ 
 /**
  * Instrument Resource
@@ -4602,6 +4791,290 @@ theoryTranslations['fr'] = {
     // S
     semitone_count      : '{ COUNT } demi-ton{COUNT, plural, =0{} one{} other{s}}'
 };
+/* File : src/app/Tuning/Controller/TuningWidgetController.js */ 
+/**
+ * Tuning Widget Controller
+ * @constructor
+ */
+var TuningWidgetController = function TuningWidgetController(NoteResource) {
+    // WIP : set data (will be automatically set by directive)
+    this.headstock = 'top-bottom';
+    this.strings   = 6;
+
+    // Load Notes
+    this.notes = NoteResource.query().then(function onSuccess(result) {
+        this.notes = result;
+
+        return result;
+    }.bind(this));
+};
+
+// Set up dependency injection
+TuningWidgetController.$inject = [ 'NoteResource' ];
+
+/**
+ * Nb strings of the Instrument
+ * @type {number}
+ */
+TuningWidgetController.prototype.strings = 6;
+
+/**
+ * Headstock format (top-bottom or in-line)
+ * @type {string}
+ */
+TuningWidgetController.prototype.headstock = 'top-bottom';
+
+/**
+ * Is left handed ?
+ * @type {boolean}
+ */
+TuningWidgetController.prototype.leftHanded = false;
+
+/**
+ * Current Tuning
+ * @type {Object}
+ */
+TuningWidgetController.prototype.tuning = null;
+
+/**
+ * Position of the Tuning pegs regarding to the Headstock format
+ * Array are ordered from the lowest string to the higher one
+ * @type {Object}
+ */
+TuningWidgetController.prototype.tuningPegs = {
+    'in-line': {
+
+    },
+
+    'top-bottom': [
+        // Left
+        { x: 85,  y: 580 },
+        { x: 105, y: 400 },
+        { x: 100, y: 220 },
+
+        // Right
+        { x: 295, y: 175 },
+        { x: 290, y: 355 },
+        { x: 315, y: 535 }
+    ]
+};
+
+/**
+ * Redraw widget
+ * @param canvas
+ */
+TuningWidgetController.prototype.draw = function draw(canvas) {
+    // Get 2D context of the canvas
+    var context = canvas.getContext('2d');
+    if (null !== context) {
+        // Calculate Height of the Canvas from it's width (ratio=2.15)
+        canvas.height = canvas.width * 2.15;
+
+        // Reset translation
+        context.translate(0,0);
+
+        // Set scale (original drawing scale : w=400 / h=860)
+        context.scale(canvas.width / 400, canvas.height /860);
+
+        this.drawHeadstock(context);
+        this.drawNut(context);
+        this.drawStrings(context);
+    }
+};
+
+/**
+ * Draw : Headstock
+ * @param context
+ */
+TuningWidgetController.prototype.drawHeadstock = function drawHeadstock(context) {
+    // w=400 / h=860
+    // ratio = 2.15
+    // Start headstock
+    context.beginPath();
+
+    // Bottom line
+    context.moveTo(100, 850);
+    context.lineTo(300, 850);
+
+    switch (this.headstock) {
+        case 'top-bottom':
+            context.bezierCurveTo(300, 850, 275, 745, 395, 590);
+            context.bezierCurveTo(415, 500, 310, 440, 380, 5);
+            context.bezierCurveTo(195, -30, 5,   125, 10,  150);
+            context.bezierCurveTo(75,  270, 5,   625, 5,   625);
+            context.bezierCurveTo(100, 730, 100, 850, 100, 850);
+
+            break;
+
+        case 'in-line':
+            context.bezierCurveTo(300, 775, 385, 700, 385, 700);
+            context.bezierCurveTo(315, 435, 355, 265, 365, 20);
+            context.bezierCurveTo(365, 20,  355, -5,  340, 10);
+            context.bezierCurveTo(275, 65,  275, 75,  205, 65);
+            context.lineTo(15, 755);
+            context.bezierCurveTo(100, 795, 100, 850, 100, 850);
+
+            break;
+    }
+
+    // Finish headstock
+    context.closePath();
+
+    context.fillStyle = 'rgba(0, 0, 0, 0.25)';
+    context.fill();
+};
+
+/**
+ * Draw : Nut
+ * @param context
+ */
+TuningWidgetController.prototype.drawNut = function drawNut(context) {
+    // Set Nut color
+    context.fillStyle = '#777';
+
+    // Set shadow
+    context.shadowOffsetX = 0;
+    context.shadowOffsetY = 0;
+    context.shadowBlur    = 10;
+    context.shadowColor   = "black";
+
+    context.beginPath();
+
+    // Draw Nut
+    context.rect(98, 836, 200, 18);
+
+    context.closePath();
+
+    context.fillStyle = '#555';
+    context.fill();
+
+    context.lineWidth = 2;
+    context.strokeStyle = '#666';
+    context.stroke();
+};
+
+/**
+ * Draw : Strings + Tuning pegs
+ * @param context
+ */
+TuningWidgetController.prototype.drawStrings = function drawStrings(context) {
+    var drawTuningPeg = function drawTuningPeg(context, tuningPegPosition) {
+        // Set Tuning Pegs color
+        context.fillStyle = 'rgba(255, 255, 255, 0.25)';
+
+        // Set shadow
+        context.shadowOffsetX = 0;
+        context.shadowOffsetY = 0;
+        context.shadowBlur    = 10;
+        context.shadowColor   = "black";
+
+        // Draw first circle
+        context.beginPath();
+        context.arc(tuningPegPosition.x, tuningPegPosition.y, 38, 0, 2 * Math.PI, false);
+        context.closePath();
+
+        context.fillStyle = '#777';
+        context.fill();
+
+        // Draw hexagon
+        context.beginPath();
+        var radius = 30;
+        var a = (Math.PI * 2) / 6;
+        context.moveTo(radius + tuningPegPosition.x, tuningPegPosition.y);
+        for (var i = 1; i < 6; i++) {
+            context.lineTo((radius * Math.cos(a*i)) + tuningPegPosition.x, (radius * Math.sin(a*i)) + tuningPegPosition.y);
+        }
+        context.closePath();
+
+        context.fillStyle = '#777';
+        context.fill();
+
+        context.lineWidth = 1;
+        context.strokeStyle = 'rgba(0, 0, 0, 0.5)';
+        context.stroke();
+
+
+    };
+
+    var drawString = function drawString(context, startX, stringNum, stringWidth, tuningPegPosition) {
+        // Set shadow
+        context.shadowOffsetX = 0;
+        context.shadowOffsetY = 0;
+        context.shadowBlur    = 5;
+        context.shadowColor   = "black";
+
+        context.beginPath();
+        // Start from nut
+        context.moveTo(startX, 860);
+
+        // Go vertically to the top of the nut
+        context.lineTo(startX, 860 - 24);
+
+        // Draw a line from the top of the nut to the tuning peg
+        var tuningPegX = (stringNum / 3 < 1) ? (tuningPegPosition.x + 16 - stringWidth) : (tuningPegPosition.x - 16 + stringWidth);
+
+        context.lineTo(tuningPegX, tuningPegPosition.y);
+
+        context.lineWidth = stringWidth;
+        context.strokeStyle = '#bbb';
+
+        context.stroke();
+    };
+
+    var drawTuningPegCap = function drawTuningPegCap(context, tuningPegPosition) {
+        // Set Tuning Pegs color
+        context.fillStyle = 'rgba(255, 255, 255, 0.25)';
+
+        // Set shadow
+        context.shadowOffsetX = 0;
+        context.shadowOffsetY = 0;
+        context.shadowBlur    = 10;
+        context.shadowColor   = "black";
+
+        // Draw second circle
+        context.beginPath();
+        context.arc(tuningPegPosition.x, tuningPegPosition.y, 16, 0, 2 * Math.PI, false);
+        context.closePath();
+
+        var gradient = context.createRadialGradient(tuningPegPosition.x, tuningPegPosition.y, 3, tuningPegPosition.x, tuningPegPosition.y, 17);
+        gradient.addColorStop(0, "#aaa");
+        gradient.addColorStop(1, "#666");
+
+        // Fill with gradient
+        context.fillStyle = gradient;
+
+        context.fill();
+
+        context.lineWidth = 1;
+        context.strokeStyle = '#333';
+        context.stroke();
+    };
+
+    // Draw each string (from the lowest to the highest)
+    // 1. Draw base of the tuning pegs
+    for (var s = 0; s < this.strings; s++) {
+        drawTuningPeg(context, this.tuningPegs[this.headstock][s]);
+    }
+
+    // 2. Draw strings
+    var intervalWidth = Math.round(200 / this.strings);
+    var startX = 100 + (intervalWidth / 2);
+    for (var s = 0; s < this.strings; s++) {
+        var stringWidth = (this.strings + 1) - s;
+        drawString(context, startX, s, stringWidth, this.tuningPegs[this.headstock][s]);
+        startX += intervalWidth;
+    }
+
+    // 3. Draw cap of the tuning pegs
+    for (var s = 0; s < this.strings; s++) {
+        drawTuningPegCap(context, this.tuningPegs[this.headstock][s]);
+    }
+};
+
+// Register controller into Angular JS
+angular
+    .module('Tuning')
+    .controller('TuningWidgetController', TuningWidgetController);
 /* File : src/app/Tuning/Directive/TuningWidgetDirective.js */ 
 /**
  * Tuning Widget (Choose and Edit widgets)
@@ -4615,8 +5088,39 @@ var TuningWidgetDirective = function TuningWidgetDirective($client) {
         templateUrl: $client.getPartial('widget.html', 'app/Tuning'),
         replace: true,
         scope: {
-            strings: '='
-        }
+            strings   : '@',
+            headstock : '@',
+            leftHanded: '@',
+            tuning    : '=?'
+        },
+        bindToController: true,
+        controllerAs: 'tuningWidgetCtrl',
+        controller: 'TuningWidgetController',
+        link: function link(scope, element, attrs, tuningWidgetCtrl) {
+            var canvas = element.find('canvas').get(0);
+
+            tuningWidgetCtrl.draw(canvas);
+
+            /*scope.$watch('headstock', function (newValue, oldValue) {
+                console.log('coucou');
+                if (newValue != oldValue) {
+                    tuningWidgetCtrl.draw(canvas);
+                }
+            });*/
+
+            element.on('resize', function () {
+                tuningWidgetCtrl.draw(canvas);
+            });
+        }/*,
+        compile: function compile() {
+            return {
+                pre: function preLink(scope, element, attrs, tuningWidgetCtrl) {
+                    tuningWidgetCtrl.dropdownOptions = {
+                        setHeight: (element.height() - 70) + 'px'
+                    };
+                }
+            }
+        }*/
     };
 };
 
@@ -4627,6 +5131,63 @@ TuningWidgetDirective.$inject = [ '$client' ];
 angular
     .module('Tuning')
     .directive('tuningWidget', TuningWidgetDirective);
+/* File : src/app/Tuning/Resource/TuningResource.js */ 
+/**
+ * Resource : Tuning
+ *
+ * @param $http
+ * @param $q
+ * @param $api
+ * @constructor
+ */
+var TuningResource = function TuningResource($http, $q, $api) {
+    // Call parent constructor
+    ApiResource.apply(this, arguments);
+};
+
+// Extends ApiResource
+TuningResource.prototype = Object.create(ApiResource.prototype);
+TuningResource.$inject = ApiResource.$inject;
+
+/**
+ * Type of the Resource
+ * @type {string}
+ */
+TuningResource.prototype.type = 'tuning';
+
+/**
+ * Path of the API resource
+ * @type {string}
+ */
+TuningResource.prototype.path = '/tunings/{id}';
+
+// Register service into Angular JS
+angular
+    .module('Tuning')
+    .service('TuningResource', TuningResource);
+
+/* File : src/app/Tuning/translations.js */ 
+/**
+ * Tuning translations
+ * @type {Object}
+ */
+var tuningTranslations = {};
+
+/**
+ * Language = EN
+ */
+tuningTranslations['en'] = {
+    // T
+    tuning_select     : 'select a tuning'
+};
+
+/**
+ * Language = FR
+ */
+tuningTranslations['fr'] = {
+    // T
+    tuning_select     : 'sélectionner un accordage'
+};
 /* File : src/app/User/Controller/ProfileController.js */ 
 /**
  * Profile Controller

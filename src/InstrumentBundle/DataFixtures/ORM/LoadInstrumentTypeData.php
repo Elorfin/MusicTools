@@ -45,9 +45,9 @@ class LoadInstrumentTypeData extends AbstractFixture implements OrderedFixtureIn
             ),
 
             array (
-                'name'   => 'Flute',
-                'icon'   => 'instrument/flute.svg',
-                'prefix' => 'Flute',
+                'name'   => 'Recorder',
+                'icon'   => 'instrument/recorder.svg',
+                'prefix' => 'Recorder',
             ),
 
             array (

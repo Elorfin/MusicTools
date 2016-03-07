@@ -3,6 +3,7 @@
 namespace InstrumentBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use InstrumentBundle\Entity\Specification\AbstractSpecification;
 use UserBundle\Entity\OwnableTrait;
 
 /**
@@ -10,12 +11,13 @@ use UserBundle\Entity\OwnableTrait;
  * Used to store the common configuration of all types of instrument
  *
  * @ORM\Entity()
+ * @ORM\EntityListeners({"\InstrumentBundle\Listener\InstrumentListener"})
  * @ORM\Table(name="instrument")
  */
 class Instrument implements \JsonSerializable
 {
     /**
-     * Unique identifier of the Flute
+     * Unique identifier of the Recorder
      * @var string
      *
      * @ORM\Column(type="guid")
@@ -45,6 +47,12 @@ class Instrument implements \JsonSerializable
      * @ORM\JoinColumn(name="type_id", referencedColumnName="id", nullable=false)
      */
     protected $instrumentType;
+
+    /**
+     * Specification of the Instrument
+     * @var AbstractSpecification
+     */
+    protected $specification;
 
     /**
      * Use Guitar as the default User's guitar
@@ -117,6 +125,27 @@ class Instrument implements \JsonSerializable
     public function setInstrumentType(InstrumentType $instrumentType)
     {
         $this->instrumentType = $instrumentType;
+
+        return $this;
+    }
+
+    /**
+     * Get specification
+     * @return AbstractSpecification
+     */
+    public function getSpecification()
+    {
+        return $this->specification;
+    }
+
+    /**
+     * Set specification
+     * @param AbstractSpecification $specification
+     * @return Instrument
+     */
+    public function setSpecification(AbstractSpecification $specification)
+    {
+        $this->specification = $specification;
 
         return $this;
     }
@@ -203,6 +232,9 @@ class Instrument implements \JsonSerializable
             'relationships' => [
                 'instrumentType' => [
                     'data' => $this->instrumentType,
+                ],
+                'specification' => [
+                    'data' => $this->specification,
                 ]
             ],
         ];

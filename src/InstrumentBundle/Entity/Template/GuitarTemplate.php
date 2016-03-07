@@ -43,7 +43,10 @@ class GuitarTemplate extends AbstractTemplate
             'type' => 'instrument_templates',
             'id'   => $this->id,
             'attributes'  => [
-                'name'    => $this->name,
+                'name'      => $this->name,
+                'headstock' => $this->headstock,
+                'strings'   => $this->strings,
+                'frets'     => $this->frets,
             ]
         ];
     }

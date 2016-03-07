@@ -2,17 +2,20 @@
  * Base API Resource
  * Manages API server data
  *
- * @param $http
- * @param $q
- * @param $api
+ * @param {Object}       $http
+ * @param {Object}       $cacheFactory
+ * @param {Object}       $q
+ * @param {Object}       $api
+ * @param {AlertService} AlertService
  * @constructor
  */
-var ApiResource = function ApiResource($http, $cacheFactory, $q, $api) {
+var ApiResource = function ApiResource($http, $cacheFactory, $q, $api, AlertService) {
     // Store services
     this.services['$http']         = $http;
     this.services['$cacheFactory'] = $cacheFactory;
     this.services['$q']            = $q;
     this.services['$api']          = $api;
+    this.services['AlertService']  = AlertService;
 
     // Validate required properties
     if (null === this.type) {
@@ -25,7 +28,7 @@ var ApiResource = function ApiResource($http, $cacheFactory, $q, $api) {
 };
 
 // Set up dependency injection
-ApiResource.$inject = [ '$http', '$cacheFactory', '$q', '$api' ];
+ApiResource.$inject = [ '$http', '$cacheFactory', '$q', '$api', 'AlertService' ];
 
 /**
  * List of dependencies
@@ -45,10 +48,15 @@ ApiResource.prototype.type = null;
  */
 ApiResource.prototype.path = null;
 
+/**
+ * If TRUE, the http cache will be emptied and the next query resent
+ * @type {boolean}
+ */
 ApiResource.prototype.forceReload = false;
 
 /**
  * Initialize an empty Resource Object
+ * @returns {Object}
  */
 ApiResource.prototype.init = function init() {
     return {
@@ -57,6 +65,14 @@ ApiResource.prototype.init = function init() {
         attributes    : {},
         relationships : {}
     };
+};
+
+ApiResource.prototype.hasRelationship = function hasRelationship(resource, relationshipName) {
+    if (resource.relationships && resource.relationships[relationshipName] && null !== resource.relationships[relationshipName] && 0 !== resource.relationships[relationshipName].length) {
+        return true;
+    }
+
+    return false;
 };
 
 ApiResource.prototype.addRelationship = function addRelationship(resource, relationshipName, relationshipData) {
@@ -69,7 +85,7 @@ ApiResource.prototype.addRelationship = function addRelationship(resource, relat
     };
 };
 
-ApiResource.prototype.removeRelationship = function addRelationship(resource, relationshipName, relationshipData) {
+ApiResource.prototype.removeRelationship = function removeRelationship(resource, relationshipName, relationshipData) {
     if (resource.relationships && resource.relationships[relationshipName] && resource.relationships[relationshipName].data) {
         if (resource.relationships[relationshipName].data instanceof Array) {
             // Collection of resource objects
@@ -177,8 +193,16 @@ ApiResource.prototype.new = function newResource(resource) {
         .then(
             // Success callback
             function onServerSuccess(response) {
+                // Invalid cache
                 this.forceReload = true;
 
+                // Update Resource data with server response
+                angular.copy(response.data.data, resource);
+
+                // Display message to User
+                this.services['AlertService'].addAlert('success', 'Entity created', true);
+
+                // Resolve promise
                 deferred.resolve(response.data);
             }.bind(this),
 

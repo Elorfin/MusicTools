@@ -11,9 +11,9 @@ trait GuitarTrait
      * Shape of the guitar's headstock (6-in-line or 3+3 for a 6 strings guitar)
      * @var string
      *
-     * @ORM\Column(type="string", nullable=true)
+     * @ORM\Column(type="string")
      */
-    protected $headstock;
+    protected $headstock = 'top-bottom';
 
     /**
      * Number of strings
@@ -78,7 +78,7 @@ trait GuitarTrait
     /**
      * Set number of strings
      * @param  integer $strings
-     * @return Guitar
+     * @return $this
      */
     public function setStrings($strings)
     {
@@ -99,11 +99,32 @@ trait GuitarTrait
     /**
      * Get number of frets
      * @param  integer $frets
-     * @return Guitar
+     * @return $this
      */
     public function setFrets($frets)
     {
         $this->frets = $frets;
+
+        return $this;
+    }
+
+    /**
+     * Is left handed ?
+     * @return boolean
+     */
+    public function isLeftHanded()
+    {
+        return $this->leftHanded;
+    }
+
+    /**
+     * Set left handed
+     * @param  boolean $leftHanded
+     * @return $this
+     */
+    public function setLeftHanded($leftHanded)
+    {
+        $this->leftHanded = $leftHanded;
 
         return $this;
     }

@@ -1,0 +1,74 @@
+.flag-variant(@color, @text-color: @text-color) {
+    &:hover,
+    &:focus {
+        color: @color;
+    }
+
+    &.on {
+        color: @text-color;
+
+        &:hover,
+        &:focus {
+            color: @text-color;
+        }
+
+        background: fade(@color, 60%);
+        .fa {
+            color: fade(@color, 60%);
+        }
+    }
+}
+
+.flag {
+    position: relative;
+    display: block;
+    width: 100%;
+    color: @gray;
+    background: @panel-bg;
+    padding: 0;
+
+    + .flag {
+        margin-top: 5px;
+    }
+
+    .fa {
+        height: 100%;
+        position: absolute;
+        width: 40px;
+        font-size: 16px;
+        line-height: inherit;
+        padding: 10px 0;
+        background: rgba(0, 0, 0, 0.3);
+        text-align: center;
+    }
+
+    .fa + span {
+        padding: 10px;
+        display: inline-block;
+        margin-left: 40px;
+    }
+
+    &.flag-default {
+        .flag-variant(@text-color);
+    }
+
+    &.flag-primary {
+        .flag-variant(@brand-primary);
+    }
+
+    &.flag-warning {
+        .flag-variant(@brand-warning);
+    }
+
+    &.flag-info {
+        .flag-variant(@brand-info);
+    }
+
+    &.flag-success {
+        .flag-variant(@brand-success);
+    }
+
+    &.flag-danger {
+        .flag-variant(@brand-danger);
+    }
+}

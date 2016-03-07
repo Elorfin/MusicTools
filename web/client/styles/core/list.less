@@ -23,6 +23,19 @@
     }
 }
 
+.list-formatter {
+    .dropdown-menu {
+        min-width: inherit;
+
+        li {
+            a {
+                padding-left: @navbar-padding-horizontal;
+                padding-right: @navbar-padding-horizontal;
+            }
+        }
+    }
+}
+
 .list-item {
     position: relative; // Lock `absolute` buttons in its item
     border: 1px solid transparent;
@@ -44,6 +57,7 @@
     }
 
     &.list-item-detailed {
+        margin-bottom: floor(@grid-gutter-width / 2);
         .item-info {
             small {
                 display: block;
@@ -58,6 +72,7 @@
     }
 
     &.list-item-condensed {
+        margin-bottom: floor(@grid-gutter-width / 2);
         .item-info {
             color: @brand-primary;
             font-size: @font-size-large;

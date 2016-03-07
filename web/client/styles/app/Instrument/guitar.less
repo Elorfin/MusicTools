@@ -1,16 +1,30 @@
-.shape-widget {
+.headstock-types {
     display: table;
     width: 100%;
 
-    .shape-col {
+    .headstock-type {
         display: table-cell;
+        border: 1px solid transparent;
+        width: 50%;
 
-        &.headstock-col {
-            width: 25%;
+        img {
+            opacity: 0.3;
         }
 
-        &.body-col {
-            width: 75%;
+        span {
+            color: @gray;
+            display: block;
+            text-align: center;
+            padding: @padding-base-vertical @padding-base-horizontal;
+            background: @panel-bg;
+        }
+
+        &.selected {
+            border-color: @brand-primary;
+
+            span {
+                color: @brand-primary;
+            }
         }
     }
 }

@@ -15,7 +15,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 class Tuning
 {
     /**
-     * Unique identifier of the Flute
+     * Unique identifier of the Tuning
      * @var string
      *
      * @ORM\Column(type="guid")

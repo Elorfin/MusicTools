@@ -37,4 +37,18 @@ class GuitarSpecification extends AbstractSpecification
     {
         return $this->id;
     }
+
+    public function jsonSerialize()
+    {
+        return [
+            'type' => 'instrument_specifications',
+            'id'   => $this->id,
+            'attributes'  => [
+                'headstock'  => $this->headstock,
+                'strings'    => $this->strings,
+                'frets'      => $this->frets,
+                'leftHanded' => $this->leftHanded
+            ]
+        ];
+    }
 }

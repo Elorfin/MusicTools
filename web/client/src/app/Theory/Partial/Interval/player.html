@@ -1,25 +1,25 @@
-<div class="interval-player panel panel-default">
+<div class="widget interval-player panel panel-default">
     <div class="panel-body">
         <!-- Direction of the interval -->
         <div class="row">
             <div class="col-md-6">
                 <!-- Interval selector -->
-                <h2 class="interval-player-header" data-uib-dropdown="">
-                    <a href id="interval-player-dropdown" data-uib-dropdown-toggle="">
+                <h2 data-uib-dropdown="" aria-haspopup="true" aria-expanded="false">
+                    <a href="" role="button" id="interval-player-dropdown" data-uib-dropdown-toggle="">
                         <!-- Current selected interval -->
                         <span data-ng-if="intervalPlayerCtrl.interval">
                             {{ intervalPlayerCtrl.interval.attributes.symbol }} <small>{{ intervalPlayerCtrl.interval.attributes.name }}</small>
                         </span>
 
                         <!-- No interval selected -->
-                        <em class="no-interval" data-ng-if="!intervalPlayerCtrl.interval">
+                        <em class="no-selected" data-ng-if="!intervalPlayerCtrl.interval">
                             -- {{ 'interval_select'|translate }} --
                         </em>
 
                         <span class="fa fa-caret-down pull-right"></span>
                     </a>
 
-                    <ul class="uib-dropdown-menu" aria-labelledby="interval-player-dropdown" data-layout-scrollable="" data-layout-scrollable-options="intervalPlayerCtrl.dropdownOptions">
+                    <ul class="dropdown-menu-check" data-uib-dropdown-menu="" aria-labelledby="interval-player-dropdown" data-layout-scrollable="" data-layout-scrollable-options="intervalPlayerCtrl.dropdownOptions">
                         <li data-ng-repeat="interval in intervalPlayerCtrl.intervals" data-ng-class="{ 'active': interval === intervalPlayerCtrl.interval }">
                             <a href="" data-ng-click="intervalPlayerCtrl.setInterval(interval)">
                                 <span class="link-label"><b>{{ interval.attributes.symbol }}</b> - {{ interval.attributes.name }}</span>

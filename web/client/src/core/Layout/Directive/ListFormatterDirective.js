@@ -1,7 +1,7 @@
 /**
  * Widget to change how lists are displayed
  */
-var LayoutListFormatterDirective = function LayoutListFormatterDirectiveConstructor($client) {
+var LayoutListFormatterDirective = function LayoutListFormatterDirective($client) {
     return {
         restrict: 'E',
         templateUrl: $client.getPartial('list-formatter.html', 'core/Layout'),

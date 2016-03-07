@@ -13,7 +13,7 @@
 
     <!-- Item buttons -->
     <div class="list-item-btn-group">
-        <a class="btn btn-danger" href="" data-ng-click="listCtrl.remove(resource)">
+        <a class="btn btn-danger" href="" data-resource-delete="{title: , message: 'delete_instrument_confirm'|translate }" data-ng-click="listCtrl.remove(resource)">
             <span class="fa fa-trash-o"></span>
             <span class="sr-only">{{ 'delete_instrument'|translate }}</span>
         </a>

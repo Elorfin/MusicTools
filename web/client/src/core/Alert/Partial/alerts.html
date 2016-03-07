@@ -1,6 +1,6 @@
 <ul class="alerts list-unstyled" data-ng-if="alertsCtrl.alerts.length > 0">
     <li data-ng-repeat="alert in alertsCtrl.alerts" data-ng-click="alertsCtrl.removeAlert(alert)" class="alert" data-ng-class="{'alert-success': 'success' == alert.type, 'alert-danger': 'error' == alert.type, 'alert-warning': 'warning' == alert.type, 'alert-info': 'info' == alert.type }">
-        <span class="fa fa-fw" data-ng-class="{'fa-check-circle': 'success' == alert.type, 'fa-times-circle': 'error' == alert.type, 'fa-exclamation-triangle': 'warning' == alert.type, 'fa-info-circle': 'info' == alert.type }"></span>
+        <span class="fa fa-fw" data-ng-class="{'fa-check': 'success' == alert.type, 'fa-times': 'error' == alert.type, 'fa-exclamation': 'warning' == alert.type, 'fa-info': 'info' == alert.type }"></span>
         <span>{{ alert.message }}</span>
     </li>
 </ul>

@@ -81,21 +81,34 @@
         }
     }
 
+    // Fix margin for better scrollbar display
+    .mCSB_container {
+        margin-right: 11px !important;
+
+        &.mCS_no_scrollbar_y {
+            margin-right: 0 !important;
+        }
+    }
+
     .dropdown-menu-check {
-        > li > a {
+        li > a {
             position: relative;
             padding-right: 60px !important;
 
             .fa-check {
                 position: absolute;
+                top: 0;
                 right: 15px;
-                padding: 3px;
-
+                bottom: 0;
+                margin: auto;
+                font-size: 20px;
+                height: 20px;
+                line-height: 20px;
                 color: darken(@dropdown-bg, 2%);
             }
         }
 
-        > li.active {
+        li.active {
             .fa-check {
                 color: @brand-primary;
             }

@@ -1,158 +1,156 @@
-<div class="tuning-widget">
-    <div class="tuning-list" data-uib-dropdown="">
-        <button data-uib-dropdown-toggle="" class="btn btn-default btn-block dropdown-toggle" type="button" id="dropdownMenu1" aria-haspopup="true" aria-expanded="true">
-            Dropdown
-            <span class="fa fa-caret-down"></span>
-        </button>
+<div class="widget tuning-widget panel panel-default">
+    <div class="panel-body">
+        <h2 class="tuning-list" data-uib-dropdown="">
+            <a href="" role="button" id="tuning-dropdown" data-uib-dropdown-toggle="" aria-haspopup="true" aria-expanded="false">
+                <!-- Current selected interval -->
+                <span data-ng-if="tuningWidgetCtrl.tuning">
+                    {{ intervalPlayerCtrl.interval.attributes.symbol }} <small>{{ intervalPlayerCtrl.interval.attributes.name }}</small>
+                </span>
 
-        <ul class="dropdown-menu dropdown-menu-check" aria-labelledby="dropdownMenu1">
-            <li class="active">
-                <a href="#" class="scale-link">
-                    <span class="link-label">Standard</span>
-                    <small>E A D G B E</small>
+                <!-- No Tuning selected -->
+                <em class="no-selected" data-ng-if="!tuningWidgetCtrl.tuning">
+                    -- {{ 'tuning_select'|translate }} --
+                </em>
 
-                    <span class="fa fa-check"></span>
-                </a>
-            </li>
+                <span class="fa fa-caret-down pull-right"></span>
+            </a>
 
-            <li class="dropdown-header">Power</li>
+            <ul data-uib-dropdown-menu="" class="dropdown-menu-check" aria-labelledby="tuning-dropdown" data-layout-scrollable="" data-layout-scrollable-options="tuningWidgetCtrl.dropdownOptions">
+                <li class="active">
+                    <a href="" role="button">
+                        <span class="link-label">Standard</span>
+                        <small>E A D G B E</small>
 
-            <li>
-                <a href="#" class="scale-link">
-                    <span class="link-label">Drop D</span>
-                    <small>D A D G B E</small>
+                        <span class="fa fa-check"></span>
+                    </a>
+                </li>
 
-                    <span class="fa fa-check"></span>
-                </a>
-            </li>
+                <li class="dropdown-header">Power</li>
 
-            <li>
-                <a href="#" class="scale-link">
-                    <span class="link-label">Drop C</span>
-                    <small>C G C F A D</small>
+                <li>
+                    <a href="" role="button">
+                        <span class="link-label">Drop D</span>
+                        <small>D A D G B E</small>
 
-                    <span class="fa fa-check"></span>
-                </a>
-            </li>
+                        <span class="fa fa-check"></span>
+                    </a>
+                </li>
 
-            <li class="dropdown-header">Open</li>
+                <li>
+                    <a href="" role="button">
+                        <span class="link-label">Drop C</span>
+                        <small>C G C F A D</small>
 
-            <li>
-                <a href="#" class="scale-link">
-                    <span class="link-label">Open C</span>
-                    <small>C G C G C E</small>
+                        <span class="fa fa-check"></span>
+                    </a>
+                </li>
 
-                    <span class="fa fa-check"></span>
-                </a>
-            </li>
-        </ul>
+                <li class="dropdown-header">Open</li>
 
-        <!--<select class="form-control">
-            <option value="">Standard (EADGBE)</option>
+                <li>
+                    <a href="" role="button">
+                        <span class="link-label">Open C</span>
+                        <small>C G C G C E</small>
 
-            <optgroup label="Drop">
-                <option value="">Drop D (DADGBE)</option>
-                <option value="">Drop C (CGCFAD)</option>
-            </optgroup>
+                        <span class="fa fa-check"></span>
+                    </a>
+                </li>
+            </ul>
+        </h2>
 
-            <optgroup label="Open">
+        <div class="tuning-edit">
+            <div class="tuning-col strings-col strings-col-left">
+                <div class="strings-wrapper">
+                    <div class="strings-row">
+                        <div class="strings-cell text-center">
+                            <button class="note-select note-up btn btn- btn-xs btn-default">
+                                <span class="fa fa-fw fa-angle-up"></span>
+                            </button>
 
-            </optgroup>
-        </select>-->
-    </div>
+                            <input type="text" class="form-control input-sm" name="" value="D" />
 
-    <div class="tuning-edit">
-        <div class="tuning-col strings-col strings-col-left">
-            <div class="strings-wrapper">
-                <div class="strings-row">
-                    <div class="strings-cell text-center">
-                        <button class="note-select note-up btn btn- btn-xs btn-default">
-                            <span class="fa fa-fw fa-angle-up"></span>
-                        </button>
-
-                        <input type="text" class="form-control input-sm" name="" value="D" />
-
-                        <button class="note-select note-down btn btn- btn-xs btn-default">
-                            <span class="fa fa-fw fa-angle-down"></span>
-                        </button>
+                            <button class="note-select note-down btn btn- btn-xs btn-default">
+                                <span class="fa fa-fw fa-angle-down"></span>
+                            </button>
+                        </div>
                     </div>
-                </div>
 
-                <div class="strings-row">
-                    <div class="strings-cell text-center">
-                        <button class="note-select note-up btn btn- btn-xs btn-default">
-                            <span class="fa fa-fw fa-angle-up"></span>
-                        </button>
+                    <div class="strings-row">
+                        <div class="strings-cell text-center">
+                            <button class="note-select note-up btn btn- btn-xs btn-default">
+                                <span class="fa fa-fw fa-angle-up"></span>
+                            </button>
 
-                        <input type="text" class="form-control input-sm" name="" value="A" />
+                            <input type="text" class="form-control input-sm" name="" value="A" />
 
-                        <button class="note-select note-down btn btn- btn-xs btn-default">
-                            <span class="fa fa-fw fa-angle-down"></span>
-                        </button>
+                            <button class="note-select note-down btn btn- btn-xs btn-default">
+                                <span class="fa fa-fw fa-angle-down"></span>
+                            </button>
+                        </div>
                     </div>
-                </div>
 
-                <div class="strings-row">
-                    <div class="strings-cell text-center">
-                        <button class="note-select note-up btn btn- btn-xs btn-default">
-                            <span class="fa fa-fw fa-angle-up"></span>
-                        </button>
+                    <div class="strings-row">
+                        <div class="strings-cell text-center">
+                            <button class="note-select note-up btn btn- btn-xs btn-default">
+                                <span class="fa fa-fw fa-angle-up"></span>
+                            </button>
 
-                        <input type="text" class="form-control input-sm" name="" value="E" />
+                            <input type="text" class="form-control input-sm" name="" value="E" />
 
-                        <button class="note-select note-down btn btn- btn-xs btn-default">
-                            <span class="fa fa-fw fa-angle-down"></span>
-                        </button>
+                            <button class="note-select note-down btn btn- btn-xs btn-default">
+                                <span class="fa fa-fw fa-angle-down"></span>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div class="tuning-col headstock">
-            <object width="100%" class="headstock-img" data="{{ asset('bundles/musictoolsinstrument/images/guitar/headstock/ESP-headstock-sharp.svg') }}" type="image/svg+xml"></object>
-        </div>
+            <div class="tuning-col headstock">
+                <canvas class="tuning-headstock"></canvas>
+            </div>
 
-        <div class="tuning-col strings-col strings-col-right">
-            <div class="strings-wrapper">
-                <div class="strings-row">
-                    <div class="strings-cell text-center">
-                        <button class="note-select note-up btn btn- btn-xs btn-default">
-                            <span class="fa fa-fw fa-angle-up"></span>
-                        </button>
+            <div class="tuning-col strings-col strings-col-right">
+                <div class="strings-wrapper">
+                    <div class="strings-row">
+                        <div class="strings-cell text-center">
+                            <button class="note-select note-up btn btn- btn-xs btn-default">
+                                <span class="fa fa-fw fa-angle-up"></span>
+                            </button>
 
-                        <input type="text" class="form-control input-sm" name="" value="G" />
+                            <input type="text" class="form-control input-sm" name="" value="G" />
 
-                        <button class="note-select note-down btn btn- btn-xs btn-default">
-                            <span class="fa fa-fw fa-angle-down"></span>
-                        </button>
+                            <button class="note-select note-down btn btn- btn-xs btn-default">
+                                <span class="fa fa-fw fa-angle-down"></span>
+                            </button>
+                        </div>
                     </div>
-                </div>
 
-                <div class="strings-row">
-                    <div class="strings-cell text-center">
-                        <button class="note-select note-up btn btn- btn-xs btn-default">
-                            <span class="fa fa-fw fa-angle-up"></span>
-                        </button>
+                    <div class="strings-row">
+                        <div class="strings-cell text-center">
+                            <button class="note-select note-up btn btn- btn-xs btn-default">
+                                <span class="fa fa-fw fa-angle-up"></span>
+                            </button>
 
-                        <input type="text" class="form-control input-sm" name="" value="B" />
+                            <input type="text" class="form-control input-sm" name="" value="B" />
 
-                        <button class="note-select note-down btn btn- btn-xs btn-default">
-                            <span class="fa fa-fw fa-angle-down"></span>
-                        </button>
+                            <button class="note-select note-down btn btn- btn-xs btn-default">
+                                <span class="fa fa-fw fa-angle-down"></span>
+                            </button>
+                        </div>
                     </div>
-                </div>
 
-                <div class="strings-row">
-                    <div class="strings-cell text-center">
-                        <button class="note-select note-up btn btn- btn-xs btn-default">
-                            <span class="fa fa-fw fa-angle-up"></span>
-                        </button>
+                    <div class="strings-row">
+                        <div class="strings-cell text-center">
+                            <button class="note-select note-up btn btn- btn-xs btn-default">
+                                <span class="fa fa-fw fa-angle-up"></span>
+                            </button>
 
-                        <input type="text" class="form-control input-sm" name="" value="E" />
+                            <input type="text" class="form-control input-sm" name="" value="E" />
 
-                        <button class="note-select note-down btn btn- btn-xs btn-default">
-                            <span class="fa fa-fw fa-angle-down"></span>
-                        </button>
+                            <button class="note-select note-down btn btn- btn-xs btn-default">
+                                <span class="fa fa-fw fa-angle-down"></span>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>

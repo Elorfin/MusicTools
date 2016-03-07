@@ -21,6 +21,7 @@ angular
 
         // Core modules
         'Utilities',
+        'Confirm',
         'Api',
         'Client',
         'Layout',

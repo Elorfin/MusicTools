@@ -1,20 +1,21 @@
 <?php
 
-namespace InstrumentBundle\Entity\Template;
+namespace InstrumentBundle\Entity\Specification;
 
 use Doctrine\ORM\Mapping as ORM;
-use InstrumentBundle\Entity\Instrument\FluteTrait;
+use InstrumentBundle\Entity\Instrument\RecorderTrait;
 
 /**
- * Template for Flutes
+ * Recorder Entity
+ * Used to store the configuration of a Recorder
  *
  * @ORM\Entity()
- * @ORM\Table(name="instrument_template_flute")
+ * @ORM\Table(name="instrument_recorder")
  */
-class FluteTemplate extends AbstractTemplate
+class RecorderSpecification extends AbstractSpecification
 {
     /**
-     * Unique identifier of the Game
+     * Unique identifier of the Recorder
      * @var string
      *
      * @ORM\Column(type="guid")
@@ -24,9 +25,9 @@ class FluteTemplate extends AbstractTemplate
     private $id;
 
     /**
-     * Add Flute behavior
+     * Add Recorder behavior
      */
-    use FluteTrait;
+    use RecorderTrait;
 
     /**
      * Get id
@@ -40,10 +41,11 @@ class FluteTemplate extends AbstractTemplate
     public function jsonSerialize()
     {
         return [
-            'type' => 'instrument_templates',
+            'type' => 'instrument_specifications',
             'id'   => $this->id,
             'attributes'  => [
-                'name'    => $this->name,
+                'range'     => $this->range,
+                'fingering' => $this->fingering,
             ]
         ];
     }

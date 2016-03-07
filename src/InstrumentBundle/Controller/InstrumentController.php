@@ -117,7 +117,6 @@ class InstrumentController extends Controller
      */
     public function deleteAction(Instrument $instrument)
     {
-        /*204 No Content*/
         $this->getDoctrine()->getManager()->remove($instrument);
         $this->getDoctrine()->getManager()->flush;
 

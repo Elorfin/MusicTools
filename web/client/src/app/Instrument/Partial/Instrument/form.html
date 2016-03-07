@@ -4,23 +4,23 @@
         {{ 'my_instruments_title'|translate }}
 
         <!-- New element -->
-        <small data-ng-if="formCtrl.isNew()">New</small>
+        <small data-ng-if="!formCtrl.resource.id">New</small>
 
         <!-- Edit element -->
-        <small data-ng-if="!formCtrl.isNew()">Edit</small>
+        <small data-ng-if="formCtrl.resource.id">Edit</small>
     </layout-page-title>
 
     <!-- Header buttons -->
     <ui-header-buttons>
         <!-- Delete button while editing -->
-        <ui-header-button data-ng-if="!formCtrl.isNew()" class="nav-link-danger">
+        <ui-header-button data-ng-if="formCtrl.resource.id" class="nav-link-danger">
             <a href="">
                 <span class="fa fa-fw fa-trash-o"></span>
                 Delete
             </a>
         </ui-header-button>
 
-        <li class="divider" data-ng-if="!formCtrl.isNew()"></li>
+        <li class="divider" data-ng-if="formCtrl.resource.id"></li>
 
         <!-- Cancel -->
         <ui-header-button class="nav-link-default">
@@ -34,34 +34,64 @@
         <ui-header-button class="nav-link-default">
             <a href="" data-ng-click="formCtrl.submit()">
                 <span class="fa fa-fw fa-check"></span>
-                <span data-ng-if="formCtrl.isNew()">Create</span>
-                <span data-ng-if="!formCtrl.isNew()">Edit</span>
+                <span data-ng-if="!formCtrl.resource.id">Create</span>
+                <span data-ng-if="formCtrl.resource.id">Edit</span>
             </a>
         </ui-header-button>
     </ui-header-buttons>
 
     <!-- Form -->
     <form class="instrument-form row">
-        <div class="col-md-2">
-            <div class="form-group">
-                <div class="instrument-type">
-                    <img class="img-responsive instrument-type-img" data-ng-src="{{ 'images/' + formCtrl.resource.relationships.instrumentType.data.attributes.icon |asset_path }}" />
-
-                    <div uib-dropdown="" class="dropup">
-                        <a href id="simple-dropdown" uib-dropdown-toggle="" class="btn btn-block btn-default">
+        <div class="col-md-3">
+            <div class="form-group" style="margin-bottom: 30px;">
+                <div class="widget instrument-type">
+                    <div data-uib-dropdown="">
+                        <a href="" id="simple-dropdown" data-uib-dropdown-toggle="">
                             {{ formCtrl.resource.relationships.instrumentType.data.attributes.name }}
+
+                            <span class="fa fa-caret-down pull-right"></span>
                         </a>
-                        <ul uib-dropdown-menu="" aria-labelledby="simple-dropdown">
+                        <ul data-uib-dropdown-menu="" aria-labelledby="simple-dropdown">
                             <li data-ng-repeat="instrumentType in formCtrl.instrumentTypes" data-ng-class="{'active': instrumentType.id == formCtrl.resource.relationships.instrumentType.data.id }">
                                 <a href="" data-ng-click="formCtrl.selectType(instrumentType)">{{ instrumentType.attributes.name }}</a>
                             </li>
                         </ul>
                     </div>
+
+                    <img class="img-responsive instrument-type-img" data-ng-src="{{ 'images/' + formCtrl.resource.relationships.instrumentType.data.attributes.icon |asset_path }}" />
                 </div>
             </div>
+
+            <div class="form-group" style="margin-bottom: 30px;">
+                <ui-flag data-type="default" data-value="isLeftHanded">
+                    <span class="fa fa-hand-paper-o fa-flip-horizontal"></span>
+                    <span>Left-handed</span>
+                </ui-flag>
+            </div>
+
+            <ui-flag data-type="primary" data-value="isFavorite">
+                <span class="fa fa-heart"></span>
+                <span>Favorite</span>
+            </ui-flag>
+
+            <ui-flag data-type="info" data-value="isDefault">
+                <span class="fa fa-check-square-o"></span>
+                <span>Default</span>
+            </ui-flag>
         </div>
 
-        <div class="col-md-10">
+        <div class="col-md-9">
+            <!-- List of available templates for the current InstrumentType -->
+            <!--<div class="panel panel-default">
+                <div class="panel-body">
+                    <label class="control-label sr-only">Choose a template</label>
+                    <select class="form-control">
+                        <option value="">&#45;&#45; you can select a template to prefill information &#45;&#45;</option>
+                        <option data-ng-repeat="template in formCtrl.templates" value="{{ template.id }}" data-ng-click="formCtrl.selectTemplate(template)">{{ template.attributes.name }}</option>
+                    </select>
+                </div>
+            </div>-->
+
             <!-- Generic instrument information -->
             <div class="panel panel-default">
                 <div class="panel-body">
@@ -84,21 +114,12 @@
                 </div>
             </div>
 
-            <!-- List of avbailable templates for the current InstrumentType -->
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <label class="control-label sr-only">Choose a template</label>
-                    <select class="form-control">
-                        <option value="">-- you can select a template to prefill information --</option>
-                        <option data-ng-repeat="template in formCtrl.templates" value="{{ template.id }}" data-ng-click="formCtrl.selectTemplate(template)">{{ template.attributes.name }}</option>
-                    </select>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-12" data-ng-if="formCtrl.resource.relationships.instrumentType">
             <!-- Custom information for the InstrumentType -->
-            <div data-ng-include="'Specification/' + formCtrl.resource.relationships.instrumentType.data.attributes.prefix + '/form.html'|partial_path:'app/Instrument'"></div>
+            <instrument-specification-form data-specification="formCtrl.resource.relationships.specification.data"></instrument-specification-form>
+            <div data-ng-if="formCtrl.resource.relationships.instrumentType"
+                 data-ng-include="'Specification/' + formCtrl.resource.relationships.instrumentType.data.attributes.prefix + '/form.html'|partial_path:'app/Instrument'"
+                 onload="specification = formCtrl.resource.relationships.specification.data">
+            </div>
         </div>
     </form>
 </layout-page>

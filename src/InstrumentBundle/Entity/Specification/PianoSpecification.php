@@ -37,4 +37,15 @@ class PianoSpecification extends AbstractSpecification
     {
         return $this->id;
     }
+
+    public function jsonSerialize()
+    {
+        return [
+            'type' => 'instrument_specifications',
+            'id'   => $this->id,
+            'attributes'  => [
+
+            ]
+        ];
+    }
 }

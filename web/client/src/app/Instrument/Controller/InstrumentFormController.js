@@ -8,7 +8,13 @@ var InstrumentFormController = function InstrumentFormController(resource, Instr
     this.instrumentTypes  = instrumentTypes;
     this.templateResource = InstrumentTemplateResource;
 
-    this.apiResource.addRelationship(this.resource, 'instrumentType', this.instrumentTypes[0]);
+    if (!this.apiResource.hasRelationship(this.resource, 'instrumentType')) {
+        this.apiResource.addRelationship(this.resource, 'instrumentType', this.instrumentTypes[0]);
+    }
+
+    if (!this.apiResource.hasRelationship(this.resource, 'specification')) {
+        this.apiResource.addRelationship(this.resource, 'specification', {});
+    }
 };
 
 // Extends FormController
@@ -46,9 +52,19 @@ InstrumentFormController.prototype.loadTemplates = function loadTemplates(type) 
 InstrumentFormController.prototype.selectTemplate = function selectTemplate(template) {
     this.selectedTemplate = template;
 
-    // Fill instrument information with template
+    // Use the Template name as default name
+    if (!this.resource.attributes.name) {
+        this.resource.attributes.name = template.attributes.name;
+    }
+
+    if (!this.apiResource.hasRelationship(this.resource, 'specification')) {
+        // Initialize object
+        this.apiResource.addRelationship(this.resource, 'specification', {});
+    }
+
+    // Fill instrument specification with template
     for (var attr in template.attributes) {
-        if (template.attributes.hasOwnProperty(attr)) {
+        if ('name' !== attr && template.attributes.hasOwnProperty(attr)) {
             this.resource.attributes[attr] = template.attributes[attr];
         }
     }

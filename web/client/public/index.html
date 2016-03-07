@@ -15,8 +15,8 @@
     </head>
 
     <body>
-        <!-- Alerts -->
-        <alerts></alerts>
+        <!-- Skip navigation for accessibility -->
+        <a href="#content" class="sr-only">Skip navigation and go to content</a>
 
         <!-- Header -->
         <ui-header></ui-header>
@@ -25,7 +25,11 @@
         <layout-sidebar></layout-sidebar>
 
         <!-- Content -->
-        <div class="content" data-layout-scrollable="">
+        <div id="content" class="content" data-layout-scrollable="">
+            <!-- Alerts -->
+            <alerts></alerts>
+
+            <!-- Current page -->
             <div data-ng-view=""></div>
         </div>
 

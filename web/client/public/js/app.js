@@ -868,13 +868,17 @@ ApiResource.prototype.init = function init() {
 };
 
 /**
- *
+ * Check if a Resource has a relationship
  * @param   {object} resource
  * @param   {string} relationshipName
  * @returns {boolean}
  */
 ApiResource.prototype.hasRelationship = function hasRelationship(resource, relationshipName) {
-    if (resource.relationships && resource.relationships[relationshipName] && null !== resource.relationships[relationshipName] && 0 !== resource.relationships[relationshipName].length) {
+    if (angular.isObject(resource.relationships)
+        && angular.isObject(resource.relationships[relationshipName])
+        && angular.isObject(resource.relationships[relationshipName].data)
+        && 0 !== angular.isObject(resource.relationships[relationshipName].data.length)) {
+
         return true;
     }
 
@@ -882,7 +886,7 @@ ApiResource.prototype.hasRelationship = function hasRelationship(resource, relat
 };
 
 /**
- *
+ * Get a relationship of a Resource
  * @param   {object} resource
  * @param   {string} relationshipName
  * @returns {Object|null}
@@ -896,34 +900,56 @@ ApiResource.prototype.getRelationship = function getRelationship(resource, relat
     return relationship;
 };
 
-ApiResource.prototype.addRelationship = function addRelationship(resource, relationshipName, relationshipData) {
-    if (!resource.relationships) {
+/**
+ * Add a relationship to the Resource
+ * @param {Object}  resource
+ * @param {String}  relationshipName
+ * @param {Object}  relationshipObject
+ * @param {Boolean} isCollection
+ */
+ApiResource.prototype.addRelationship = function addRelationship(resource, relationshipName, relationshipObject, isCollection) {
+    // Initialize relationships namespace if not exist
+    if (!angular.isObject(resource.relationships)) {
         resource.relationships = {};
     }
 
-    resource.relationships[relationshipName] = {
-        data: relationshipData
-    };
+    // Initialize relationship if not exist
+    if (!this.hasRelationship(resource, relationshipName)) {
+        resource.relationships[relationshipName] = {
+            data: isCollection ? [] : {}
+        };
+    }
+
+    // Add relationship
+    if (isCollection) {
+        // Collection of resource objects
+        resource.relationships[relationshipName].data.push(relationshipObject);
+    } else {
+        // Single resource object
+        resource.relationships[relationshipName].data = relationshipObject;
+    }
 };
 
-ApiResource.prototype.removeRelationship = function removeRelationship(resource, relationshipName, relationshipData) {
-    if (resource.relationships && resource.relationships[relationshipName] && resource.relationships[relationshipName].data) {
+/**
+ * Remove a relationship from the Resource
+ * @param {Object} resource
+ * @param {String} relationshipName
+ * @param {Object} relationshipObject
+ */
+ApiResource.prototype.removeRelationship = function removeRelationship(resource, relationshipName, relationshipObject) {
+    if (this.hasRelationship(resource, relationshipName)) {
         if (resource.relationships[relationshipName].data instanceof Array) {
             // Collection of resource objects
+
         } else {
             // Single resource object
 
         }
     }
-
-    resource.relationships[relationshipName] = {
-        data: relationshipData
-    };
 };
 
 /**
  * List existing resources filtered by `queryParams`
- *
  * @param   {Object}  [queryParams] - The parameters used to filter the list of elements
  * @returns {promise}               - The list of available resources
  */
@@ -2974,12 +3000,12 @@ var InstrumentFormController = function InstrumentFormController(resource, Instr
     this.instrumentTypes  = instrumentTypes;
     this.templateResource = InstrumentTemplateResource;
 
+    // Initialize empty relationships
     if (!this.apiResource.hasRelationship(this.resource, 'instrumentType')) {
-        this.apiResource.addRelationship(this.resource, 'instrumentType', this.instrumentTypes[0]);
+        this.setType(this.instrumentTypes[0]);
     }
 
     if (!this.apiResource.hasRelationship(this.resource, 'specification')) {
-        console.log('coucou test');
         this.apiResource.addRelationship(this.resource, 'specification', {});
     }
 };
@@ -2993,15 +3019,21 @@ InstrumentFormController.$inject = [ 'resource', 'InstrumentResource', 'instrume
 
 /**
  * List of Templates for the current InstrumentType
+ * @type {Array}
+ */
+InstrumentFormController.prototype.templates = [];
+
+/**
+ * Selected Template
  * @type {Object}
  */
-InstrumentFormController.prototype.templates = null;
+InstrumentFormController.prototype.selectedTemplate = null;
 
 /**
  * Select the type of the Instrument
  * @param {Object} type
  */
-InstrumentFormController.prototype.selectType = function selectType(type) {
+InstrumentFormController.prototype.setType = function setType(type) {
     this.apiResource.addRelationship(this.resource, 'instrumentType', type);
 
     // Load templates for this type
@@ -3013,9 +3045,11 @@ InstrumentFormController.prototype.selectType = function selectType(type) {
  * @param {Object} type
  */
 InstrumentFormController.prototype.loadTemplates = function loadTemplates(type) {
-    this.templates = this.templateResource.get({ type: type.id }).then(function (result) {
-        this.templates = result;
-    }.bind(this));
+    this.templates = this.templateResource
+        .get({ type: type.id })
+        .then(function onSuccess(result) {
+            this.templates = result;
+        }.bind(this));
 };
 
 /**
@@ -3138,7 +3172,8 @@ var SpecificationFormDirective = function SpecificationFormDirective($client) {
         template: /*$client.getPartial('Instrument/menu.html', 'app/Instrument')*/ '<div></div>',
         replace: true,
         scope: {
-            specification: '='
+            type          : '=',
+            specification : '='
         },
         bindToController: true,
         controllerAs: 'specificationFormCtrl',
@@ -5134,8 +5169,6 @@ var TuningWidgetDirective = function TuningWidgetDirective($client) {
             var canvas = element.find('canvas').get(0);
 
             tuningWidgetCtrl.draw(canvas);
-
-            console.log(scope.headstock);
 
             scope.$watch('headstock', function (newValue, oldValue) {
                 console.log('coucou');

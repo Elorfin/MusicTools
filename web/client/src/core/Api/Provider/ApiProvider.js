@@ -1,5 +1,5 @@
 var ApiProvider = function ApiProvider() {
-    this.$get = function () {
+    this.$get = function Api() {
         var provider = this;
 
         return {

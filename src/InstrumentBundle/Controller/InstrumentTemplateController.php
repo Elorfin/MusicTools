@@ -25,9 +25,14 @@ class InstrumentTemplateController extends Controller
      */
     public function listAction(InstrumentType $instrumentType)
     {
-        $entities = $this->container->get('doctrine.orm.entity_manager')
+        $entities = $this->container
+            ->get('doctrine.orm.entity_manager')
             ->getRepository($instrumentType->getTemplate())
-            ->findBy(array ('type' => $instrumentType), array ('name' => 'ASC'));
+            ->findBy([
+                'type' => $instrumentType
+            ], [
+                'name' => 'ASC'
+            ]);
 
         return new JsonApiResponse($entities);
     }
@@ -58,9 +63,12 @@ class InstrumentTemplateController extends Controller
      */
     private function getEntity(InstrumentType $instrumentType, $id)
     {
-        $entity = $this->container->get('doctrine.orm.entity_manager')->getRepository($instrumentType->getTemplate())->findOneBy( array (
-            'id' => $id,
-        ));
+        $entity = $this->container
+            ->get('doctrine.orm.entity_manager')
+            ->getRepository($instrumentType->getTemplate())
+            ->findOneBy([
+                'id' => $id,
+            ]);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find InstrumentTemplate entity.');

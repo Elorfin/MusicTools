@@ -25,8 +25,6 @@ var TuningWidgetDirective = function TuningWidgetDirective($client) {
 
             tuningWidgetCtrl.draw(canvas);
 
-            console.log(scope.headstock);
-
             scope.$watch('headstock', function (newValue, oldValue) {
                 console.log('coucou');
                 if (!init && newValue != oldValue) {

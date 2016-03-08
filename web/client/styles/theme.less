@@ -1,3 +1,29 @@
+body,
+html {
+    position: relative;
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    padding-top: @navbar-height;
+}
+
+// Change selection color
+::selection,     /* WebKit/Blink Browsers */
+::-moz-selection /* Gecko Browsers */ {
+    background: @text-selection-bg;
+    color: @text-selection-color;
+}
+
+// Fix ngCloak blink
+[ng-cloak],
+[data-ng-cloak],
+[x-ng-cloak],
+.ng-cloak {
+    display: none;
+}
+
 h1, h2, h3, h4, h5, h6,
 .h1, .h2, .h3, .h4, .h5, .h6 {
     small {
@@ -9,6 +35,28 @@ h2, .h2 {
     margin-top: floor(@grid-gutter-width / 2);
     font-size: 18px;
     color: @gray;
+}
+
+// Remove outline on link and buttons
+a,
+button,
+input[type=button],
+input[type=submit],
+input[type=reset] {
+    outline: 0 !important;
+
+    /* add transition effect */
+    .transition(@transition-base);
+
+    &:after,
+    &:before {
+        .transition(@transition-base);
+    }
+}
+
+// Avoid multi-lines Tooltips
+.tooltip {
+    white-space: nowrap;
 }
 
 .content {
@@ -30,10 +78,6 @@ h2, .h2 {
     }
 
     .box-shadow(0 0 3px rgba(0, 0, 0, 0.5));
-
-    &.no-padding {
-        padding: 0 !important;
-    }
 
     .content-header {
         margin-bottom: floor(@grid-gutter-width / 2);

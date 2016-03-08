@@ -2,15 +2,21 @@
  * Application Styles
  */
 
-// Extends Bootstrap
+// Include Bootstrap
 @import "../bower_components/bootstrap/less/bootstrap.less";
+// Include FontAwesome
+@import "../bower_components/font-awesome/less/font-awesome.less";
+
+// Include MusicFont
+@import "music-font/less/music-font.less";
 
 // Variables (override bootstrap default)
 @import "variables.less";
 @import "variables.custom.less";
 
-@import "boilerplate.less";
+@import "theme.less";
 
+// Add core styles
 @import "core/alerts.less";
 @import "core/buttons.less";
 @import "core/dropdowns.less";
@@ -19,6 +25,7 @@
 @import "core/forms.less";
 @import "core/header.less";
 @import "core/list.less";
+@import "core/loader.less";
 @import "core/modals.less";
 @import "core/navbar.less";
 @import "core/panels.less";
@@ -26,9 +33,7 @@
 @import "core/sidebar.less";
 @import "core/widgets.less";
 
-@import "theme.less";
-
-// Modules styles
+// Add modules styles
 @import "app/Advertisement/module.less";
 @import "app/Instrument/module.less";
 @import "app/Tuning/module.less";

@@ -2,6 +2,7 @@
 
 namespace InstrumentBundle\Controller;
 
+use InstrumentBundle\Entity\InstrumentType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -16,52 +17,34 @@ class InstrumentTypeController extends Controller
 {
     /**
      * List all Instrument Types
-     * @return array
+     * @return JsonApiResponse
      *
      * @Route("")
      * @Method("GET")
      */
     public function listAction()
     {
-        $entities = $this->container->get('doctrine.orm.entity_manager')
+        $entities = $this->container
+            ->get('doctrine.orm.entity_manager')
             ->getRepository('InstrumentBundle:InstrumentType')
-            ->findBy(array (), array ('name' => 'ASC'));
+            ->findBy([], [
+                'default' => 'DESC',
+                'name'    => 'ASC'
+            ]);
 
         return new JsonApiResponse($entities);
     }
 
     /**
      * Display an Instrument Type entity
-     * @param  integer $id
-     * @return mixed
+     * @param  InstrumentType $instrumentType
+     * @return JsonApiResponse
      *
      * @Route("/{id}")
      * @Method("GET")
      */
-    public function getAction($id)
+    public function getAction(InstrumentType $instrumentType)
     {
-        $entity = $this->getEntity($id);
-
-        return new JsonApiResponse($entity);
-    }
-
-    /**
-     * Retrieve an Instrument Type entity
-     *
-     * @param  integer $id
-     * @return Instrument
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
-     */
-    private function getEntity($id)
-    {
-        $entity = $this->container->get('doctrine.orm.entity_manager')->getRepository('InstrumentBundle:InstrumentType')->findOneBy( array (
-            'id' => $id,
-        ));
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Instrument Type entity.');
-        }
-
-        return $entity;
+        return new JsonApiResponse($instrumentType);
     }
 }

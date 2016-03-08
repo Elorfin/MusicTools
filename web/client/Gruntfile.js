@@ -20,22 +20,6 @@ module.exports = function (grunt) {
                     'styles/app.less'
                 ],
                 dest: '<%= distFolder %>/css/theme.min.css'
-            },
-
-            // Font Awesome
-            font_awesome: {
-                src: [
-                    '<%= libFolder %>/font-awesome/less/font-awesome.less'
-                ],
-                dest: '<%= distFolder %>/css/font-awesome.min.css'
-            },
-
-            // Custom icon font
-            music_font: {
-                src: [
-                    'fonts/MusicFont/less/music-font.less'
-                ],
-                dest: '<%= distFolder %>/css/music-font.min.css'
             }
         },
 
@@ -55,10 +39,6 @@ module.exports = function (grunt) {
                     '<%= libFolder %>/angular-loading-bar/build/loading-bar.css',
                     // AlphaTab
                     '<%= libFolder %>/AlphaTab/Build/JavaScript/AlphaTab.css',
-                    // Font Awesome
-                    '<%= distFolder %>/css/font-awesome.min.css',
-                    // Music Font
-                    '<%= distFolder %>/css/music-font.min.css',
                     // Application styles
                     '<%= distFolder %>/css/theme.min.css'
                 ],
@@ -175,7 +155,7 @@ module.exports = function (grunt) {
 
             music_font: {
                 src: [
-                    'fonts/MusicFont/fonts/*'
+                    'styles/music-font/fonts/*'
                 ],
                 dest: '<%= distFolder %>/fonts/',
                 expand: true,

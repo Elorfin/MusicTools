@@ -7,7 +7,8 @@ var SpecificationFormDirective = function SpecificationFormDirective($client) {
         template: /*$client.getPartial('Instrument/menu.html', 'app/Instrument')*/ '<div></div>',
         replace: true,
         scope: {
-            specification: '='
+            type          : '=',
+            specification : '='
         },
         bindToController: true,
         controllerAs: 'specificationFormCtrl',

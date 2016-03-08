@@ -118,7 +118,7 @@ class InstrumentController extends Controller
     public function deleteAction(Instrument $instrument)
     {
         $this->getDoctrine()->getManager()->remove($instrument);
-        $this->getDoctrine()->getManager()->flush;
+        $this->getDoctrine()->getManager()->flush();
 
         return new JsonApiResponse(null, 204);
     }

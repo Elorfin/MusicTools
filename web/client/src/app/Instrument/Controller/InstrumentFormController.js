@@ -8,12 +8,12 @@ var InstrumentFormController = function InstrumentFormController(resource, Instr
     this.instrumentTypes  = instrumentTypes;
     this.templateResource = InstrumentTemplateResource;
 
+    // Initialize empty relationships
     if (!this.apiResource.hasRelationship(this.resource, 'instrumentType')) {
-        this.apiResource.addRelationship(this.resource, 'instrumentType', this.instrumentTypes[0]);
+        this.setType(this.instrumentTypes[0]);
     }
 
     if (!this.apiResource.hasRelationship(this.resource, 'specification')) {
-        console.log('coucou test');
         this.apiResource.addRelationship(this.resource, 'specification', {});
     }
 };
@@ -27,15 +27,21 @@ InstrumentFormController.$inject = [ 'resource', 'InstrumentResource', 'instrume
 
 /**
  * List of Templates for the current InstrumentType
+ * @type {Array}
+ */
+InstrumentFormController.prototype.templates = [];
+
+/**
+ * Selected Template
  * @type {Object}
  */
-InstrumentFormController.prototype.templates = null;
+InstrumentFormController.prototype.selectedTemplate = null;
 
 /**
  * Select the type of the Instrument
  * @param {Object} type
  */
-InstrumentFormController.prototype.selectType = function selectType(type) {
+InstrumentFormController.prototype.setType = function setType(type) {
     this.apiResource.addRelationship(this.resource, 'instrumentType', type);
 
     // Load templates for this type
@@ -47,9 +53,11 @@ InstrumentFormController.prototype.selectType = function selectType(type) {
  * @param {Object} type
  */
 InstrumentFormController.prototype.loadTemplates = function loadTemplates(type) {
-    this.templates = this.templateResource.get({ type: type.id }).then(function (result) {
-        this.templates = result;
-    }.bind(this));
+    this.templates = this.templateResource
+        .get({ type: type.id })
+        .then(function onSuccess(result) {
+            this.templates = result;
+        }.bind(this));
 };
 
 /**

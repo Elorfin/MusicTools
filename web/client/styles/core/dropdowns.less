@@ -95,12 +95,12 @@
     }
 
     .dropdown-menu-check {
-        li > a {
+        li {
             position: relative;
-            padding-right: 60px !important;
 
-            .fa-check {
+            &:after {
                 position: absolute;
+                content: "\f00c";
                 top: 0;
                 right: 15px;
                 bottom: 0;
@@ -110,11 +110,16 @@
                 line-height: 20px;
                 color: darken(@dropdown-bg, 2%);
             }
-        }
 
-        li.active {
-            .fa-check {
-                color: @brand-primary;
+            &.active {
+                &:after {
+                    color: @brand-primary;
+                }
+            }
+
+            > a {
+                position: relative;
+                padding-right: 60px !important;
             }
         }
     }

@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * InstrumentType Entity
- * Stores the default configuration for each instrument type (e.g. guitar 6 strings, guitar 7 strings, bass)
+ * Stores the default configuration for each instrument type (e.g. guitar, bass, recorder, piano)
  *
  * @ORM\Entity()
  * @ORM\Table(name="instrument_type")
@@ -38,6 +38,13 @@ class InstrumentType implements \JsonSerializable
      * @ORM\Column(type="string")
      */
     protected $icon;
+
+    /**
+     * Is the default InstrumentType ?
+     * @var boolean
+     * @ORM\Column(type="boolean", name="is_default")
+     */
+    protected $default;
 
     /**
      * Prefix used to retrieve corresponding Specification and Template class
@@ -102,6 +109,27 @@ class InstrumentType implements \JsonSerializable
     public function setIcon($icon)
     {
         $this->icon = $icon;
+
+        return $this;
+    }
+
+    /**
+     * Is default ?
+     * @return boolean
+     */
+    public function isDefault()
+    {
+        return $this->default;
+    }
+
+    /**
+     * Set default
+     * @param  boolean $default
+     * @return $this
+     */
+    public function setDefault($default)
+    {
+        $this->default = $default;
 
         return $this;
     }
@@ -177,6 +205,7 @@ class InstrumentType implements \JsonSerializable
             'attributes' => [
                 'name'       => $this->name,
                 'icon'       => $this->icon,
+                'default'    => $this->default,
                 'prefix'     => $this->prefix,
                 'polyphonic' => $this->polyphonic,
             ],

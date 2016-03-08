@@ -68,13 +68,17 @@ ApiResource.prototype.init = function init() {
 };
 
 /**
- *
+ * Check if a Resource has a relationship
  * @param   {object} resource
  * @param   {string} relationshipName
  * @returns {boolean}
  */
 ApiResource.prototype.hasRelationship = function hasRelationship(resource, relationshipName) {
-    if (resource.relationships && resource.relationships[relationshipName] && null !== resource.relationships[relationshipName] && 0 !== resource.relationships[relationshipName].length) {
+    if (angular.isObject(resource.relationships)
+        && angular.isObject(resource.relationships[relationshipName])
+        && angular.isObject(resource.relationships[relationshipName].data)
+        && 0 !== angular.isObject(resource.relationships[relationshipName].data.length)) {
+
         return true;
     }
 
@@ -82,7 +86,7 @@ ApiResource.prototype.hasRelationship = function hasRelationship(resource, relat
 };
 
 /**
- *
+ * Get a relationship of a Resource
  * @param   {object} resource
  * @param   {string} relationshipName
  * @returns {Object|null}
@@ -96,34 +100,56 @@ ApiResource.prototype.getRelationship = function getRelationship(resource, relat
     return relationship;
 };
 
-ApiResource.prototype.addRelationship = function addRelationship(resource, relationshipName, relationshipData) {
-    if (!resource.relationships) {
+/**
+ * Add a relationship to the Resource
+ * @param {Object}  resource
+ * @param {String}  relationshipName
+ * @param {Object}  relationshipObject
+ * @param {Boolean} isCollection
+ */
+ApiResource.prototype.addRelationship = function addRelationship(resource, relationshipName, relationshipObject, isCollection) {
+    // Initialize relationships namespace if not exist
+    if (!angular.isObject(resource.relationships)) {
         resource.relationships = {};
     }
 
-    resource.relationships[relationshipName] = {
-        data: relationshipData
-    };
+    // Initialize relationship if not exist
+    if (!this.hasRelationship(resource, relationshipName)) {
+        resource.relationships[relationshipName] = {
+            data: isCollection ? [] : {}
+        };
+    }
+
+    // Add relationship
+    if (isCollection) {
+        // Collection of resource objects
+        resource.relationships[relationshipName].data.push(relationshipObject);
+    } else {
+        // Single resource object
+        resource.relationships[relationshipName].data = relationshipObject;
+    }
 };
 
-ApiResource.prototype.removeRelationship = function removeRelationship(resource, relationshipName, relationshipData) {
-    if (resource.relationships && resource.relationships[relationshipName] && resource.relationships[relationshipName].data) {
+/**
+ * Remove a relationship from the Resource
+ * @param {Object} resource
+ * @param {String} relationshipName
+ * @param {Object} relationshipObject
+ */
+ApiResource.prototype.removeRelationship = function removeRelationship(resource, relationshipName, relationshipObject) {
+    if (this.hasRelationship(resource, relationshipName)) {
         if (resource.relationships[relationshipName].data instanceof Array) {
             // Collection of resource objects
+
         } else {
             // Single resource object
 
         }
     }
-
-    resource.relationships[relationshipName] = {
-        data: relationshipData
-    };
 };
 
 /**
  * List existing resources filtered by `queryParams`
- *
  * @param   {Object}  [queryParams] - The parameters used to filter the list of elements
  * @returns {promise}               - The list of available resources
  */

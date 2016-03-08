@@ -3,7 +3,7 @@
  * @constructor
  */
 var ClientProvider = function ClientProvider() {
-    this.$get = function () {
+    this.$get = function Client() {
         var provider = this;
 
         return {

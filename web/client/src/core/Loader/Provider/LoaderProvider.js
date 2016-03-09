@@ -2,64 +2,20 @@
  * Provides Loading visualization on XHR
  * @constructor
  */
-var LoaderProvider = function LoaderProvider($animate) {
+var LoaderProvider = function LoaderProvider($document, $animate, $timeout) {
+    this.services = {};
+    this.services['$document'] = $document;
+    this.services['$animate']  = $animate;
+    this.services['$timeout']  = $timeout;
+
     this.$get = function Loader() {
         var provider = this;
 
-        var $parentSelector = this.parentSelector,
-            loadingBarContainer = angular.element(this.template),
+        var loadingBarContainer = angular.element(this.template),
             loadingBar = loadingBarContainer.find('div').eq(0);
 
         var incTimeout,
-            completeTimeout,
-            started = false,
-            status = 0;
-
-        var autoIncrement = this.autoIncrement;
-        var startSize = this.startSize;
-
-        /**
-         * Inserts the loading bar element into the dom, and sets it to 2%
-         */
-        function _start() {
-            var $parent = $document.find($parentSelector).eq(0);
-            $timeout.cancel(completeTimeout);
-
-            // do not continually broadcast the started event
-            if (started) {
-                return;
-            }
-
-            started = true;
-
-            $animate.enter(loadingBarContainer, $parent, angular.element($parent[0].lastChild));
-
-            _set(startSize);
-        }
-
-        /**
-         * Set the loading bar's width to a certain percent.
-         *
-         * @param n any value between 0 and 1
-         */
-        function _set(n) {
-            if (!started) {
-                return;
-            }
-            var pct = (n * 100) + '%';
-            loadingBar.css('width', pct);
-            status = n;
-
-            // increment loadingbar to give the illusion that there is always
-            // progress but make sure to cancel the previous timeouts so we don't
-            // have multiple incs running at the same time.
-            if (autoIncrement) {
-                $timeout.cancel(incTimeout);
-                incTimeout = $timeout(function() {
-                    _inc();
-                }, 250);
-            }
-        }
+            completeTimeout;
 
         /**
          * Increments the loading bar by a random amount
@@ -72,7 +28,7 @@ var LoaderProvider = function LoaderProvider($animate) {
 
             var rnd = 0;
 
-            // TODO: do this mathmatically instead of through conditions
+            // TODO: do this mathematically instead of through conditions
 
             var stat = _status();
             if (stat >= 0 && stat < 0.25) {
@@ -96,73 +52,99 @@ var LoaderProvider = function LoaderProvider($animate) {
             _set(pct);
         }
 
-        function _status() {
-            return status;
-        }
-
-        function _completeAnimation() {
-            status = 0;
-            started = false;
-        }
-
-        function _complete() {
-            _set(1);
-
-            $timeout.cancel(completeTimeout);
-
-            // Attempt to aggregate any start/complete calls within 500ms:
-            completeTimeout = $timeout(function() {
-                var promise = $animate.leave(loadingBarContainer, _completeAnimation);
-                if (promise && promise.then) {
-                    promise.then(_completeAnimation);
-                }
-            }, 500);
-        }
-
         return {
-            start            : _start,
-            set              : _set,
-            status           : _status,
-            inc              : _inc,
-            complete         : _complete,
-            autoIncrement    : this.autoIncrement,
-            latencyThreshold : this.latencyThreshold,
-            parentSelector   : this.parentSelector,
-            startSize        : this.startSize
+            start            : provider.start,
+            progress         : progress.updateProgress,
+            status           : provider.status,
+            complete         : provider.complete,
+            latencyThreshold : provider.latencyThreshold,
+            parentSelector   : provider.parentSelector,
+            startSize        : provider.startSize
         };
     };
 };
 
 // Set up dependency injection
-LoaderProvider.$inject = [ '$animate' ];
+LoaderProvider.$inject = [ '$document', '$animate', '$timeout' ];
 
-LoaderProvider.prototype.autoIncrement = true;
+/**
+ * Is the Loader started ?
+ * @type {boolean}
+ */
+LoaderProvider.prototype.started = false;
+
+/**
+ * Current status of the Loader
+ * @type {number}
+ */
+LoaderProvider.prototype.status = 0;
+
 LoaderProvider.prototype.latencyThreshold = 100;
+
 LoaderProvider.prototype.startSize = 0.02;
+
 LoaderProvider.prototype.parentSelector = 'body';
+
 LoaderProvider.prototype.template = '<div id="loading-bar"><div class="bar"><div class="peg"></div></div></div>';
 
 /**
  * Start loading progress
  */
 LoaderProvider.prototype.start = function start() {
-    var $parent = $document.find($parentSelector).eq(0);
-    $timeout.cancel(completeTimeout);
+    var $parent = this.services.$document.find(this.parentSelector).eq(0);
+
+    this.services.$timeout.cancel(completeTimeout);
 
     // do not continually broadcast the started event
-    if (started) {
+    if (this.started) {
         return;
     }
 
-    started = true;
+    // Mark load as started
+    this.started = true;
+
+    var loadingBarContainer = angular.element(this.template);
 
     $animate.enter(loadingBarContainer, $parent, angular.element($parent[0].lastChild));
 
-    _set(startSize);
+    this.updateProgress(this.startSize);
 };
 
-LoaderProvider.prototype.updateProgress = function updateProgress() {
+/**
+ * Set the loading bar's width to a certain percent.
+ * @param {Number} value any value between 0 and 1
+ */
+LoaderProvider.prototype.updateProgress = function updateProgress(value) {
+    if (!this.started) {
+        return;
+    }
 
+    // Update progressbar based on the value
+
+    var pct = (value * 100) + '%';
+    loadingBar.css('width', pct);
+    this.status = value;
+
+    this.services.$timeout.cancel(incTimeout);
+    incTimeout = $timeout(function() {
+        _inc();
+    }.bind(this), 250);
+};
+
+LoaderProvider.prototype.complete = function complete() {
+    this.updateProgress(1);
+
+    function _completeAnimation() {
+        status = 0;
+        started = false;
+    }
+
+    $timeout.cancel(completeTimeout);
+
+    // Attempt to aggregate any start/complete calls within 500ms
+    completeTimeout = $timeout(function() {
+        _completeAnimation();
+    }, 500);
 };
 
 // Register provider into Angular JS

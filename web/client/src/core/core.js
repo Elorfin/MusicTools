@@ -14,7 +14,6 @@ angular
         'ngFileUpload',
         'ui.bootstrap',
         'pascalprecht.translate',
-        'angular-loading-bar',
 
         // Configuration of the Application
         'AppConfiguration',
@@ -36,8 +35,7 @@ angular
         '$clientProvider',
         'clientConfiguration',
         '$translateProvider',
-        'cfpLoadingBarProvider',
-        function configure($apiProvider, apiConfiguration, $clientProvider, clientConfiguration, $translateProvider, cfpLoadingBarProvider) {
+        function configure($apiProvider, apiConfiguration, $clientProvider, clientConfiguration, $translateProvider) {
             // Configure API
             $apiProvider.configure(apiConfiguration);
 
@@ -52,8 +50,5 @@ angular
 
             // Set sanitize strategy for translations
             $translateProvider.useSanitizeValueStrategy('sanitize');
-
-            // Disable loading spinner
-            cfpLoadingBarProvider.includeSpinner = false;
         }
     ]);

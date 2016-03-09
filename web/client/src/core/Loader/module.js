@@ -1,6 +1,6 @@
 /**
  * Loader module
- * Manages visual loading progress when XRH
+ * Manages visual loading progress when XHR
  */
 angular
     .module('Loader', [

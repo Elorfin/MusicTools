@@ -53,6 +53,22 @@ angular
             }
         }
     ]);
+/* File : src/core/Loader/module.js */ 
+/**
+ * Loader module
+ * Manages visual loading progress when XHR
+ */
+angular
+    .module('Loader', [
+        'ngAnimate'
+    ])
+    .config([
+        '$httpProvider',
+        function configureLoader($httpProvider) {
+            // Set up Http interceptor to catch XHR
+            $httpProvider.interceptors.push('LoaderInterceptor');
+        }
+    ]);
 /* File : src/core/Utilities/module.js */ 
 /**
  * Utilities Module
@@ -75,7 +91,6 @@ angular
         'ngFileUpload',
         'ui.bootstrap',
         'pascalprecht.translate',
-        'angular-loading-bar',
 
         // Configuration of the Application
         'AppConfiguration',
@@ -86,7 +101,8 @@ angular
         'Api',
         'Client',
         'Layout',
-        'Alert'
+        'Alert',
+        'Loader'
     ])
 
     // Configure Core
@@ -96,8 +112,7 @@ angular
         '$clientProvider',
         'clientConfiguration',
         '$translateProvider',
-        'cfpLoadingBarProvider',
-        function configure($apiProvider, apiConfiguration, $clientProvider, clientConfiguration, $translateProvider, cfpLoadingBarProvider) {
+        function configure($apiProvider, apiConfiguration, $clientProvider, clientConfiguration, $translateProvider) {
             // Configure API
             $apiProvider.configure(apiConfiguration);
 
@@ -112,9 +127,6 @@ angular
 
             // Set sanitize strategy for translations
             $translateProvider.useSanitizeValueStrategy('sanitize');
-
-            // Disable loading spinner
-            cfpLoadingBarProvider.includeSpinner = false;
         }
     ]);
 /* File : src/core/Alert/Directive/AlertsDirective.js */ 
@@ -401,7 +413,7 @@ angular
 
 /* File : src/core/Api/Provider/ApiProvider.js */ 
 var ApiProvider = function ApiProvider() {
-    this.$get = function () {
+    this.$get = function Api() {
         var provider = this;
 
         return {
@@ -1270,7 +1282,7 @@ angular
  * @constructor
  */
 var ClientProvider = function ClientProvider() {
-    this.$get = function () {
+    this.$get = function Client() {
         var provider = this;
 
         return {
@@ -1969,6 +1981,269 @@ layoutTranslations['fr'] = {
     list_display_list_detailed  : 'liste détaillée',
     list_display_list_condensed : 'liste condensée'
 };
+/* File : src/core/Loader/Interceptor/LoaderInterceptor.js */ 
+/**
+ * Loader Interceptor
+ * Catch all XHR to display and update the Loader
+ * @constructor
+ */
+var LoaderInterceptor = function LoaderInterceptor($q, $timeout, $loader) {
+    this.services = {};
+
+    this.services['$q']       = $q;
+    this.services['$timeout'] = $timeout;
+    this.services['$loader']  = $loader;
+};
+
+// Set up dependency injection
+LoaderInterceptor.$inject = [ '$q', '$timeout', '$loader' ];
+
+/**
+ * The total number of requests made
+ * @var {Number}
+ */
+LoaderInterceptor.prototype.total = 0;
+
+/**
+ * The number of requests completed (either successfully or not)
+ * @var {Number}
+ */
+LoaderInterceptor.prototype.completed = 0;
+
+/**
+ * HTTP event : onRequest
+ * @param   {Object} config
+ * @returns {Object}
+ */
+LoaderInterceptor.prototype.request = function onRequest(config) {
+    this.startRequest();
+
+    return config;
+};
+
+/**
+ * HTTP event : onResponse
+ * @param   {Object} response
+ * @returns {Object}
+ */
+LoaderInterceptor.prototype.response = function onResponse(response) {
+    this.completeRequest();
+
+    return response;
+};
+
+/**
+ * HTTP event : onResponseError
+ * @param   {Object} rejection
+ * @returns {Object}
+ */
+LoaderInterceptor.prototype.responseError = function onResponseError(rejection) {
+    this.completeRequest();
+
+    return this.services.$q.reject(rejection);
+};
+
+/**
+ * Start a new Request
+ */
+LoaderInterceptor.prototype.startRequest = function startRequest() {
+    if (this.total === 0) {
+        this.services.$timeout(this.startLoader.bind(this), this.services.$loader.latencyThreshold);
+    }
+
+    // Increment current running Requests count
+    this.total++;
+
+    this.services.$loader.updateProgress(this.completed / this.total);
+};
+
+/**
+ * Start the Loader visualization
+ */
+LoaderInterceptor.prototype.startLoader = function startLoader() {
+    this.services.$loader.start();
+};
+
+/**
+ * Complete the Request
+ */
+LoaderInterceptor.prototype.completeRequest = function completeRequest() {
+    // Increment completed Requests count
+    this.completed++;
+
+    if (this.completed >= this.total) {
+        // All running Requests have finished
+        this.services.$timeout.cancel(this.startLoader.bind(this));
+
+        // End Loader progress
+        this.services.$loader.complete();
+
+        // Reset counters
+        this.completed = 0;
+        this.total = 0;
+    } else {
+        this.services.$loader.updateProgress(this.completed / this.total);
+    }
+};
+
+// Inject Service into AngularJS
+angular
+    .module('Loader')
+    .service('LoaderInterceptor', LoaderInterceptor);
+/* File : src/core/Loader/Provider/LoaderProvider.js */ 
+/**
+ * Provides Loading visualization on XHR
+ * @constructor
+ */
+var LoaderProvider = function LoaderProvider($document, $animate, $timeout) {
+    this.services = {};
+    this.services['$document'] = $document;
+    this.services['$animate']  = $animate;
+    this.services['$timeout']  = $timeout;
+
+    this.$get = function Loader() {
+        var provider = this;
+
+        var loadingBarContainer = angular.element(this.template),
+            loadingBar = loadingBarContainer.find('div').eq(0);
+
+        var incTimeout,
+            completeTimeout;
+
+        /**
+         * Increments the loading bar by a random amount
+         * but slows down as it progresses
+         */
+        function _inc() {
+            if (_status() >= 1) {
+                return;
+            }
+
+            var rnd = 0;
+
+            // TODO: do this mathematically instead of through conditions
+
+            var stat = _status();
+            if (stat >= 0 && stat < 0.25) {
+                // Start out between 3 - 6% increments
+                rnd = (Math.random() * (5 - 3 + 1) + 3) / 100;
+            } else if (stat >= 0.25 && stat < 0.65) {
+                // increment between 0 - 3%
+                rnd = (Math.random() * 3) / 100;
+            } else if (stat >= 0.65 && stat < 0.9) {
+                // increment between 0 - 2%
+                rnd = (Math.random() * 2) / 100;
+            } else if (stat >= 0.9 && stat < 0.99) {
+                // finally, increment it .5 %
+                rnd = 0.005;
+            } else {
+                // after 99%, don't increment:
+                rnd = 0;
+            }
+
+            var pct = _status() + rnd;
+            _set(pct);
+        }
+
+        return {
+            start            : provider.start,
+            progress         : progress.updateProgress,
+            status           : provider.status,
+            complete         : provider.complete,
+            latencyThreshold : provider.latencyThreshold,
+            parentSelector   : provider.parentSelector,
+            startSize        : provider.startSize
+        };
+    };
+};
+
+// Set up dependency injection
+LoaderProvider.$inject = [ '$document', '$animate', '$timeout' ];
+
+/**
+ * Is the Loader started ?
+ * @type {boolean}
+ */
+LoaderProvider.prototype.started = false;
+
+/**
+ * Current status of the Loader
+ * @type {number}
+ */
+LoaderProvider.prototype.status = 0;
+
+LoaderProvider.prototype.latencyThreshold = 100;
+
+LoaderProvider.prototype.startSize = 0.02;
+
+LoaderProvider.prototype.parentSelector = 'body';
+
+LoaderProvider.prototype.template = '<div id="loading-bar"><div class="bar"><div class="peg"></div></div></div>';
+
+/**
+ * Start loading progress
+ */
+LoaderProvider.prototype.start = function start() {
+    var $parent = this.services.$document.find(this.parentSelector).eq(0);
+
+    this.services.$timeout.cancel(completeTimeout);
+
+    // do not continually broadcast the started event
+    if (this.started) {
+        return;
+    }
+
+    // Mark load as started
+    this.started = true;
+
+    var loadingBarContainer = angular.element(this.template);
+
+    $animate.enter(loadingBarContainer, $parent, angular.element($parent[0].lastChild));
+
+    this.updateProgress(this.startSize);
+};
+
+/**
+ * Set the loading bar's width to a certain percent.
+ * @param {Number} value any value between 0 and 1
+ */
+LoaderProvider.prototype.updateProgress = function updateProgress(value) {
+    if (!this.started) {
+        return;
+    }
+
+    // Update progressbar based on the value
+
+    var pct = (value * 100) + '%';
+    loadingBar.css('width', pct);
+    this.status = value;
+
+    this.services.$timeout.cancel(incTimeout);
+    incTimeout = $timeout(function() {
+        _inc();
+    }.bind(this), 250);
+};
+
+LoaderProvider.prototype.complete = function complete() {
+    this.updateProgress(1);
+
+    function _completeAnimation() {
+        status = 0;
+        started = false;
+    }
+
+    $timeout.cancel(completeTimeout);
+
+    // Attempt to aggregate any start/complete calls within 500ms
+    completeTimeout = $timeout(function() {
+        _completeAnimation();
+    }, 500);
+};
+
+// Register provider into Angular JS
+angular
+    .module('Loader')
+    .provider('$loader', LoaderProvider);
 /* File : src/core/Utilities/Service/SoundService.js */ 
 /**
  * Sound Service

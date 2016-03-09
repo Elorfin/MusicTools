@@ -3,112 +3,16 @@
  * Catch all XHR to display and update the Loader
  * @constructor
  */
-var LoaderInterceptor = function LoaderInterceptor($q, $cacheFactory, $timeout, $log) {
-    /**
-     * The amount of time spent fetching before showing the loading bar
-     */
-    var latencyThreshold = cfpLoadingBar.latencyThreshold;
+var LoaderInterceptor = function LoaderInterceptor($q, $timeout, $loader) {
+    this.services = {};
 
-    /**
-     * $timeout handle for latencyThreshold
-     */
-    var startTimeout;
-
-
-    /**
-     * calls cfpLoadingBar.complete() which removes the
-     * loading bar from the DOM.
-     */
-    function setComplete() {
-        $timeout.cancel(startTimeout);
-        cfpLoadingBar.complete();
-        this.completed = 0;
-        this.total = 0;
-    }
-
-    /**
-     * Determine if the response has already been cached
-     * @param  {Object}  config the config option from the request
-     * @return {Boolean} retrns true if cached, otherwise false
-     */
-    function isCached(config) {
-        var cache;
-        var defaultCache = $cacheFactory.get('$http');
-        var defaults = $httpProvider.defaults;
-
-        // Choose the proper cache source. Borrowed from angular: $http service
-        if ((config.cache || defaults.cache) && config.cache !== false &&
-            (config.method === 'GET' || config.method === 'JSONP')) {
-            cache = angular.isObject(config.cache) ? config.cache
-                : angular.isObject(defaults.cache) ? defaults.cache
-                : defaultCache;
-        }
-
-        var cached = cache !== undefined ?
-        cache.get(config.url) !== undefined : false;
-
-        if (config.cached !== undefined && cached !== config.cached) {
-            return config.cached;
-        }
-        config.cached = cached;
-        return cached;
-    }
-
-
-    return {
-        request: function onRequest(config) {
-            // Check to make sure this request hasn't already been cached and that
-            // the requester didn't explicitly ask us to ignore this request:
-            if (!config.ignoreLoadingBar && !isCached(config)) {
-                if (reqsTotal === 0) {
-                    startTimeout = $timeout(function() {
-                        cfpLoadingBar.start();
-                    }, latencyThreshold);
-                }
-                reqsTotal++;
-                cfpLoadingBar.set(reqsCompleted / reqsTotal);
-            }
-            return config;
-        },
-
-        response: function onResponse(response) {
-            if (!response || !response.config) {
-                $log.error('Broken interceptor detected: Config object not supplied in response:\n https://github.com/chieffancypants/angular-loading-bar/pull/50');
-                return response;
-            }
-
-            if (!response.config.ignoreLoadingBar && !isCached(response.config)) {
-                reqsCompleted++;
-                if (reqsCompleted >= reqsTotal) {
-                    setComplete();
-                } else {
-                    cfpLoadingBar.set(reqsCompleted / reqsTotal);
-                }
-            }
-            return response;
-        },
-
-        responseError: function onResponseError(rejection) {
-            if (!rejection || !rejection.config) {
-                $log.error('Broken interceptor detected: Config object not supplied in rejection:\n https://github.com/chieffancypants/angular-loading-bar/pull/50');
-                return $q.reject(rejection);
-            }
-
-            if (!rejection.config.ignoreLoadingBar && !isCached(rejection.config)) {
-                reqsCompleted++;
-                if (reqsCompleted >= reqsTotal) {
-                    setComplete();
-                } else {
-                    cfpLoadingBar.set(reqsCompleted / reqsTotal);
-                }
-            }
-            return $q.reject(rejection);
-        }
-    };
+    this.services['$q']       = $q;
+    this.services['$timeout'] = $timeout;
+    this.services['$loader']  = $loader;
 };
 
 // Set up dependency injection
-LoaderInterceptor.$inject = [ '$q', '$cacheFactory', '$timeout', '$log' ];
+LoaderInterceptor.$inject = [ '$q', '$timeout', '$loader' ];
 
 /**
  * The total number of requests made
@@ -121,6 +25,82 @@ LoaderInterceptor.prototype.total = 0;
  * @var {Number}
  */
 LoaderInterceptor.prototype.completed = 0;
+
+/**
+ * HTTP event : onRequest
+ * @param   {Object} config
+ * @returns {Object}
+ */
+LoaderInterceptor.prototype.request = function onRequest(config) {
+    this.startRequest();
+
+    return config;
+};
+
+/**
+ * HTTP event : onResponse
+ * @param   {Object} response
+ * @returns {Object}
+ */
+LoaderInterceptor.prototype.response = function onResponse(response) {
+    this.completeRequest();
+
+    return response;
+};
+
+/**
+ * HTTP event : onResponseError
+ * @param   {Object} rejection
+ * @returns {Object}
+ */
+LoaderInterceptor.prototype.responseError = function onResponseError(rejection) {
+    this.completeRequest();
+
+    return this.services.$q.reject(rejection);
+};
+
+/**
+ * Start a new Request
+ */
+LoaderInterceptor.prototype.startRequest = function startRequest() {
+    if (this.total === 0) {
+        this.services.$timeout(this.startLoader.bind(this), this.services.$loader.latencyThreshold);
+    }
+
+    // Increment current running Requests count
+    this.total++;
+
+    this.services.$loader.updateProgress(this.completed / this.total);
+};
+
+/**
+ * Start the Loader visualization
+ */
+LoaderInterceptor.prototype.startLoader = function startLoader() {
+    this.services.$loader.start();
+};
+
+/**
+ * Complete the Request
+ */
+LoaderInterceptor.prototype.completeRequest = function completeRequest() {
+    // Increment completed Requests count
+    this.completed++;
+
+    if (this.completed >= this.total) {
+        // All running Requests have finished
+        this.services.$timeout.cancel(this.startLoader.bind(this));
+
+        // End Loader progress
+        this.services.$loader.complete();
+
+        // Reset counters
+        this.completed = 0;
+        this.total = 0;
+    } else {
+        this.services.$loader.updateProgress(this.completed / this.total);
+    }
+};
 
 // Inject Service into AngularJS
 angular

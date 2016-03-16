@@ -22,42 +22,44 @@ It also includes the possibility to organize all the music sheets and resources 
 - Recorder
 - Piano
 
-## Requirements
+## Contributing
+
+### Requirements
 - PHP > 5.5
 - composer
 - nodeJS
 - npm
 
-## Installation
+### Installation
 
-### Get the server sources
+#### Get the server sources
 ```
 $ git clone git@github.com:Elorfin/MusicTools.git
 $ cd MusicTools
 $ composer update --prefer-source -o
 ```
 
-### Configure application
+#### Configure application
 ```
 $ cp app/config/parameters.yml.dist app/config/parameters.yml
 $ vi parameters.yml
 ```
 
-### Create and populate database
+#### Create and populate database
 ```
 $ php bin/console doctrine:database:create
 $ php bin/console doctrine:schema:update --force
 $ php bin/console doctrine:fixtures:load
 ```
 
-### Get the client sources
+#### Get the client sources
 ```
 $ cd web/client
 $ npm install
 $ bower install
 ```
 
-### Build client
+#### Build client
 ```
 $ grunt build
 ```

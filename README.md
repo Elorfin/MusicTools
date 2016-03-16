@@ -4,6 +4,24 @@
 [![Dependency Status](https://gemnasium.com/Elorfin/MusicTools.svg)](https://gemnasium.com/Elorfin/MusicTools)
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/74bd74a9-b6fc-4b4e-9eb6-146748ab49db/mini.png)](https://insight.sensiolabs.com/projects/74bd74a9-b6fc-4b4e-9eb6-146748ab49db)
 
+## About
+
+### Introduction
+MusicTools is a web application designed to help everyone who is learning an instrument, and more generally music.
+
+It permits to register all your instruments to display notes, scales or chords on a comprehensive visual representation.
+
+It also includes the possibility to organize all the music sheets and resources needed to learn a specific song.
+
+### Why do I need it ?
+
+### Supported instruments
+- Guitar
+- Bass
+- Ukulele
+- Recorder
+- Piano
+
 ## Requirements
 - PHP > 5.5
 - composer

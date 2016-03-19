@@ -33,7 +33,7 @@ class InstrumentType extends AbstractType
         ;
 
         // Add specification
-        $formModifier = function (FormInterface $form, \InstrumentBundle\Entity\InstrumentType $instrumentType = null) {
+        $formModifier = function(FormInterface $form, \InstrumentBundle\Entity\InstrumentType $instrumentType = null) {
             $prefix = null === $instrumentType ? 'Abstract' : $instrumentType->getPrefix();
 
             $form->add('specification', 'InstrumentBundle\\Form\\Specification\\' . $prefix . 'SpecificationType');
@@ -41,7 +41,7 @@ class InstrumentType extends AbstractType
 
         $builder->addEventListener(
             FormEvents::PRE_SET_DATA,
-            function (FormEvent $event) use ($formModifier) {
+            function(FormEvent $event) use ($formModifier) {
                 // Get Instrument Entity
                 $data = $event->getData();
 
@@ -51,7 +51,7 @@ class InstrumentType extends AbstractType
 
         $builder->get('instrumentType')->addEventListener(
             FormEvents::POST_SUBMIT,
-            function (FormEvent $event) use ($formModifier) {
+            function(FormEvent $event) use ($formModifier) {
                 // It's important here to fetch $event->getForm()->getData(), as
                 // $event->getData() will get you the client data (that is, the ID)
                 $instrumentType = $event->getForm()->getData();

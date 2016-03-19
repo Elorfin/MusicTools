@@ -3,6 +3,7 @@
 namespace InstrumentBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 use InstrumentBundle\Entity\Specification\AbstractSpecification;
 use UserBundle\Entity\OwnableTrait;
 
@@ -31,6 +32,7 @@ class Instrument implements \JsonSerializable
      * @var string
      *
      * @ORM\Column(type="string")
+     * @Assert\NotBlank()
      */
     protected $name;
 
@@ -146,6 +148,9 @@ class Instrument implements \JsonSerializable
     public function setSpecification(AbstractSpecification $specification)
     {
         $this->specification = $specification;
+
+        // Set inverse side of relationship
+        $specification->setInstrument($this);
 
         return $this;
     }

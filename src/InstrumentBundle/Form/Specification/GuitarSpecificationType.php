@@ -19,10 +19,13 @@ class GuitarSpecificationType extends AbstractType
         $builder->setRequestHandler(new JsonApiRequestHandler());
 
         $builder
+            ->add('leftHanded')
             ->add('headstock')
+            ->add('body')
+            ->add('amplification')
             ->add('strings')
             ->add('frets')
-            ->add('leftHanded')
+            ->add('tuning')
         ;
     }
 

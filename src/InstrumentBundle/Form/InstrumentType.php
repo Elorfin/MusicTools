@@ -28,6 +28,7 @@ class InstrumentType extends AbstractType
             ->add('model')
             ->add('instrumentType', EntityType::class, array(
                 'class' => 'InstrumentBundle:InstrumentType',
+                'choice_label' => 'name'
             ))
         ;
 
@@ -41,7 +42,7 @@ class InstrumentType extends AbstractType
         $builder->addEventListener(
             FormEvents::PRE_SET_DATA,
             function (FormEvent $event) use ($formModifier) {
-                // this would be your entity, i.e. SportMeetup
+                // Get Instrument Entity
                 $data = $event->getData();
 
                 $formModifier($event->getForm(), $data->getInstrumentType());

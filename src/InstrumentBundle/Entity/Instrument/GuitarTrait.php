@@ -207,4 +207,14 @@ trait GuitarTrait
 
         return $this;
     }
+
+    public function getTuning()
+    {
+        return $this->tuning;
+    }
+
+    public function setTuning($tuning)
+    {
+        $this->tuning = $tuning;
+    }
 }

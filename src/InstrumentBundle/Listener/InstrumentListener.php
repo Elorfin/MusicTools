@@ -16,7 +16,7 @@ class InstrumentListener
      * @param Instrument         $instrument
      * @param LifecycleEventArgs $event
      */
-    public function prePersistHandler(Instrument $instrument, LifecycleEventArgs $event)
+    public function prePersist(Instrument $instrument, LifecycleEventArgs $event)
     {
         $specification = $instrument->getSpecification();
 
@@ -36,7 +36,7 @@ class InstrumentListener
      * @param Instrument         $instrument
      * @param LifecycleEventArgs $event
      */
-    public function preRemoveHandler(Instrument $instrument, LifecycleEventArgs $event)
+    public function preRemove(Instrument $instrument, LifecycleEventArgs $event)
     {
         $specification = $instrument->getSpecification();
         if (!empty($specification)) {
@@ -49,7 +49,7 @@ class InstrumentListener
      * @param Instrument         $instrument
      * @param LifecycleEventArgs $event
      */
-    public function postLoadHandler(Instrument $instrument, LifecycleEventArgs $event)
+    public function postLoad(Instrument $instrument, LifecycleEventArgs $event)
     {
         $type = $instrument->getInstrumentType();
 

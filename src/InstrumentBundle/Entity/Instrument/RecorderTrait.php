@@ -19,14 +19,25 @@ trait RecorderTrait
      */
     protected $fingering;
 
+    /**
+     * Get range
+     * @return string
+     */
     public function getRange()
     {
         return $this->range;
     }
 
+    /**
+     * Set range
+     * @param  string $range
+     * @return $this
+     */
     public function setRange($range)
     {
-        return $this->range;
+        $this->range = $range;
+
+        return $this;
     }
 
     /**

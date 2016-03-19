@@ -101,8 +101,8 @@ angular
         'Api',
         'Client',
         'Layout',
-        'Alert',
-        'Loader'
+        'Alert'/*,
+        'Loader'*/
     ])
 
     // Configure Core
@@ -182,7 +182,7 @@ AlertService.prototype.alerts = [];
  * Display duration for the alert which are configured to be auto-hidden
  * @type {number}
  */
-AlertService.prototype.displayDuration = 1000;
+AlertService.prototype.displayDuration = 5000;
 
 /**
  * Get active alerts
@@ -197,11 +197,15 @@ AlertService.prototype.getAlerts = function getAlerts() {
  * @param {string}  type
  * @param {string}  message
  * @param {boolean} [autoHide]
+ * @param {array}   [action]
+ * @param {array}   [details]
  */
-AlertService.prototype.addAlert = function addAlert(type, message, autoHide) {
+AlertService.prototype.addAlert = function addAlert(type, message, autoHide, action, details) {
     var newAlert = {
-        type     : type,
-        message  : message
+        type    : type,
+        message : message,
+        action  : action ? action : null,
+        details : details ? details : null
     };
 
     // Configure auto hide if needed
@@ -1212,7 +1216,7 @@ angular
  * API Error Service
  * @constructor
  */
-var ApiErrorService = function ApiErrorService($q, $location) {
+var ApiErrorService = function ApiErrorService($q, $location, AlertService) {
     return {
         response: function onResponseSuccess(responseData) {
             return responseData;
@@ -1226,6 +1230,10 @@ var ApiErrorService = function ApiErrorService($q, $location) {
                 case 404:
                     $location.path('/404');
                     break;
+                // 422 : Unprocessable entity
+                case 422:
+                    AlertService.addAlert('error', 'Invalid data.', true);
+                    break;
                 default:
                     $location.path('/error_server');
             }
@@ -1236,7 +1244,7 @@ var ApiErrorService = function ApiErrorService($q, $location) {
 };
 
 // Set up dependency injection
-ApiErrorService.$inject = [ '$q', '$location' ];
+ApiErrorService.$inject = [ '$q', '$location', 'AlertService' ];
 
 // Inject Service into AngularJS
 angular
@@ -3269,11 +3277,12 @@ angular
  * Form controller for Instruments
  * @constructor
  */
-var InstrumentFormController = function InstrumentFormController(resource, InstrumentResource, instrumentTypes, InstrumentTemplateResource) {
+var InstrumentFormController = function InstrumentFormController(resource, InstrumentResource, instrumentTypes, InstrumentTemplateResource, InstrumentSpecificationResource) {
     FormController.apply(this, arguments);
 
-    this.instrumentTypes  = instrumentTypes;
-    this.templateResource = InstrumentTemplateResource;
+    this.instrumentTypes       = instrumentTypes;
+    this.templateResource      = InstrumentTemplateResource;
+    this.specificationResource = InstrumentSpecificationResource;
 
     // Initialize empty relationships
     if (!this.apiResource.hasRelationship(this.resource, 'instrumentType')) {
@@ -3281,7 +3290,7 @@ var InstrumentFormController = function InstrumentFormController(resource, Instr
     }
 
     if (!this.apiResource.hasRelationship(this.resource, 'specification')) {
-        this.apiResource.addRelationship(this.resource, 'specification', {});
+        this.apiResource.addRelationship(this.resource, 'specification', this.specificationResource.init());
     }
 };
 
@@ -3290,7 +3299,13 @@ InstrumentFormController.prototype             = Object.create(FormController.pr
 InstrumentFormController.prototype.constructor = InstrumentFormController;
 
 // Set up dependency injection
-InstrumentFormController.$inject = [ 'resource', 'InstrumentResource', 'instrumentTypes', 'InstrumentTemplateResource' ];
+InstrumentFormController.$inject = [
+    'resource',
+    'InstrumentResource',
+    'instrumentTypes',
+    'InstrumentTemplateResource',
+    'InstrumentSpecificationResource'
+];
 
 /**
  * List of Templates for the current InstrumentType
@@ -3499,6 +3514,40 @@ InstrumentResource.prototype.path = '/instruments/{id}';
 angular
     .module('Instrument')
     .service('InstrumentResource', InstrumentResource);
+
+/* File : src/app/Instrument/Resource/InstrumentSpecificationResource.js */ 
+/**
+ * Instrument Specification Resource
+ * @constructor
+ */
+var InstrumentSpecificationResource = function InstrumentSpecificationResource() {
+    // Call parent constructor
+    ApiResource.apply(this, arguments);
+};
+
+// Extends ApiResource
+InstrumentSpecificationResource.prototype = Object.create(ApiResource.prototype);
+InstrumentSpecificationResource.prototype.constructor = InstrumentSpecificationResource;
+
+// Set up dependency injection
+InstrumentSpecificationResource.$inject = ApiResource.$inject;
+
+/**
+ * Type of the Resource
+ * @type {string}
+ */
+InstrumentSpecificationResource.prototype.type = 'instrument_specification';
+
+/**
+ * Path of the API resource
+ * @type {string}
+ */
+InstrumentSpecificationResource.prototype.path = '/instrument/{instrument}/specification/{id}';
+
+// Register service into Angular JS
+angular
+    .module('Instrument')
+    .service('InstrumentSpecificationResource', InstrumentSpecificationResource);
 
 /* File : src/app/Instrument/Resource/InstrumentTemplateResource.js */ 
 /**

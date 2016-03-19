@@ -15,7 +15,6 @@
         <li data-ng-repeat="(field, type) in listSorterCtrl.fields" data-ng-class="{ 'active': field === listSorterCtrl.current }">
             <a href="" role="button" data-ng-click="listSorterCtrl.setCurrent(field)">
                 {{ field }}
-                <span class="fa fa-check"></span>
             </a>
         </li>
     </ul>

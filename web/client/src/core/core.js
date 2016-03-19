@@ -24,8 +24,8 @@ angular
         'Api',
         'Client',
         'Layout',
-        'Alert',
-        'Loader'
+        'Alert'/*,
+        'Loader'*/
     ])
 
     // Configure Core

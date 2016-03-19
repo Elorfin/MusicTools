@@ -2,11 +2,12 @@
  * Form controller for Instruments
  * @constructor
  */
-var InstrumentFormController = function InstrumentFormController(resource, InstrumentResource, instrumentTypes, InstrumentTemplateResource) {
+var InstrumentFormController = function InstrumentFormController(resource, InstrumentResource, instrumentTypes, InstrumentTemplateResource, InstrumentSpecificationResource) {
     FormController.apply(this, arguments);
 
-    this.instrumentTypes  = instrumentTypes;
-    this.templateResource = InstrumentTemplateResource;
+    this.instrumentTypes       = instrumentTypes;
+    this.templateResource      = InstrumentTemplateResource;
+    this.specificationResource = InstrumentSpecificationResource;
 
     // Initialize empty relationships
     if (!this.apiResource.hasRelationship(this.resource, 'instrumentType')) {
@@ -14,7 +15,7 @@ var InstrumentFormController = function InstrumentFormController(resource, Instr
     }
 
     if (!this.apiResource.hasRelationship(this.resource, 'specification')) {
-        this.apiResource.addRelationship(this.resource, 'specification', {});
+        this.apiResource.addRelationship(this.resource, 'specification', this.specificationResource.init());
     }
 };
 
@@ -23,7 +24,13 @@ InstrumentFormController.prototype             = Object.create(FormController.pr
 InstrumentFormController.prototype.constructor = InstrumentFormController;
 
 // Set up dependency injection
-InstrumentFormController.$inject = [ 'resource', 'InstrumentResource', 'instrumentTypes', 'InstrumentTemplateResource' ];
+InstrumentFormController.$inject = [
+    'resource',
+    'InstrumentResource',
+    'instrumentTypes',
+    'InstrumentTemplateResource',
+    'InstrumentSpecificationResource'
+];
 
 /**
  * List of Templates for the current InstrumentType

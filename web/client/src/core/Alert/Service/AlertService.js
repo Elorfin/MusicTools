@@ -19,7 +19,7 @@ AlertService.prototype.alerts = [];
  * Display duration for the alert which are configured to be auto-hidden
  * @type {number}
  */
-AlertService.prototype.displayDuration = 1000;
+AlertService.prototype.displayDuration = 5000;
 
 /**
  * Get active alerts
@@ -34,11 +34,15 @@ AlertService.prototype.getAlerts = function getAlerts() {
  * @param {string}  type
  * @param {string}  message
  * @param {boolean} [autoHide]
+ * @param {array}   [action]
+ * @param {array}   [details]
  */
-AlertService.prototype.addAlert = function addAlert(type, message, autoHide) {
+AlertService.prototype.addAlert = function addAlert(type, message, autoHide, action, details) {
     var newAlert = {
-        type     : type,
-        message  : message
+        type    : type,
+        message : message,
+        action  : action ? action : null,
+        details : details ? details : null
     };
 
     // Configure auto hide if needed

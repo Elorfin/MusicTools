@@ -100,7 +100,8 @@
 
             &:after {
                 position: absolute;
-                content: "\f00c";
+                content: @fa-var-check;
+                font: normal normal normal @fa-font-size-base/@fa-line-height-base FontAwesome;
                 top: 0;
                 right: 15px;
                 bottom: 0;
@@ -109,6 +110,12 @@
                 height: 20px;
                 line-height: 20px;
                 color: darken(@dropdown-bg, 2%);
+            }
+
+            &.dropdown-header {
+                &:after {
+                    display: none;
+                }
             }
 
             &.active {

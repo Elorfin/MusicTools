@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity()
  * @ORM\Table(name="advertisement")
  */
-class Advertisement
+class Advertisement implements \JsonSerializable
 {
     /**
      * Unique identifier of the Entity
@@ -87,5 +87,25 @@ class Advertisement
         $this->description = $description;
 
         return $this;
+    }
+
+    public function jsonSerialize()
+    {
+        return [
+            // Identifier of the Resource
+            'type' => 'advertisements',
+            'id'   => $this->id,
+
+            // Attributes of the Resource
+            'attributes'      => [
+                'name'        => $this->name,
+                'description' => $this->description,
+            ],
+
+            // Relationships with other Resources
+            'relationships' => [
+
+            ]
+        ];
     }
 }

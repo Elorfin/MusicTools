@@ -42,26 +42,34 @@ TuningWidgetController.prototype.leftHanded = false;
  */
 TuningWidgetController.prototype.tuning = null;
 
+TuningWidgetController.prototype.tuning.tuningPegSize = 36;
+
 /**
  * Position of the Tuning pegs regarding to the Headstock format
  * Array are ordered from the lowest string to the higher one
  * @type {Object}
  */
 TuningWidgetController.prototype.tuningPegs = {
-    'in-line': {
+    'in-line': [
+        { x: 100, y: 690, clockwise: true },
+        { x: 145, y: 580, clockwise: true },
+        { x: 170, y: 470, clockwise: true },
 
-    },
+        { x: 195, y: 360, clockwise: true },
+        { x: 225, y: 250, clockwise: true },
+        { x: 250, y: 140, clockwise: true }
+    ],
 
     'top-bottom': [
         // Left
-        { x: 85,  y: 580 },
-        { x: 105, y: 400 },
-        { x: 100, y: 220 },
+        { x: 85,  y: 580, clockwise: true },
+        { x: 105, y: 400, clockwise: true },
+        { x: 100, y: 220, clockwise: true },
 
         // Right
-        { x: 295, y: 175 },
-        { x: 290, y: 355 },
-        { x: 315, y: 535 }
+        { x: 295, y: 175, clockwise: false },
+        { x: 290, y: 355, clockwise: false },
+        { x: 315, y: 535, clockwise: false }
     ]
 };
 
@@ -104,7 +112,6 @@ TuningWidgetController.prototype.drawHeadstock = function drawHeadstock(context)
 
     switch (this.headstock) {
         case 'top-bottom':
-            console.log('top-bottom');
             context.bezierCurveTo(300, 850, 275, 745, 395, 590);
             context.bezierCurveTo(415, 500, 310, 440, 380, 5);
             context.bezierCurveTo(195, -30, 5,   125, 10,  150);
@@ -114,7 +121,6 @@ TuningWidgetController.prototype.drawHeadstock = function drawHeadstock(context)
             break;
 
         case 'in-line':
-            console.log('in-line');
             context.bezierCurveTo(300, 775, 385, 700, 385, 700);
             context.bezierCurveTo(315, 435, 355, 265, 365, 20);
             context.bezierCurveTo(365, 20,  355, -5,  340, 10);
@@ -162,10 +168,64 @@ TuningWidgetController.prototype.drawNut = function drawNut(context) {
 };
 
 /**
+ *
+ * @param {number} string - current string
+ * @returns {{x: number, y: number}}
+ */
+TuningWidgetController.prototype.getTuningPegPosition = function getTuningPegPosition(context, string) {
+    var x = 0;
+    var y = 0;
+    var clockwise = true;
+
+    switch (this.headstock) {
+        case 'top-bottom':
+            break;
+
+        // TOP    : x=205 y=65
+        // BOTTOM : x=15  y=755
+        // HEIGHT : h=690
+        // Tuning caps must be on A(260, 65) B(70, 755)
+        case 'in-line':
+            var h = 690;
+            var start = 65;
+            var b = { x: 260, y: start };
+            var a = { x: 70,  y: start + h };
+
+            // TODO : check if the size of the tuning peg is not bigger than interval
+            var interval = h / this.strings;
+            var currentInterval = (interval  * string) + ( interval / 2);
+
+            var delta = Math.round(Math.sqrt(Math.pow(a.x - b.x, 2) + Math.pow(a.y - b.y, 2)));
+
+            x = a.x + (( currentInterval * (b.x - a.x) ) / delta);
+            y = a.y + (( currentInterval * (b.y - a.y) ) / delta);
+
+            break;
+    }
+
+    x = this.fixPosition(x);
+    y = this.fixPosition(y);
+
+    return { x: x, y: y, clockwise: clockwise };
+};
+
+TuningWidgetController.prototype.fixPosition = function fixPosition(pos) {
+    var pos = Math.round(pos);
+    if (0 === pos % 2) {
+        pos += 1;
+    }
+
+    return pos;
+};
+
+/**
  * Draw : Strings + Tuning pegs
  * @param context
  */
 TuningWidgetController.prototype.drawStrings = function drawStrings(context) {
+    // Tuning peg base circle = 38
+    // Tuning peg hexagon     = 30
+    // Tuning peg cap         = 16
     var drawTuningPeg = function drawTuningPeg(context, tuningPegPosition) {
         // Set Tuning Pegs color
         context.fillStyle = 'rgba(255, 255, 255, 0.25)';
@@ -200,8 +260,6 @@ TuningWidgetController.prototype.drawStrings = function drawStrings(context) {
         context.lineWidth = 1;
         context.strokeStyle = 'rgba(0, 0, 0, 0.5)';
         context.stroke();
-
-
     };
 
     var drawString = function drawString(context, startX, stringNum, stringWidth, tuningPegPosition) {
@@ -219,7 +277,7 @@ TuningWidgetController.prototype.drawStrings = function drawStrings(context) {
         context.lineTo(startX, 860 - 24);
 
         // Draw a line from the top of the nut to the tuning peg
-        var tuningPegX = (stringNum / 3 < 1) ? (tuningPegPosition.x + 16 - stringWidth) : (tuningPegPosition.x - 16 + stringWidth);
+        var tuningPegX = tuningPegPosition.clockwise ? (tuningPegPosition.x + 16 - stringWidth) : (tuningPegPosition.x - 16 + stringWidth);
 
         context.lineTo(tuningPegX, tuningPegPosition.y);
 
@@ -261,7 +319,8 @@ TuningWidgetController.prototype.drawStrings = function drawStrings(context) {
     // Draw each string (from the lowest to the highest)
     // 1. Draw base of the tuning pegs
     for (var s = 0; s < this.strings; s++) {
-        drawTuningPeg(context, this.tuningPegs[this.headstock][s]);
+        var position = this.getTuningPegPosition(context, s);
+        drawTuningPeg(context, position);
     }
 
     // 2. Draw strings
@@ -269,13 +328,15 @@ TuningWidgetController.prototype.drawStrings = function drawStrings(context) {
     var startX = 100 + (intervalWidth / 2);
     for (var s = 0; s < this.strings; s++) {
         var stringWidth = (this.strings + 1) - s;
-        drawString(context, startX, s, stringWidth, this.tuningPegs[this.headstock][s]);
+        var position = this.getTuningPegPosition(context, s);
+        drawString(context, startX, s, stringWidth, position);
         startX += intervalWidth;
     }
 
     // 3. Draw cap of the tuning pegs
     for (var s = 0; s < this.strings; s++) {
-        drawTuningPegCap(context, this.tuningPegs[this.headstock][s]);
+        var position = this.getTuningPegPosition(context, s);
+        drawTuningPegCap(context, position);
     }
 };
 

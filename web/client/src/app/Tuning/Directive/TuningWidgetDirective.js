@@ -10,9 +10,9 @@ var TuningWidgetDirective = function TuningWidgetDirective($client) {
         templateUrl: $client.getPartial('widget.html', 'app/Tuning'),
         replace: true,
         scope: {
-            strings   : '@',
-            headstock : '@',
-            leftHanded: '@',
+            strings   : '=',
+            headstock : '=',
+            leftHanded: '=',
             tuning    : '=?'
         },
         bindToController: true,
@@ -25,8 +25,19 @@ var TuningWidgetDirective = function TuningWidgetDirective($client) {
 
             tuningWidgetCtrl.draw(canvas);
 
-            scope.$watch('headstock', function (newValue, oldValue) {
-                console.log('coucou');
+            // Watch Headstock change
+            scope.$watch(function () {
+                return tuningWidgetCtrl.headstock;
+            }, function (newValue, oldValue) {
+                if (!init && newValue != oldValue) {
+                    tuningWidgetCtrl.draw(canvas);
+                }
+            });
+
+            // Watch Strings change
+            scope.$watch(function () {
+                return tuningWidgetCtrl.strings;
+            }, function (newValue, oldValue) {
                 if (!init && newValue != oldValue) {
                     tuningWidgetCtrl.draw(canvas);
                 }

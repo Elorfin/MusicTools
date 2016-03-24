@@ -5225,7 +5225,7 @@ TuningWidgetController.prototype.leftHanded = false;
  */
 TuningWidgetController.prototype.tuning = null;
 
-TuningWidgetController.prototype.tuning.tuningPegSize = 36;
+TuningWidgetController.prototype.tuningPegSize = 36;
 
 /**
  * Position of the Tuning pegs regarding to the Headstock format

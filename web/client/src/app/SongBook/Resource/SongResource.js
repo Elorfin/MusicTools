@@ -18,7 +18,7 @@ SongResource.$inject = ApiResource.$inject;
  * Type of the Resource
  * @type {string}
  */
-SongResource.prototype.type = 'song';
+SongResource.prototype.type = 'songs';
 
 /**
  * Path of the API resource

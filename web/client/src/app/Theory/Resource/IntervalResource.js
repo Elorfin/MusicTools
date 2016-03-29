@@ -19,7 +19,7 @@ IntervalResource.$inject = ApiResource.$inject;
  * Type of the Resource
  * @type {string}
  */
-IntervalResource.prototype.type = 'interval';
+IntervalResource.prototype.type = 'intervals';
 
 /**
  * Path of the API resource

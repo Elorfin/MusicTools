@@ -19,7 +19,7 @@ ScaleResource.$inject = ApiResource.$inject;
  * Type of the Resource
  * @type {string}
  */
-ScaleResource.prototype.type = 'scale';
+ScaleResource.prototype.type = 'scales';
 
 /**
  * Path of the API resource

@@ -181,7 +181,7 @@ class Chord implements \JsonSerializable
     public function jsonSerialize()
     {
         return array (
-            'type' => 'intervals',
+            'type' => 'chords',
             'id'   => $this->id,
             'attributes'      => array (
                 'name'        => $this->name,

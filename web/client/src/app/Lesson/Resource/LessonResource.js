@@ -22,7 +22,7 @@ LessonResource.$inject = ApiResource.$inject;
  * Type of the Resource
  * @type {string}
  */
-LessonResource.prototype.type = 'lesson';
+LessonResource.prototype.type = 'lessons';
 
 /**
  * Path of the API resource

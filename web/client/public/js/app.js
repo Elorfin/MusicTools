@@ -3502,7 +3502,7 @@ InstrumentResource.$inject = ApiResource.$inject;
  * Type of the Resource
  * @type {string}
  */
-InstrumentResource.prototype.type = 'instrument';
+InstrumentResource.prototype.type = 'instruments';
 
 /**
  * Path of the API resource
@@ -3536,7 +3536,7 @@ InstrumentSpecificationResource.$inject = ApiResource.$inject;
  * Type of the Resource
  * @type {string}
  */
-InstrumentSpecificationResource.prototype.type = 'instrument_specification';
+InstrumentSpecificationResource.prototype.type = 'instrument_specifications';
 
 /**
  * Path of the API resource
@@ -3570,7 +3570,7 @@ InstrumentTemplateResource.$inject = ApiResource.$inject;
  * Type of the Resource
  * @type {string}
  */
-InstrumentTemplateResource.prototype.type = 'instrument_template';
+InstrumentTemplateResource.prototype.type = 'instrument_templates';
 
 /**
  * Path of the API resource
@@ -3604,7 +3604,7 @@ InstrumentTypeResource.$inject = ApiResource.$inject;
  * Type of the Resource
  * @type {string}
  */
-InstrumentTypeResource.prototype.type = 'instrument_type';
+InstrumentTypeResource.prototype.type = 'instrument_types';
 
 /**
  * Path of the API resource
@@ -3825,7 +3825,7 @@ LessonResource.$inject = ApiResource.$inject;
  * Type of the Resource
  * @type {string}
  */
-LessonResource.prototype.type = 'lesson';
+LessonResource.prototype.type = 'lessons';
 
 /**
  * Path of the API resource
@@ -4245,7 +4245,7 @@ SongResource.$inject = ApiResource.$inject;
  * Type of the Resource
  * @type {string}
  */
-SongResource.prototype.type = 'song';
+SongResource.prototype.type = 'songs';
 
 /**
  * Path of the API resource
@@ -4930,7 +4930,7 @@ ChordResource.$inject = ApiResource.$inject;
  * Type of the Resource
  * @type {string}
  */
-ChordResource.prototype.type = 'chord';
+ChordResource.prototype.type = 'chords';
 
 /**
  * Path of the API resource
@@ -4965,7 +4965,7 @@ DegreeResource.$inject = ApiResource.$inject;
  * Type of the Resource
  * @type {string}
  */
-DegreeResource.prototype.type = 'degree';
+DegreeResource.prototype.type = 'degrees';
 
 /**
  * Path of the API resource
@@ -5000,7 +5000,7 @@ IntervalResource.$inject = ApiResource.$inject;
  * Type of the Resource
  * @type {string}
  */
-IntervalResource.prototype.type = 'interval';
+IntervalResource.prototype.type = 'intervals';
 
 /**
  * Path of the API resource
@@ -5035,7 +5035,7 @@ NoteResource.$inject = ApiResource.$inject;
  * Type of the Resource
  * @type {string}
  */
-NoteResource.prototype.type = 'note';
+NoteResource.prototype.type = 'notes';
 
 /**
  * Path of the API resource
@@ -5094,7 +5094,7 @@ ScaleResource.$inject = ApiResource.$inject;
  * Type of the Resource
  * @type {string}
  */
-ScaleResource.prototype.type = 'scale';
+ScaleResource.prototype.type = 'scales';
 
 /**
  * Path of the API resource

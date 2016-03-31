@@ -18,7 +18,7 @@ InstrumentSpecificationResource.$inject = ApiResource.$inject;
  * Type of the Resource
  * @type {string}
  */
-InstrumentSpecificationResource.prototype.type = 'instrument_specification';
+InstrumentSpecificationResource.prototype.type = 'instrument_specifications';
 
 /**
  * Path of the API resource

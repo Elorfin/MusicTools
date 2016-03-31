@@ -9,8 +9,13 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+
+/**
+ * Instrument form definition
+ */
 class InstrumentType extends AbstractType
 {
     /**
@@ -23,13 +28,13 @@ class InstrumentType extends AbstractType
         $builder->setRequestHandler(new JsonApiRequestHandler());
 
         $builder
-            ->add('name')
-            ->add('manufacturer')
-            ->add('model')
-            ->add('instrumentType', EntityType::class, array(
-                'class' => 'InstrumentBundle:InstrumentType',
+            ->add('name',           TextType::class)
+            ->add('manufacturer',   TextType::class)
+            ->add('model',          TextType::class)
+            ->add('instrumentType', EntityType::class, [
+                'class'        => 'InstrumentBundle:InstrumentType',
                 'choice_label' => 'name'
-            ))
+            ])
         ;
 
         // Add specification

@@ -18,7 +18,7 @@ InstrumentTemplateResource.$inject = ApiResource.$inject;
  * Type of the Resource
  * @type {string}
  */
-InstrumentTemplateResource.prototype.type = 'instrument_template';
+InstrumentTemplateResource.prototype.type = 'instrument_templates';
 
 /**
  * Path of the API resource

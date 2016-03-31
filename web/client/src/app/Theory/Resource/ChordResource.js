@@ -19,7 +19,7 @@ ChordResource.$inject = ApiResource.$inject;
  * Type of the Resource
  * @type {string}
  */
-ChordResource.prototype.type = 'chord';
+ChordResource.prototype.type = 'chords';
 
 /**
  * Path of the API resource

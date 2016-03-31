@@ -130,14 +130,20 @@ class InstrumentController extends Controller
     private function getFormErrors(FormInterface $form)
     {
         $errors = [];
-        foreach ($form->getErrors() as $key => $error) {
-            $errors[$key] = $error->getMessage();
+        foreach ($form->getErrors(true, false) as $key => $error) {
+            $from = $error->getOrigin();
+
+            $errors[$from->getName()] = $error->getMessage();
         }
 
         // Get errors from children
         foreach ($form->all() as $child) {
-            if (!$child->isValid()) {
-                $errors[$child->getName()] = $this->getFormErrors($child);
+            $childErrors = $this->getFormErrors($child);
+
+            if (!empty($childErrors)) {
+                var_dump($childErrors);
+                die();
+                $errors[] = $childErrors;
             }
         }
 

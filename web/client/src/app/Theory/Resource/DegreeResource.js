@@ -19,7 +19,7 @@ DegreeResource.$inject = ApiResource.$inject;
  * Type of the Resource
  * @type {string}
  */
-DegreeResource.prototype.type = 'degree';
+DegreeResource.prototype.type = 'degrees';
 
 /**
  * Path of the API resource

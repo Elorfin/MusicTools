@@ -19,7 +19,7 @@ NoteResource.$inject = ApiResource.$inject;
  * Type of the Resource
  * @type {string}
  */
-NoteResource.prototype.type = 'note';
+NoteResource.prototype.type = 'notes';
 
 /**
  * Path of the API resource

@@ -7,6 +7,10 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+
 class GuitarSpecificationType extends AbstractType
 {
     /**
@@ -16,15 +20,15 @@ class GuitarSpecificationType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->setRequestHandler(new JsonApiRequestHandler());
+        /*$builder->setRequestHandler(new JsonApiRequestHandler());*/
 
         $builder
-            ->add('leftHanded')
-            ->add('headstock')
-            ->add('body')
-            ->add('amplification')
-            ->add('strings')
-            ->add('frets')
+            ->add('leftHanded',    CheckboxType::class)
+            ->add('headstock',     TextType::class)
+            ->add('body',          TextType::class)
+            ->add('amplification', TextType::class)
+            ->add('strings',       IntegerType::class)
+            ->add('frets',         IntegerType::class)
             ->add('tuning')
         ;
     }

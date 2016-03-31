@@ -9,14 +9,44 @@
         </ui-header-button>
 
         <ui-header-button class="nav-link-default">
-            <a href="#/instruments/{{ showCtrl.entity.id }}/edit">
+            <a href="#/instruments/{{ showCtrl.resource.id }}/edit">
                 <span class="fa fa-fw fa-pencil"></span>
                 Edit
             </a>
         </ui-header-button>
     </ui-header-buttons>
 
-    <div class="instrument-show row">
+    <!-- Title of the page -->
+    <layout-page-title>
+        {{ showCtrl.resource.attributes.manufacturer }}
 
+        <small data-ng-if="null !== showCtrl.resource.attributes.model">{{ showCtrl.resource.attributes.model }}</small>
+    </layout-page-title>
+
+    <div class="instrument-show row">
+        <div class="col-md-3">
+            <div class="widget instrument-type">
+                <span>{{ showCtrl.resource.relationships.instrumentType.data.attributes.name }}</span>
+                <img class="img-responsive instrument-type-img" data-ng-src="{{ 'images/' + showCtrl.resource.relationships.instrumentType.data.attributes.icon |asset_path }}" />
+            </div>
+
+            <br/>
+
+            <ui-flag data-type="primary" data-value="isFavorite">
+                <span class="fa fa-heart"></span>
+                <span>Favorite</span>
+            </ui-flag>
+
+            <ui-flag data-type="info" data-value="isDefault">
+                <span class="fa fa-check-square-o"></span>
+                <span>Default</span>
+            </ui-flag>
+        </div>
+
+        <div class="col-md-9">
+            <div data-ng-include="'Specification/' + showCtrl.resource.relationships.instrumentType.data.attributes.prefix + '/show.html'|partial_path:'app/Instrument'"
+                 onload="specification = showCtrl.resource.relationships.specification.data">
+            </div>
+        </div>
     </div>
 </layout-page>

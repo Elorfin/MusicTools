@@ -11,10 +11,10 @@ InstrumentShowController.prototype = Object.create(ShowController.prototype);
 InstrumentShowController.$inject = ShowController.$inject;
 
 /**
- * Current displayed data
+ * Current displayed Resource
  * @type {Object}
  */
-InstrumentShowController.prototype.data = null;
+InstrumentShowController.prototype.resource = null;
 
 // Register controller into angular
 angular

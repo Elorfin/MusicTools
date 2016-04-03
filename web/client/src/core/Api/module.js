@@ -11,6 +11,6 @@ angular
         function configure($httpProvider) {
             // Register API Error interceptor
             // Set up Http Error interceptor to catch server error response
-            $httpProvider.interceptors.push('ApiErrorService');
+            $httpProvider.interceptors.push('ApiErrorInterceptor');
         }
     ]);

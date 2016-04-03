@@ -247,7 +247,7 @@ ApiResource.prototype.new = function newResource(resource) {
                 angular.copy(response.data.data, resource);
 
                 // Display message to User
-                this.services['AlertService'].addAlert('success', 'Entity created', true);
+                this.services['AlertService'].addSuccess({ title: 'Entity created' }, {}, true);
 
                 // Resolve promise
                 deferred.resolve(response.data);

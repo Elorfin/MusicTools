@@ -1,6 +1,13 @@
 <ul class="alerts list-unstyled" data-ng-if="alertsCtrl.alerts.length > 0">
-    <li data-ng-repeat="alert in alertsCtrl.alerts" data-ng-click="alertsCtrl.removeAlert(alert)" class="alert" data-ng-class="{'alert-success': 'success' == alert.type, 'alert-danger': 'error' == alert.type, 'alert-warning': 'warning' == alert.type, 'alert-info': 'info' == alert.type }">
-        <span class="fa fa-fw" data-ng-class="{'fa-check': 'success' == alert.type, 'fa-times': 'error' == alert.type, 'fa-exclamation': 'warning' == alert.type, 'fa-info': 'info' == alert.type }"></span>
-        <span>{{ alert.message }}</span>
+    <li data-ng-repeat="alert in alertsCtrl.alerts" data-ng-click="alertsCtrl.removeAlert(alert)" class="alert alert-{{ alert.type }}" role="alert">
+        <span class="fa fa-fw" data-ng-class="{'fa-check': 'success' == alert.type, 'fa-times': 'danger' == alert.type, 'fa-exclamation': 'warning' == alert.type, 'fa-info': 'info' == alert.type }"></span>
+        <span>{{ alert.title }}</span>
+
+        <!-- Detail -->
+        <a href="" class="alert-link" data-ng-click="alertsCtrl.openDetail(alert)" data-ng-if="alert.detail">
+            DETAIL
+        </a>
+
+        <!-- Action button -->
     </li>
 </ul>

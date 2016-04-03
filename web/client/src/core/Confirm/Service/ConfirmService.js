@@ -13,7 +13,7 @@ ConfirmService.$inject = [];
 
 ConfirmService.prototype.confirm = function confirm() {
     var modalInstance = this.services.$uibModal.open({
-        templateUrl : this.services.$client.getPartial('Modal/confirm.html', 'core/Layout'),
+        templateUrl : this.services.$client.getPartial('confirm.html', 'core/Confirm'),
         controller  : 'ConfirmModalController',
         windowClass : 'modal-danger'
     });

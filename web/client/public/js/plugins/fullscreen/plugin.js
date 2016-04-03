@@ -119,10 +119,7 @@ tinymce.PluginManager.add('fullscreen', function(editor) {
 		text: 'Fullscreen',
 		shortcut: 'Meta+Alt+F',
 		selectable: true,
-		onClick: function() {
-			toggleFullscreen();
-			editor.focus();
-		},
+		onClick: toggleFullscreen,
 		onPostRender: function() {
 			var self = this;
 

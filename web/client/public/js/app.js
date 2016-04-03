@@ -20,7 +20,7 @@ angular
         function configure($httpProvider) {
             // Register API Error interceptor
             // Set up Http Error interceptor to catch server error response
-            $httpProvider.interceptors.push('ApiErrorService');
+            $httpProvider.interceptors.push('ApiErrorInterceptor');
         }
     ]);
 /* File : src/core/Client/module.js */ 
@@ -134,7 +134,7 @@ angular
  * Alerts Directive
  * Renders user messages
  */
-var AlertsDirective = function AlertsDirective($client) {
+var AlertsDirective = function AlertsDirective($client, $uibModal) {
     return {
         restrict: 'E',
         templateUrl: $client.getPartial('alerts.html', 'core/Alert'),
@@ -145,16 +145,36 @@ var AlertsDirective = function AlertsDirective($client) {
             function AlertsController(AlertService) {
                 // Expose service to template
                 this.alerts      = AlertService.getAlerts();
+
                 this.removeAlert = function removeAlert(alert) {
                     AlertService.removeAlert(alert, true);
                 };
+
+                this.openDetail = function openDetail(alert) {
+                    var modalInstance = $uibModal.open({
+                        templateUrl : $client.getPartial('detail.html', 'core/Alert'),
+                        controller  : [
+                            'alert',
+                            function DetailController(alert) {
+                                this.alert = alert;
+                            }
+                        ],
+                        controllerAs: 'detailCtrl',
+                        windowClass : 'modal-' + alert.type,
+                        resolve: {
+                            alert: function () {
+                                return alert;
+                            }
+                        }
+                    });
+                }
             }
         ]
     };
 };
 
 // Set up dependency injection
-AlertsDirective.$inject = [ '$client' ];
+AlertsDirective.$inject = [ '$client', '$uibModal' ];
 
 // Register directive into Angular JS
 angular
@@ -171,6 +191,11 @@ var AlertService = function AlertService($timeout) {
 
 // Set up dependency injection
 AlertService.$inject = [ '$timeout' ];
+
+AlertService.prototype.ERROR_TYPE   = 'danger';
+AlertService.prototype.SUCCESS_TYPE = 'sucess';
+AlertService.prototype.WARNING_TYPE = 'warning';
+AlertService.prototype.INFO_TYPE    = 'info';
 
 /**
  * List of all current active alerts
@@ -193,30 +218,64 @@ AlertService.prototype.getAlerts = function getAlerts() {
 };
 
 /**
- * Add an alert in the alerts stack
- * @param {string}  type
- * @param {string}  message
+ * Shortcut to add a SUCCESS message
+ * @param {Object}  message
+ * @param {Object}  [action]
  * @param {boolean} [autoHide]
- * @param {array}   [action]
- * @param {array}   [details]
  */
-AlertService.prototype.addAlert = function addAlert(type, message, autoHide, action, details) {
-    var newAlert = {
-        type    : type,
-        message : message,
-        action  : action ? action : null,
-        details : details ? details : null
-    };
+AlertService.prototype.addSuccess = function addSuccess(message, action, autoHide) {
+    this.addAlert(this.SUCCESS_TYPE, message, action, autoHide);
+};
+
+/**
+ * Shortcut to add an ERROR message
+ * @param {Object}  message
+ * @param {Object}  [action]
+ * @param {boolean} [autoHide]
+ */
+AlertService.prototype.addError = function addError(message, action, autoHide) {
+    this.addAlert(this.ERROR_TYPE, message, action, autoHide);
+};
+
+/**
+ * Shortcut to add a Warning message
+ * @param {Object}  message
+ * @param {Object}  [action]
+ * @param {boolean} [autoHide]
+ */
+AlertService.prototype.addWarning = function addWarning(message, action, autoHide) {
+    this.addAlert(this.WARNING_TYPE, message, action, autoHide);
+};
+
+/**
+ * Shortcut to add an INFO message
+ * @param {Object}  message
+ * @param {Object}  [action]
+ * @param {boolean} [autoHide]
+ */
+AlertService.prototype.addInfo = function addInfo(message, action, autoHide) {
+    this.addAlert(this.INFO_TYPE, message, action, autoHide);
+};
+
+/**
+ * Add an alert in the alerts stack
+ * @param {string}  type - success, error, warning, info
+ * @param {Object}  message
+ * @param {Object}  [action]
+ * @param {boolean} [autoHide]
+ */
+AlertService.prototype.addAlert = function addAlert(type, message, action, autoHide) {
+    var alert = angular.merge({ type: type, action: action ? action : null }, message);
 
     // Configure auto hide if needed
     if (autoHide) {
-        newAlert.timeout = this.$timeout(function () {
-            this.removeAlert(newAlert);
+        alert.timeout = this.$timeout(function () {
+            this.removeAlert(alert);
         }.bind(this), this.displayDuration);
     }
 
     // Add to the stack
-    this.alerts.push(newAlert);
+    this.alerts.push(alert);
 };
 
 /**
@@ -227,11 +286,11 @@ AlertService.prototype.addAlert = function addAlert(type, message, autoHide, act
 AlertService.prototype.removeAlert = function removeAlert(alert, clearTimeout) {
     var pos = this.alerts.indexOf(alert);
     if (-1 !== pos) {
-        var alert = this.alerts.splice(pos, 1);
+        var alertObj = this.alerts.splice(pos, 1);
 
         // Clear timeout if needed
-        if (alert.timeout && clearTimeout) {
-            this.$timeout.cancel(alert.timeout);
+        if (alertObj.timeout && clearTimeout) {
+            this.$timeout.cancel(alertObj.timeout);
         }
     }
 };
@@ -415,6 +474,77 @@ angular
     .module('Api')
     .filter('upload_path', UploadPathFilter);
 
+/* File : src/core/Api/Interceptor/ApiErrorInterceptor.js */ 
+/**
+ * API Error Interceptor
+ * @constructor
+ */
+var ApiErrorInterceptor = function ApiErrorInterceptor($q, $location, AlertService) {
+    return {
+        response: function onResponseSuccess(responseData) {
+            return responseData;
+        },
+
+        responseError: function onResponseError(response) {
+            var type = 'error';
+            if (response.status >= 400 && response.status < 500) {
+
+            }
+            switch (response.status) {
+                // 400 : Bad Request
+                case 400:
+                    break;
+
+                // 401 : Unauthorized
+                case 401:
+                    $location.path('/login');
+                    break;
+
+                // 403 : Forbidden
+                case 403:
+                    break;
+
+                // 404 : Not Found
+                case 404:
+                    $location.path('/404');
+                    break;
+
+                // 422 : Unprocessable entity
+                case 422:
+                    AlertService.addWarning({ title: 'Invalid data.' }, {}, true);
+                    break;
+
+                case 500:
+                    console.log(response);
+                    if (response.data && response.data.errors) {
+                        for (var i = 0; i < response.data.errors.length; i++) {
+                            AlertService.addError(response.data.errors[i], false, {
+                                label: 'RETRY',
+                                action: function action() {
+                                    console.log('coucou');
+                                }
+                            });
+                        }
+                    }
+
+                    break;
+
+                default:
+                    $location.path('/error_server');
+            }
+
+            return $q.reject(response);
+        }
+    };
+};
+
+// Set up dependency injection
+ApiErrorInterceptor.$inject = [ '$q', '$location', 'AlertService' ];
+
+// Inject Service into AngularJS
+angular
+    .module('Api')
+    .service('ApiErrorInterceptor', ApiErrorInterceptor);
 /* File : src/core/Api/Provider/ApiProvider.js */ 
 var ApiProvider = function ApiProvider() {
     this.$get = function Api() {
@@ -1063,7 +1193,7 @@ ApiResource.prototype.new = function newResource(resource) {
                 angular.copy(response.data.data, resource);
 
                 // Display message to User
-                this.services['AlertService'].addAlert('success', 'Entity created', true);
+                this.services['AlertService'].addSuccess({ title: 'Entity created' }, {}, true);
 
                 // Resolve promise
                 deferred.resolve(response.data);
@@ -1211,45 +1341,6 @@ angular
     .module('Api')
     .service('ApiResource', ApiResource);
 
-/* File : src/core/Api/Service/ApiErrorService.js */ 
-/**
- * API Error Service
- * @constructor
- */
-var ApiErrorService = function ApiErrorService($q, $location, AlertService) {
-    return {
-        response: function onResponseSuccess(responseData) {
-            return responseData;
-        },
-
-        responseError: function onResponseError(response) {
-            switch (response.status) {
-                case 401:
-                    $location.path('/login');
-                    break;
-                case 404:
-                    $location.path('/404');
-                    break;
-                // 422 : Unprocessable entity
-                case 422:
-                    AlertService.addAlert('error', 'Invalid data.', true);
-                    break;
-                default:
-                    $location.path('/error_server');
-            }
-
-            return $q.reject(response);
-        }
-    };
-};
-
-// Set up dependency injection
-ApiErrorService.$inject = [ '$q', '$location', 'AlertService' ];
-
-// Inject Service into AngularJS
-angular
-    .module('Api')
-    .service('ApiErrorService', ApiErrorService);
 /* File : src/core/Client/Filter/AssetPathFilter.js */ 
 /**
  * Asset Path filter
@@ -1397,6 +1488,23 @@ ClientProvider.prototype.getPartial = function getPartial(path, module) {
 angular
     .module('Client')
     .provider('$client', ClientProvider);
+/* File : src/core/Confirm/Controller/ConfirmModalController.js */ 
+/**
+ * Confirm Modal controller
+ * @constructor
+ */
+var ConfirmModalController = function ConfirmModalController($uibModalInstance) {
+    this.instance = $uibModalInstance;
+};
+
+// Set up dependency injection
+ConfirmModalController.$inject = [ '$uibModalInstance' ];
+
+// Register controller into Angular JS
+angular
+    .module('Confirm')
+    .controller('ConfirmModalController', ConfirmModalController);
+
 /* File : src/core/Confirm/Directive/ConfirmDirective.js */ 
 var ConfirmDirective = function ConfirmDirective($uibModal, $client) {
     this.services = {};
@@ -1431,7 +1539,7 @@ ConfirmService.$inject = [];
 
 ConfirmService.prototype.confirm = function confirm() {
     var modalInstance = this.services.$uibModal.open({
-        templateUrl : this.services.$client.getPartial('Modal/confirm.html', 'core/Layout'),
+        templateUrl : this.services.$client.getPartial('confirm.html', 'core/Confirm'),
         controller  : 'ConfirmModalController',
         windowClass : 'modal-danger'
     });
@@ -1441,23 +1549,6 @@ ConfirmService.prototype.confirm = function confirm() {
 angular
     .module('Confirm')
     .service('ConfirmService', ConfirmService);
-/* File : src/core/Layout/Controller/Modal/ConfirmModalController.js */ 
-/**
- * Confirm Modal controller
- * @constructor
- */
-var ConfirmModalController = function ConfirmModalController($uibModalInstance) {
-    this.instance = $uibModalInstance;
-};
-
-// Set up dependency injection
-ConfirmModalController.$inject = [ '$uibModalInstance' ];
-
-// Register controller into Angular JS
-angular
-    .module('Layout')
-    .controller('ConfirmModalController', ConfirmModalController);
-
 /* File : src/core/Layout/Directive/Field/ScoreFieldDirective.js */ 
 /**
  * Score Field

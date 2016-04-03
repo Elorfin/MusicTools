@@ -9,6 +9,11 @@ var AlertService = function AlertService($timeout) {
 // Set up dependency injection
 AlertService.$inject = [ '$timeout' ];
 
+AlertService.prototype.ERROR_TYPE   = 'danger';
+AlertService.prototype.SUCCESS_TYPE = 'sucess';
+AlertService.prototype.WARNING_TYPE = 'warning';
+AlertService.prototype.INFO_TYPE    = 'info';
+
 /**
  * List of all current active alerts
  * @param alert
@@ -30,30 +35,64 @@ AlertService.prototype.getAlerts = function getAlerts() {
 };
 
 /**
- * Add an alert in the alerts stack
- * @param {string}  type
- * @param {string}  message
+ * Shortcut to add a SUCCESS message
+ * @param {Object}  message
+ * @param {Object}  [action]
  * @param {boolean} [autoHide]
- * @param {array}   [action]
- * @param {array}   [details]
  */
-AlertService.prototype.addAlert = function addAlert(type, message, autoHide, action, details) {
-    var newAlert = {
-        type    : type,
-        message : message,
-        action  : action ? action : null,
-        details : details ? details : null
-    };
+AlertService.prototype.addSuccess = function addSuccess(message, action, autoHide) {
+    this.addAlert(this.SUCCESS_TYPE, message, action, autoHide);
+};
+
+/**
+ * Shortcut to add an ERROR message
+ * @param {Object}  message
+ * @param {Object}  [action]
+ * @param {boolean} [autoHide]
+ */
+AlertService.prototype.addError = function addError(message, action, autoHide) {
+    this.addAlert(this.ERROR_TYPE, message, action, autoHide);
+};
+
+/**
+ * Shortcut to add a Warning message
+ * @param {Object}  message
+ * @param {Object}  [action]
+ * @param {boolean} [autoHide]
+ */
+AlertService.prototype.addWarning = function addWarning(message, action, autoHide) {
+    this.addAlert(this.WARNING_TYPE, message, action, autoHide);
+};
+
+/**
+ * Shortcut to add an INFO message
+ * @param {Object}  message
+ * @param {Object}  [action]
+ * @param {boolean} [autoHide]
+ */
+AlertService.prototype.addInfo = function addInfo(message, action, autoHide) {
+    this.addAlert(this.INFO_TYPE, message, action, autoHide);
+};
+
+/**
+ * Add an alert in the alerts stack
+ * @param {string}  type - success, error, warning, info
+ * @param {Object}  message
+ * @param {Object}  [action]
+ * @param {boolean} [autoHide]
+ */
+AlertService.prototype.addAlert = function addAlert(type, message, action, autoHide) {
+    var alert = angular.merge({ type: type, action: action ? action : null }, message);
 
     // Configure auto hide if needed
     if (autoHide) {
-        newAlert.timeout = this.$timeout(function () {
-            this.removeAlert(newAlert);
+        alert.timeout = this.$timeout(function () {
+            this.removeAlert(alert);
         }.bind(this), this.displayDuration);
     }
 
     // Add to the stack
-    this.alerts.push(newAlert);
+    this.alerts.push(alert);
 };
 
 /**
@@ -64,11 +103,11 @@ AlertService.prototype.addAlert = function addAlert(type, message, autoHide, act
 AlertService.prototype.removeAlert = function removeAlert(alert, clearTimeout) {
     var pos = this.alerts.indexOf(alert);
     if (-1 !== pos) {
-        var alert = this.alerts.splice(pos, 1);
+        var alertObj = this.alerts.splice(pos, 1);
 
         // Clear timeout if needed
-        if (alert.timeout && clearTimeout) {
-            this.$timeout.cancel(alert.timeout);
+        if (alertObj.timeout && clearTimeout) {
+            this.$timeout.cancel(alertObj.timeout);
         }
     }
 };

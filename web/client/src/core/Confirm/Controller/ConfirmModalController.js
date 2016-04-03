@@ -11,5 +11,5 @@ ConfirmModalController.$inject = [ '$uibModalInstance' ];
 
 // Register controller into Angular JS
 angular
-    .module('Layout')
+    .module('Confirm')
     .controller('ConfirmModalController', ConfirmModalController);

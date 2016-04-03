@@ -15,6 +15,7 @@
         .modal-header {
             vertical-align: middle;
             color: @brand-primary;
+            padding: @modal-inner-padding 0;
 
             .modal-title {
                 vertical-align: middle;
@@ -32,12 +33,16 @@
             overflow-y: auto;
             .box-shadow(none);
         }
+
+        .modal-footer {
+            padding: @modal-inner-padding 0;
+        }
     }
 
     &.modal-danger {
         .modal-header {
             color: @brand-danger;
-
+            border-color: @brand-danger;
             .modal-title {
                 color: @brand-danger;
             }

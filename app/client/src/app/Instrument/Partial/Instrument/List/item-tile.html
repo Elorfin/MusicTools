@@ -1,0 +1,31 @@
+<div class="list-item list-item-tile panel panel-default">
+    <!-- Image -->
+    <div class="item-image">
+        <img class="img-responsive instrument-type-img" data-ng-src="{{ 'images/' + resource.relationships.instrumentType.data.attributes.icon |asset_path }}" />
+    </div>
+
+    <!-- Info -->
+    <div class="item-info panel-body">
+        {{ resource.attributes.manufacturer }}
+
+        <small data-ng-if="null !== resource.attributes.model">{{ resource.attributes.model }}</small>
+    </div>
+
+    <!-- Item buttons -->
+    <div class="list-item-btn-group">
+        <a class="btn btn-danger" href="" data-ng-click="listCtrl.remove(resource)">
+            <span class="fa fa-trash-o"></span>
+            <span class="sr-only">{{ 'delete_instrument'|translate }}</span>
+        </a>
+
+        <a class="btn btn-default" href="#/instruments/{{ resource.id }}/edit">
+            <span class="fa fa-pencil"></span>
+            <span class="sr-only">{{ 'edit_instrument'|translate }}</span>
+        </a>
+
+        <a class="btn btn-default" href="#/instruments/{{ resource.id }}">
+            <span class="fa fa-eye"></span>
+            <span class="sr-only">{{ 'show_instrument'|translate }}</span>
+        </a>
+    </div>
+</div>

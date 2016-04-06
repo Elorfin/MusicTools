@@ -1,0 +1,40 @@
+<div class="modal-header">
+    <span class="fa-stack">
+        <i class="fa fa-circle-thin fa-stack-2x"></i>
+        <i class="fa fa-trash-o fa-stack-1x"></i>
+    </span>
+
+    <h3 class="modal-title">
+        {{ detailCtrl.alert.title }}
+    </h3>
+</div>
+
+<div class="modal-body">
+    {{ detailCtrl.alert.detail }}
+</div>
+
+<div class="list-group debug-traces" data-ng-if="detailCtrl.alert.trace && showTrace" data-layout-scrollable="" style="height: 150px;">
+    <div data-ng-repeat="trace in detailCtrl.alert.trace" class="debug-trace list-group-item">
+        <h4 class="list-group-item-heading">
+            {{ trace.file }} <small>l. {{ trace.line }}</small>
+        </h4>
+
+        <p class="list-group-item-text">
+            {{ trace.class }}{{ trace.type }}{{ trace.function }}()
+        </p>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <a role="button" href=""></a>
+
+    <button type="button" class="btn-link" data-ng-click="showTrace = !showTrace" data-ng-show="detailCtrl.alert.trace">
+        <span class="fa fa-server"></span>
+        Show trace
+    </button>
+
+    <button class="btn btn-default" type="button" ng-click="cancel()">
+        <span class="fa fa-times"></span>
+        Close
+    </button>
+</div>

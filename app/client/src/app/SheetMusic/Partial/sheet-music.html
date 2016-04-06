@@ -1,0 +1,74 @@
+<div class="sheet-music">
+    <div class="alphaTab" data-file="{{ sheetMusicCtrl.file }}" data-tracks="1" data-ng-show="sheetMusicCtrl.player.ready"></div>
+
+    <div class="text-center" data-ng-if="!sheetMusicCtrl.player.ready">
+        <span class="fa-stack fa-2x">
+            <span class="fa fa-circle-o-notch fa-spin fa-stack-2x"></span>
+            <span class="fa fa-music fa-stack-1x"></span>
+        </span>
+        Load tab
+    </div>
+
+    <!--<div class="" data-ng-if="">
+        Load player
+    </div>-->
+    <!--<div class="sheet-music-controls">
+        <div id="controls">
+            <div id="loadingInfo">Player not ready</div>
+            <div id="sfInfo">Loading Soundfont <span class="progress"></span></div>
+        </div>
+    </div>-->
+
+    <nav class="sheet-music-controls navbar navbar-default navbar-fixed-bottom" data-ng-show="sheetMusicCtrl.player.ready">
+        <div class="container-fluid">
+            <ul class="nav navbar-nav">
+                <!-- Previous bar -->
+                <li>
+                    <a href="" data-ng-click="sheetMusicCtrl.previousBar()">
+                        <span class="fa fa-fw fa-fast-backward"></span>
+                        <span class="sr-only">previous bar</span>
+                    </a>
+                </li>
+
+                <!-- Play button -->
+                <li data-ng-if="1 != sheetMusicCtrl.player.state">
+                    <a href="" data-ng-click="sheetMusicCtrl.play()">
+                        <span class="fa fa-fw fa-play"></span>
+                        <span class="sr-only">play</span>
+                    </a>
+                </li>
+
+                <!-- Pause button -->
+                <li data-ng-if="1 == sheetMusicCtrl.player.state">
+                    <a href="" data-ng-click="sheetMusicCtrl.pause()">
+                        <span class="fa fa-fw fa-pause"></span>
+                        <span class="sr-only">pause</span>
+                    </a>
+                </li>
+
+                <!-- Next bar -->
+                <li>
+                    <a href="" data-ng-click="sheetMusicCtrl.nextBar()">
+                        <span class="fa fa-fw fa-fast-forward"></span>
+                        <span class="sr-only">next bar</span>
+                    </a>
+                </li>
+            </ul>
+
+            <ul class="nav navbar-nav navbar-right"><li>
+                <a href="#">
+                    <span class="fa fa-fw fa-cogs"></span>
+                    <span class="sr-only">settings</span>
+                </a>
+            </li>
+
+                <li>
+                    <a href="#">
+                        <span class="fa fa-fw fa-expand"></span>
+                        <span class="sr-only">fullscreen</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</div>

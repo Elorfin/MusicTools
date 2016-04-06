@@ -1,0 +1,32 @@
+{
+    "name": "music-tools",
+    "version": "1.0.0",
+    "description": "Web Application built on AngularJS to access the MusicTools API",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/Elorfin/MusicTools.git"
+    },
+    "keywords": [
+        "angular",
+        "web",
+        "ui",
+        "music"
+    ],
+    "authors": [
+        "Axel Penin"
+    ],
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/Elorfin/MusicTools/issues"
+    },
+    "devDependencies": {
+        "bower": "~1.3",
+        "grunt": "~0.4",
+        "grunt-cli": "~0.1",
+        "grunt-contrib-copy": "~0.8",
+        "grunt-contrib-concat": "~0.5",
+        "grunt-contrib-uglify": "~0.7",
+        "grunt-contrib-less": "~1.0",
+        "grunt-contrib-watch": "~0.6"
+    }
+}

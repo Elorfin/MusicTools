@@ -23,6 +23,10 @@ It also includes the possibility to organize all the music sheets and resources 
 - Recorder
 - Piano
 
+## Documentation
+
+[Read the full Documentation](https://github.com/Elorfin/MusicTools/tree/master/doc/index.rst)
+
 ## Contributing
 
 ### Requirements
@@ -55,7 +59,6 @@ $ php bin/console doctrine:fixtures:load
 
 #### Get the client sources
 ```
-$ cd web/client
 $ npm install
 $ bower install
 ```

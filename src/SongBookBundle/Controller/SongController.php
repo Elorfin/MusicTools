@@ -116,7 +116,10 @@ class SongController extends Controller
      */
     public function deleteAction(Song $song)
     {
+        $this->getDoctrine()->getManager()->remove($song);
+        $this->getDoctrine()->getManager()->flush();
 
+        return new JsonApiResponse(null, 204);
     }
 
     /**

@@ -1,12 +1,14 @@
 <?php
 
-namespace InstrumentBundle\Entity\Tuning;
+namespace InstrumentBundle\Entity\Tuning\Strings;
 
+use CommonBundle\Model\UniqueIdentifierTrait;
 use Doctrine\ORM\Mapping as ORM;
 use TheoryBundle\Entity\Note\Note;
 
 /**
  * StringTuning Entity
+ * Stores a String and its associated Note
  *
  * @ORM\Entity()
  * @ORM\Table(name="instrument_tuning_string")
@@ -14,14 +16,9 @@ use TheoryBundle\Entity\Note\Note;
 class StringTuning
 {
     /**
-     * Unique identifier of the StringTuning
-     * @var string
-     *
-     * @ORM\Column(type="guid")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="UUID")
+     * ID
      */
-    private $id;
+    use UniqueIdentifierTrait;
 
     /**
      * Number of the String
@@ -33,9 +30,9 @@ class StringTuning
 
     /**
      * Linked Tuning
-     * @var Tuning
+     * @var StringsTuning
      *
-     * @ORM\ManyToOne(targetEntity="InstrumentBundle\Entity\Tuning\Tuning", inversedBy="strings")
+     * @ORM\ManyToOne(targetEntity="InstrumentBundle\Entity\Tuning\Strings\StringsTuning", inversedBy="strings")
      * @ORM\JoinColumn(name="tuning_id", referencedColumnName="id")
      */
     protected $tuning;
@@ -48,15 +45,6 @@ class StringTuning
      * @ORM\JoinColumn(name="note_id", referencedColumnName="id")
      */
     protected $note;
-
-    /**
-     * Get id
-     * @return string
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
 
     /**
      * Get number
@@ -81,7 +69,7 @@ class StringTuning
 
     /**
      * Get Tuning
-     * @return Tuning
+     * @return StringsTuning
      */
     public function getTuning()
     {
@@ -90,15 +78,12 @@ class StringTuning
 
     /**
      * Set Tuning
-     * @param  Tuning $tuning
+     * @param  StringsTuning $tuning
      * @return StringTuning
      */
-    public function setTuning(Tuning $tuning)
+    public function setTuning(StringsTuning $tuning)
     {
-        if ($this->tuning != $tuning) {
-            $this->tuning = $tuning;
-            $tuning->addString($this);
-        }
+        $this->tuning = $tuning;
 
         return $this;
     }

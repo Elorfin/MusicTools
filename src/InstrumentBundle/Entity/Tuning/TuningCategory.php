@@ -2,8 +2,10 @@
 
 namespace InstrumentBundle\Entity\Tuning;
 
+use CommonBundle\Model\NameTrait;
+use CommonBundle\Model\UniqueIdentifierTrait;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\ArrayCollection;
+use InstrumentBundle\Entity\InstrumentType;
 
 /**
  * Tuning Category Entity
@@ -14,106 +16,41 @@ use Doctrine\Common\Collections\ArrayCollection;
 class TuningCategory
 {
     /**
-     * Unique identifier of the Tuning Category
-     * @var string
-     *
-     * @ORM\Column(type="guid")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="UUID")
+     * ID
      */
-    private $id;
+    use UniqueIdentifierTrait;
 
     /**
-     * Name of the Tuning
-     * @var string
-     *
-     * @ORM\Column(type="string")
+     * Name
      */
-    protected $name;
+    use NameTrait;
 
     /**
-     * List of Tunings
-     * @var \Doctrine\Common\Collections\ArrayCollection
+     * Type of the Instrument
+     * @var InstrumentType
      *
-     * @ORM\OneToMany(targetEntity="InstrumentBundle\Entity\Tuning\Tuning", mappedBy="category")
+     * @ORM\ManyToOne(targetEntity="InstrumentBundle\Entity\InstrumentType")
+     * @ORM\JoinColumn(name="type_id", referencedColumnName="id")
      */
-    protected $tunings;
+    protected $instrumentType;
 
     /**
-     * Entity constructor
+     * Get type of the Instrument
+     * @return InstrumentType
      */
-    public function __construct()
+    public function getInstrumentType()
     {
-        $this->tunings = new ArrayCollection();
+        return $this->instrumentType;
     }
 
     /**
-     * Get id
-     * @return string
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * Get name
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * Set name
-     * @param  string $name
+     * Set type of the Instrument
+     * @param InstrumentType $instrumentType
      * @return TuningCategory
      */
-    public function setName($name)
+    public function setInstrumentType(InstrumentType $instrumentType)
     {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * Get tunings
-     * @return \Doctrine\Common\Collections\ArrayCollection
-     */
-    public function getTunings()
-    {
-        return $this->tunings;
-    }
-
-    /**
-     * Add a Tuning
-     * @param  Tuning $tuning
-     * @return TuningCategory
-     */
-    public function addTuning(Tuning $tuning)
-    {
-        if (!$this->tunings->contains($tuning)) {
-            $this->tunings->add($tuning);
-
-            $tuning->setCategory($this);
-        }
-
-        return $this;
-    }
-
-    /**
-     * Remove a tuning
-     * @param  Tuning $tuning
-     * @return TuningCategory
-     */
-    public function removeTuning(Tuning $tuning)
-    {
-        if ($this->tunings->contains($tuning)) {
-            $this->tunings->removeElement($tuning);
-
-            $tuning->setCategory(null);
-        }
+        $this->instrumentType = $instrumentType;
 
         return $this;
     }

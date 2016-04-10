@@ -2,6 +2,7 @@
 
 namespace InstrumentBundle\Entity\Template;
 
+use CommonBundle\Model\UniqueIdentifierTrait;
 use Doctrine\ORM\Mapping as ORM;
 use InstrumentBundle\Entity\Instrument\GuitarTrait;
 
@@ -14,28 +15,14 @@ use InstrumentBundle\Entity\Instrument\GuitarTrait;
 class GuitarTemplate extends AbstractTemplate
 {
     /**
-     * Unique identifier of the Game
-     * @var string
-     *
-     * @ORM\Column(type="guid")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="UUID")
+     * ID
      */
-    private $id;
+    use UniqueIdentifierTrait;
 
     /**
-     * Add Guitar behavior
+     * Guitar fields
      */
     use GuitarTrait;
-
-    /**
-     * Get id
-     * @return string
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
 
     public function jsonSerialize()
     {

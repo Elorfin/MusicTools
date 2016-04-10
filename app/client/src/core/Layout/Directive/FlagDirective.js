@@ -5,7 +5,7 @@
 var FlagDirective = function FlagDirective($client) {
     return {
         restrict: 'E',
-        template: '<a class="flag flag-{{ flagCtrl.type }}" role="button" href="" data-ng-transclude="" data-ng-click="flagCtrl.toggle()" data-ng-class="{ on: flagCtrl.value }"></a>',
+        template: '<button type="button" role="button" class="flag flag-{{ flagCtrl.type }}" data-ng-transclude="" data-ng-click="flagCtrl.toggle()" data-ng-class="{ on: flagCtrl.value }"></button>',
         replace: true,
         transclude: true,
         scope: {

@@ -2,6 +2,9 @@
 
 namespace InstrumentBundle\Entity;
 
+use CommonBundle\Model\DefaultTrait;
+use CommonBundle\Model\NameTrait;
+use CommonBundle\Model\UniqueIdentifierTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -14,22 +17,19 @@ use Doctrine\ORM\Mapping as ORM;
 class InstrumentType implements \JsonSerializable
 {
     /**
-     * Unique identifier of the Instrument Type
-     * @var string
-     *
-     * @ORM\Column(type="guid")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="UUID")
+     * ID
      */
-    private $id;
+    use UniqueIdentifierTrait;
 
     /**
-     * Name of the Instrument Type
-     * @var string
-     *
-     * @ORM\Column(type="string")
+     * Name
      */
-    protected $name;
+    use NameTrait;
+
+    /**
+     * IS the default type for new Instrument ?
+     */
+    use DefaultTrait;
 
     /**
      * Icon of the Instrument Type
@@ -38,13 +38,6 @@ class InstrumentType implements \JsonSerializable
      * @ORM\Column(type="string")
      */
     protected $icon;
-
-    /**
-     * Is the default InstrumentType ?
-     * @var boolean
-     * @ORM\Column(type="boolean", name="is_default")
-     */
-    protected $default;
 
     /**
      * Prefix used to retrieve corresponding Specification and Template class
@@ -63,36 +56,6 @@ class InstrumentType implements \JsonSerializable
     protected $polyphonic = true;
 
     /**
-     * Get id
-     * @return string
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * Get name
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * Set name
-     * @param  string $name
-     * @return InstrumentType
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    /**
      * Get icon
      * @return string
      */
@@ -109,27 +72,6 @@ class InstrumentType implements \JsonSerializable
     public function setIcon($icon)
     {
         $this->icon = $icon;
-
-        return $this;
-    }
-
-    /**
-     * Is default ?
-     * @return boolean
-     */
-    public function isDefault()
-    {
-        return $this->default;
-    }
-
-    /**
-     * Set default
-     * @param  boolean $default
-     * @return $this
-     */
-    public function setDefault($default)
-    {
-        $this->default = $default;
 
         return $this;
     }

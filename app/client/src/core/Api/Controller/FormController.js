@@ -39,7 +39,7 @@ FormController.prototype.isNew = function isNew() {
  * Validate the form
  */
 FormController.prototype.validate = function validate() {
-    return true
+    return true;
 };
 
 /**

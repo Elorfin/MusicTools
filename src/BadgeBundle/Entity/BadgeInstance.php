@@ -4,7 +4,7 @@ namespace BadgeBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-use UserBundle\Entity\OwnableTrait;
+use UserBundle\Model\OwnerTrait;
 
 /**
  * BadgeInstance
@@ -25,9 +25,9 @@ class BadgeInstance extends AbstractBadge
     private $id;
 
     /**
-     * Add Ownable behavior
+     * Owner
      */
-    use OwnableTrait;
+    use OwnerTrait;
 
     /**
      * Get id

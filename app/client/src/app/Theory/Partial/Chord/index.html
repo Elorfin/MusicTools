@@ -1,18 +1,18 @@
 <layout-page class="page-list chord-list">
     <!-- Header buttons -->
-    <ui-header-buttons>
+    <ui-header-nav class="ui-header-buttons">
         <!-- Note menu -->
-        <ui-header-button class="nav-link-default">
+        <li role="presentation" class="nav-link-default">
             <note-menu data-current="listCtrl.root"></note-menu>
-        </ui-header-button>
+        </li>
 
         <li class="divider"></li>
 
         <!-- List format button -->
-        <ui-header-button class="nav-link-default">
+        <li role="presentation" class="nav-link-default">
             <layout-list-formatter data-format="listCtrl.format"></layout-list-formatter>
-        </ui-header-button>
-    </ui-header-buttons>
+        </li>
+    </ui-header-nav>
 
     <!-- Title of the page -->
     <layout-page-title>

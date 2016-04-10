@@ -10,7 +10,7 @@ var AlertService = function AlertService($timeout) {
 AlertService.$inject = [ '$timeout' ];
 
 AlertService.prototype.ERROR_TYPE   = 'danger';
-AlertService.prototype.SUCCESS_TYPE = 'sucess';
+AlertService.prototype.SUCCESS_TYPE = 'success';
 AlertService.prototype.WARNING_TYPE = 'warning';
 AlertService.prototype.INFO_TYPE    = 'info';
 
@@ -24,7 +24,7 @@ AlertService.prototype.alerts = [];
  * Display duration for the alert which are configured to be auto-hidden
  * @type {number}
  */
-AlertService.prototype.displayDuration = 5000;
+AlertService.prototype.displayDuration = 10000;
 
 /**
  * Get active alerts
@@ -85,11 +85,11 @@ AlertService.prototype.addAlert = function addAlert(type, message, action, autoH
     var alert = angular.merge({ type: type, action: action ? action : null }, message);
 
     // Configure auto hide if needed
-    if (autoHide) {
+    /*if (autoHide) {
         alert.timeout = this.$timeout(function () {
             this.removeAlert(alert);
         }.bind(this), this.displayDuration);
-    }
+    }*/
 
     // Add to the stack
     this.alerts.push(alert);

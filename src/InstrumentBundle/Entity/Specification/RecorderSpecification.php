@@ -2,6 +2,7 @@
 
 namespace InstrumentBundle\Entity\Specification;
 
+use CommonBundle\Model\UniqueIdentifierTrait;
 use Doctrine\ORM\Mapping as ORM;
 use InstrumentBundle\Entity\Instrument\RecorderTrait;
 
@@ -15,28 +16,14 @@ use InstrumentBundle\Entity\Instrument\RecorderTrait;
 class RecorderSpecification extends AbstractSpecification
 {
     /**
-     * Unique identifier of the Recorder
-     * @var string
-     *
-     * @ORM\Column(type="guid")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="UUID")
+     * ID
      */
-    private $id;
+    use UniqueIdentifierTrait;
 
     /**
-     * Add Recorder behavior
+     * Recorder fields
      */
     use RecorderTrait;
-
-    /**
-     * Get id
-     * @return string
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
 
     public function jsonSerialize()
     {

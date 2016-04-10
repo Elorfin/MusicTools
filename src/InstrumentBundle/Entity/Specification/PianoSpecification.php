@@ -2,6 +2,7 @@
 
 namespace InstrumentBundle\Entity\Specification;
 
+use CommonBundle\Model\UniqueIdentifierTrait;
 use Doctrine\ORM\Mapping as ORM;
 use InstrumentBundle\Entity\Instrument\PianoTrait;
 
@@ -15,28 +16,14 @@ use InstrumentBundle\Entity\Instrument\PianoTrait;
 class PianoSpecification extends AbstractSpecification
 {
     /**
-     * Unique identifier of the Game
-     * @var string
-     *
-     * @ORM\Column(type="guid")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="UUID")
+     * ID
      */
-    private $id;
+    use UniqueIdentifierTrait;
 
     /**
-     * Add Piano behavior
+     * Piano fields
      */
     use PianoTrait;
-
-    /**
-     * Get id
-     * @return string
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
 
     public function jsonSerialize()
     {

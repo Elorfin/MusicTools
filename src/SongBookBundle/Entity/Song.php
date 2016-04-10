@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Elorfin\ResourceBundle\Entity\Image;
-use UserBundle\Entity\OwnableTrait;
+use UserBundle\Model\OwnerTrait;
 
 /**
  * Song
@@ -92,9 +92,9 @@ class Song implements \JsonSerializable
     }
 
     /**
-     * Add Ownable behavior
+     * Owner
      */
-    use OwnableTrait;
+    use OwnerTrait;
 
     /**
      * Get id

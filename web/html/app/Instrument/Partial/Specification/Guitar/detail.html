@@ -13,12 +13,12 @@
 
                         <div class="form-group">
                             <label for="">Nb strings</label>
-                            <div>{{ specification.attributes.strings }}</div>
+                            <input type="number" min="4" max="18" class="form-control" data-ng-model="specification.attributes.strings" />
                         </div>
 
                         <div class="form-group">
                             <label for="">Nb frets</label>
-                            <div>{{ specification.attributes.frets }}</div>
+                            <input type="number" class="form-control" data-ng-model="specification.attributes.frets" />
                         </div>
                     </div>
 
@@ -27,12 +27,12 @@
                         <div class="form-group">
                             <label for="">Headstock</label>
                             <div class="headstock-types">
-                                <div class="headstock-type" data-ng-class="{ selected: 'top-bottom' === specification.attributes.headstock }">
+                                <div class="headstock-type" data-ng-click="specification.attributes.headstock = 'top-bottom'" data-ng-class="{ selected: 'top-bottom' === specification.attributes.headstock }">
                                     <img class="img-responsive" data-ng-src="{{ 'images/guitar/headstock/top-bottom.svg' |asset_path }}" />
                                     <span>top / bottom</span>
                                 </div>
 
-                                <div class="headstock-type" data-ng-class="{ selected: 'in-line' === specification.attributes.headstock }">
+                                <div class="headstock-type" data-ng-click="specification.attributes.headstock = 'in-line'" data-ng-class="{ selected: 'in-line' === specification.attributes.headstock }">
                                     <img class="img-responsive" data-ng-src="{{ 'images/guitar/headstock/in-line.svg' |asset_path }}" />
                                     <span>in line</span>
                                 </div>
@@ -43,15 +43,15 @@
                         <div class="form-group">
                             <label for="">Body</label>
                             <div class="body-types">
-                                <div class="body-type" data-ng-class="{ selected: 'hollow' === specification.attributes.body }">
+                                <div class="body-type" data-ng-click="specification.attributes.body = 'hollow'" data-ng-class="{ selected: 'hollow' === specification.attributes.body }">
                                     <span>hollow</span>
                                 </div>
 
-                                <div class="body-type" data-ng-class="{ selected: 'semi-hollow' === specification.attributes.body }">
+                                <div class="body-type" data-ng-click="specification.attributes.body = 'semi-hollow'" data-ng-class="{ selected: 'semi-hollow' === specification.attributes.body }">
                                     <span>semi-hollow</span>
                                 </div>
 
-                                <div class="body-type" data-ng-class="{ selected: 'solid' === specification.attributes.body }">
+                                <div class="body-type" data-ng-click="specification.attributes.body = 'solid'" data-ng-class="{ selected: 'solid' === specification.attributes.body }">
                                     <span>solid</span>
                                 </div>
                             </div>
@@ -61,15 +61,15 @@
                         <div class="form-group">
                             <label for="">Amplification</label>
                             <div class="amplification-types">
-                                <div class="amplification-type" data-ng-class="{ selected: 'acoustic' === specification.attributes.amplification }">
+                                <div class="amplification-type" data-ng-click="specification.attributes.amplification = 'acoustic'" data-ng-class="{ selected: 'acoustic' === specification.attributes.amplification }">
                                     <span>acoustic</span>
                                 </div>
 
-                                <div class="amplification-type" data-ng-class="{ selected: 'electro-acoustic' === specification.attributes.amplification }">
+                                <div class="amplification-type" data-ng-click="specification.attributes.amplification = 'electro-acoustic'" data-ng-class="{ selected: 'electro-acoustic' === specification.attributes.amplification }">
                                     <span>electro-acoustic</span>
                                 </div>
 
-                                <div class="amplification-type" data-ng-class="{ selected: 'electric' === specification.attributes.amplification }">
+                                <div class="amplification-type" data-ng-click="specification.attributes.amplification = 'electric'" data-ng-class="{ selected: 'electric' === specification.attributes.amplification }">
                                     <span>electric</span>
                                 </div>
                             </div>

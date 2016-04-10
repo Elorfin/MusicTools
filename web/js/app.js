@@ -193,7 +193,7 @@ var AlertService = function AlertService($timeout) {
 AlertService.$inject = [ '$timeout' ];
 
 AlertService.prototype.ERROR_TYPE   = 'danger';
-AlertService.prototype.SUCCESS_TYPE = 'sucess';
+AlertService.prototype.SUCCESS_TYPE = 'success';
 AlertService.prototype.WARNING_TYPE = 'warning';
 AlertService.prototype.INFO_TYPE    = 'info';
 
@@ -207,7 +207,7 @@ AlertService.prototype.alerts = [];
  * Display duration for the alert which are configured to be auto-hidden
  * @type {number}
  */
-AlertService.prototype.displayDuration = 5000;
+AlertService.prototype.displayDuration = 10000;
 
 /**
  * Get active alerts
@@ -268,11 +268,11 @@ AlertService.prototype.addAlert = function addAlert(type, message, action, autoH
     var alert = angular.merge({ type: type, action: action ? action : null }, message);
 
     // Configure auto hide if needed
-    if (autoHide) {
+    /*if (autoHide) {
         alert.timeout = this.$timeout(function () {
             this.removeAlert(alert);
         }.bind(this), this.displayDuration);
-    }
+    }*/
 
     // Add to the stack
     this.alerts.push(alert);
@@ -341,7 +341,7 @@ FormController.prototype.isNew = function isNew() {
  * Validate the form
  */
 FormController.prototype.validate = function validate() {
-    return true
+    return true;
 };
 
 /**
@@ -408,7 +408,18 @@ ListController.prototype.sortReverse = false;
  */
 ListController.prototype.sortFields = {};
 
-ListController.prototype.remove = function remove(entity) {
+/**
+ * Create a new Resource
+ */
+ListController.prototype.new = function newResource() {
+    this.apiResource.new();
+};
+
+/**
+ * Remove a resource
+ * @param {Object} resource
+ */
+ListController.prototype.remove = function remove(resource) {
     // Display confirm callback
     var modalInstance = this.services.$uibModal.open({
         templateUrl : this.services.$client.getPartial('Modal/confirm.html', 'core/Layout'),
@@ -433,18 +444,33 @@ angular
  * Base Show Controller
  * @constructor
  */
-var ShowController = function ShowController(resource) {
-    this.resource = resource;
+var ShowController = function ShowController(resource, ApiResource) {
+    this.resource    = resource;
+    this.apiResource = ApiResource;
 };
 
 // Set up dependency injection
-ShowController.$inject = [ 'resource' ];
+ShowController.$inject = [ 'resource', 'ApiResource' ];
 
 /**
  * Current displayed entity
  * @type {Object}
  */
 ShowController.prototype.resource = null;
+
+/**
+ * Save modifications of the Resource
+ */
+ShowController.prototype.save = function save() {
+    this.apiResource.update(this.resource);
+};
+
+/**
+ * Remove the Resource
+ */
+ShowController.prototype.remove = function remove() {
+
+};
 
 // Register controller into angular
 angular
@@ -1020,15 +1046,12 @@ ApiResource.prototype.init = function init() {
  * @returns {boolean}
  */
 ApiResource.prototype.hasRelationship = function hasRelationship(resource, relationshipName) {
-    if (angular.isObject(resource.relationships)
-        && angular.isObject(resource.relationships[relationshipName])
-        && angular.isObject(resource.relationships[relationshipName].data)
-        && 0 !== angular.isObject(resource.relationships[relationshipName].data.length)) {
+    return !!(angular.isObject(resource.relationships)
+    && angular.isObject(resource.relationships[relationshipName])
+    && angular.isObject(resource.relationships[relationshipName].data)
+    && 0 !== angular.isObject(resource.relationships[relationshipName].data.length));
 
-        return true;
-    }
 
-    return false;
 };
 
 /**
@@ -1051,7 +1074,7 @@ ApiResource.prototype.getRelationship = function getRelationship(resource, relat
  * @param {Object}  resource
  * @param {String}  relationshipName
  * @param {Object}  relationshipObject
- * @param {Boolean} isCollection
+ * @param {Boolean} [isCollection]
  */
 ApiResource.prototype.addRelationship = function addRelationship(resource, relationshipName, relationshipObject, isCollection) {
     // Initialize relationships namespace if not exist
@@ -1227,8 +1250,11 @@ ApiResource.prototype.update = function updateResource(resource) {
         .then(
             // Success callback
             function onServerSuccess(response) {
+                // Display message to User
+                this.services['AlertService'].addSuccess({ title: 'Entity updated' }, {}, true);
+
                 deferred.resolve(response.data);
-            },
+            }.bind(this),
 
             // Error callback
             function onServerError(response) {
@@ -1642,7 +1668,7 @@ angular
 var FlagDirective = function FlagDirective($client) {
     return {
         restrict: 'E',
-        template: '<a class="flag flag-{{ flagCtrl.type }}" role="button" href="" data-ng-transclude="" data-ng-click="flagCtrl.toggle()" data-ng-class="{ on: flagCtrl.value }"></a>',
+        template: '<button type="button" role="button" class="flag flag-{{ flagCtrl.type }}" data-ng-transclude="" data-ng-click="flagCtrl.toggle()" data-ng-class="{ on: flagCtrl.value }"></button>',
         replace: true,
         transclude: true,
         scope: {
@@ -1678,46 +1704,6 @@ angular
     .module('Layout')
     .directive('uiFlag', FlagDirective);
 
-/* File : app/client/src/core/Layout/Directive/Header/HeaderButtonDirective.js */ 
-/**
- * Header of the application
- */
-angular
-    .module('Layout')
-    .directive('uiHeaderButton', [
-        function HeaderButtonDirective() {
-            return {
-                restrict: 'E',
-                template: '<li role="presentation" data-ng-transclude=""></li>',
-                replace: true,
-                transclude: true,
-                scope: {},
-                link: function (scope, element, attrs) {
-
-                }
-            };
-        }
-    ]);
-/* File : app/client/src/core/Layout/Directive/Header/HeaderButtonsDirective.js */ 
-/**
- * Header of the application
- */
-angular
-    .module('Layout')
-    .directive('uiHeaderButtons', [
-        function HeaderButtonsDirective() {
-            return {
-                restrict: 'E',
-                template: '<nav class="ui-header-buttons navbar navbar-default"><ul class=" nav navbar-nav" data-ng-transclude=""></ul></nav>',
-                replace: true,
-                transclude: true,
-                scope: {},
-                link: function (scope, element, attrs) {
-
-                }
-            };
-        }
-    ]);
 /* File : app/client/src/core/Layout/Directive/Header/HeaderDirective.js */ 
 /**
  * Header of the application
@@ -1738,6 +1724,30 @@ angular
             };
         }
     ]);
+/* File : app/client/src/core/Layout/Directive/Header/HeaderNavDirective.js */ 
+/**
+ * Additional header nav
+ */
+var HeaderNavDirective = function HeaderNavDirective() {
+    return {
+        restrict: 'E',
+        template: '<nav class="ui-header-nav navbar navbar-default"><ul class="nav navbar-nav" data-ng-transclude=""></ul></nav>',
+        replace: true,
+        transclude: true,
+        scope: {},
+        link: function (scope, element, attrs) {
+
+        }
+    };
+};
+
+// Set up dependency injection
+HeaderNavDirective.$inject = [];
+
+// Register directive into AngularJS
+angular
+    .module('Layout')
+    .directive('uiHeaderNav', HeaderNavDirective);
 /* File : app/client/src/core/Layout/Directive/ListFormatterDirective.js */ 
 /**
  * Widget to change how lists are displayed
@@ -3363,108 +3373,6 @@ angular
         }
     ]);
 
-/* File : app/client/src/app/Instrument/Controller/InstrumentFormController.js */ 
-/**
- * Form controller for Instruments
- * @constructor
- */
-var InstrumentFormController = function InstrumentFormController(resource, InstrumentResource, instrumentTypes, InstrumentTemplateResource, InstrumentSpecificationResource) {
-    FormController.apply(this, arguments);
-
-    this.instrumentTypes       = instrumentTypes;
-    this.templateResource      = InstrumentTemplateResource;
-    this.specificationResource = InstrumentSpecificationResource;
-
-    // Initialize empty relationships
-    if (!this.apiResource.hasRelationship(this.resource, 'instrumentType')) {
-        this.setType(this.instrumentTypes[0]);
-    }
-
-    if (!this.apiResource.hasRelationship(this.resource, 'specification')) {
-        this.apiResource.addRelationship(this.resource, 'specification', this.specificationResource.init());
-    }
-};
-
-// Extends FormController
-InstrumentFormController.prototype             = Object.create(FormController.prototype);
-InstrumentFormController.prototype.constructor = InstrumentFormController;
-
-// Set up dependency injection
-InstrumentFormController.$inject = [
-    'resource',
-    'InstrumentResource',
-    'instrumentTypes',
-    'InstrumentTemplateResource',
-    'InstrumentSpecificationResource'
-];
-
-/**
- * List of Templates for the current InstrumentType
- * @type {Array}
- */
-InstrumentFormController.prototype.templates = [];
-
-/**
- * Selected Template
- * @type {Object}
- */
-InstrumentFormController.prototype.selectedTemplate = null;
-
-/**
- * Select the type of the Instrument
- * @param {Object} type
- */
-InstrumentFormController.prototype.setType = function setType(type) {
-    this.apiResource.addRelationship(this.resource, 'instrumentType', type);
-
-    // Load templates for this type
-    this.loadTemplates(type);
-};
-
-/**
- * Load the list of available Templates for the selected Type
- * @param {Object} type
- */
-InstrumentFormController.prototype.loadTemplates = function loadTemplates(type) {
-    this.templates = this.templateResource
-        .get({ type: type.id })
-        .then(function onSuccess(result) {
-            this.templates = result;
-        }.bind(this));
-};
-
-/**
- * Select a template for the Instrument
- * @param {Object} template
- */
-InstrumentFormController.prototype.selectTemplate = function selectTemplate(template) {
-    this.selectedTemplate = template;
-
-    // Use the Template name as default name
-    if (!this.resource.attributes.name) {
-        this.resource.attributes.name = template.attributes.name;
-    }
-
-    if (!this.apiResource.hasRelationship(this.resource, 'specification')) {
-        // Initialize object
-        this.apiResource.addRelationship(this.resource, 'specification', {});
-    }
-
-    var specification = this.apiResource.getRelationship(this.resource, 'specification');
-
-    // Fill instrument specification with template
-    for (var attr in template.attributes) {
-        if ('name' !== attr && template.attributes.hasOwnProperty(attr)) {
-            specification.attributes[attr] = template.attributes[attr];
-        }
-    }
-};
-
-// Register controller into Angular JS
-angular
-    .module('Instrument')
-    .controller('InstrumentFormController', InstrumentFormController);
-
 /* File : app/client/src/app/Instrument/Controller/InstrumentListController.js */ 
 /**
  * List controller for Instruments
@@ -3501,24 +3409,104 @@ angular
 
 /* File : app/client/src/app/Instrument/Controller/InstrumentShowController.js */ 
 /**
- * Show controller for Instruments
+ * Form controller for Instruments
  * @constructor
  */
-var InstrumentShowController = function InstrumentShowController(resource) {
+var InstrumentShowController = function InstrumentShowController(resource, InstrumentResource, instrumentTypes, InstrumentTemplateResource, InstrumentSpecificationResource) {
     ShowController.apply(this, arguments);
+
+    this.instrumentTypes       = instrumentTypes;
+    this.templateResource      = InstrumentTemplateResource;
+    this.specificationResource = InstrumentSpecificationResource;
+
+    // Initialize empty relationships
+    if (!this.apiResource.hasRelationship(this.resource, 'instrumentType')) {
+        this.setType(this.instrumentTypes[0]);
+    } else {
+        this.loadTemplates(this.resource.relationships.instrumentType.data);
+    }
+
+    if (!this.apiResource.hasRelationship(this.resource, 'specification')) {
+        this.apiResource.addRelationship(this.resource, 'specification', this.specificationResource.init());
+    }
 };
 
-// Extends ShowController
-InstrumentShowController.prototype = Object.create(ShowController.prototype);
-InstrumentShowController.$inject = ShowController.$inject;
+// Extends FormController
+InstrumentShowController.prototype             = Object.create(ShowController.prototype);
+InstrumentShowController.prototype.constructor = InstrumentShowController;
+
+// Set up dependency injection
+InstrumentShowController.$inject = [
+    'resource',
+    'InstrumentResource',
+    'instrumentTypes',
+    'InstrumentTemplateResource',
+    'InstrumentSpecificationResource'
+];
 
 /**
- * Current displayed Resource
+ * List of Templates for the current InstrumentType
+ * @type {Array}
+ */
+InstrumentShowController.prototype.templates = [];
+
+/**
+ * Selected Template
  * @type {Object}
  */
-InstrumentShowController.prototype.resource = null;
+InstrumentShowController.prototype.selectedTemplate = null;
 
-// Register controller into angular
+/**
+ * Select the type of the Instrument
+ * @param {Object} type
+ */
+InstrumentShowController.prototype.setType = function setType(type) {
+    this.apiResource.addRelationship(this.resource, 'instrumentType', type);
+
+    // Load templates for this type
+    this.loadTemplates(type);
+};
+
+/**
+ * Load the list of available Templates for the selected Type
+ * @param {Object} type
+ */
+InstrumentShowController.prototype.loadTemplates = function loadTemplates(type) {
+    this.templates = this.templateResource
+        .get({ type: type.id })
+        .then(function onSuccess(result) {
+            this.templates = result;
+        }.bind(this));
+};
+
+/**
+ * Select a template for the Instrument
+ * @param {Object} template
+ */
+InstrumentShowController.prototype.selectTemplate = function selectTemplate(template) {
+    this.selectedTemplate = template;
+
+    // Use the Template name as default name
+    if (!this.resource.attributes.name) {
+        this.resource.attributes.name = template.attributes.name;
+    }
+
+    if (!this.apiResource.hasRelationship(this.resource, 'specification')) {
+        // Initialize object
+        this.apiResource.addRelationship(this.resource, 'specification', {});
+    }
+
+    var specification = this.apiResource.getRelationship(this.resource, 'specification');
+
+    // Fill instrument specification with template
+    for (var attr in template.attributes) {
+        if ('name' !== attr && template.attributes.hasOwnProperty(attr)) {
+            specification.attributes[attr] = template.attributes[attr];
+        }
+    }
+};
+
+// Register controller into Angular JS
 angular
     .module('Instrument')
     .controller('InstrumentShowController', InstrumentShowController);
@@ -3717,19 +3705,9 @@ angular
     .config([
         'apiResourceRouteProvider',
         function InstrumentRoutes(apiResourceRouteProvider) {
-            apiResourceRouteProvider.register('Instrument', 'Instrument', 'instruments', false, {
+            apiResourceRouteProvider.register('Instrument', 'Instrument', 'instruments', true, {
                 // Add the list of InstrumentType to the NEW routes resolvers
-                new: {
-                    resolve: {
-                        instrumentTypes: [
-                            'InstrumentTypeResource',
-                            function instrumentTypesResolver(InstrumentTypeResource) {
-                                return InstrumentTypeResource.query();
-                            }
-                        ]
-                    }
-                },
-                edit: {
+                show: {
                     resolve: {
                         instrumentTypes: [
                             'InstrumentTypeResource',

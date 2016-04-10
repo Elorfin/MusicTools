@@ -2,6 +2,7 @@
 
 namespace InstrumentBundle\Entity\Template;
 
+use CommonBundle\Model\NameTrait;
 use Doctrine\ORM\Mapping as ORM;
 use InstrumentBundle\Entity\InstrumentType;
 
@@ -12,14 +13,12 @@ use InstrumentBundle\Entity\InstrumentType;
 abstract class AbstractTemplate implements \JsonSerializable
 {
     /**
-     * Name of the Template
-     * @var string
-     *
-     * @ORM\Column(type="string")
+     * Name
      */
-    protected $name;
+    use NameTrait;
 
     /**
+     * InstrumentType which belongs the Template
      * @var InstrumentType
      *
      * @ORM\ManyToOne(targetEntity="InstrumentBundle\Entity\InstrumentType")
@@ -28,27 +27,6 @@ abstract class AbstractTemplate implements \JsonSerializable
     protected $type;
 
     /**
-     * Get name
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * Set name
-     * @param  string $name
-     * @return AbstractTemplate
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    /**+
      * Get type of the Instrument
      * @return InstrumentType
      */

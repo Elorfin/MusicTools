@@ -41,96 +41,123 @@
 /**
  * Header buttons declared by the current page
  */
-.ui-header-buttons {
+.ui-header-nav {
     position: fixed;
     right: floor(@grid-gutter-width / 2);
     top: 0;
     z-index: 4;
-    padding: 0 5px;
 
-    ul > li {
-        > button,
-        > input[type=button],
-        > input[type=submit] {
-            display: block;
-            border: none;
-            padding: @navbar-padding-vertical @navbar-padding-horizontal;
-            background: none;
-            color: @navbar-default-link-color;
+    &.ui-header-tabs {
+        padding: 0;
 
-            &:hover {
-                color: @navbar-default-link-hover-color;
-                background: @navbar-default-link-hover-bg;
+        ul > li {
+            a {
+
             }
 
-            &:focus,
-            &:active,
             &.active {
-                color: @navbar-default-link-active-color;
-                background: @navbar-default-link-active-bg;
-            }
+                a {
+                    box-shadow: 0 -3px 3px rgba(0, 0, 0, 0.5);
+                    border-top: 3px solid @brand-primary;
+                    color: #c7c7c7;
+                    background: @content-bg;
+                    padding-top: @navbar-padding-vertical - 3px;
 
-            &[disabled],
-            &.disabled {
-                color: @navbar-default-link-disabled-color;
-
-                background: @navbar-default-link-disabled-bg;
-
-                &:hover,
-                &:focus {
-                    color: @navbar-default-link-disabled-color;
-
-                    background-color: @navbar-default-link-disabled-bg;
-                    cursor: @cursor-disabled;
+                    &:hover {
+                        color: #c7c7c7;
+                    }
                 }
             }
         }
     }
 
-    .divider {
-        left: 0;
-        border: 1px solid #202020;
-        bottom: 10px;
-        box-shadow: 0 0 3px rgba(0, 0, 0, 0.75);
-        content: " ";
-        display: block;
-        position: relative;
-        top: 10px;
-        margin: 0 3px;
-        height: @navbar-height - 20px;
-    }
+    &.ui-header-buttons {
+        padding: 0 5px;
 
-    &:before,
-    &:after {
-        display: block;
-        content: " ";
-        position: absolute;
-        top: 10px;
-        bottom: 10px;
-        border: 1px solid @dropdown-bg;
-        .box-shadow(0 0 3px rgba(0, 0, 0, 0.75));
-    }
+        ul > li {
+            > button,
+            > input[type=button],
+            > input[type=submit] {
+                display: block;
+                border: none;
+                padding: @navbar-padding-vertical @navbar-padding-horizontal;
+                background: none;
+                color: @navbar-default-link-color;
 
-    &:before {
-        left: 0;
-    }
+                &:hover {
+                    color: @navbar-default-link-hover-color;
+                    background: @navbar-default-link-hover-bg;
+                }
 
-    &:after {
-        right: 0;
-    }
+                &:focus,
+                &:active,
+                &.active {
+                    color: @navbar-default-link-active-color;
+                    background: @navbar-default-link-active-bg;
+                }
 
-    .dropdown-toggle {
-        /* the wrap <div> break the default Bootstrap nav-link styles, so lets recreate it */
-        position: relative;
-        display: block;
-        padding: @navbar-padding-vertical @navbar-padding-horizontal;
-        line-height: @line-height-computed;
-        color: @navbar-default-link-color;
+                &[disabled],
+                &.disabled {
+                    color: @navbar-default-link-disabled-color;
 
-        &:hover,
-        &:focus {
-            color: @navbar-default-link-hover-color;
-            background-color: @navbar-default-link-hover-bg;
+                    background: @navbar-default-link-disabled-bg;
+
+                    &:hover,
+                    &:focus {
+                        color: @navbar-default-link-disabled-color;
+
+                        background-color: @navbar-default-link-disabled-bg;
+                        cursor: @cursor-disabled;
+                    }
+                }
+            }
+        }
+
+        .divider {
+            left: 0;
+            border: 1px solid #202020;
+            bottom: 10px;
+            box-shadow: 0 0 3px rgba(0, 0, 0, 0.75);
+            content: " ";
+            display: block;
+            position: relative;
+            top: 10px;
+            margin: 0 3px;
+            height: @navbar-height - 20px;
+        }
+
+        &:before,
+        &:after {
+            display: block;
+            content: " ";
+            position: absolute;
+            top: 10px;
+            bottom: 10px;
+            border: 1px solid @dropdown-bg;
+            .box-shadow(0 0 3px rgba(0, 0, 0, 0.75));
+        }
+
+        &:before {
+            left: 0;
+        }
+
+        &:after {
+            right: 0;
+        }
+
+        .dropdown-toggle {
+            /* the wrap <div> break the default Bootstrap nav-link styles, so lets recreate it */
+            position: relative;
+            display: block;
+            padding: @navbar-padding-vertical @navbar-padding-horizontal;
+            line-height: @line-height-computed;
+            color: @navbar-default-link-color;
+
+            &:hover,
+            &:focus {
+                color: @navbar-default-link-hover-color;
+                background-color: @navbar-default-link-hover-bg;
+            }
         }
     }
 }

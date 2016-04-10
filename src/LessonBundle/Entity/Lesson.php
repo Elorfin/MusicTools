@@ -4,7 +4,7 @@ namespace LessonBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
-use UserBundle\Entity\OwnableTrait;
+use UserBundle\Model\OwnerTrait;
 
 /**
  * Lesson Entity
@@ -41,9 +41,9 @@ class Lesson
     protected $description;
 
     /**
-     * Add Ownable behavior
+     * Owner
      */
-    use OwnableTrait;
+    use OwnerTrait;
 
     /**
      * Sections of the Lesson

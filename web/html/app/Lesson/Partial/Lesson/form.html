@@ -11,34 +11,34 @@
     </layout-page-title>
 
     <!-- Header buttons -->
-    <ui-header-buttons>
+    <ui-header-nav class="ui-header-buttons">
         <!-- Delete button while editing -->
-        <ui-header-button data-ng-if="!formCtrl.isNew()" class="nav-link-danger">
+        <li role="presentation" data-ng-if="!formCtrl.isNew()" class="nav-link-danger">
             <a href="">
                 <span class="fa fa-fw fa-trash-o"></span>
                 Delete
             </a>
-        </ui-header-button>
+        </li>
 
         <li class="divider" data-ng-if="!formCtrl.isNew()"></li>
 
         <!-- Cancel -->
-        <ui-header-button class="nav-link-default">
+        <l role="presentation" class="nav-link-default">
             <a href="#/lessons">
                 <span class="fa fa-fw fa-times"></span>
                 Cancel
             </a>
-        </ui-header-button>
+        </l>
 
         <!-- Validate form -->
-        <ui-header-button class="nav-link-default">
+        <li role="presentation" class="nav-link-default">
             <a href="" data-ng-click="formCtrl.submit()">
                 <span class="fa fa-fw fa-check"></span>
                 <span data-ng-if="formCtrl.isNew()">Create</span>
                 <span data-ng-if="!formCtrl.isNew()">Edit</span>
             </a>
-        </ui-header-button>
-    </ui-header-buttons>
+        </li>
+    </ui-header-nav>
 
     <!-- Form -->
     <form class="lesson-form">

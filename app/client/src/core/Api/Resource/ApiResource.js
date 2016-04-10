@@ -74,15 +74,12 @@ ApiResource.prototype.init = function init() {
  * @returns {boolean}
  */
 ApiResource.prototype.hasRelationship = function hasRelationship(resource, relationshipName) {
-    if (angular.isObject(resource.relationships)
-        && angular.isObject(resource.relationships[relationshipName])
-        && angular.isObject(resource.relationships[relationshipName].data)
-        && 0 !== angular.isObject(resource.relationships[relationshipName].data.length)) {
+    return !!(angular.isObject(resource.relationships)
+    && angular.isObject(resource.relationships[relationshipName])
+    && angular.isObject(resource.relationships[relationshipName].data)
+    && 0 !== angular.isObject(resource.relationships[relationshipName].data.length));
 
-        return true;
-    }
 
-    return false;
 };
 
 /**
@@ -105,7 +102,7 @@ ApiResource.prototype.getRelationship = function getRelationship(resource, relat
  * @param {Object}  resource
  * @param {String}  relationshipName
  * @param {Object}  relationshipObject
- * @param {Boolean} isCollection
+ * @param {Boolean} [isCollection]
  */
 ApiResource.prototype.addRelationship = function addRelationship(resource, relationshipName, relationshipObject, isCollection) {
     // Initialize relationships namespace if not exist
@@ -281,8 +278,11 @@ ApiResource.prototype.update = function updateResource(resource) {
         .then(
             // Success callback
             function onServerSuccess(response) {
+                // Display message to User
+                this.services['AlertService'].addSuccess({ title: 'Entity updated' }, {}, true);
+
                 deferred.resolve(response.data);
-            },
+            }.bind(this),
 
             // Error callback
             function onServerError(response) {

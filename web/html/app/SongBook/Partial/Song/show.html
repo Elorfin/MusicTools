@@ -1,20 +1,20 @@
 <layout-page>
     <!-- Header buttons -->
-    <ui-header-buttons>
-        <ui-header-button class="nav-link-danger">
+    <ui-header-nav class="ui-header-buttons">
+        <li role="presentation" class="nav-link-danger">
             <a href="">
                 <span class="fa fa-fw fa-trash-o"></span>
                 Delete
             </a>
-        </ui-header-button>
+        </li>
 
-        <ui-header-button class="nav-link-default">
+        <li role="presentation" class="nav-link-default">
             <a href="#/songs/{{ showCtrl.resource.id }}/edit">
                 <span class="fa fa-fw fa-pencil"></span>
                 Edit
             </a>
-        </ui-header-button>
-    </ui-header-buttons>
+        </li>
+    </ui-header-nav>
 
     <div class="song-show row">
         <div class="col-md-3 text-center">

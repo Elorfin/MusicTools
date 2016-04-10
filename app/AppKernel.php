@@ -19,6 +19,7 @@ class AppKernel extends Kernel
             new Elorfin\JsonApiBundle\ElorfinJsonApiBundle(),
             new Elorfin\ResourceBundle\ElorfinResourceBundle(),
 
+            new CommonBundle\CommonBundle(),
             new TheoryBundle\TheoryBundle(),
             new UserBundle\UserBundle(),
             new InstrumentBundle\InstrumentBundle(),

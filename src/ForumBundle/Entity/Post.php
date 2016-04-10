@@ -4,7 +4,7 @@ namespace ForumBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-use UserBundle\Entity\OwnableTrait;
+use UserBundle\Model\OwnerTrait;
 
 /**
  * Post
@@ -33,9 +33,9 @@ class Post
     protected $content;
 
     /**
-     * Add Ownable behavior
+     * Owner
      */
-    use OwnableTrait;
+    use OwnerTrait;
 
     /**
      * Thread belongs the Post

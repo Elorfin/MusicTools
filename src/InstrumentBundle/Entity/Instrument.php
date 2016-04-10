@@ -3,9 +3,12 @@
 namespace InstrumentBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 use InstrumentBundle\Entity\Specification\AbstractSpecification;
-use UserBundle\Entity\OwnableTrait;
+use CommonBundle\Model\DefaultTrait;
+use CommonBundle\Model\FavouriteTrait;
+use CommonBundle\Model\NameTrait;
+use CommonBundle\Model\UniqueIdentifierTrait;
+use UserBundle\Model\OwnerTrait;
 
 /**
  * Instrument Entity
@@ -18,28 +21,29 @@ use UserBundle\Entity\OwnableTrait;
 class Instrument implements \JsonSerializable
 {
     /**
-     * Unique identifier of the Recorder
-     * @var string
-     *
-     * @ORM\Column(type="guid")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="UUID")
+     * ID
      */
-    private $id;
+    use UniqueIdentifierTrait;
 
     /**
-     * Name of the Instrument
-     * @var string
-     *
-     * @ORM\Column(type="string")
-     * @Assert\NotBlank()
+     * Name
      */
-    protected $name;
+    use NameTrait;
 
     /**
-     * Add Ownable behavior
+     * Is the default User instrument ?
      */
-    use OwnableTrait;
+    use DefaultTrait;
+
+    /**
+     * Favourite
+     */
+    use FavouriteTrait;
+
+    /**
+     * Owner
+     */
+    use OwnerTrait;
 
     /**
      * Type of the Instrument
@@ -57,14 +61,6 @@ class Instrument implements \JsonSerializable
     protected $specification;
 
     /**
-     * Use Guitar as the default User's guitar
-     * @var boolean
-     *
-     * @ORM\Column(name="use_default", type="boolean", nullable=true)
-     */
-    protected $default = false;
-
-    /**
      * Manufacturer of the Guitar
      * @var string
      *
@@ -79,36 +75,6 @@ class Instrument implements \JsonSerializable
      * @ORM\Column(type="string", nullable=true)
      */
     protected $model;
-
-    /**
-     * Get id
-     * @return string
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * Get name
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * Set name
-     * @param  string $name
-     * @return Instrument
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-
-        return $this;
-    }
 
     /**
      * Get type of the Instrument
@@ -151,27 +117,6 @@ class Instrument implements \JsonSerializable
 
         // Set inverse side of relationship
         $specification->setInstrument($this);
-
-        return $this;
-    }
-
-    /**
-     * Is default ?
-     * @return boolean
-     */
-    public function isDefault()
-    {
-        return $this->default;
-    }
-
-    /**
-     * Set default
-     * @param  boolean $default
-     * @return Instrument
-     */
-    public function setDefault($default)
-    {
-        $this->default = $default;
 
         return $this;
     }
@@ -229,6 +174,7 @@ class Instrument implements \JsonSerializable
             'attributes'    => [
                 'name'         => $this->name,
                 'default'      => $this->default,
+                'favourite'    => $this->favourite,
                 'manufacturer' => $this->manufacturer,
                 'model'        => $this->model,
             ],

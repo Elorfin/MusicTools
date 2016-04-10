@@ -2,12 +2,13 @@
 
 namespace InstrumentBundle\Form\Specification;
 
-use Elorfin\JsonApiBundle\Form\JsonApiRequestHandler;
-use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class RecorderSpecificationType extends AbstractType
+/**
+ * Class RecorderSpecificationType
+ */
+class RecorderSpecificationType extends AbstractSpecificationType
 {
     /**
      * Create the Form definition
@@ -16,7 +17,7 @@ class RecorderSpecificationType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->setRequestHandler(new JsonApiRequestHandler());
+        parent::buildForm($builder, $options);
 
         $builder
             ->add('range')

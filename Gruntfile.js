@@ -203,6 +203,14 @@ module.exports = function (grunt) {
                 tasks: ['concat', 'uglify']
             },
 
+            html: {
+                files: [
+                    '<%= clientFolder %>/src/**/*.html',
+                    '<%= clientFolder %>/images/*'
+                ],
+                tasks: ['copy']
+            },
+
             less: {
                 files: [
                     '<%= clientFolder %>/styles/**/*.less'

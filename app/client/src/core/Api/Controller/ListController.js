@@ -43,7 +43,18 @@ ListController.prototype.sortReverse = false;
  */
 ListController.prototype.sortFields = {};
 
-ListController.prototype.remove = function remove(entity) {
+/**
+ * Create a new Resource
+ */
+ListController.prototype.new = function newResource() {
+    this.apiResource.new();
+};
+
+/**
+ * Remove a resource
+ * @param {Object} resource
+ */
+ListController.prototype.remove = function remove(resource) {
     // Display confirm callback
     var modalInstance = this.services.$uibModal.open({
         templateUrl : this.services.$client.getPartial('Modal/confirm.html', 'core/Layout'),

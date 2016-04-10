@@ -27,7 +27,7 @@ class PianoSpecificationType extends AbstractSpecificationType
     {
         $resolver->setDefaults([
             'csrf_protection' => false,
-            'data_class'      => 'InstrumentBundle\Entity\Specification\RecorderSpecification'
+            'data_class'      => 'InstrumentBundle\Entity\Specification\PianoSpecification'
         ]);
     }
 }

@@ -2,7 +2,6 @@
 
 namespace UserBundle\Model;
 
-use Doctrine\ORM\Mapping as ORM;
 use UserBundle\Entity\User;
 
 /**

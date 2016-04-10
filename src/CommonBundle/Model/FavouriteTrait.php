@@ -2,8 +2,6 @@
 
 namespace CommonBundle\Model;
 
-use Doctrine\ORM\Mapping as ORM;
-
 /**
  * Add a `favourite` field to an Entity class
  */

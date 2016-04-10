@@ -1,8 +1,6 @@
 <?php
 
-namespace InstrumentBundle\Entity\Instrument;
-
-use Doctrine\ORM\Mapping as ORM;
+namespace InstrumentBundle\Model;
 
 /**
  * Recorder

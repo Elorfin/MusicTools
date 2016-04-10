@@ -4,7 +4,7 @@ namespace InstrumentBundle\Entity\Template;
 
 use CommonBundle\Model\UniqueIdentifierTrait;
 use Doctrine\ORM\Mapping as ORM;
-use InstrumentBundle\Entity\Instrument\GuitarTrait;
+use InstrumentBundle\Model\GuitarTrait;
 
 /**
  * Template for Guitars

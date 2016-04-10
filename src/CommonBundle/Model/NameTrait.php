@@ -2,8 +2,6 @@
 
 namespace CommonBundle\Model;
 
-use Doctrine\ORM\Mapping as ORM;
-
 /**
  * Add a `name` field to an Entity class
  */

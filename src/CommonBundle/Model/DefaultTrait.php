@@ -2,8 +2,6 @@
 
 namespace CommonBundle\Model;
 
-use Doctrine\ORM\Mapping as ORM;
-
 /**
  * Add a `default` field to an Entity class
  */

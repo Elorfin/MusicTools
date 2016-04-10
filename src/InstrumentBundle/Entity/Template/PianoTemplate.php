@@ -4,7 +4,7 @@ namespace InstrumentBundle\Entity\Template;
 
 use CommonBundle\Model\UniqueIdentifierTrait;
 use Doctrine\ORM\Mapping as ORM;
-use InstrumentBundle\Entity\Instrument\PianoTrait;
+use InstrumentBundle\Model\PianoTrait;
 
 /**
  * Template for Pianos

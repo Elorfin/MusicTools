@@ -2,6 +2,7 @@
 
 namespace InstrumentBundle\Entity\Tuning\Strings;
 
+use Doctrine\ORM\Mapping as ORM;
 use CommonBundle\Model\UniqueIdentifierTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use InstrumentBundle\Entity\Tuning\AbstractTuning;
@@ -24,7 +25,7 @@ class StringsTuning extends AbstractTuning
      * List of Strings
      * @var \Doctrine\Common\Collections\ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="InstrumentBundle\Entity\Tuning\String", mappedBy="tuning", cascade={"all"})
+     * @ORM\OneToMany(targetEntity="InstrumentBundle\Entity\Tuning\Strings\StringTuning", mappedBy="tuning", cascade={"all"})
      * @ORM\OrderBy({ "number" = "ASC" })
      */
     protected $strings;

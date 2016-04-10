@@ -2,7 +2,6 @@
 
 namespace InstrumentBundle\Entity;
 
-use CommonBundle\Model\DefaultTrait;
 use CommonBundle\Model\NameTrait;
 use CommonBundle\Model\UniqueIdentifierTrait;
 use Doctrine\ORM\Mapping as ORM;
@@ -25,11 +24,6 @@ class InstrumentType implements \JsonSerializable
      * Name
      */
     use NameTrait;
-
-    /**
-     * IS the default type for new Instrument ?
-     */
-    use DefaultTrait;
 
     /**
      * Icon of the Instrument Type
@@ -147,7 +141,6 @@ class InstrumentType implements \JsonSerializable
             'attributes' => [
                 'name'       => $this->name,
                 'icon'       => $this->icon,
-                'default'    => $this->default,
                 'prefix'     => $this->prefix,
                 'polyphonic' => $this->polyphonic,
             ],

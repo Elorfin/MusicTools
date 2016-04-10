@@ -31,7 +31,6 @@ class LoadInstrumentTypeData extends AbstractFixture implements OrderedFixtureIn
                 'icon'       => 'instrument/guitar.svg',
                 'prefix'     => 'Guitar',
                 'polyphonic' => true,
-                'default'    => true,
             ],
 
             [
@@ -39,7 +38,6 @@ class LoadInstrumentTypeData extends AbstractFixture implements OrderedFixtureIn
                 'icon'       => 'instrument/ukulele.svg',
                 'prefix'     => 'Guitar',
                 'polyphonic' => true,
-                'default'    => false,
             ],
 
             [
@@ -47,7 +45,6 @@ class LoadInstrumentTypeData extends AbstractFixture implements OrderedFixtureIn
                 'icon'       => 'instrument/bass.svg',
                 'prefix'     => 'Guitar',
                 'polyphonic' => true,
-                'default'    => false,
             ],
 
             [
@@ -55,7 +52,6 @@ class LoadInstrumentTypeData extends AbstractFixture implements OrderedFixtureIn
                 'icon'       => 'instrument/recorder.svg',
                 'prefix'     => 'Recorder',
                 'polyphonic' => false,
-                'default'    => false,
             ],
 
             [
@@ -63,7 +59,6 @@ class LoadInstrumentTypeData extends AbstractFixture implements OrderedFixtureIn
                 'icon'       => 'instrument/piano.svg',
                 'prefix'     => 'Piano',
                 'polyphonic' => true,
-                'default'    => false,
             ],
         ];
 
@@ -74,7 +69,6 @@ class LoadInstrumentTypeData extends AbstractFixture implements OrderedFixtureIn
             $entity->setIcon($type['icon']);
             $entity->setPrefix($type['prefix']);
             $entity->setPolyphonic($type['polyphonic']);
-            $entity->setDefault($type['default']);
             
             $manager->persist($entity);
 

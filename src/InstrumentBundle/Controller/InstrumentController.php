@@ -141,8 +141,6 @@ class InstrumentController extends Controller
             $childErrors = $this->getFormErrors($child);
 
             if (!empty($childErrors)) {
-                var_dump($childErrors);
-                die();
                 $errors[] = $childErrors;
             }
         }

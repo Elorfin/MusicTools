@@ -1,6 +1,6 @@
 <?php
 
-namespace InstrumentBundle\Entity\Tuning\Strings;
+namespace TuningBundle\Entity\Strings;
 
 use CommonBundle\Model\UniqueIdentifierTrait;
 use Doctrine\ORM\Mapping as ORM;
@@ -11,9 +11,9 @@ use TheoryBundle\Entity\Note\Note;
  * Stores a String and its associated Note
  *
  * @ORM\Entity()
- * @ORM\Table(name="instrument_tuning_string")
+ * @ORM\Table(name="tuning_string")
  */
-class StringTuning
+class StringTuning implements \JsonSerializable
 {
     /**
      * ID
@@ -107,5 +107,26 @@ class StringTuning
         $this->note = $note;
 
         return $this;
+    }
+
+    public function jsonSerialize()
+    {
+        return [
+            // Identifier of the Resource
+            'type' => 'strings',
+            'id'   => $this->id,
+
+            // Attributes of the Resource
+            'attributes'    => [
+                'number' => $this->number,
+            ],
+
+            // Relationships with other Resources
+            'relationships' => [
+                'note' => [
+                    'data' => $this->note,
+                ],
+            ],
+        ];
     }
 }

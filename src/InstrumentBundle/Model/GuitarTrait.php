@@ -4,6 +4,7 @@ namespace InstrumentBundle\Model;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use TuningBundle\Entity\Strings\StringsTuning;
 
 /**
  * Guitar
@@ -78,7 +79,10 @@ trait GuitarTrait
 
     /**
      * Tuning of the Guitar
-     * @var
+     * @var StringsTuning
+     *
+     * @OneToOne(targetEntity="TuningBundle\Entity\Strings\StringsTuning")
+     * @JoinColumn(name="tuning_id", referencedColumnName="id")
      */
     protected $tuning;
 
@@ -208,13 +212,24 @@ trait GuitarTrait
         return $this;
     }
 
+    /**
+     * Get tuning
+     * @return StringsTuning
+     */
     public function getTuning()
     {
         return $this->tuning;
     }
 
-    public function setTuning($tuning)
+    /**
+     * Set tuning
+     * @param StringsTuning $tuning
+     * @return $this
+     */
+    public function setTuning(StringsTuning $tuning)
     {
         $this->tuning = $tuning;
+
+        return $this;
     }
 }

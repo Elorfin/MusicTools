@@ -1,6 +1,6 @@
 <?php
 
-namespace InstrumentBundle\Entity\Tuning;
+namespace TuningBundle\Entity;
 
 use CommonBundle\Model\NameTrait;
 use CommonBundle\Model\UniqueIdentifierTrait;
@@ -11,7 +11,7 @@ use InstrumentBundle\Entity\InstrumentType;
  * Tuning Category Entity
  *
  * @ORM\Entity()
- * @ORM\Table(name="instrument_tuning_category")
+ * @ORM\Table(name="tuning_category")
  */
 class TuningCategory
 {

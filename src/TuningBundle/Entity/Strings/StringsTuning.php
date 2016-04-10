@@ -1,18 +1,18 @@
 <?php
 
-namespace InstrumentBundle\Entity\Tuning\Strings;
+namespace TuningBundle\Entity\Strings;
 
 use Doctrine\ORM\Mapping as ORM;
 use CommonBundle\Model\UniqueIdentifierTrait;
 use Doctrine\Common\Collections\ArrayCollection;
-use InstrumentBundle\Entity\Tuning\AbstractTuning;
+use TuningBundle\Entity\AbstractTuning;
 
 /**
  * StringsTuning Entity
  * Stores tuning for string instruments
  *
  * @ORM\Entity()
- * @ORM\Table(name="instrument_tuning_strings")
+ * @ORM\Table(name="tuning_strings")
  */
 class StringsTuning extends AbstractTuning
 {
@@ -75,5 +75,27 @@ class StringsTuning extends AbstractTuning
         }
 
         return $this;
+    }
+
+    public function jsonSerialize()
+    {
+        return [
+            // Identifier of the Resource
+            'type' => 'tunings',
+            'id'   => $this->id,
+
+            // Attributes of the Resource
+            'attributes'    => [
+                'name'         => $this->name,
+                'default'      => $this->default,
+            ],
+
+            // Relationships with other Resources
+            'relationships' => [
+                'strings' => [
+                    'data' => $this->strings,
+                ],
+            ],
+        ];
     }
 }

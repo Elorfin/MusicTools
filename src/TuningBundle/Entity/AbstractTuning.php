@@ -1,6 +1,6 @@
 <?php
 
-namespace InstrumentBundle\Entity\Tuning;
+namespace TuningBundle\Entity;
 
 use CommonBundle\Model\DefaultTrait;
 use CommonBundle\Model\NameTrait;
@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\MappedSuperclass
  */
-abstract class AbstractTuning
+abstract class AbstractTuning implements \JsonSerializable
 {
     /**
      * Name
@@ -20,7 +20,7 @@ abstract class AbstractTuning
     use NameTrait;
 
     /**
-     * Is it the default Tuning ?
+     * Is it the default Tuning of its category ?
      */
     use DefaultTrait;
 

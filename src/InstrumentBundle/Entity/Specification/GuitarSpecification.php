@@ -37,7 +37,11 @@ class GuitarSpecification extends AbstractSpecification
                 'amplification' => $this->amplification,
                 'strings'       => $this->strings,
                 'frets'         => $this->frets,
-                'tuning'        => $this->tuning,
+            ],
+            'relationships' => [
+                'tuning' => [
+                    'data' => $this->tuning
+                ]
             ]
         ];
     }

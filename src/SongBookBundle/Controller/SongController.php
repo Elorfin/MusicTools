@@ -53,7 +53,7 @@ class SongController extends Controller
     /**
      * Create a new Song
      * @param Request $request
-     * @return array
+     * @return JsonApiResponse|JsonErrorResponse
      *
      * @Route("")
      * @Method("POST")
@@ -81,7 +81,7 @@ class SongController extends Controller
      * Edit a Song
      * @param  Song $song
      * @param  Request $request
-     * @return array
+     * @return JsonApiResponse|JsonErrorResponse
      *
      * @Route("/{id}")
      * @Method("PUT")
@@ -109,7 +109,7 @@ class SongController extends Controller
     /**
      * Delete a Song
      * @param  Song $song
-     * @return array
+     * @return JsonApiResponse
      *
      * @Route("/{id}")
      * @Method("DELETE")

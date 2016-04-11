@@ -81,8 +81,8 @@ trait GuitarTrait
      * Tuning of the Guitar
      * @var StringsTuning
      *
-     * @OneToOne(targetEntity="TuningBundle\Entity\Strings\StringsTuning")
-     * @JoinColumn(name="tuning_id", referencedColumnName="id")
+     * @ORM\OneToOne(targetEntity="TuningBundle\Entity\Strings\StringsTuning")
+     * @ORM\JoinColumn(name="tuning_id", referencedColumnName="id")
      */
     protected $tuning;
 

@@ -46,4 +46,27 @@ class InstrumentTypeController extends Controller
     {
         return new JsonApiResponse($instrumentType);
     }
+
+    /**
+     * List generic Instruments for an Instrument Type entity
+     * @param  InstrumentType $instrumentType
+     * @return JsonApiResponse
+     *
+     * @Route("/{id}/instruments")
+     * @Method("GET")
+     */
+    public function listInstrumentsAction(InstrumentType $instrumentType)
+    {
+        $entities = $this->container
+            ->get('doctrine.orm.entity_manager')
+            ->getRepository('InstrumentBundle:Instrument')
+            ->findBy([
+                'instrumentType' => $instrumentType,
+                'owner'          => null, // Only get the platform generic Instruments
+            ], [
+                'name'    => 'ASC'
+            ]);
+
+        return new JsonApiResponse($entities);
+    }
 }

@@ -28,7 +28,6 @@ class InstrumentTypeController extends Controller
             ->get('doctrine.orm.entity_manager')
             ->getRepository('InstrumentBundle:InstrumentType')
             ->findBy([], [
-                'default' => 'DESC',
                 'name'    => 'ASC'
             ]);
 

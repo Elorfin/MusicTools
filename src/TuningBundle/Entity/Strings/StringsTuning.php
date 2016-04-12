@@ -25,7 +25,7 @@ class StringsTuning extends AbstractTuning
      * List of Strings
      * @var \Doctrine\Common\Collections\ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="InstrumentBundle\Entity\Tuning\Strings\StringTuning", mappedBy="tuning", cascade={"all"})
+     * @ORM\OneToMany(targetEntity="TuningBundle\Entity\Strings\StringTuning", mappedBy="tuning", cascade={"all"})
      * @ORM\OrderBy({ "number" = "ASC" })
      */
     protected $strings;

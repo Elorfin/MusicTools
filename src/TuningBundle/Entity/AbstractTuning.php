@@ -28,7 +28,7 @@ abstract class AbstractTuning implements \JsonSerializable
      * Category of the Tuning
      * @var TuningCategory
      *
-     * @ORM\ManyToOne(targetEntity="InstrumentBundle\Entity\Tuning\TuningCategory")
+     * @ORM\ManyToOne(targetEntity="TuningBundle\Entity\TuningCategory")
      * @ORM\JoinColumn(name="category_id", referencedColumnName="id", nullable=true)
      */
     protected $category;

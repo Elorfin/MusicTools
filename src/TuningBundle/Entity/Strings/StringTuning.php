@@ -32,7 +32,7 @@ class StringTuning implements \JsonSerializable
      * Linked Tuning
      * @var StringsTuning
      *
-     * @ORM\ManyToOne(targetEntity="InstrumentBundle\Entity\Tuning\Strings\StringsTuning", inversedBy="strings")
+     * @ORM\ManyToOne(targetEntity="TuningBundle\Entity\Strings\StringsTuning", inversedBy="strings")
      * @ORM\JoinColumn(name="tuning_id", referencedColumnName="id")
      */
     protected $tuning;

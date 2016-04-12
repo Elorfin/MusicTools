@@ -5,12 +5,14 @@ namespace InstrumentBundle\DataFixtures\ORM;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
+use InstrumentBundle\Entity\Instrument;
 use InstrumentBundle\Entity\InstrumentType;
 
 /**
- * Initializes instrument types
+ * Initializes instruments
+ * Loads generic platform instrument into the DB
  */
-class LoadTemplateData extends AbstractFixture implements OrderedFixtureInterface
+class LoadInstrumentData extends AbstractFixture implements OrderedFixtureInterface
 {
     /**
      * {@inheritDoc}
@@ -25,7 +27,7 @@ class LoadTemplateData extends AbstractFixture implements OrderedFixtureInterfac
      */
     public function load(ObjectManager $manager)
     {
-        $templates = array(
+        $instruments = array(
             array (
                 'type' => 'guitar',
                 'name' => 'Classic guitar',
@@ -69,29 +71,34 @@ class LoadTemplateData extends AbstractFixture implements OrderedFixtureInterfac
             ),
         );
 
-        foreach ($templates as $template) {
+        foreach ($instruments as $instrument) {
             /** @var \InstrumentBundle\Entity\InstrumentType $type */
-            $type = $this->getReference($template['type']);
+            $type = $this->getReference($instrument['type']);
             if ($type) {
-                $templateClass = $type->getTemplate();
+                $entity = new Instrument();
 
-                /** @var \InstrumentBundle\Entity\Template\AbstractTemplate $entity */
-                $entity = new $templateClass;
+                $entity->setName($instrument['name']);
+                $entity->setInstrumentType($type);
 
-                $entity->setName($template['name']);
-                $entity->setType($type);
+                $specificationClass = $type->getClass();
+
+                /** @var \InstrumentBundle\Entity\Specification\AbstractSpecification $specification */
+                $specification = new $specificationClass;
 
                 // Set template properties
-                if (!empty($template['specification'])) {
-                    foreach ($template['specification'] as $propertyName => $propertyValue) {
+                if (!empty($instrument['specification'])) {
+                    foreach ($instrument['specification'] as $propertyName => $propertyValue) {
                         $setter = 'set' . ucwords($propertyName);
-                        if (method_exists($entity, $setter)) {
-                            $entity->$setter($propertyValue);
+                        if (method_exists($specification, $setter)) {
+                            $specification->$setter($propertyValue);
                         }
                     }
                 }
 
+                $entity->setSpecification($specification);
+
                 $manager->persist($entity);
+                $manager->persist($specification);
             }
         }
 

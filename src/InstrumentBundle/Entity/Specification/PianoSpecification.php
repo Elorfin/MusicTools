@@ -4,7 +4,6 @@ namespace InstrumentBundle\Entity\Specification;
 
 use CommonBundle\Model\UniqueIdentifierTrait;
 use Doctrine\ORM\Mapping as ORM;
-use InstrumentBundle\Model\PianoTrait;
 
 /**
  * Piano Entity
@@ -19,11 +18,6 @@ class PianoSpecification extends AbstractSpecification
      * ID
      */
     use UniqueIdentifierTrait;
-
-    /**
-     * Piano fields
-     */
-    use PianoTrait;
 
     public function jsonSerialize()
     {

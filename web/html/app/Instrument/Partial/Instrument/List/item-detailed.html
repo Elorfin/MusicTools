@@ -8,9 +8,11 @@
         <!-- Info -->
         <div class="instrument-info item-info col-lg-10 col-md-10 col-sm-10 col-xs-9 panel-body">
             <h2 class="page-header">
-                {{ resource.attributes.manufacturer }}
+                {{ resource.attributes.name }}
 
-                <small data-ng-if="null !== resource.attributes.model">{{ resource.attributes.model }}</small>
+                <small data-ng-if="null !== resource.attributes.manufacturer || null !== resource.attributes.model">
+                    {{ resource.attributes.manufacturer }} {{ resource.attributes.model }}
+                </small>
             </h2>
         </div>
 

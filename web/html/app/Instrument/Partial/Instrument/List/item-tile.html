@@ -1,14 +1,16 @@
 <div class="list-item list-item-tile panel panel-default">
     <!-- Image -->
     <div class="item-image">
-        <img class="img-responsive instrument-type-img" data-ng-src="{{ 'images/' + resource.relationships.instrumentType.data.attributes.icon |asset_path }}" />
+        <img class="img-responsive instrument-type-img" src="" data-ng-src="{{ 'images/' + resource.relationships.instrumentType.data.attributes.icon |asset_path }}" />
     </div>
 
     <!-- Info -->
     <div class="item-info panel-body">
-        {{ resource.attributes.manufacturer }}
+        {{ resource.attributes.name }}
 
-        <small data-ng-if="null !== resource.attributes.model">{{ resource.attributes.model }}</small>
+        <small data-ng-if="null !== resource.attributes.manufacturer || null !== resource.attributes.model">
+            {{ resource.attributes.manufacturer }} {{ resource.attributes.model }}
+        </small>
     </div>
 
     <!-- Item buttons -->

@@ -387,6 +387,7 @@ ListController.prototype.resources = [];
 
 /**
  * Format of the list
+ * @type {string}
  */
 ListController.prototype.format = 'detailed';
 
@@ -422,7 +423,7 @@ ListController.prototype.new = function newResource() {
 ListController.prototype.remove = function remove(resource) {
     // Display confirm callback
     var modalInstance = this.services.$uibModal.open({
-        templateUrl : this.services.$client.getPartial('Modal/confirm.html', 'core/Layout'),
+        templateUrl : this.services.$client.getPartial('confirm.html', 'core/Confirm'),
         controller  : 'ConfirmModalController',
         windowClass : 'modal-danger'
     });
@@ -3402,33 +3403,97 @@ InstrumentListController.prototype.sortFields = {
     name :  'string'
 };
 
-// Register controller into angular
+/**
+ * Add a new Instrument in the library
+ */
+InstrumentListController.prototype.new = function newResource() {
+    // Display confirm callback
+    var modalInstance = this.services.$uibModal.open({
+        templateUrl  : this.services.$client.getPartial('Instrument/new.html', 'app/Instrument'),
+        controller   : 'InstrumentNewController',
+        controllerAs : 'instrumentNewCtrl',
+        size: 'lg',
+        resolve: {
+            instrumentTypes: [
+                'InstrumentTypeResource',
+                function instrumentTypesResolve(InstrumentTypeResource) {
+                    return InstrumentTypeResource.query();
+                }
+            ]
+        }
+    });
+
+    modalInstance.result.then(function (selectedItem) {
+        /*$scope.selected = selectedItem;*/
+    }, function () {
+        /*$log.info('Modal dismissed at: ' + new Date());*/
+    });
+};
+
+// Register controller into Angular JS
 angular
     .module('Instrument')
     .controller('InstrumentListController', InstrumentListController);
+
+/* File : app/client/src/app/Instrument/Controller/InstrumentNewController.js */ 
+/**
+ * New controller for Instruments
+ * @constructor
+ */
+var InstrumentNewController = function InstrumentNewController(instrumentTypes) {
+    this.instrumentTypes = instrumentTypes;
+};
+
+// Set up dependency injection
+InstrumentNewController.$inject = [ 'instrumentTypes' ];
+
+/**
+ * List of available types
+ * @type {Array}
+ */
+InstrumentNewController.prototype.instrumentTypes = [];
+
+/**
+ * Selected type
+ * @type {Object}
+ */
+InstrumentNewController.prototype.selectedType = null;
+
+/**
+ * Select an InstrumentType
+ * @param {Object} type
+ */
+InstrumentNewController.prototype.selectType = function selectType(type) {
+    console.log(type);
+    this.selectedType = type;
+};
+
+// Register controller into Angular JS
+angular
+    .module('Instrument')
+    .controller('InstrumentNewController', InstrumentNewController);
 
 /* File : app/client/src/app/Instrument/Controller/InstrumentShowController.js */ 
 /**
  * Form controller for Instruments
  * @constructor
  */
-var InstrumentShowController = function InstrumentShowController(resource, InstrumentResource, instrumentTypes, InstrumentTemplateResource, InstrumentSpecificationResource) {
+var InstrumentShowController = function InstrumentShowController(resource, InstrumentResource) {
     ShowController.apply(this, arguments);
 
-    this.instrumentTypes       = instrumentTypes;
-    this.templateResource      = InstrumentTemplateResource;
-    this.specificationResource = InstrumentSpecificationResource;
+    /*this.instrumentTypes       = instrumentTypes;
+    this.specificationResource = InstrumentSpecificationResource;*/
 
     // Initialize empty relationships
-    if (!this.apiResource.hasRelationship(this.resource, 'instrumentType')) {
+    /*if (!this.apiResource.hasRelationship(this.resource, 'instrumentType')) {
         this.setType(this.instrumentTypes[0]);
     } else {
         this.loadTemplates(this.resource.relationships.instrumentType.data);
-    }
+    }*/
 
-    if (!this.apiResource.hasRelationship(this.resource, 'specification')) {
+    /*if (!this.apiResource.hasRelationship(this.resource, 'specification')) {
         this.apiResource.addRelationship(this.resource, 'specification', this.specificationResource.init());
-    }
+    }*/
 };
 
 // Extends FormController
@@ -3438,52 +3503,37 @@ InstrumentShowController.prototype.constructor = InstrumentShowController;
 // Set up dependency injection
 InstrumentShowController.$inject = [
     'resource',
-    'InstrumentResource',
-    'instrumentTypes',
-    'InstrumentTemplateResource',
-    'InstrumentSpecificationResource'
+    'InstrumentResource'
 ];
-
-/**
- * List of Templates for the current InstrumentType
- * @type {Array}
- */
-InstrumentShowController.prototype.templates = [];
-
-/**
- * Selected Template
- * @type {Object}
- */
-InstrumentShowController.prototype.selectedTemplate = null;
 
 /**
  * Select the type of the Instrument
  * @param {Object} type
  */
-InstrumentShowController.prototype.setType = function setType(type) {
+/*InstrumentShowController.prototype.setType = function setType(type) {
     this.apiResource.addRelationship(this.resource, 'instrumentType', type);
 
     // Load templates for this type
     this.loadTemplates(type);
-};
+};*/
 
 /**
  * Load the list of available Templates for the selected Type
  * @param {Object} type
  */
-InstrumentShowController.prototype.loadTemplates = function loadTemplates(type) {
+/*InstrumentShowController.prototype.loadTemplates = function loadTemplates(type) {
     this.templates = this.templateResource
         .get({ type: type.id })
         .then(function onSuccess(result) {
             this.templates = result;
         }.bind(this));
-};
+};*/
 
 /**
  * Select a template for the Instrument
  * @param {Object} template
  */
-InstrumentShowController.prototype.selectTemplate = function selectTemplate(template) {
+/*InstrumentShowController.prototype.selectTemplate = function selectTemplate(template) {
     this.selectedTemplate = template;
 
     // Use the Template name as default name
@@ -3504,7 +3554,7 @@ InstrumentShowController.prototype.selectTemplate = function selectTemplate(temp
             specification.attributes[attr] = template.attributes[attr];
         }
     }
-};
+};*/
 
 // Register controller into Angular JS
 angular

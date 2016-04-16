@@ -21,39 +21,13 @@
         <a href="#/instruments">{{ 'my_instruments_title'|translate }}</a>
 
         <small>{{ showCtrl.resource.attributes.name || 'click to name the instrument' }}</small>
-
-        <!-- List of available templates for the current InstrumentType -->
-        <div class="instrument-templates" data-uib-dropdown="" data-ng-if="showCtrl.templates && 0 !== showCtrl.templates.length">
-            <a href="" id="templates-dropdown" data-uib-dropdown-toggle="">
-                <span class="fa fa-fw fa-database"></span>
-                select a template to fill information
-                <span class="caret"></span>
-            </a>
-
-            <ul class="dropdown-menu-check" data-uib-dropdown-menu="" aria-labelledby="templates-dropdown">
-                <li data-ng-repeat="template in showCtrl.templates" data-ng-class="{ active: template === showCtrl.selectedTemplate }">
-                    <a href="" role="button" data-ng-click="showCtrl.selectTemplate(template)">{{ template.attributes.name }}</a>
-                </li>
-            </ul>
-        </div>
     </layout-page-title>
 
     <div class="instrument-show row">
         <div class="col-md-2">
             <div class="form-group" style="margin-bottom: 30px;">
                 <div class="widget instrument-type">
-                    <div data-uib-dropdown="">
-                        <a href="" id="types-dropdown" data-uib-dropdown-toggle="">
-                            {{ showCtrl.resource.relationships.instrumentType.data.attributes.name }}
-                            <span class="fa fa-caret-down pull-right"></span>
-                        </a>
-
-                        <ul data-uib-dropdown-menu="" aria-labelledby="types-dropdown">
-                            <li data-ng-repeat="instrumentType in showCtrl.instrumentTypes" data-ng-class="{'active': instrumentType.id == showCtrl.resource.relationships.instrumentType.data.id }">
-                                <a href="" data-ng-click="showCtrl.setType(instrumentType)">{{ instrumentType.attributes.name }}</a>
-                            </li>
-                        </ul>
-                    </div>
+                    <span>{{ showCtrl.resource.relationships.instrumentType.data.attributes.name }}</span>
 
                     <img class="img-responsive instrument-type-img" data-ng-src="{{ 'images/' + showCtrl.resource.relationships.instrumentType.data.attributes.icon |asset_path }}" />
                 </div>

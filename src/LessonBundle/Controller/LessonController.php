@@ -80,6 +80,9 @@ class LessonController extends Controller
      */
     public function deleteAction(Lesson $lesson)
     {
+        $this->getDoctrine()->getManager()->remove($lesson);
+        $this->getDoctrine()->getManager()->flush();
 
+        return new JsonApiResponse(null, 204);
     }
 }

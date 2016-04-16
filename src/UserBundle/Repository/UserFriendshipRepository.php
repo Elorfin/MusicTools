@@ -10,17 +10,17 @@ use UserBundle\Entity\User;
  */
 class UserFriendshipRepository extends EntityRepository
 {
-    public function findFriends(User $musician)
+    public function findFriends(User $user)
     {
 
     }
 
-    public function findPendingRequests(User $musician)
+    public function findPendingRequests(User $user)
     {
 
     }
 
-    public function findRejectedRequests(User $musician)
+    public function findRejectedRequests(User $user)
     {
 
     }

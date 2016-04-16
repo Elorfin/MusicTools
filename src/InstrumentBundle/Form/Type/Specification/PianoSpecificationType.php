@@ -1,17 +1,14 @@
 <?php
 
-namespace InstrumentBundle\Form\Specification;
+namespace InstrumentBundle\Form\Type\Specification;
 
-use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
-
 /**
- * Class AbstractSpecificationType
+ * Class PianoSpecificationType
  */
-class AbstractSpecificationType extends AbstractType
+class PianoSpecificationType extends AbstractSpecificationType
 {
     /**
      * Create the Form definition
@@ -20,9 +17,7 @@ class AbstractSpecificationType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
-            ->add('id', HiddenType::class)
-        ;
+        parent::buildForm($builder, $options);
     }
 
     /**
@@ -32,7 +27,7 @@ class AbstractSpecificationType extends AbstractType
     {
         $resolver->setDefaults([
             'csrf_protection' => false,
-            'data_class'      => null
+            'data_class'      => 'InstrumentBundle\Entity\Specification\PianoSpecification'
         ]);
     }
 }

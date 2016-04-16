@@ -1,6 +1,6 @@
 <?php
 
-namespace LessonBundle\Form;
+namespace LessonBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -16,7 +16,6 @@ class SectionType extends AbstractType
     {
         $builder
             ->add('name'    , 'text', array ('required' => true))
-
         ;
     }
 

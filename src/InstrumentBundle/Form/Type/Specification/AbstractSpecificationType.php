@@ -1,22 +1,27 @@
 <?php
 
-namespace LessonBundle\Form;
+namespace InstrumentBundle\Form\Type\Specification;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class LessonType extends AbstractType
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+
+/**
+ * Class AbstractSpecificationType
+ */
+class AbstractSpecificationType extends AbstractType
 {
     /**
+     * Create the Form definition
      * @param FormBuilderInterface $builder
-     * @param array $options
+     * @param array                $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name'    , 'text', array ('required' => true))
-
+            ->add('id', HiddenType::class)
         ;
     }
 
@@ -25,9 +30,9 @@ class LessonType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'csrf_protection' => false,
-            'data_class' => 'LessonBundle\Entity\Lesson'
-        ));
+            'data_class'      => null
+        ]);
     }
 }

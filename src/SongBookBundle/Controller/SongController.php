@@ -6,7 +6,7 @@ use Elorfin\JsonApiBundle\Response\JsonApiResponse;
 use Elorfin\JsonApiBundle\Response\JsonErrorResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use SongBookBundle\Entity\Song;
-use SongBookBundle\Form\SongType;
+use SongBookBundle\Form\Type\SongType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 

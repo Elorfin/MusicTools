@@ -1,6 +1,6 @@
 <?php
 
-namespace InstrumentBundle\Form\Specification;
+namespace InstrumentBundle\Form\Type\Specification;
 
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;

@@ -1,6 +1,6 @@
 <?php
 
-namespace InstrumentBundle\Form;
+namespace InstrumentBundle\Form\Type;
 
 use Elorfin\JsonApiBundle\Form\JsonApiRequestHandler;
 use Symfony\Component\Form\AbstractType;
@@ -46,7 +46,7 @@ class InstrumentType extends AbstractType
         $formModifier = function(FormInterface $form, \InstrumentBundle\Entity\InstrumentType $instrumentType = null) {
             $prefix = null === $instrumentType ? 'Abstract' : $instrumentType->getPrefix();
 
-            $form->add('specification', 'InstrumentBundle\\Form\\Specification\\' . $prefix . 'SpecificationType');
+            $form->add('specification', 'InstrumentBundle\\Form\\Type\\Specification\\' . $prefix . 'SpecificationType');
         };
 
         $builder->addEventListener(

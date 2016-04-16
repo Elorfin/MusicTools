@@ -1,23 +1,22 @@
 <?php
 
-namespace InstrumentBundle\Form\Specification;
+namespace LessonBundle\Form\Type;
 
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-/**
- * Class PianoSpecificationType
- */
-class PianoSpecificationType extends AbstractSpecificationType
+class LessonType extends AbstractType
 {
     /**
-     * Create the Form definition
      * @param FormBuilderInterface $builder
-     * @param array                $options
+     * @param array $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        parent::buildForm($builder, $options);
+        $builder
+            ->add('name', 'text', array ('required' => true))
+        ;
     }
 
     /**
@@ -25,9 +24,9 @@ class PianoSpecificationType extends AbstractSpecificationType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults([
+        $resolver->setDefaults(array(
             'csrf_protection' => false,
-            'data_class'      => 'InstrumentBundle\Entity\Specification\PianoSpecification'
-        ]);
+            'data_class' => 'LessonBundle\Entity\Lesson'
+        ));
     }
 }

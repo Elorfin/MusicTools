@@ -12,7 +12,7 @@ use Elorfin\JsonApiBundle\Response\JsonApiResponse;
 use Elorfin\JsonApiBundle\Response\JsonErrorResponse;
 
 use InstrumentBundle\Entity\Instrument;
-use InstrumentBundle\Form\InstrumentType;
+use InstrumentBundle\Form\Type\InstrumentType;
 
 /**
  * Instrument CRUD Controller

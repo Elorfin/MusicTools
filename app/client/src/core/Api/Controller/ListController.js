@@ -22,6 +22,7 @@ ListController.prototype.resources = [];
 
 /**
  * Format of the list
+ * @type {string}
  */
 ListController.prototype.format = 'detailed';
 
@@ -57,7 +58,7 @@ ListController.prototype.new = function newResource() {
 ListController.prototype.remove = function remove(resource) {
     // Display confirm callback
     var modalInstance = this.services.$uibModal.open({
-        templateUrl : this.services.$client.getPartial('Modal/confirm.html', 'core/Layout'),
+        templateUrl : this.services.$client.getPartial('confirm.html', 'core/Confirm'),
         controller  : 'ConfirmModalController',
         windowClass : 'modal-danger'
     });

@@ -6,9 +6,11 @@
 
     <!-- Info -->
     <div class="item-info panel-body">
-        {{ resource.attributes.manufacturer }}
+        {{ resource.attributes.name }}
 
-        <small data-ng-if="null !== resource.attributes.model">{{ resource.attributes.model }}</small>
+        <small data-ng-if="null !== resource.attributes.manufacturer || null !== resource.attributes.model">
+            {{ resource.attributes.manufacturer }} {{ resource.attributes.model }}
+        </small>
     </div>
 
     <!-- Item buttons -->

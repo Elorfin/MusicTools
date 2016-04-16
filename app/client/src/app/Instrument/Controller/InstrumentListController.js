@@ -26,7 +26,34 @@ InstrumentListController.prototype.sortFields = {
     name :  'string'
 };
 
-// Register controller into angular
+/**
+ * Add a new Instrument in the library
+ */
+InstrumentListController.prototype.new = function newResource() {
+    // Display confirm callback
+    var modalInstance = this.services.$uibModal.open({
+        templateUrl  : this.services.$client.getPartial('Instrument/new.html', 'app/Instrument'),
+        controller   : 'InstrumentNewController',
+        controllerAs : 'instrumentNewCtrl',
+        size: 'lg',
+        resolve: {
+            instrumentTypes: [
+                'InstrumentTypeResource',
+                function instrumentTypesResolve(InstrumentTypeResource) {
+                    return InstrumentTypeResource.query();
+                }
+            ]
+        }
+    });
+
+    modalInstance.result.then(function (selectedItem) {
+        /*$scope.selected = selectedItem;*/
+    }, function () {
+        /*$log.info('Modal dismissed at: ' + new Date());*/
+    });
+};
+
+// Register controller into Angular JS
 angular
     .module('Instrument')
     .controller('InstrumentListController', InstrumentListController);

@@ -21,21 +21,30 @@
 
                     <ul data-uib-dropdown-menu="" aria-labelledby="types-dropdown">
                         <li data-ng-repeat="instrumentType in instrumentNewCtrl.instrumentTypes" data-ng-class="{'active': instrumentType.id == instrumentNewCtrl.selectedType.id }">
-                            <a href="" data-ng-click="instrumentNewCtrl.setType(instrumentType)">{{ instrumentType.attributes.name }}</a>
+                            <a href="" data-ng-click="instrumentNewCtrl.selectedType = instrumentType">{{ instrumentType.attributes.name }}</a>
                         </li>
                     </ul>
                 </div>
 
-                <img class="img-responsive instrument-type-img" data-ng-src="{{ 'images/' + instrumentNewCtrl.selectedType.attributes.icon |asset_path }}" />
+                <img class="img-responsive instrument-type-img" data-ng-src="{{ 'images/' + (instrumentNewCtrl.selectedType ? instrumentNewCtrl.selectedType.attributes.icon : 'instrument/empty.svg') |asset_path }}" />
             </div>
         </div>
 
         <div class="col-md-9">
-            <ul class="list-group">
-                <li class="list-group-item" data-ng-repeat="instrumentType in instrumentNewCtrl.instrumentTypes">
-                    {{ instrumentType.attributes.name }}
+            <ul class="list-group" data-ng-if="instrumentNewCtrl.selectedType">
+                <li class="list-group-item"
+                    data-ng-repeat="instrument in instrumentNewCtrl.instruments|filter:{ relationships: { instrumentType: { data: instrumentNewCtrl.selectedType } } }"
+                    data-ng-class="{ active: instrument === instrumentNewCtrl.selectedInstrument }"
+                    data-ng-click="instrumentNewCtrl.selectedInstrument = instrument"
+                >
+                    {{ instrument.attributes.name }}
                 </li>
             </ul>
+
+            <div class="alert alert-info" data-ng-if="!instrumentNewCtrl.selectedType">
+                <span class="fa fa-fw fa-info-circle"></span>
+                Select an instrument type.
+            </div>
         </div>
     </div>
 </div>

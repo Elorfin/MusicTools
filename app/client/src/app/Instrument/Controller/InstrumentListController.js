@@ -42,6 +42,12 @@ InstrumentListController.prototype.new = function newResource() {
                 function instrumentTypesResolve(InstrumentTypeResource) {
                     return InstrumentTypeResource.query();
                 }
+            ],
+            instruments: [
+                'InstrumentResource',
+                function instrumentsResolve(InstrumentResource) {
+                    return InstrumentResource.query();
+                }
             ]
         }
     });

@@ -22,7 +22,19 @@ use InstrumentBundle\Form\Type\InstrumentType;
 class InstrumentController extends Controller
 {
     /**
-     * List all Instruments
+     * List all generic Instruments of the platform
+     * @return JsonApiResponse
+     *
+     * @Route("/generic")
+     * @Method("GET")
+     */
+    public function listGenericAction()
+    {
+
+    }
+
+    /**
+     * List all Instruments of a User
      * @return JsonApiResponse
      *
      * @Route("")

@@ -3419,6 +3419,12 @@ InstrumentListController.prototype.new = function newResource() {
                 function instrumentTypesResolve(InstrumentTypeResource) {
                     return InstrumentTypeResource.query();
                 }
+            ],
+            instruments: [
+                'InstrumentResource',
+                function instrumentsResolve(InstrumentResource) {
+                    return InstrumentResource.query();
+                }
             ]
         }
     });
@@ -3438,14 +3444,17 @@ angular
 /* File : app/client/src/app/Instrument/Controller/InstrumentNewController.js */ 
 /**
  * New controller for Instruments
+ * @param {Array} instrumentTypes
+ * @param {Array} instruments
  * @constructor
  */
-var InstrumentNewController = function InstrumentNewController(instrumentTypes) {
+var InstrumentNewController = function InstrumentNewController(instrumentTypes, instruments) {
     this.instrumentTypes = instrumentTypes;
+    this.instruments     = instruments;
 };
 
 // Set up dependency injection
-InstrumentNewController.$inject = [ 'instrumentTypes' ];
+InstrumentNewController.$inject = [ 'instrumentTypes', 'instruments' ];
 
 /**
  * List of available types
@@ -3454,17 +3463,28 @@ InstrumentNewController.$inject = [ 'instrumentTypes' ];
 InstrumentNewController.prototype.instrumentTypes = [];
 
 /**
+ * Generic instruments to use as template
+ * @type {Array}
+ */
+InstrumentNewController.prototype.instruments = [];
+
+/**
  * Selected type
  * @type {Object}
  */
 InstrumentNewController.prototype.selectedType = null;
 
 /**
+ * Selected instrument
+ * @type {Object}
+ */
+InstrumentNewController.prototype.selectedInstrument = null;
+
+/**
  * Select an InstrumentType
  * @param {Object} type
  */
 InstrumentNewController.prototype.selectType = function selectType(type) {
-    console.log(type);
     this.selectedType = type;
 };
 

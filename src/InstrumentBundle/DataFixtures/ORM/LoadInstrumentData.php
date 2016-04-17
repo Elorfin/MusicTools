@@ -69,6 +69,34 @@ class LoadInstrumentData extends AbstractFixture implements OrderedFixtureInterf
                     'tuning'        => null,
                 ),
             ),
+
+            array (
+                'type' => 'bass',
+                'name' => 'Bass 4 strings',
+                'specification' => array (
+                    'leftHanded'    => false,
+                    'headstock'     => 'in-line',
+                    'body'          => 'solid',
+                    'amplification' => 'electric',
+                    'strings'       => 4,
+                    'frets'         => 24,
+                    'tuning'        => null,
+                ),
+            ),
+
+            array (
+                'type' => 'bass',
+                'name' => 'Bass 5 strings',
+                'specification' => array (
+                    'leftHanded'    => false,
+                    'headstock'     => 'in-line',
+                    'body'          => 'solid',
+                    'amplification' => 'electric',
+                    'strings'       => 5,
+                    'frets'         => 24,
+                    'tuning'        => null,
+                ),
+            ),
         );
 
         foreach ($instruments as $instrument) {

@@ -1,6 +1,6 @@
 # MusicTools
 
-[![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE)
+[![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat)](LICENSE)
 [![Dependency Status](https://gemnasium.com/Elorfin/MusicTools.svg)](https://gemnasium.com/Elorfin/MusicTools)
 [![Build Status](https://travis-ci.org/Elorfin/MusicTools.svg?branch=master)](https://travis-ci.org/Elorfin/MusicTools)
 [![Scrutinizer](https://scrutinizer-ci.com/g/Elorfin/MusicTools/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/Elorfin/MusicTools)

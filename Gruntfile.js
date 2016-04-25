@@ -5,7 +5,7 @@ module.exports = function (grunt) {
     // All upfront config goes in a massive nested object.
     grunt.initConfig({
         libFolder    : 'bower_components',
-        distFolder   : 'web',
+        distFolder   : 'web/dist',
         clientFolder : 'app/client',
 
         // Compile LESS files task

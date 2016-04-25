@@ -14,6 +14,8 @@
 !var/SymfonyRequirements.php
 /vendor/
 /web/bundles/
+/web/dist/*
+!web/dist/.gitkeep
 /web/uploads/*
 !web/uploads/.gitkeep
 /bower_components

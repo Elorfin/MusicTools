@@ -12,5 +12,5 @@ angular
 
     // Configure Client
     .constant('clientConfiguration', {
-        basePath: '/MusicTools/web'
+        basePath: '/MusicTools/web/dist'
     });

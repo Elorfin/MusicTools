@@ -12,4 +12,4 @@ install:
   - composer self-update
   - composer update --prefer-source -o
 
-script: php bin/phpunit --configuration phpunit.xml --coverage-text
+script: php bin/phpunit --configuration phpunit.xml

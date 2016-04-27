@@ -32,7 +32,8 @@
         "elorfin/resource-bundle": "1.*"
     },
     "require-dev": {
-        "sensio/generator-bundle": "^3.0"
+        "sensio/generator-bundle": "^3.0",
+        "phpunit/phpunit": "~5.3"
     },
     "scripts": {
         "post-install-cmd": [

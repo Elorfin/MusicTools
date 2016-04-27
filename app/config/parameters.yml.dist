@@ -15,7 +15,7 @@ parameters:
     database_port:     null
     database_name:     music_tools
     database_user:     root
-    database_password: root
+    database_password: ~
 
     # Mailer parameters
     mailer_transport:  smtp

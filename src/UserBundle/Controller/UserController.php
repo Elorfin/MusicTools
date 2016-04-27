@@ -50,10 +50,10 @@ class UserController extends Controller
 
         $repo = $this->container->get('doctrine.orm.entity_manager')->getRepository('UserBundle:User');
 
-        return array (
+        return array(
             'entity'    => $user,
             'isCurrent' => $isCurrentMusician,
-            'counts' => array (
+            'counts' => array(
                 'songs'   => $repo->countSongs($user),
                 'guitars' => 0,
                 'friends' => $repo->countFriends($user),

@@ -12,4 +12,9 @@ install:
   - composer self-update
   - composer update --prefer-source -o
 
-script: php bin/phpunit --configuration phpunit.xml
+  # Configure test environment
+  - php bin/console doctrine:database:create --env=test
+  - php bin/console doctrine:schema:update --force --env=test
+  - php bin/console doctrine:fixtures:load --env=test
+
+script: php bin/phpunit

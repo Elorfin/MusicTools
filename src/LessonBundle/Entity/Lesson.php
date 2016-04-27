@@ -86,8 +86,7 @@ class Lesson
     {
         if ($this->sections->contains($section)) {
             $this->sections->removeElement($section);
-
-            $section->setLesson($this);
+            $section->setLesson(null);
         }
 
         return $this;

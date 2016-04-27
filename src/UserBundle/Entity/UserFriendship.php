@@ -3,6 +3,7 @@
 namespace UserBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use CommonBundle\Model\UniqueIdentifierTrait;
 
 /**
  * UserFriendship Entity
@@ -13,37 +14,43 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class UserFriendship
 {
+    /**
+     * Flag for the friendship requests that have not yet been accepted by `toUser`
+     */
     const STATUS_PENDING  = 0;
-    const STATUS_ACCEPTED = 1;
-    const STATUS_REJECTED = 0;
 
     /**
-     * Unique identifier of the UserFriendship
-     * @var string
-     *
-     * @ORM\Column(type="guid")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="UUID")
+     * Flag for the friendship requests that been accepted by `toUser`
      */
-    private $id;
+    const STATUS_ACCEPTED = 1;
+
+    /**
+     * Flag for the friendship requests that have not yet been rejected by `toUser`
+     */
+    const STATUS_REJECTED = 2;
+
+    /**
+     * ID
+     */
+    use UniqueIdentifierTrait;
 
     /**
      * First member of the friendship link
      * @var User
      *
      * @ORM\ManyToOne(targetEntity="UserBundle\Entity\User")
-     * @ORM\JoinColumn(name="user_one_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="from_user_id", referencedColumnName="id")
      */
-    protected $userOne;
+    protected $fromUser;
 
     /**
      * Second member of the friendship link
      * @var User
      *
      * @ORM\ManyToOne(targetEntity="UserBundle\Entity\User")
-     * @ORM\JoinColumn(name="user_two_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="to_user_id", referencedColumnName="id")
      */
-    protected $userTwo;
+    protected $toUser;
 
     /**
      * Status of the Friendship
@@ -54,61 +61,43 @@ class UserFriendship
     protected $status = self::STATUS_PENDING;
 
     /**
-     * Who has make the request (to know which Musician must validate the request)
-     * @var User
-     *
-     * @ORM\ManyToOne(targetEntity="UserBundle\Entity\User")
-     * @ORM\JoinColumn(name="requested_by_id", referencedColumnName="id")
-     */
-    protected $requestedBy;
-
-    /**
-     * Get id
-     * @return string
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * Get the first member of the friendship link
+     * Get the User which has initiated the friendship
      * @return User
      */
-    public function getUserOne()
+    public function getFromUser()
     {
-        return $this->userOne;
+        return $this->fromUser;
     }
 
     /**
-     * Set the first member of the friendship link
+     * Set the User which has initiated the friendship
      * @param  User $user
-     * @return UserFriendship
+     * @return $this
      */
-    public function setUserOne(User $user)
+    public function setFromUser(User $user)
     {
-        $this->userOne = $user;
+        $this->fromUser = $user;
 
         return $this;
     }
 
     /**
-     * Get the second member of the friendship link
+     * Get the User which has received the friendship
      * @return User
      */
-    public function getUserTwo()
+    public function getToUser()
     {
-        return $this->userTwo;
+        return $this->toUser;
     }
 
     /**
-     * Set the second member of the friendship link
+     * Set the User which has received the friendship
      * @param  User $user
-     * @return UserFriendship
+     * @return $this
      */
-    public function setUserTwo(User $user)
+    public function setToUser(User $user)
     {
-        $this->userTwo = $user;
+        $this->toUser = $user;
 
         return $this;
     }
@@ -125,32 +114,11 @@ class UserFriendship
     /**
      * Set status
      * @param  integer $status
-     * @return UserFriendship
+     * @return $this
      */
     public function setStatus($status)
     {
         $this->status = $status;
-
-        return $this;
-    }
-
-    /**
-     * Get requested by
-     * @return User
-     */
-    public function getRequestedBy()
-    {
-        return $this->requestedBy;
-    }
-
-    /**
-     * Set requested by
-     * @param  User $requestedBy
-     * @return UserFriendship
-     */
-    public function setRequestedBy(User $requestedBy)
-    {
-        $this->requestedBy = $requestedBy;
 
         return $this;
     }

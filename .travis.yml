@@ -15,6 +15,6 @@ install:
   # Configure test environment
   - php bin/console doctrine:database:create --env=test
   - php bin/console doctrine:schema:update --force --env=test
-  - php bin/console doctrine:fixtures:load --env=test
+  - php bin/console doctrine:fixtures:load --no-interaction --env=test
 
 script: php bin/phpunit

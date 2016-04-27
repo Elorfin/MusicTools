@@ -49,7 +49,7 @@ class Lesson
      * Sections of the Lesson
      * @var \Doctrine\Common\Collections\ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="LessonBundle\Entity\Section", mappedBy="lesson")
+     * @ORM\OneToMany(targetEntity="LessonBundle\Entity\Section", mappedBy="lesson", cascade={"all"}, orphanRemoval=true)
      */
     protected $sections;
 

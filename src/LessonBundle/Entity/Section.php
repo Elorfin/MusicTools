@@ -43,7 +43,7 @@ class Section
      * Lesson
      * @var Lesson
      *
-     * @ORM\ManyToOne(targetEntity="LessonBundle\Entity\Lesson", inversedBy="sections", cascade={"all"})
+     * @ORM\ManyToOne(targetEntity="LessonBundle\Entity\Lesson", inversedBy="sections")
      * @ORM\JoinColumn(name="lesson_id", referencedColumnName="id")
      */
     protected $lesson;
@@ -51,12 +51,17 @@ class Section
     /**
      * Parent section
      * @var Section
+     *
+     * @ORM\ManyToOne(targetEntity="LessonBundle\Entity\Section", inversedBy="children")
+     * @ORM\JoinColumn(name="parent_id", referencedColumnName="id")
      */
     protected $parent;
 
     /**
      * Children of the Section
      * @var \Doctrine\Common\Collections\ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="LessonBundle\Entity\Section", mappedBy="parent")
      */
     protected $children;
 
@@ -133,11 +138,13 @@ class Section
      * @param Lesson $lesson
      * @return $this
      */
-    public function setLesson(Lesson $lesson)
+    public function setLesson(Lesson $lesson = null)
     {
         if ($this->lesson != $lesson) {
             $this->lesson = $lesson;
-            $this->lesson->addSection($this);
+            if (!empty($this->lesson)) {
+                $this->lesson->addSection($this);
+            }
         }
 
         return $this;

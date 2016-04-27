@@ -20,18 +20,17 @@ class UserType extends AbstractType
             ->add('description')
             ->add('firstName')
             ->add('lastName')
-            ->add('gender', 'choice', array (
-                'choices' => array (
+            ->add('gender', 'choice', [
+                'choices' => [
                     'male'   => 'Male',
                     'female' => 'Female',
-                ),
+                ],
                 'empty_value' => 'Choose a gender',
-                'required' => false,
-            ))
+            ])
             ->add('birthDate', 'birthday')
             ->add('location')
             ->add('website')
-            ->add('avatar', new ImageType())
+            ->add('avatar', ImageType::class)
         ;
     }
 

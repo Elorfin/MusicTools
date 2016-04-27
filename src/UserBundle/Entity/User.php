@@ -3,6 +3,7 @@
 namespace UserBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use CommonBundle\Model\UniqueIdentifierTrait;
 use Elorfin\ResourceBundle\Entity\Image;
 
 /**
@@ -15,14 +16,9 @@ use Elorfin\ResourceBundle\Entity\Image;
 class User
 {
     /**
-     * Unique identifier of the User
-     * @var string
-     *
-     * @ORM\Column(type="guid")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="UUID")
+     * ID
      */
-    private $id;
+    use UniqueIdentifierTrait;
 
     /**
      * Username
@@ -110,15 +106,6 @@ class User
      * @ORM\Column(type="date", nullable=true)
      */
     protected $lastLogin;
-
-    /**
-     * Get id
-     * @return string
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
 
     /**
      * Get username

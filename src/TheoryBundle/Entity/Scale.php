@@ -3,6 +3,8 @@
 namespace TheoryBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use CommonBundle\Model\UniqueIdentifierTrait;
+use CommonBundle\Model\NameTrait;
 
 /**
  * Scale Entity
@@ -13,53 +15,19 @@ use Doctrine\ORM\Mapping as ORM;
 class Scale implements \JsonSerializable
 {
     /**
-     * Unique identifier of the Scale
-     * @var string
-     *
-     * @ORM\Column(type="guid")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="UUID")
+     * ID
      */
-    private $id;
+    use UniqueIdentifierTrait;
 
     /**
-     * Name of the Scale
-     * @var string
-     *
-     * @ORM\Column(type="string")
+     * Name
      */
-    protected $name;
+    use NameTrait;
 
     /**
-     * Get id
-     * @return string
+     * Serialize the Entity
+     * @return array
      */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * Get name
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * Set name
-     * @param  string $name
-     * @return Scale
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
     public function jsonSerialize()
     {
         return array (

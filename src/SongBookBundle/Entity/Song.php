@@ -3,10 +3,11 @@
 namespace SongBookBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
+use CommonBundle\Model\UniqueIdentifierTrait;
+use CommonBundle\Model\NameTrait;
+use UserBundle\Model\OwnerTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Elorfin\ResourceBundle\Entity\Image;
-use UserBundle\Model\OwnerTrait;
 
 /**
  * Song
@@ -17,22 +18,14 @@ use UserBundle\Model\OwnerTrait;
 class Song implements \JsonSerializable
 {
     /**
-     * Unique identifier of the UserFriendship
-     * @var string
-     *
-     * @ORM\Column(type="guid")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="UUID")
+     * ID
      */
-    private $id;
+    use UniqueIdentifierTrait;
 
     /**
-     * Name of the Song
-     * @var string
-     *
-     * @ORM\Column(type="string")
+     * Name
      */
-    protected $name;
+    use NameTrait;
 
     /**
      * Artist of the Song
@@ -84,46 +77,16 @@ class Song implements \JsonSerializable
     protected $scores;
 
     /**
-     * Entity constructor
-     */
-    public function __construct()
-    {
-        $this->scores = new ArrayCollection();
-    }
-
-    /**
      * Owner
      */
     use OwnerTrait;
 
     /**
-     * Get id
-     * @return string
+     * Entity constructor
      */
-    public function getId()
+    public function __construct()
     {
-        return $this->id;
-    }
-
-    /**
-     * Get name
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * Set name
-     * @param  string $name
-     * @return Song
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-
-        return $this;
+        $this->scores = new ArrayCollection();
     }
 
     /**
@@ -210,6 +173,10 @@ class Song implements \JsonSerializable
         return $this;
     }
 
+    /**
+     * Serialize the Entity
+     * @return array
+     */
     public function jsonSerialize()
     {
         return [

@@ -3,6 +3,9 @@
 namespace ForumBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use CommonBundle\Model\UniqueIdentifierTrait;
+use CommonBundle\Model\NameTrait;
+use CommonBundle\Model\DescriptionTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
@@ -14,30 +17,19 @@ use Doctrine\Common\Collections\ArrayCollection;
 class Forum
 {
     /**
-     * Unique identifier of the Forum
-     * @var string
-     *
-     * @ORM\Column(type="guid")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="UUID")
+     * ID
      */
-    private $id;
+    use UniqueIdentifierTrait;
 
     /**
-     * Name of the Forum
-     * @var string
-     *
-     * @ORM\Column(type="string")
+     * Name
      */
-    protected $name;
+    use NameTrait;
 
     /**
-     * Description of the Forum
-     * @var string
-     *
-     * @ORM\Column(type="text")
+     * Description
      */
-    protected $description;
+    use DescriptionTrait;
 
     /**
      * Threads of the Forum
@@ -51,57 +43,6 @@ class Forum
     public function __construct()
     {
         $this->threads = new ArrayCollection();
-    }
-
-    /**
-     * Get id
-     * @return string
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * Get name
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * Set name
-     * @param  string $name
-     * @return Forum
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * Get description
-     * @return string
-     */
-    public function getDescription()
-    {
-        return $this->description;
-    }
-
-    /**
-     * Set description
-     * @param  string $description
-     * @return Forum
-     */
-    public function setDescription($description)
-    {
-        $this->description = $description;
-
-        return $this;
     }
 
     /**

@@ -152,4 +152,23 @@ class Section
 
         return $this;
     }
+
+    /**
+     * Serialize the Entity
+     * @return array
+     */
+    public function jsonSerialize()
+    {
+        return [
+            'type' => 'lesson_sections',
+            'id'   => $this->id,
+            'attributes'  => [
+                'name'        => $this->name,
+                'description' => $this->description,
+            ],
+            'relationships' => [
+
+            ]
+        ];
+    }
 }

@@ -77,6 +77,10 @@ class StringsTuning extends AbstractTuning
         return $this;
     }
 
+    /**
+     * Serialize the Entity
+     * @return array
+     */
     public function jsonSerialize()
     {
         return [

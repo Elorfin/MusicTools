@@ -3,6 +3,9 @@
 namespace GameBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use CommonBundle\Model\NameTrait;
+use CommonBundle\Model\DescriptionTrait;
+use CommonBundle\Model\UniqueIdentifierTrait;
 
 /**
  * Game Entity
@@ -13,82 +16,24 @@ use Doctrine\ORM\Mapping as ORM;
 class Game implements \JsonSerializable
 {
     /**
-     * Unique identifier of the Game
-     * @var string
-     *
-     * @ORM\Column(type="guid")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="UUID")
+     * ID
      */
-    private $id;
+    use UniqueIdentifierTrait;
 
     /**
-     * Name of the Game
-     * @var string
-     *
-     * @ORM\Column(type="string")
+     * Name
      */
-    protected $name;
+    use NameTrait;
 
     /**
-     * Description of the Game
-     * @var string
-     *
-     * @ORM\Column(type="text")
+     * Description
      */
-    protected $description;
+    use DescriptionTrait;
 
     /**
-     * Get id
-     * @return string
+     * Serializes the Entity
+     * @return array
      */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * Get name
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * Set name
-     * @param  string $name
-     * @return Game
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * Get description
-     * @return string
-     */
-    public function getDescription()
-    {
-        return $this->description;
-    }
-
-    /**
-     * Set description
-     * @param  string $description
-     * @return Game
-     */
-    public function setDescription($description)
-    {
-        $this->description = $description;
-
-        return $this;
-    }
-
     public function jsonSerialize()
     {
         return array(

@@ -3,6 +3,9 @@
 namespace AdvertisementBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use CommonBundle\Model\NameTrait;
+use CommonBundle\Model\DescriptionTrait;
+use CommonBundle\Model\UniqueIdentifierTrait;
 
 /**
  * Advertisement
@@ -13,82 +16,24 @@ use Doctrine\ORM\Mapping as ORM;
 class Advertisement implements \JsonSerializable
 {
     /**
-     * Unique identifier of the Entity
-     * @var string
-     *
-     * @ORM\Column(type="guid")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="UUID")
+     * ID
      */
-    private $id;
+    use UniqueIdentifierTrait;
 
     /**
-     * Name of the Ad
-     * @var string
-     *
-     * @ORM\Column(type="string")
+     * Name
      */
-    protected $name;
+    use NameTrait;
 
     /**
-     * Description of the Ad
-     * @var string
-     *
-     * @ORM\Column(type="text")
+     * Description
      */
-    protected $description;
+    use DescriptionTrait;
 
     /**
-     * Get ID
-     * @return string
+     * Serialize the Entity
+     * @return array
      */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * Get name
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * Set name
-     * @param  string $name
-     * @return Advertisement
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * Get description
-     * @return string
-     */
-    public function getDescription()
-    {
-        return $this->description;
-    }
-
-    /**
-     * Set description
-     * @param  string $description
-     * @return Advertisement
-     */
-    public function setDescription($description)
-    {
-        $this->description = $description;
-
-        return $this;
-    }
-
     public function jsonSerialize()
     {
         return [

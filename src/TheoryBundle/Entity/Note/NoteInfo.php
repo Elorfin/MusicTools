@@ -3,6 +3,7 @@
 namespace TheoryBundle\Entity\Note;
 
 use Doctrine\ORM\Mapping as ORM;
+use CommonBundle\Model\UniqueIdentifierTrait;
 
 /**
  * Note Info Entity
@@ -16,14 +17,9 @@ class NoteInfo
     const DISPLAY_FLAT  = 'flatName';
 
     /**
-     * Unique identifier of the NoteInfo
-     * @var string
-     *
-     * @ORM\Column(type="guid")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="UUID")
+     * ID
      */
-    private $id;
+    use UniqueIdentifierTrait;
 
     /**
      * Sharp Name of the Note
@@ -56,15 +52,6 @@ class NoteInfo
      * @ORM\Column(type="string")
      */
     protected $color;
-
-    /**
-     * Get id
-     * @return integer
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
 
     /**
      * Get name

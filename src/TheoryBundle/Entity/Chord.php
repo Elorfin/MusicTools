@@ -3,6 +3,8 @@
 namespace TheoryBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use CommonBundle\Model\UniqueIdentifierTrait;
+use CommonBundle\Model\NameTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
@@ -14,22 +16,14 @@ use Doctrine\Common\Collections\ArrayCollection;
 class Chord implements \JsonSerializable
 {
     /**
-     * Unique identifier of the Chord
-     * @var string
-     *
-     * @ORM\Column(type="guid")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="UUID")
+     * ID
      */
-    private $id;
+    use UniqueIdentifierTrait;
 
     /**
-     * Name of the Chord
-     * @var string
-     *
-     * @ORM\Column(type="string")
+     * Name
      */
-    protected $name;
+    use NameTrait;
 
     /**
      * Number of Notes in the Chords
@@ -67,36 +61,6 @@ class Chord implements \JsonSerializable
     public function __construct()
     {
         $this->intervals = new ArrayCollection();
-    }
-
-    /**
-     * Get id
-     * @return string
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * Get name
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * Set name
-     * @param  string $name
-     * @return Chord
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-
-        return $this;
     }
 
     /**
@@ -178,6 +142,10 @@ class Chord implements \JsonSerializable
         return $this;
     }
 
+    /**
+     * Serialize the Entity
+     * @return array
+     */
     public function jsonSerialize()
     {
         return array (

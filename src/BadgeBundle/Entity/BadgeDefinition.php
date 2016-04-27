@@ -3,6 +3,7 @@
 namespace BadgeBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use CommonBundle\Model\UniqueIdentifierTrait;
 
 /**
  * BadgeDefinition
@@ -13,21 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
 class BadgeDefinition extends AbstractBadge
 {
     /**
-     * Unique identifier of the BadgeDefinition
-     * @var string
-     *
-     * @ORM\Column(type="guid")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="UUID")
+     * ID
      */
-    private $id;
-
-    /**
-     * Get id
-     * @return string
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
+    use UniqueIdentifierTrait;
 }

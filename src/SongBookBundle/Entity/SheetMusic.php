@@ -3,6 +3,7 @@
 namespace SongBookBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use CommonBundle\Model\UniqueIdentifierTrait;
 use Elorfin\ResourceBundle\Entity\File;
 
 /**
@@ -14,14 +15,9 @@ use Elorfin\ResourceBundle\Entity\File;
 class SheetMusic extends File
 {
     /**
-     * Unique identifier of the SheetMusic
-     * @var string
-     *
-     * @ORM\Column(type="guid")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="UUID")
+     * ID
      */
-    private $id;
+    use UniqueIdentifierTrait;
 
     /**
      * Linked Song
@@ -31,15 +27,6 @@ class SheetMusic extends File
      * @ORM\JoinColumn(name="song_id", referencedColumnName="id", onDelete="CASCADE")
      */
     protected $song;
-
-    /**
-     * Get id
-     * @return string
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
 
     /**
      * Get song

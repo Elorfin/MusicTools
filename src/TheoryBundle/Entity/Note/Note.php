@@ -3,6 +3,7 @@
 namespace TheoryBundle\Entity\Note;
 
 use Doctrine\ORM\Mapping as ORM;
+use CommonBundle\Model\UniqueIdentifierTrait;
 use TheoryBundle\Entity\Interval;
 
 /**
@@ -14,14 +15,9 @@ use TheoryBundle\Entity\Interval;
 class Note implements \JsonSerializable
 {
     /**
-     * Unique identifier of the Note
-     * @var string
-     *
-     * @ORM\Column(type="guid")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="UUID")
+     * ID
      */
-    private $id;
+    use UniqueIdentifierTrait;
 
     /**
      * Note relative value (in semitones) to C0
@@ -81,15 +77,6 @@ class Note implements \JsonSerializable
      * @ORM\JoinColumn(name="next_id", referencedColumnName="id", nullable=true)
      */
     protected $next;
-
-    /**
-     * Get id
-     * @return integer
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
 
     /**
      * Get value
@@ -275,6 +262,10 @@ class Note implements \JsonSerializable
         return $next;
     }
 
+    /**
+     * Serialize the Entity
+     * @return array
+     */
     public function jsonSerialize()
     {
         return array(

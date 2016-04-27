@@ -3,6 +3,8 @@
 namespace TheoryBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use CommonBundle\Model\UniqueIdentifierTrait;
+use CommonBundle\Model\NameTrait;
 
 /**
  * Interval Entity
@@ -13,22 +15,14 @@ use Doctrine\ORM\Mapping as ORM;
 class Interval implements \JsonSerializable
 {
     /**
-     * Unique identifier of the Interval
-     * @var string
-     *
-     * @ORM\Column(type="guid")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="UUID")
+     * ID
      */
-    private $id;
+    use UniqueIdentifierTrait;
 
     /**
-     * Name of the Interval
-     * @var string
-     *
-     * @ORM\Column(type="string")
+     * Name
      */
-    protected $name;
+    use NameTrait;
 
     /**
      * Symbol of the Interval
@@ -61,36 +55,6 @@ class Interval implements \JsonSerializable
      * @ORM\Column(type="integer")
      */
     protected $value;
-
-    /**
-     * Get id
-     * @return string
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * Get name
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * Set name
-     * @param  string $name
-     * @return Interval
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-
-        return $this;
-    }
 
     /**
      * Get symbol
@@ -176,6 +140,10 @@ class Interval implements \JsonSerializable
         return $this;
     }
 
+    /**
+     * Serialize the Entity
+     * @return array
+     */
     public function jsonSerialize()
     {
         return array (

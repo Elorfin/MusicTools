@@ -9,7 +9,6 @@ use SongBookBundle\Entity\Song;
 use SongBookBundle\Form\Type\SongType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
-
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
@@ -92,7 +91,7 @@ class SongController extends Controller
             'method' => 'PUT',
         ]);
 
-        $form->submit([ $form->getName() => $request->get('data') ]);
+        $form->submit([$form->getName() => $request->get('data')]);
         if ($form->isValid()) {
             // Save entity
             $this->container->get('doctrine.orm.entity_manager')->persist($song);

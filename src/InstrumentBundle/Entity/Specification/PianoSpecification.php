@@ -19,6 +19,10 @@ class PianoSpecification extends AbstractSpecification
      */
     use UniqueIdentifierTrait;
 
+    /**
+     * Serialize the Entity
+     * @return array
+     */
     public function jsonSerialize()
     {
         return [

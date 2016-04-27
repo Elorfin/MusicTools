@@ -3,6 +3,8 @@
 namespace TheoryBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use CommonBundle\Model\UniqueIdentifierTrait;
+use CommonBundle\Model\NameTrait;
 
 /**
  * Degree Entity
@@ -13,22 +15,14 @@ use Doctrine\ORM\Mapping as ORM;
 class Degree implements \JsonSerializable
 {
     /**
-     * Unique identifier of the Degree
-     * @var string
-     *
-     * @ORM\Column(type="guid")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="UUID")
+     * ID
      */
-    private $id;
+    use UniqueIdentifierTrait;
 
     /**
-     * Name of the Degree
-     * @var string
-     *
-     * @ORM\Column(type="string")
+     * Name
      */
-    protected $name;
+    use NameTrait;
 
     /**
      * Symbol of the Interval
@@ -37,36 +31,6 @@ class Degree implements \JsonSerializable
      * @ORM\Column(type="string")
      */
     protected $symbol;
-
-    /**
-     * Get id
-     * @return string
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * Get name
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * Set name
-     * @param  string $name
-     * @return Degree
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-
-        return $this;
-    }
 
     /**
      * Get symbol
@@ -89,6 +53,10 @@ class Degree implements \JsonSerializable
         return $this;
     }
 
+    /**
+     * Serialize the Entity
+     * @return array
+     */
     public function jsonSerialize()
     {
         return array (

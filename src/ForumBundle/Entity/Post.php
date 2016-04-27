@@ -3,7 +3,7 @@
 namespace ForumBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
+use CommonBundle\Model\UniqueIdentifierTrait;
 use UserBundle\Model\OwnerTrait;
 
 /**
@@ -15,14 +15,9 @@ use UserBundle\Model\OwnerTrait;
 class Post
 {
     /**
-     * Unique identifier of the Post
-     * @var string
-     *
-     * @ORM\Column(type="guid")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="UUID")
+     * ID
      */
-    private $id;
+    use UniqueIdentifierTrait;
 
     /**
      * Content text of the Post

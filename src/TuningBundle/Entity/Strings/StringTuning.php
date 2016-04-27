@@ -109,6 +109,10 @@ class StringTuning implements \JsonSerializable
         return $this;
     }
 
+    /**
+     * Serialize the Entity
+     * @return array
+     */
     public function jsonSerialize()
     {
         return [

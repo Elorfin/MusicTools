@@ -3,6 +3,8 @@
 namespace ForumBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use CommonBundle\Model\NameTrait;
+use CommonBundle\Model\UniqueIdentifierTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
@@ -14,22 +16,14 @@ use Doctrine\Common\Collections\ArrayCollection;
 class Thread
 {
     /**
-     * Unique identifier of the Thread
-     * @var string
-     *
-     * @ORM\Column(type="guid")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="UUID")
+     * ID
      */
-    private $id;
+    use UniqueIdentifierTrait;
 
     /**
-     * Name of the Thread
-     * @var string
-     *
-     * @ORM\Column(type="string")
+     * Name
      */
-    protected $name;
+    use NameTrait;
 
     /**
      * Forum belongs the thread
@@ -49,36 +43,6 @@ class Thread
     public function __construct()
     {
         $this->posts = new ArrayCollection();
-    }
-
-    /**
-     * Get id
-     * @return string
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * Get name
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * Set name
-     * @param  string $name
-     * @return Thread
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-
-        return $this;
     }
 
     /**

@@ -2,10 +2,10 @@
 
 namespace UserBundle\Controller;
 
+use Elorfin\JsonApiBundle\Response\JsonApiResponse;
 use Symfony\Component\HttpFoundation\Request;
 use UserBundle\Entity\User;
 use UserBundle\Form\Type\UserType;
-
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -30,9 +30,7 @@ class UserController extends Controller
 
         $entities = $this->container->get('doctrine.orm.entity_manager')->getRepository('UserBundle:User')->findAllExceptMe($user);
 
-        return array (
-            'entities' => $entities,
-        );
+        return new JsonApiResponse($entities);
     }
 
     /**

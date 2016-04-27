@@ -15,7 +15,7 @@ use UserBundle\Model\OwnerTrait;
  * @ORM\Entity()
  * @ORM\Table(name="lesson")
  */
-class Lesson
+class Lesson implements \JsonSerializable
 {
     /**
      * ID
@@ -90,5 +90,25 @@ class Lesson
         }
 
         return $this;
+    }
+    /**
+     * Serialize the Entity
+     * @return array
+     */
+    public function jsonSerialize()
+    {
+        return [
+            'type' => 'lessons',
+            'id'   => $this->id,
+            'attributes'  => [
+                'name'        => $this->name,
+                'description' => $this->description,
+            ],
+            'relationships' => [
+                'sections' => [
+                    'data' => $this->sections
+                ]
+            ]
+        ];
     }
 }

@@ -71,6 +71,10 @@ class RecorderSpecification extends AbstractSpecification
         return $this;
     }
 
+    /**
+     * Serialize the Entity
+     * @return array
+     */
     public function jsonSerialize()
     {
         return [

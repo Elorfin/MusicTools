@@ -17,7 +17,7 @@ class LessonType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name',     TextType::class, [ 'required' => true ])
+            ->add('name', TextType::class)
             ->add('sections', CollectionType::class, [
                 'entry_type' => SectionType::class,
                 'allow_add' => true,

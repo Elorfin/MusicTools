@@ -4,6 +4,9 @@ namespace LessonBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use CommonBundle\Model\UniqueIdentifierTrait;
+use CommonBundle\Model\NameTrait;
+use CommonBundle\Model\DescriptionTrait;
 use UserBundle\Model\OwnerTrait;
 
 /**
@@ -15,30 +18,19 @@ use UserBundle\Model\OwnerTrait;
 class Lesson
 {
     /**
-     * Unique identifier of the Lesson
-     * @var string
-     *
-     * @ORM\Column(type="guid")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="UUID")
+     * ID
      */
-    private $id;
+    use UniqueIdentifierTrait;
 
     /**
-     * Name of the Lesson
-     * @var string
-     *
-     * @ORM\Column(type="string")
+     * Name
      */
-    protected $name;
+    use NameTrait;
 
     /**
-     * Description of the Lesson
-     * @var string
-     *
-     * @ORM\Column(type="text")
+     * Description
      */
-    protected $description;
+    use DescriptionTrait;
 
     /**
      * Owner
@@ -59,57 +51,6 @@ class Lesson
     public function __construct()
     {
         $this->sections = new ArrayCollection();
-    }
-
-    /**
-     * Get id
-     * @return string
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * Get name
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * Set name
-     * @param  string $name
-     * @return Lesson
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * Get description
-     * @return string
-     */
-    public function getDescription()
-    {
-        return $this->description;
-    }
-
-    /**
-     * Set description
-     * @param  string $description
-     * @return Lesson
-     */
-    public function setDescription($description)
-    {
-        $this->description = $description;
-
-        return $this;
     }
 
     /**

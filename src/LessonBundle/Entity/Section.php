@@ -4,6 +4,9 @@ namespace LessonBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use CommonBundle\Model\UniqueIdentifierTrait;
+use CommonBundle\Model\NameTrait;
+use CommonBundle\Model\DescriptionTrait;
 
 /**
  * Section Entity
@@ -14,30 +17,19 @@ use Doctrine\ORM\Mapping as ORM;
 class Section
 {
     /**
-     * Unique identifier of the Section
-     * @var string
-     *
-     * @ORM\Column(type="guid")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="UUID")
+     * ID
      */
-    private $id;
+    use UniqueIdentifierTrait;
 
     /**
-     * Name of the Section
-     * @var string
-     *
-     * @ORM\Column(type="string")
+     * Name
      */
-    protected $name;
+    use NameTrait;
 
     /**
-     * Description of the Section
-     * @var string
-     *
-     * @ORM\Column(type="text")
+     * Description
      */
-    protected $description;
+    use DescriptionTrait;
 
     /**
      * Lesson
@@ -71,57 +63,6 @@ class Section
     public function __construct()
     {
         $this->children = new ArrayCollection();
-    }
-
-    /**
-     * Get id
-     * @return string
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * Get name
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * Set name
-     * @param  string $name
-     * @return Lesson
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * Get description
-     * @return string
-     */
-    public function getDescription()
-    {
-        return $this->description;
-    }
-
-    /**
-     * Set description
-     * @param  string $description
-     * @return Section
-     */
-    public function setDescription($description)
-    {
-        $this->description = $description;
-
-        return $this;
     }
 
     /**

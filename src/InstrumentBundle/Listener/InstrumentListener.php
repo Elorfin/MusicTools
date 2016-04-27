@@ -8,11 +8,14 @@ use InstrumentBundle\Entity\Instrument;
 /**
  * Instrument Listener
  * Manages Life cycle of the Instrument
+ * As the relation between Instrument and its specification uses an abstract class (e.g. AbstractSpecification),
+ * Doctrine is unable to manage it automatically
  */
 class InstrumentListener
 {
     /**
      * PrePersist
+     * Persists the linked Specification too (or add an empty one) when an Instrument is removed
      * @param Instrument         $instrument
      * @param LifecycleEventArgs $event
      */
@@ -33,6 +36,7 @@ class InstrumentListener
 
     /**
      * PreRemove
+     * Removes the linked Specification too when an Instrument is removed
      * @param Instrument         $instrument
      * @param LifecycleEventArgs $event
      */
@@ -46,6 +50,7 @@ class InstrumentListener
 
     /**
      * PostLoad
+     * Loads the linked Specification too when an Instrument is loaded from the DB
      * @param Instrument         $instrument
      * @param LifecycleEventArgs $event
      */

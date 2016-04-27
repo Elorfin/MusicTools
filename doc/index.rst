@@ -12,3 +12,6 @@ Summary
 - Client
   
   * Third-party libraries
+- `Development tools`_
+
+.. _`Development tools`: development-tools.rst

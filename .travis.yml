@@ -6,9 +6,9 @@ php:
   - 7.0
 
 install:
+  # Create parameters file
+  - cp app/config/parameters.yml.dist app/config/parameters.yml
+
   # Get server dependencies
   - composer self-update
   - composer update --prefer-source -o
-
-  # Create parameters file
-  - cp app/config/parameters.yml.dist app/config/parameters.yml

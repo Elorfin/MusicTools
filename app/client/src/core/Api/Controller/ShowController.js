@@ -30,7 +30,7 @@ ShowController.prototype.remove = function remove() {
 
 };
 
-// Register controller into angular
+// Register controller into AngularJS
 angular
     .module('Api')
     .controller('ShowController', ShowController);

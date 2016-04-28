@@ -59,13 +59,13 @@
                         <!-- Manufacturer of the Instrument -->
                         <div class="form-group col-md-6">
                             <label class="control-label" for="instrument-manufacturer">Manufacturer</label>
-                            <input type="text" class="form-control" id="instrument-manufacturer" data-ng-model="showCtrl.resource.attributes.manufacturer" data-ng-change="showCtrl.save()" />
+                            <input type="text" class="form-control" id="instrument-manufacturer" data-ng-model="showCtrl.resource.attributes.manufacturer" data-on-typing-stop="showCtrl.save()" />
                         </div>
 
                         <!-- Model of the Instrument -->
                         <div class="form-group col-md-6">
                             <label class="control-label" for="instrument-model">Model</label>
-                            <input type="text" class="form-control" id="instrument-model" data-ng-model="showCtrl.resource.attributes.model" />
+                            <input type="text" class="form-control" id="instrument-model" data-ng-model="showCtrl.resource.attributes.model" data-on-typing-stop="showCtrl.save()" />
                         </div>
                     </div>
                 </div>

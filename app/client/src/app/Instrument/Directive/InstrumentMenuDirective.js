@@ -6,7 +6,10 @@ var InstrumentMenuDirective = function InstrumentMenuDirective($client) {
     return {
         restrict: 'E',
         templateUrl: $client.getPartial('Instrument/menu.html', 'app/Instrument'),
-        replace: true
+        replace: true,
+        bindToController: true,
+        controllerAs: 'instrumentMenuCtrl',
+        controller: 'InstrumentMenuController'
     };
 };
 

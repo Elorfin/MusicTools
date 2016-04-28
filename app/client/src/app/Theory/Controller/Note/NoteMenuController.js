@@ -1,9 +1,11 @@
 /**
  * Menu controller for Notes
+ * @param {NoteResource} NoteResource
  * @constructor
  */
 var NoteMenuController = function NoteMenuController(NoteResource) {
-    this.notes = NoteResource.query().then(function (result) {
+    this.noteResource = NoteResource;
+    this.notes = this.noteResource.query().then(function (result) {
         this.notes = result;
         if (!this.current) {
             this.current = result[0];
@@ -27,17 +29,11 @@ NoteMenuController.prototype.notes = [];
 NoteMenuController.prototype.current = null;
 
 NoteMenuController.prototype.previous = function previous() {
-    var pos = this.notes.indexOf(this.current);
-    if (-1 !== pos && this.notes[pos - 1]) {
-        this.current = this.notes[pos - 1];
-    }
+    this.current = this.noteResource.previous(this.notes, this.current);
 };
 
 NoteMenuController.prototype.next = function next() {
-    var pos = this.notes.indexOf(this.current);
-    if (-1 !== pos && this.notes[pos + 1]) {
-        this.current = this.notes[pos + 1];
-    }
+    this.current = this.noteResource.next(this.notes, this.current);
 };
 
 // Register controller into Angular JS

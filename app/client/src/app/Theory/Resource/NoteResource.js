@@ -43,12 +43,46 @@ NoteResource.prototype.isDisplayFlat = function isDisplayFlat() {
 
 /**
  * Change the way the Note names are displayed
- * @param   {boolean} newValue
+ * @param {boolean} newValue
  */
 NoteResource.prototype.setDisplayFlat = function setDisplayFlat(newValue) {
     if (newValue !== this.displayFlat) {
         this.displayFlat = newValue;
     }
+};
+
+/**
+ * Get the previous Note of current
+ * @param   {Array}  notes
+ * @param   {Object} current
+ * @returns {Object|null}
+ */
+NoteResource.prototype.previous = function previous(notes, current) {
+    var previous = null;
+
+    var pos = notes.indexOf(this.current);
+    if (-1 !== pos && notes[pos - 1]) {
+        previous = notes[pos - 1];
+    }
+
+    return previous;
+};
+
+/**
+ * Get the next Note of current
+ * @param   {Array}  notes
+ * @param   {Object} current
+ * @returns {Object|null}
+ */
+NoteResource.prototype.next = function next(notes, current) {
+    var next = null;
+
+    var pos = notes.indexOf(current);
+    if (-1 !== pos && notes[pos + 1]) {
+        next = notes[pos + 1];
+    }
+
+    return next;
 };
 
 // Register service into Angular JS

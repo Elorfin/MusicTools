@@ -1,0 +1,21 @@
+<div class="guitar-neck" style="height: {{ guitarNeckCtrl.height }}px;">
+    <!-- FretLayer -->
+    <div class="fret-layer">
+        <!-- First displayed fret selector -->
+        <input type="text" class="form-control input-sm text-center fret-selector fret-selector-first" data-ng-model="fretLayerCtrl.fretFirst" />
+
+        <!-- Last displayed fret selector -->
+        <input type="text" class="form-control input-sm text-center fret-selector fret-selector-last" data-ng-model="fretLayerCtrl.fretLast" />
+
+        <!-- Frets canvas -->
+        <canvas class="fret-layer-canvas"></canvas>
+    </div>
+
+    <!-- StringLayer -->
+    <canvas class="string-layer-canvas"></canvas>
+
+    <!-- NoteLayer -->
+    <div class="note-layer">
+
+    </div>
+</div>

@@ -1,27 +1,24 @@
 /**
- * String Layer Controller
- * @returns {StringLayerController}
+ * String Layer
  * @constructor
  */
-var StringLayerController = function StringLayerController() {
+var StringLayer = function StringLayer() {
     // Call parent constructor
-    AbstractLayerController.apply(this, arguments);
-
-    return this;
+    AbstractLayer.apply(this, arguments);
 };
 
 // Extends the base controller
-StringLayerController.prototype = Object.create(AbstractLayerController.prototype);
-StringLayerController.prototype.constructor = StringLayerController;
+StringLayer.prototype = Object.create(AbstractLayer.prototype);
+StringLayer.prototype.constructor = StringLayer;
 
 /**
  * Redraw strings
  * @param   {HTMLCanvasElement} canvas Context to draw on
  * @param   {Number}            width  Width of the Layer
  * @param   {Number}            height Height of the Layer
- * @returns {StringLayerController}
+ * @returns {StringLayer}
  */
-StringLayerController.prototype.redraw = function redraw(canvas, width, height) {
+StringLayer.prototype.redraw = function redraw(canvas, width, height) {
     console.log('String Layer is redrawn.');
 
     // Call parent controller
@@ -37,7 +34,7 @@ StringLayerController.prototype.redraw = function redraw(canvas, width, height) 
     return this;
 };
 
-StringLayerController.prototype.drawStrings = function drawStrings(context) {
+StringLayer.prototype.drawStrings = function drawStrings(context) {
     /*for (var i = this.strings.length - 1; i >= 0; i--) {
         this.drawString(i, this.strings[i].value);
     }*/
@@ -48,7 +45,7 @@ StringLayerController.prototype.drawStrings = function drawStrings(context) {
 /**
  * Draw a string
  */
-StringLayerController.prototype.drawString = function drawString(stringNumber, stringValue) {
+StringLayer.prototype.drawString = function drawString(stringNumber, stringValue) {
     var note = this.notes.get(stringValue);
 
     // Calculate position of the string
@@ -78,7 +75,7 @@ StringLayerController.prototype.drawString = function drawString(stringNumber, s
     this.drawNote((this.renderOptions.notes.size + 2) / 2 , stringPosition, note, this.renderOptions.notes.size, this.renderOptions.notes.defaultColor, this.renderOptions.notes.defaultFill, '#dddddd');
 };
 
-StringLayerController.prototype.getStringPosition = function getStringPosition(stringNumber) {
+StringLayer.prototype.getStringPosition = function getStringPosition(stringNumber) {
     // Calculate position of the string
     var stringPosition = this.height.strings.interval * stringNumber + 0.5 + this.height.strings.offset;
     if (this.frets.showNumber) {
@@ -88,8 +85,3 @@ StringLayerController.prototype.getStringPosition = function getStringPosition(s
 
     return stringPosition;
 };
-
-// Inject controller into Angular
-angular
-    .module('GuitarNeck')
-    .controller('StringLayerController', StringLayerController);

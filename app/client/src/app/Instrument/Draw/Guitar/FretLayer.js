@@ -1,24 +1,21 @@
 /**
- * Fret Layer Controller
- * @returns {FretLayerController}
+ * Fret Layer
  * @constructor
  */
-var FretLayerController = function FretLayerController() {
+var FretLayer = function FretLayer() {
     // Call parent constructor
     AbstractLayerController.apply(this, arguments);
-
-    return this;
 };
 
 // Extends the base controller
-FretLayerController.prototype = Object.create(AbstractLayerController.prototype);
-FretLayerController.prototype.constructor = AbstractLayerController;
+FretLayer.prototype = Object.create(AbstractLayer.prototype);
+FretLayer.prototype.constructor = FretLayer;
 
 /**
  * Configuration for the rendering of reference Frets
  * @type {Object}
  */
-FretLayerController.prototype.renderOptions.references = {
+FretLayer.prototype.renderOptions.references = {
     /**
      * Display dots for reference Frets
      * @type {boolean}
@@ -42,7 +39,7 @@ FretLayerController.prototype.renderOptions.references = {
  * Configuration for the rendering of Fret numbers
  * @type {Object}
  */
-FretLayerController.prototype.renderOptions.numbers = {
+FretLayer.prototype.renderOptions.numbers = {
     /**
      * Is the number must be displayed ?
      * @type {boolean}
@@ -85,32 +82,32 @@ FretLayerController.prototype.renderOptions.numbers = {
  * First displayed fret
  * @type {Number}
  */
-FretLayerController.prototype.fretFirst = 0;
+FretLayer.prototype.fretFirst = 0;
 
 /**
  * Last displayed fret
  * @type {Number}
  */
-FretLayerController.prototype.fretLast = 24;
+FretLayer.prototype.fretLast = 24;
 
 /**
  * Total of frets that can be displayed
  * @type {Number}
  */
-FretLayerController.prototype.fretCount = 24;
+FretLayer.prototype.fretCount = 24;
 
 /**
  * Redraw Layer
  * @param   {HTMLCanvasElement} canvas Canvas to draw on
  * @param   {Number}            width  Width of the Layer
  * @param   {Number}            height Height of the Layer
- * @returns {FretLayerController}
+ * @returns {FretLayer}
  */
-FretLayerController.prototype.redraw = function redraw(canvas, width, height) {
+FretLayer.prototype.redraw = function redraw(canvas, width, height) {
     console.log('Fret Layer is redrawn.');
 
     // Call parent controller
-    AbstractLayerController.prototype.redraw.apply(this, arguments);
+    AbstractLayer.prototype.redraw.apply(this, arguments);
 
     // Get 2D context of the canvas
     var context = canvas.getContext('2d');
@@ -125,9 +122,9 @@ FretLayerController.prototype.redraw = function redraw(canvas, width, height) {
 /**
  * Draw frets
  * @param   {Object} context Context to draw on
- * @returns {FretLayerController}
+ * @returns {FretLayer}
  */
-FretLayerController.prototype.drawFrets = function drawFrets(context) {
+FretLayer.prototype.drawFrets = function drawFrets(context) {
     var fretPosition = 15;
     var fretInterval = (this.renderOptions.width - 30) / (this.fretLast - this.fretFirst);
 
@@ -155,7 +152,7 @@ FretLayerController.prototype.drawFrets = function drawFrets(context) {
  * @param   {Number} fretNumber Number of the Fret
  * @returns {boolean}
  */
-FretLayerController.prototype.fretIsHighlighted = function fretIsHighlighted(fretNumber) {
+FretLayer.prototype.fretIsHighlighted = function fretIsHighlighted(fretNumber) {
     var highlight = false;
 
     if (this.renderOptions.references.highlight) {
@@ -178,9 +175,9 @@ FretLayerController.prototype.fretIsHighlighted = function fretIsHighlighted(fre
  * @param   {Number}  x         Horizontal position of the Fret (in pixels)
  * @param   {Number}  number    Number of the Fret
  * @param   {boolean} highlight Is the current Fret a reference Fret ?
- * @returns {FretLayerController}
+ * @returns {FretLayer}
  */
-FretLayerController.prototype.drawFret = function drawFret(context, x, number, highlight) {
+FretLayer.prototype.drawFret = function drawFret(context, x, number, highlight) {
     context.beginPath();
 
     var lineWidth = 3;
@@ -232,9 +229,9 @@ FretLayerController.prototype.drawFret = function drawFret(context, x, number, h
  * @param   {Number}  x         Horizontal position of the Fret (in pixels)
  * @param   {Number}  number    Number of the Fret
  * @param   {boolean} highlight Is the current Fret a reference Fret ?
- * @returns {FretLayerController}
+ * @returns {FretLayer}
  */
-FretLayerController.prototype.drawFretNumber = function drawFretNumber(context, x, number, highlight) {
+FretLayer.prototype.drawFretNumber = function drawFretNumber(context, x, number, highlight) {
     var y = 0;
 
     var fretColor = this.renderOptions.color.default;
@@ -270,9 +267,9 @@ FretLayerController.prototype.drawFretNumber = function drawFretNumber(context, 
  * @param   {Object} context Context to draw on
  * @param   {Number} x       Horizontal position of the Fret (in pixels)
  * @param   {Number} number  Number of the Fret
- * @returns {FretLayerController}
+ * @returns {FretLayer}
  */
-FretLayerController.prototype.drawFretReference = function drawFretReference(context, x, number) {
+FretLayer.prototype.drawFretReference = function drawFretReference(context, x, number) {
     var double = false;
     if (0 === number % 12) {
         double = true;
@@ -297,8 +294,3 @@ FretLayerController.prototype.drawFretReference = function drawFretReference(con
 
     return this;
 };
-
-// Inject controller into Angular
-angular
-    .module('GuitarNeck')
-    .controller('FretLayerController', FretLayerController);

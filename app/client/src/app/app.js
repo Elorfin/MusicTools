@@ -17,7 +17,6 @@ angular
         'Forum',
         'Game',
         'Instrument',
-        'GuitarNeck',
         'Lesson',
         'SongBook',
         'Theory',

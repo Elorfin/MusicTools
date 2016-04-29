@@ -1,17 +1,16 @@
 /**
- * Abstract Layer Controller
- * @returns {AbstractLayerController}
+ * Abstract Layer
  * @constructor
  */
-var AbstractLayerController = function AbstractLayerController() {
-    return this;
+var AbstractLayer = function AbstractLayer() {
+
 };
 
 /**
  * Options for rendering
  * @type {Object}
  */
-AbstractLayerController.prototype.renderOptions = {
+AbstractLayer.prototype.renderOptions = {
     /**
      * Width of the Layer
      * @type {Number}
@@ -54,9 +53,9 @@ AbstractLayerController.prototype.renderOptions = {
  * @param   {HTMLCanvasElement} canvas
  * @param   {Number}            width
  * @param   {Number}            height
- * @returns {AbstractLayerController}
+ * @returns {AbstractLayer}
  */
-AbstractLayerController.prototype.redraw = function redraw(canvas, width, height) {
+AbstractLayer.prototype.redraw = function redraw(canvas, width, height) {
     console.log('Abstract Layer is redrawn.');
 
     // Set sizes
@@ -70,11 +69,4 @@ AbstractLayerController.prototype.redraw = function redraw(canvas, width, height
         canvas.width  = this.renderOptions.width;
         canvas.height = this.renderOptions.height;
     }
-
-    return this;
 };
-
-// Inject controller into Angular
-angular
-    .module('InstrumentVisualization')
-    .controller('AbstractLayerController', AbstractLayerController);

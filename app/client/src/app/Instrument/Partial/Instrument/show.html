@@ -71,16 +71,20 @@
                 </div>
             </div>
 
-            <!-- Custom information for the InstrumentType -->
-            <instrument-specification-form
-                    data-type="showCtrl.resource.relationships.instrumentType.data"
-                    data-specification="showCtrl.resource.relationships.specification.data">
-            </instrument-specification-form>
-
             <div data-ng-if="showCtrl.resource.relationships.instrumentType"
                  data-ng-include="'Specification/' + showCtrl.resource.relationships.instrumentType.data.attributes.prefix + '/details.html'|partial_path:'app/Instrument'"
                  onload="specification = showCtrl.resource.relationships.specification.data">
             </div>
         </div>
     </div>
+
+    <!-- Visualization -->
+    <!--<div data-ng-if="showCtrl.resource.relationships.instrumentType"
+         data-ng-include="'Visualization/' + showCtrl.resource.relationships.instrumentType.data.attributes.prefix + '/details.html'|partial_path:'app/Instrument'"
+         onload="specification = showCtrl.resource.relationships.specification.data">
+    </div>-->
+
+    <!--<instrument-visualization
+            data-type="showCtrl.resource.relationships.instrumentType.data.attributes.prefix"
+            data-specification="showCtrl.resource.relationships.specification.data"></instrument-visualization>-->
 </layout-page>

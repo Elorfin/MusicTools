@@ -22,7 +22,7 @@ script:
   - php bin/php-cs-fixer fix src/ --dry-run --diff --verbose
 
   # Run Sensio Insight analysis
-  - php bin/insight analysis 74bd74a9-b6fc-4b4e-9eb6-146748ab49db --no-interaction --verbose
+  - php bin/insight analysis 74bd74a9-b6fc-4b4e-9eb6-146748ab49db --no-interaction --verbose --user-uuid=bb79b317-e14f-4754-aaba-5c0bd4be04d8 --api-token=1eb88d3501e96d540010a703e05ae58c3c4c889b31d8cf0588d8777be591b6f9
 
   # Run tests suite vith PHPUnit
   - php bin/phpunit --verbose

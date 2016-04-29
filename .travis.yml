@@ -19,7 +19,7 @@ install:
 
 script:
   # Check the Coding Standards with PHP CS Fixer
-  - php bin/php-cs-fixer fix src/ --dry-run --verbose
+  - php bin/php-cs-fixer fix src/ --dry-run --diff --verbose
 
   # Run tests suite vith PHPUnit
   - php bin/phpunit --verbose

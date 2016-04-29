@@ -8,12 +8,12 @@ use Doctrine\Common\Persistence\ObjectManager;
 use InstrumentBundle\Entity\InstrumentType;
 
 /**
- * Initializes instrument types
+ * Initializes instrument types.
  */
 class LoadInstrumentTypeData extends AbstractFixture implements OrderedFixtureInterface
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getOrder()
     {
@@ -21,43 +21,43 @@ class LoadInstrumentTypeData extends AbstractFixture implements OrderedFixtureIn
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function load(ObjectManager $manager)
     {
         $types = [
             [
-                'name'       => 'Guitar',
-                'icon'       => 'instrument/guitar.svg',
-                'prefix'     => 'Guitar',
+                'name' => 'Guitar',
+                'icon' => 'instrument/guitar.svg',
+                'prefix' => 'Guitar',
                 'polyphonic' => true,
             ],
 
             [
-                'name'       => 'Ukulele',
-                'icon'       => 'instrument/ukulele.svg',
-                'prefix'     => 'Guitar',
+                'name' => 'Ukulele',
+                'icon' => 'instrument/ukulele.svg',
+                'prefix' => 'Guitar',
                 'polyphonic' => true,
             ],
 
             [
-                'name'       => 'Bass',
-                'icon'       => 'instrument/bass.svg',
-                'prefix'     => 'Guitar',
+                'name' => 'Bass',
+                'icon' => 'instrument/bass.svg',
+                'prefix' => 'Guitar',
                 'polyphonic' => true,
             ],
 
             [
-                'name'       => 'Recorder',
-                'icon'       => 'instrument/recorder.svg',
-                'prefix'     => 'Recorder',
+                'name' => 'Recorder',
+                'icon' => 'instrument/recorder.svg',
+                'prefix' => 'Recorder',
                 'polyphonic' => false,
             ],
 
             [
-                'name'       => 'Piano',
-                'icon'       => 'instrument/piano.svg',
-                'prefix'     => 'Piano',
+                'name' => 'Piano',
+                'icon' => 'instrument/piano.svg',
+                'prefix' => 'Piano',
                 'polyphonic' => true,
             ],
         ];
@@ -69,7 +69,7 @@ class LoadInstrumentTypeData extends AbstractFixture implements OrderedFixtureIn
             $entity->setIcon($type['icon']);
             $entity->setPrefix($type['prefix']);
             $entity->setPolyphonic($type['polyphonic']);
-            
+
             $manager->persist($entity);
 
             // Store reference for use in other DataFixtures

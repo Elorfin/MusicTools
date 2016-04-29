@@ -7,20 +7,21 @@ use CommonBundle\Model\UniqueIdentifierTrait;
 use Elorfin\ResourceBundle\Entity\File;
 
 /**
- * SheetMusic
+ * SheetMusic.
  *
  * @ORM\Entity
  * @ORM\Table(name="sheet_music")
  */
 class SheetMusic extends File
 {
-    /**
+    /*
      * ID
      */
     use UniqueIdentifierTrait;
 
     /**
-     * Linked Song
+     * Linked Song.
+     *
      * @var Song
      *
      * @ORM\ManyToOne(targetEntity="SongBookBundle\Entity\Song", inversedBy="scores", cascade={"remove", "persist"})
@@ -29,7 +30,8 @@ class SheetMusic extends File
     protected $song;
 
     /**
-     * Get song
+     * Get song.
+     *
      * @return Song
      */
     public function getSong()
@@ -38,8 +40,10 @@ class SheetMusic extends File
     }
 
     /**
-     * Set song
-     * @param  Song $song
+     * Set song.
+     *
+     * @param Song $song
+     *
      * @return SheetMusic
      */
     public function setSong(Song $song = null)

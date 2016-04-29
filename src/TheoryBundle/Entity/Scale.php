@@ -7,35 +7,36 @@ use CommonBundle\Model\UniqueIdentifierTrait;
 use CommonBundle\Model\NameTrait;
 
 /**
- * Scale Entity
+ * Scale Entity.
  *
  * @ORM\Entity()
  * @ORM\Table(name="theory_scale")
  */
 class Scale implements \JsonSerializable
 {
-    /**
+    /*
      * ID
      */
     use UniqueIdentifierTrait;
 
-    /**
+    /*
      * Name
      */
     use NameTrait;
 
     /**
-     * Serialize the Entity
+     * Serialize the Entity.
+     *
      * @return array
      */
     public function jsonSerialize()
     {
-        return array (
+        return array(
             'type' => 'scales',
-            'id'   => $this->id,
-            'attributes'  => array (
-                'name'    => $this->name,
-            )
+            'id' => $this->id,
+            'attributes' => array(
+                'name' => $this->name,
+            ),
         );
     }
 }

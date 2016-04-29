@@ -15,7 +15,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 class GameController extends Controller
 {
     /**
-     * List all games
+     * List all games.
+     *
      * @return array
      *
      * @Route("")

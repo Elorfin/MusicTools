@@ -9,14 +9,15 @@ use Elorfin\JsonApiBundle\Response\JsonApiResponse;
 use TheoryBundle\Entity\Chord;
 
 /**
- * Chord CRUD Controller
+ * Chord CRUD Controller.
  *
  * @Route("/chords")
  */
 class ChordController extends Controller
 {
     /**
-     * List all Chords
+     * List all Chords.
+     *
      * @return array
      *
      * @Route("")
@@ -32,8 +33,10 @@ class ChordController extends Controller
     }
 
     /**
-     * Get a Chord entity
-     * @param  Chord $chord
+     * Get a Chord entity.
+     *
+     * @param Chord $chord
+     *
      * @return JsonApiResponse
      *
      * @Route("/{id}")

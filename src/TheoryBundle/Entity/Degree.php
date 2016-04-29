@@ -7,25 +7,26 @@ use CommonBundle\Model\UniqueIdentifierTrait;
 use CommonBundle\Model\NameTrait;
 
 /**
- * Degree Entity
+ * Degree Entity.
  *
  * @ORM\Entity()
  * @ORM\Table(name="theory_degree")
  */
 class Degree implements \JsonSerializable
 {
-    /**
+    /*
      * ID
      */
     use UniqueIdentifierTrait;
 
-    /**
+    /*
      * Name
      */
     use NameTrait;
 
     /**
-     * Symbol of the Interval
+     * Symbol of the Interval.
+     *
      * @var string
      *
      * @ORM\Column(type="string")
@@ -33,7 +34,8 @@ class Degree implements \JsonSerializable
     protected $symbol;
 
     /**
-     * Get symbol
+     * Get symbol.
+     *
      * @return string
      */
     public function getSymbol()
@@ -42,8 +44,10 @@ class Degree implements \JsonSerializable
     }
 
     /**
-     * Set symbol
-     * @param  string $symbol
+     * Set symbol.
+     *
+     * @param string $symbol
+     *
      * @return Degree
      */
     public function setSymbol($symbol)
@@ -54,18 +58,19 @@ class Degree implements \JsonSerializable
     }
 
     /**
-     * Serialize the Entity
+     * Serialize the Entity.
+     *
      * @return array
      */
     public function jsonSerialize()
     {
-        return array (
+        return array(
             'type' => 'degrees',
-            'id'   => $this->id,
-            'attributes'  => array (
-                'name'    => $this->name,
-                'symbol'  => $this->symbol,
-            )
+            'id' => $this->id,
+            'attributes' => array(
+                'name' => $this->name,
+                'symbol' => $this->symbol,
+            ),
         );
     }
 }

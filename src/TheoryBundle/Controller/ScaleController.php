@@ -9,14 +9,15 @@ use Elorfin\JsonApiBundle\Response\JsonApiResponse;
 use TheoryBundle\Entity\Scale;
 
 /**
- * Scale CRUD Controller
+ * Scale CRUD Controller.
  *
  * @Route("/scales")
  */
 class ScaleController extends Controller
 {
     /**
-     * List all Scales
+     * List all Scales.
+     *
      * @return array
      *
      * @Route("")
@@ -32,8 +33,10 @@ class ScaleController extends Controller
     }
 
     /**
-     * Get a Scale entity
+     * Get a Scale entity.
+     *
      * @param Scale $scale
+     *
      * @return array
      *
      * @Route("/{id}")

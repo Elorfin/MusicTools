@@ -17,6 +17,7 @@ class AdvertisementController extends Controller
 {
     /**
      * Lists all Advertisement entities.
+     *
      * @return JsonApiResponse
      *
      * @Route("/")
@@ -33,8 +34,10 @@ class AdvertisementController extends Controller
     }
 
     /**
-     * Render a Advertisement entity
-     * @param  Advertisement $advertisement
+     * Render a Advertisement entity.
+     *
+     * @param Advertisement $advertisement
+     *
      * @return JsonApiResponse
      *
      * @Route("/{id}")

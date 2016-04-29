@@ -3,13 +3,14 @@
 namespace CommonBundle\Model;
 
 /**
- * Add a `favourite` field to an Entity class
+ * Add a `favourite` field to an Entity class.
  */
 trait FavouriteTrait
 {
     /**
      * Is favourite ?
-     * @var boolean
+     *
+     * @var bool
      *
      * @ORM\Column(type="boolean")
      */
@@ -17,7 +18,8 @@ trait FavouriteTrait
 
     /**
      * Is favourite ?
-     * @return boolean
+     *
+     * @return bool
      */
     public function isFavourite()
     {
@@ -25,8 +27,10 @@ trait FavouriteTrait
     }
 
     /**
-     * Set favourite
-     * @param  boolean $favourite
+     * Set favourite.
+     *
+     * @param bool $favourite
+     *
      * @return $this
      */
     public function setFavourite($favourite)

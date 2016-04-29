@@ -3,12 +3,13 @@
 namespace CommonBundle\Model;
 
 /**
- * Add a `name` field to an Entity class
+ * Add a `name` field to an Entity class.
  */
 trait NameTrait
 {
     /**
-     * Name of the Entity
+     * Name of the Entity.
+     *
      * @var string
      *
      * @ORM\Column(type="string", nullable=true)
@@ -16,7 +17,8 @@ trait NameTrait
     protected $name;
 
     /**
-     * Get name
+     * Get name.
+     *
      * @return string
      */
     public function getName()
@@ -25,8 +27,10 @@ trait NameTrait
     }
 
     /**
-     * Set name
-     * @param  string $name
+     * Set name.
+     *
+     * @param string $name
+     *
      * @return $this
      */
     public function setName($name)

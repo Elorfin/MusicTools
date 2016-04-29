@@ -23,13 +23,12 @@ class ForumController extends Controller
     {
         $entities = $this->container->get('doctrine.orm.entity_manager')->getRepository('ForumBundle:Forum')->findAll();
 
-        return array (
+        return array(
             'entities' => $entities,
         );
     }
 
     public function showAction()
     {
-
     }
 }

@@ -7,7 +7,7 @@ use CommonBundle\Model\UniqueIdentifierTrait;
 
 /**
  * UserFriendship Entity
- * Used to store the configuration of a friendship between two Users
+ * Used to store the configuration of a friendship between two Users.
  *
  * @ORM\Entity()
  * @ORM\Table(name="user_friendship")
@@ -15,27 +15,28 @@ use CommonBundle\Model\UniqueIdentifierTrait;
 class UserFriendship
 {
     /**
-     * Flag for the friendship requests that have not yet been accepted by `toUser`
+     * Flag for the friendship requests that have not yet been accepted by `toUser`.
      */
-    const STATUS_PENDING  = 0;
+    const STATUS_PENDING = 0;
 
     /**
-     * Flag for the friendship requests that been accepted by `toUser`
+     * Flag for the friendship requests that been accepted by `toUser`.
      */
     const STATUS_ACCEPTED = 1;
 
     /**
-     * Flag for the friendship requests that have not yet been rejected by `toUser`
+     * Flag for the friendship requests that have not yet been rejected by `toUser`.
      */
     const STATUS_REJECTED = 2;
 
-    /**
+    /*
      * ID
      */
     use UniqueIdentifierTrait;
 
     /**
-     * First member of the friendship link
+     * First member of the friendship link.
+     *
      * @var User
      *
      * @ORM\ManyToOne(targetEntity="UserBundle\Entity\User")
@@ -44,7 +45,8 @@ class UserFriendship
     protected $fromUser;
 
     /**
-     * Second member of the friendship link
+     * Second member of the friendship link.
+     *
      * @var User
      *
      * @ORM\ManyToOne(targetEntity="UserBundle\Entity\User")
@@ -53,15 +55,17 @@ class UserFriendship
     protected $toUser;
 
     /**
-     * Status of the Friendship
-     * @var integer
+     * Status of the Friendship.
+     *
+     * @var int
      *
      * @ORM\Column(name="friendship_status", type="integer")
      */
     protected $status = self::STATUS_PENDING;
 
     /**
-     * Get the User which has initiated the friendship
+     * Get the User which has initiated the friendship.
+     *
      * @return User
      */
     public function getFromUser()
@@ -70,8 +74,10 @@ class UserFriendship
     }
 
     /**
-     * Set the User which has initiated the friendship
-     * @param  User $user
+     * Set the User which has initiated the friendship.
+     *
+     * @param User $user
+     *
      * @return $this
      */
     public function setFromUser(User $user)
@@ -82,7 +88,8 @@ class UserFriendship
     }
 
     /**
-     * Get the User which has received the friendship
+     * Get the User which has received the friendship.
+     *
      * @return User
      */
     public function getToUser()
@@ -91,8 +98,10 @@ class UserFriendship
     }
 
     /**
-     * Set the User which has received the friendship
-     * @param  User $user
+     * Set the User which has received the friendship.
+     *
+     * @param User $user
+     *
      * @return $this
      */
     public function setToUser(User $user)
@@ -103,8 +112,9 @@ class UserFriendship
     }
 
     /**
-     * Get status
-     * @return integer
+     * Get status.
+     *
+     * @return int
      */
     public function getStatus()
     {
@@ -112,8 +122,10 @@ class UserFriendship
     }
 
     /**
-     * Set status
-     * @param  integer $status
+     * Set status.
+     *
+     * @param int $status
+     *
      * @return $this
      */
     public function setStatus($status)

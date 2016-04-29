@@ -6,17 +6,13 @@ use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 
-use TuningBundle\Entity\TuningCategory;
-use TuningBundle\Entity\Strings\StringsTuning;
-use TuningBundle\Entity\Strings\StringTuning;
-
 /**
- * Initializes Tunings
+ * Initializes Tunings.
  */
 class LoadTuningData extends AbstractFixture implements OrderedFixtureInterface
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getOrder()
     {
@@ -24,10 +20,9 @@ class LoadTuningData extends AbstractFixture implements OrderedFixtureInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function load(ObjectManager $manager)
     {
-
     }
 }

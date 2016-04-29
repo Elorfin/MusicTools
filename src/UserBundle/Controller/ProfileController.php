@@ -8,11 +8,9 @@ class ProfileController extends Controller
 {
     public function updateAction()
     {
-
     }
 
     public function changePasswordAction()
     {
-
     }
 }

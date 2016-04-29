@@ -8,41 +8,42 @@ use CommonBundle\Model\DescriptionTrait;
 use CommonBundle\Model\UniqueIdentifierTrait;
 
 /**
- * Game Entity
+ * Game Entity.
  *
  * @ORM\Entity()
  * @ORM\Table(name="game")
  */
 class Game implements \JsonSerializable
 {
-    /**
+    /*
      * ID
      */
     use UniqueIdentifierTrait;
 
-    /**
+    /*
      * Name
      */
     use NameTrait;
 
-    /**
+    /*
      * Description
      */
     use DescriptionTrait;
 
     /**
-     * Serializes the Entity
+     * Serializes the Entity.
+     *
      * @return array
      */
     public function jsonSerialize()
     {
         return array(
             'type' => 'games',
-            'id'   => $this->id,
+            'id' => $this->id,
             'attributes' => array(
-                'name'        => $this->name,
+                'name' => $this->name,
                 'description' => $this->description,
-            )
+            ),
         );
     }
 }

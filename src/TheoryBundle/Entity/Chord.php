@@ -8,34 +8,36 @@ use CommonBundle\Model\NameTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * Chord Entity
+ * Chord Entity.
  *
  * @ORM\Entity()
  * @ORM\Table(name="theory_chord")
  */
 class Chord implements \JsonSerializable
 {
-    /**
+    /*
      * ID
      */
     use UniqueIdentifierTrait;
 
-    /**
+    /*
      * Name
      */
     use NameTrait;
 
     /**
      * Number of Notes in the Chords
-     * Used to classify chords (e.g. triad, tetrad)
-     * @var integer
+     * Used to classify chords (e.g. triad, tetrad).
+     *
+     * @var int
      *
      * @ORM\Column(type="integer")
      */
     protected $notesCount;
 
     /**
-     * Symbol of the Chord
+     * Symbol of the Chord.
+     *
      * @var string
      *
      * @ORM\Column(type="string")
@@ -43,7 +45,8 @@ class Chord implements \JsonSerializable
     protected $symbol;
 
     /**
-     * Intervals composing the chord
+     * Intervals composing the chord.
+     *
      * @var \Doctrine\Common\Collections\ArrayCollection
      *
      * @ORM\ManyToMany(targetEntity="TheoryBundle\Entity\Interval", cascade={"all"})
@@ -56,7 +59,7 @@ class Chord implements \JsonSerializable
     protected $intervals;
 
     /**
-     * Entity constructor
+     * Entity constructor.
      */
     public function __construct()
     {
@@ -64,8 +67,9 @@ class Chord implements \JsonSerializable
     }
 
     /**
-     * Get number of Notes
-     * @return integer
+     * Get number of Notes.
+     *
+     * @return int
      */
     public function getNotesCount()
     {
@@ -73,8 +77,10 @@ class Chord implements \JsonSerializable
     }
 
     /**
-     * Set number of Notes
-     * @param  integer $count
+     * Set number of Notes.
+     *
+     * @param int $count
+     *
      * @return $this
      */
     public function setNotesCount($count)
@@ -85,7 +91,8 @@ class Chord implements \JsonSerializable
     }
 
     /**
-     * Get symbol
+     * Get symbol.
+     *
      * @return string
      */
     public function getSymbol()
@@ -94,8 +101,10 @@ class Chord implements \JsonSerializable
     }
 
     /**
-     * Set symbol
-     * @param  string $symbol
+     * Set symbol.
+     *
+     * @param string $symbol
+     *
      * @return $this
      */
     public function setSymbol($symbol)
@@ -106,7 +115,8 @@ class Chord implements \JsonSerializable
     }
 
     /**
-     * Get the list of intervals of the Chord
+     * Get the list of intervals of the Chord.
+     *
      * @return \Doctrine\Common\Collections\ArrayCollection
      */
     public function getIntervals()
@@ -115,8 +125,10 @@ class Chord implements \JsonSerializable
     }
 
     /**
-     * Add an Interval to the Chord
-     * @param  Interval $interval
+     * Add an Interval to the Chord.
+     *
+     * @param Interval $interval
+     *
      * @return Chord
      */
     public function addInterval(Interval $interval)
@@ -129,8 +141,10 @@ class Chord implements \JsonSerializable
     }
 
     /**
-     * Remove an Interval from the Chord
-     * @param  Interval $interval
+     * Remove an Interval from the Chord.
+     *
+     * @param Interval $interval
+     *
      * @return Chord
      */
     public function removeInterval(Interval $interval)
@@ -143,19 +157,20 @@ class Chord implements \JsonSerializable
     }
 
     /**
-     * Serialize the Entity
+     * Serialize the Entity.
+     *
      * @return array
      */
     public function jsonSerialize()
     {
-        return array (
+        return array(
             'type' => 'chords',
-            'id'   => $this->id,
-            'attributes'      => array (
-                'name'        => $this->name,
-                'symbol'      => $this->symbol,
-                'notes_count'  => $this->notesCount,
-            )
+            'id' => $this->id,
+            'attributes' => array(
+                'name' => $this->name,
+                'symbol' => $this->symbol,
+                'notes_count' => $this->notesCount,
+            ),
         );
     }
 }

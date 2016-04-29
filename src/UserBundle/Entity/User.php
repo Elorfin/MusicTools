@@ -8,20 +8,21 @@ use Elorfin\ResourceBundle\Entity\Image;
 
 /**
  * User Entity
- * Used to store the configuration of a User
+ * Used to store the configuration of a User.
  *
  * @ORM\Entity(repositoryClass="UserBundle\Repository\UserRepository")
  * @ORM\Table(name="user")
  */
 class User
 {
-    /**
+    /*
      * ID
      */
     use UniqueIdentifierTrait;
 
     /**
-     * Username
+     * Username.
+     *
      * @var string
      *
      * @ORM\Column(type="string")
@@ -29,7 +30,8 @@ class User
     protected $username;
 
     /**
-     * Avatar of the User
+     * Avatar of the User.
+     *
      * @var \Elorfin\ResourceBundle\Entity\Image
      *
      * @ORM\ManyToOne(targetEntity="Elorfin\ResourceBundle\Entity\Image", cascade={"remove", "persist"})
@@ -38,7 +40,8 @@ class User
     protected $avatar;
 
     /**
-     * Description of the User
+     * Description of the User.
+     *
      * @var string
      *
      * @ORM\Column(type="text", nullable=true)
@@ -46,7 +49,8 @@ class User
     protected $description;
 
     /**
-     * Status of the User
+     * Status of the User.
+     *
      * @var string
      *
      * @ORM\Column(type="text", nullable=true)
@@ -54,7 +58,8 @@ class User
     protected $status;
 
     /**
-     * First name of the User
+     * First name of the User.
+     *
      * @var string
      *
      * @ORM\Column(type="string", nullable=true)
@@ -62,7 +67,8 @@ class User
     protected $firstName;
 
     /**
-     * Last name of the User
+     * Last name of the User.
+     *
      * @var string
      *
      * @ORM\Column(type="string", nullable=true)
@@ -70,7 +76,8 @@ class User
     protected $lastName;
 
     /**
-     * Location of the User
+     * Location of the User.
+     *
      * @var string
      *
      * @ORM\Column(type="string", nullable=true)
@@ -78,7 +85,8 @@ class User
     protected $location;
 
     /**
-     * Birth date of the User
+     * Birth date of the User.
+     *
      * @var \DateTime
      *
      * @ORM\Column(type="date", nullable=true)
@@ -86,21 +94,24 @@ class User
     protected $birthDate;
 
     /**
-     * Gender of the User
+     * Gender of the User.
+     *
      * @var string
      * @ORM\Column(type="string", nullable=true)
      */
     protected $gender;
 
     /**
-     * Website of the User
+     * Website of the User.
+     *
      * @var string
      * @ORM\Column(type="string", nullable=true)
      */
     protected $website;
 
     /**
-     * Last login of the User
+     * Last login of the User.
+     *
      * @var \DateTime
      *
      * @ORM\Column(type="date", nullable=true)
@@ -108,7 +119,8 @@ class User
     protected $lastLogin;
 
     /**
-     * Get username
+     * Get username.
+     *
      * @return string
      */
     public function getUsername()
@@ -117,8 +129,10 @@ class User
     }
 
     /**
-     * Set username
-     * @param  string $username
+     * Set username.
+     *
+     * @param string $username
+     *
      * @return User
      */
     public function setUsername($username)
@@ -129,7 +143,8 @@ class User
     }
 
     /**
-     * Get avatar
+     * Get avatar.
+     *
      * @return \Elorfin\ResourceBundle\Entity\Image
      */
     public function getAvatar()
@@ -138,8 +153,10 @@ class User
     }
 
     /**
-     * Set avatar
-     * @param  \Elorfin\ResourceBundle\Entity\Image $avatar
+     * Set avatar.
+     *
+     * @param \Elorfin\ResourceBundle\Entity\Image $avatar
+     *
      * @return User
      */
     public function setAvatar(Image $avatar)
@@ -150,7 +167,8 @@ class User
     }
 
     /**
-     * Get description
+     * Get description.
+     *
      * @return string
      */
     public function getDescription()
@@ -159,8 +177,10 @@ class User
     }
 
     /**
-     * Set description
-     * @param  string $description
+     * Set description.
+     *
+     * @param string $description
+     *
      * @return User
      */
     public function setDescription($description)
@@ -171,7 +191,8 @@ class User
     }
 
     /**
-     * Get status
+     * Get status.
+     *
      * @return string
      */
     public function getStatus()
@@ -180,8 +201,10 @@ class User
     }
 
     /**
-     * Set status
-     * @param  string $status
+     * Set status.
+     *
+     * @param string $status
+     *
      * @return User
      */
     public function setStatus($status)
@@ -192,7 +215,8 @@ class User
     }
 
     /**
-     * Get first name
+     * Get first name.
+     *
      * @return string
      */
     public function getFirstName()
@@ -201,8 +225,10 @@ class User
     }
 
     /**
-     * Set first name
-     * @param  string $firstName
+     * Set first name.
+     *
+     * @param string $firstName
+     *
      * @return User
      */
     public function setFirstName($firstName)
@@ -213,7 +239,8 @@ class User
     }
 
     /**
-     * Get last name
+     * Get last name.
+     *
      * @return string
      */
     public function getLastName()
@@ -222,8 +249,10 @@ class User
     }
 
     /**
-     * Set last name
-     * @param  string $lastName
+     * Set last name.
+     *
+     * @param string $lastName
+     *
      * @return User
      */
     public function setLastName($lastName)
@@ -234,7 +263,8 @@ class User
     }
 
     /**
-     * Get location
+     * Get location.
+     *
      * @return string
      */
     public function getLocation()
@@ -243,8 +273,10 @@ class User
     }
 
     /**
-     * Set location
-     * @param  string $location
+     * Set location.
+     *
+     * @param string $location
+     *
      * @return User
      */
     public function setLocation($location)
@@ -255,7 +287,8 @@ class User
     }
 
     /**
-     * Get birth date
+     * Get birth date.
+     *
      * @return \DateTime
      */
     public function getBirthDate()
@@ -264,8 +297,10 @@ class User
     }
 
     /**
-     * Set birth date
-     * @param  \DateTime $birthDate
+     * Set birth date.
+     *
+     * @param \DateTime $birthDate
+     *
      * @return User
      */
     public function setBirthDate(\DateTime $birthDate = null)
@@ -276,7 +311,8 @@ class User
     }
 
     /**
-     * Get gender
+     * Get gender.
+     *
      * @return string
      */
     public function getGender()
@@ -285,8 +321,10 @@ class User
     }
 
     /**
-     * Set gender
-     * @param  string $gender
+     * Set gender.
+     *
+     * @param string $gender
+     *
      * @return User
      */
     public function setGender($gender)
@@ -297,7 +335,8 @@ class User
     }
 
     /**
-     * Get website
+     * Get website.
+     *
      * @return string
      */
     public function getWebsite()
@@ -306,8 +345,10 @@ class User
     }
 
     /**
-     * Set website
-     * @param  string $website
+     * Set website.
+     *
+     * @param string $website
+     *
      * @return User
      */
     public function setWebsite($website)
@@ -318,7 +359,8 @@ class User
     }
 
     /**
-     * Get last login
+     * Get last login.
+     *
      * @return \DateTime
      */
     public function getLastLogin()
@@ -327,8 +369,10 @@ class User
     }
 
     /**
-     * Set last login
-     * @param  \DateTime $lastLogin
+     * Set last login.
+     *
+     * @param \DateTime $lastLogin
+     *
      * @return User
      */
     public function setLastLogin(\DateTime $lastLogin)

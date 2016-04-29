@@ -7,19 +7,19 @@ use CommonBundle\Model\UniqueIdentifierTrait;
 use UserBundle\Model\OwnerTrait;
 
 /**
- * BadgeInstance
+ * BadgeInstance.
  *
  * @ORM\Table(name="badge_instance")
  * @ORM\Entity
  */
 class BadgeInstance extends AbstractBadge
 {
-    /**
+    /*
      * ID
      */
     use UniqueIdentifierTrait;
 
-    /**
+    /*
      * Owner
      */
     use OwnerTrait;

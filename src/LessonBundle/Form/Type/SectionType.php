@@ -11,7 +11,7 @@ class SectionType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
-     * @param array $options
+     * @param array                $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -28,7 +28,7 @@ class SectionType extends AbstractType
     {
         $resolver->setDefaults([
             'csrf_protection' => false,
-            'data_class'      => 'LessonBundle\Entity\Section'
+            'data_class' => 'LessonBundle\Entity\Section',
         ]);
     }
 }

@@ -13,26 +13,27 @@ use Elorfin\ResourceBundle\Form\Type\ImageType;
 class SongType extends AbstractType
 {
     /**
-     * Create the Form definition
+     * Create the Form definition.
+     *
      * @param FormBuilderInterface $builder
      * @param array                $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name',    TextType::class, [ 'required' => true ])
+            ->add('name',    TextType::class, ['required' => true])
             ->add('artist',  TextType::class)
             ->add('rating',  NumberType::class)
             ->add('mastery', NumberType::class)
-            ->add('scores',  CollectionType::class, [ 'mapped' => false ])
-            ->add('lyrics',  CollectionType::class, [ 'mapped' => false ])
-            ->add('audios',  CollectionType::class, [ 'mapped' => false ])
-            ->add('videos',  CollectionType::class, [ 'mapped' => false ])
-            ->add('records', CollectionType::class, [ 'mapped' => false ])
+            ->add('scores',  CollectionType::class, ['mapped' => false])
+            ->add('lyrics',  CollectionType::class, ['mapped' => false])
+            ->add('audios',  CollectionType::class, ['mapped' => false])
+            ->add('videos',  CollectionType::class, ['mapped' => false])
+            ->add('records', CollectionType::class, ['mapped' => false])
             ->add('cover',   ImageType::class)
         ;
     }
-    
+
     /**
      * @param OptionsResolver $resolver
      */
@@ -40,7 +41,7 @@ class SongType extends AbstractType
     {
         $resolver->setDefaults([
             'csrf_protection' => false,
-            'data_class'      => 'SongBookBundle\Entity\Song'
+            'data_class' => 'SongBookBundle\Entity\Song',
         ]);
     }
 }

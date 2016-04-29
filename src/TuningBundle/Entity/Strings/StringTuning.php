@@ -8,28 +8,30 @@ use TheoryBundle\Entity\Note\Note;
 
 /**
  * StringTuning Entity
- * Stores a String and its associated Note
+ * Stores a String and its associated Note.
  *
  * @ORM\Entity()
  * @ORM\Table(name="tuning_string")
  */
 class StringTuning implements \JsonSerializable
 {
-    /**
+    /*
      * ID
      */
     use UniqueIdentifierTrait;
 
     /**
-     * Number of the String
-     * @var integer
+     * Number of the String.
+     *
+     * @var int
      *
      * @ORM\Column(type="integer")
      */
     protected $number;
 
     /**
-     * Linked Tuning
+     * Linked Tuning.
+     *
      * @var StringsTuning
      *
      * @ORM\ManyToOne(targetEntity="TuningBundle\Entity\Strings\StringsTuning", inversedBy="strings")
@@ -38,7 +40,8 @@ class StringTuning implements \JsonSerializable
     protected $tuning;
 
     /**
-     * Note of the String
+     * Note of the String.
+     *
      * @var Note
      *
      * @ORM\ManyToOne(targetEntity="TheoryBundle\Entity\Note\Note")
@@ -47,8 +50,9 @@ class StringTuning implements \JsonSerializable
     protected $note;
 
     /**
-     * Get number
-     * @return integer
+     * Get number.
+     *
+     * @return int
      */
     public function getNumber()
     {
@@ -56,8 +60,10 @@ class StringTuning implements \JsonSerializable
     }
 
     /**
-     * Set number
-     * @param  integer $number
+     * Set number.
+     *
+     * @param int $number
+     *
      * @return StringTuning
      */
     public function setNumber($number)
@@ -68,7 +74,8 @@ class StringTuning implements \JsonSerializable
     }
 
     /**
-     * Get Tuning
+     * Get Tuning.
+     *
      * @return StringsTuning
      */
     public function getTuning()
@@ -77,8 +84,10 @@ class StringTuning implements \JsonSerializable
     }
 
     /**
-     * Set Tuning
-     * @param  StringsTuning $tuning
+     * Set Tuning.
+     *
+     * @param StringsTuning $tuning
+     *
      * @return StringTuning
      */
     public function setTuning(StringsTuning $tuning)
@@ -89,7 +98,8 @@ class StringTuning implements \JsonSerializable
     }
 
     /**
-     * Get Note
+     * Get Note.
+     *
      * @return Note
      */
     public function getNote()
@@ -98,8 +108,10 @@ class StringTuning implements \JsonSerializable
     }
 
     /**
-     * Set Note
-     * @param  Note $note
+     * Set Note.
+     *
+     * @param Note $note
+     *
      * @return StringTuning
      */
     public function setNote(Note $note)
@@ -110,7 +122,8 @@ class StringTuning implements \JsonSerializable
     }
 
     /**
-     * Serialize the Entity
+     * Serialize the Entity.
+     *
      * @return array
      */
     public function jsonSerialize()
@@ -118,10 +131,10 @@ class StringTuning implements \JsonSerializable
         return [
             // Identifier of the Resource
             'type' => 'strings',
-            'id'   => $this->id,
+            'id' => $this->id,
 
             // Attributes of the Resource
-            'attributes'    => [
+            'attributes' => [
                 'number' => $this->number,
             ],
 

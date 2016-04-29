@@ -6,13 +6,15 @@ use Doctrine\ORM\Mapping as ORM;
 use InstrumentBundle\Entity\Instrument;
 
 /**
- * Base class for all types of instrument
+ * Base class for all types of instrument.
+ *
  * @ORM\MappedSuperclass()
  */
 abstract class AbstractSpecification implements \JsonSerializable
 {
     /**
-     * General information about the Instrument
+     * General information about the Instrument.
+     *
      * @var Instrument
      *
      * @ORM\OneToOne(targetEntity="InstrumentBundle\Entity\Instrument")
@@ -21,7 +23,8 @@ abstract class AbstractSpecification implements \JsonSerializable
     protected $instrument;
 
     /**
-     * Get info
+     * Get info.
+     *
      * @return Instrument
      */
     public function getInstrument()
@@ -30,8 +33,10 @@ abstract class AbstractSpecification implements \JsonSerializable
     }
 
     /**
-     * Set instrument
-     * @param  Instrument $instrument
+     * Set instrument.
+     *
+     * @param Instrument $instrument
+     *
      * @return AbstractSpecification
      */
     public function setInstrument(Instrument $instrument)

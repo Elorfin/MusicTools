@@ -7,14 +7,14 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Recorder Entity
- * Used to store the configuration of a Recorder
+ * Used to store the configuration of a Recorder.
  *
  * @ORM\Entity()
  * @ORM\Table(name="instrument_recorder")
  */
 class RecorderSpecification extends AbstractSpecification
 {
-    /**
+    /*
      * ID
      */
     use UniqueIdentifierTrait;
@@ -22,7 +22,8 @@ class RecorderSpecification extends AbstractSpecification
     protected $range;
 
     /**
-     * Type of the fingering
+     * Type of the fingering.
+     *
      * @var string
      *
      * @ORM\Column(type="string")
@@ -30,7 +31,8 @@ class RecorderSpecification extends AbstractSpecification
     protected $fingering;
 
     /**
-     * Get range
+     * Get range.
+     *
      * @return string
      */
     public function getRange()
@@ -39,8 +41,10 @@ class RecorderSpecification extends AbstractSpecification
     }
 
     /**
-     * Set range
-     * @param  string $range
+     * Set range.
+     *
+     * @param string $range
+     *
      * @return $this
      */
     public function setRange($range)
@@ -51,7 +55,8 @@ class RecorderSpecification extends AbstractSpecification
     }
 
     /**
-     * Get fingering
+     * Get fingering.
+     *
      * @return string
      */
     public function getFingering()
@@ -60,8 +65,10 @@ class RecorderSpecification extends AbstractSpecification
     }
 
     /**
-     * Set fingering
-     * @param  string $fingering
+     * Set fingering.
+     *
+     * @param string $fingering
+     *
      * @return $this
      */
     public function setFingering($fingering)
@@ -72,18 +79,19 @@ class RecorderSpecification extends AbstractSpecification
     }
 
     /**
-     * Serialize the Entity
+     * Serialize the Entity.
+     *
      * @return array
      */
     public function jsonSerialize()
     {
         return [
             'type' => 'instrument_specifications',
-            'id'   => $this->id,
-            'attributes'  => [
-                'range'     => $this->range,
+            'id' => $this->id,
+            'attributes' => [
+                'range' => $this->range,
                 'fingering' => $this->fingering,
-            ]
+            ],
         ];
     }
 }

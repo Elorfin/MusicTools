@@ -8,14 +8,15 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Elorfin\JsonApiBundle\Response\JsonApiResponse;
 
 /**
- * Degree CRUD Controller
+ * Degree CRUD Controller.
  *
  * @Route("/degrees")
  */
 class DegreeController extends Controller
 {
     /**
-     * List all Degrees
+     * List all Degrees.
+     *
      * @return array
      *
      * @Route("")

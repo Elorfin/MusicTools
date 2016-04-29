@@ -9,36 +9,37 @@ use CommonBundle\Model\DescriptionTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * Forum
+ * Forum.
  *
  * @ORM\Entity()
  * @ORM\Table(name="forum")
  */
 class Forum
 {
-    /**
+    /*
      * ID
      */
     use UniqueIdentifierTrait;
 
-    /**
+    /*
      * Name
      */
     use NameTrait;
 
-    /**
+    /*
      * Description
      */
     use DescriptionTrait;
 
     /**
-     * Threads of the Forum
+     * Threads of the Forum.
+     *
      * @var \Doctrine\Common\Collections\ArrayCollection
      */
     protected $threads;
 
     /**
-     * Entity constructor
+     * Entity constructor.
      */
     public function __construct()
     {
@@ -46,7 +47,8 @@ class Forum
     }
 
     /**
-     * Get threads
+     * Get threads.
+     *
      * @return \Doctrine\Common\Collections\ArrayCollection
      */
     public function getThreads()
@@ -55,8 +57,10 @@ class Forum
     }
 
     /**
-     * Add thread
-     * @param  Thread $thread
+     * Add thread.
+     *
+     * @param Thread $thread
+     *
      * @return Forum
      */
     public function addThread(Thread $thread)
@@ -71,8 +75,10 @@ class Forum
     }
 
     /**
-     * Remove thread
-     * @param  Thread $thread
+     * Remove thread.
+     *
+     * @param Thread $thread
+     *
      * @return Forum
      */
     public function removeThread(Thread $thread)

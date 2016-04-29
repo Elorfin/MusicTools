@@ -9,20 +9,21 @@ use TuningBundle\Entity\AbstractTuning;
 
 /**
  * StringsTuning Entity
- * Stores tuning for string instruments
+ * Stores tuning for string instruments.
  *
  * @ORM\Entity()
  * @ORM\Table(name="tuning_strings")
  */
 class StringsTuning extends AbstractTuning
 {
-    /**
+    /*
      * ID
      */
     use UniqueIdentifierTrait;
 
     /**
-     * List of Strings
+     * List of Strings.
+     *
      * @var \Doctrine\Common\Collections\ArrayCollection
      *
      * @ORM\OneToMany(targetEntity="TuningBundle\Entity\Strings\StringTuning", mappedBy="tuning", cascade={"all"})
@@ -31,7 +32,7 @@ class StringsTuning extends AbstractTuning
     protected $strings;
 
     /**
-     * Entity constructor
+     * Entity constructor.
      */
     public function __construct()
     {
@@ -39,7 +40,8 @@ class StringsTuning extends AbstractTuning
     }
 
     /**
-     * Get strings
+     * Get strings.
+     *
      * @return \Doctrine\Common\Collections\ArrayCollection
      */
     public function getStrings()
@@ -48,8 +50,10 @@ class StringsTuning extends AbstractTuning
     }
 
     /**
-     * Add a string
-     * @param  StringTuning $stringTuning
+     * Add a string.
+     *
+     * @param StringTuning $stringTuning
+     *
      * @return StringsTuning
      */
     public function addString(StringTuning $stringTuning)
@@ -64,8 +68,10 @@ class StringsTuning extends AbstractTuning
     }
 
     /**
-     * Remove a string
-     * @param  StringTuning $stringTuning
+     * Remove a string.
+     *
+     * @param StringTuning $stringTuning
+     *
      * @return StringsTuning
      */
     public function removeString(StringTuning $stringTuning)
@@ -78,7 +84,8 @@ class StringsTuning extends AbstractTuning
     }
 
     /**
-     * Serialize the Entity
+     * Serialize the Entity.
+     *
      * @return array
      */
     public function jsonSerialize()
@@ -86,12 +93,12 @@ class StringsTuning extends AbstractTuning
         return [
             // Identifier of the Resource
             'type' => 'tunings',
-            'id'   => $this->id,
+            'id' => $this->id,
 
             // Attributes of the Resource
-            'attributes'    => [
-                'name'         => $this->name,
-                'default'      => $this->default,
+            'attributes' => [
+                'name' => $this->name,
+                'default' => $this->default,
             ],
 
             // Relationships with other Resources

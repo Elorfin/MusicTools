@@ -20,7 +20,8 @@ use Symfony\Component\HttpFoundation\Request;
 class LessonController extends Controller
 {
     /**
-     * List all Lessons
+     * List all Lessons.
+     *
      * @return JsonApiResponse
      *
      * @Route("")
@@ -37,8 +38,10 @@ class LessonController extends Controller
     }
 
     /**
-     * Get a Lesson
-     * @param  Lesson $lesson - The requested Lesson
+     * Get a Lesson.
+     *
+     * @param Lesson $lesson - The requested Lesson
+     *
      * @return JsonApiResponse
      *
      * @Route("/{id}")
@@ -50,7 +53,8 @@ class LessonController extends Controller
     }
 
     /**
-     * Create a new Lesson
+     * Create a new Lesson.
+     *
      * @return JsonApiResponse
      *
      * @Route("")
@@ -58,13 +62,14 @@ class LessonController extends Controller
      */
     public function createAction()
     {
-
     }
 
     /**
-     * Update an existing Lesson
-     * @param  Lesson $lesson - The Lesson to update
-     * @param  Request    $request
+     * Update an existing Lesson.
+     *
+     * @param Lesson  $lesson  - The Lesson to update
+     * @param Request $request
+     *
      * @return JsonApiResponse
      *
      * @Route("/{id}")
@@ -91,8 +96,10 @@ class LessonController extends Controller
     }
 
     /**
-     * Delete a Lesson
-     * @param  Lesson $lesson - The Lesson to delete
+     * Delete a Lesson.
+     *
+     * @param Lesson $lesson - The Lesson to delete
+     *
      * @return JsonApiResponse
      *
      * @Route("/{id}")
@@ -108,6 +115,7 @@ class LessonController extends Controller
 
     /**
      * @param $form
+     *
      * @return array
      */
     private function getFormErrors(FormInterface $form)

@@ -7,22 +7,21 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\FormInterface;
-
 use Elorfin\JsonApiBundle\Response\JsonApiResponse;
 use Elorfin\JsonApiBundle\Response\JsonErrorResponse;
-
 use InstrumentBundle\Entity\Instrument;
 use InstrumentBundle\Form\Type\InstrumentType;
 
 /**
- * Instrument CRUD Controller
+ * Instrument CRUD Controller.
  *
  * @Route("/instruments")
  */
 class InstrumentController extends Controller
 {
     /**
-     * List all generic Instruments of the platform
+     * List all generic Instruments of the platform.
+     *
      * @return JsonApiResponse
      *
      * @Route("/generic")
@@ -30,11 +29,11 @@ class InstrumentController extends Controller
      */
     public function listGenericAction()
     {
-
     }
 
     /**
-     * List all Instruments of a User
+     * List all Instruments of a User.
+     *
      * @return JsonApiResponse
      *
      * @Route("")
@@ -51,8 +50,10 @@ class InstrumentController extends Controller
     }
 
     /**
-     * Display an Instrument entity
-     * @param  Instrument $instrument
+     * Display an Instrument entity.
+     *
+     * @param Instrument $instrument
+     *
      * @return JsonApiResponse
      *
      * @Route("/{id}")
@@ -64,8 +65,10 @@ class InstrumentController extends Controller
     }
 
     /**
-     * Create a new Instrument
-     * @param  Request $request
+     * Create a new Instrument.
+     *
+     * @param Request $request
+     *
      * @return JsonApiResponse
      *
      * @Route("")
@@ -91,9 +94,11 @@ class InstrumentController extends Controller
     }
 
     /**
-     * Edit an Instrument
-     * @param  Instrument $instrument
-     * @param  Request    $request
+     * Edit an Instrument.
+     *
+     * @param Instrument $instrument
+     * @param Request    $request
+     *
      * @return array
      *
      * @Route("/{id}")
@@ -120,8 +125,10 @@ class InstrumentController extends Controller
     }
 
     /**
-     * Delete an Instrument
-     * @param  Instrument $instrument
+     * Delete an Instrument.
+     *
+     * @param Instrument $instrument
+     *
      * @return array
      *
      * @Route("/{id}")
@@ -137,6 +144,7 @@ class InstrumentController extends Controller
 
     /**
      * @param $form
+     *
      * @return array
      */
     private function getFormErrors(FormInterface $form)

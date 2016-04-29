@@ -51,10 +51,10 @@ class UserController extends Controller
         $repo = $this->container->get('doctrine.orm.entity_manager')->getRepository('UserBundle:User');
 
         return array(
-            'entity'    => $user,
+            'entity' => $user,
             'isCurrent' => $isCurrentMusician,
             'counts' => array(
-                'songs'   => $repo->countSongs($user),
+                'songs' => $repo->countSongs($user),
                 'guitars' => 0,
                 'friends' => $repo->countFriends($user),
             ),
@@ -80,7 +80,7 @@ class UserController extends Controller
         }
 
         return array(
-            'entity'    => $user,
+            'entity' => $user,
             'edit_form' => $form->createView(),
         );
     }

@@ -8,14 +8,15 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Elorfin\JsonApiBundle\Response\JsonApiResponse;
 
 /**
- * Interval CRUD Controller
+ * Interval CRUD Controller.
  *
  * @Route("/intervals")
  */
 class IntervalController extends Controller
 {
     /**
-     * List all Intervals
+     * List all Intervals.
+     *
      * @return array
      *
      * @Route("")

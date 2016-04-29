@@ -6,14 +6,14 @@ use Doctrine\ORM\Mapping as ORM;
 use CommonBundle\Model\UniqueIdentifierTrait;
 
 /**
- * BadgeDefinition
+ * BadgeDefinition.
  *
  * @ORM\Table(name="badge_definition")
  * @ORM\Entity
  */
 class BadgeDefinition extends AbstractBadge
 {
-    /**
+    /*
      * ID
      */
     use UniqueIdentifierTrait;

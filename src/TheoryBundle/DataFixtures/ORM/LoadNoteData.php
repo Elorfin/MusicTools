@@ -9,12 +9,12 @@ use TheoryBundle\Entity\Note\Note;
 use TheoryBundle\Entity\Note\NoteInfo;
 
 /**
- * Initializes Notes
+ * Initializes Notes.
  */
 class LoadNoteData extends AbstractFixture implements OrderedFixtureInterface
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getOrder()
     {
@@ -22,39 +22,39 @@ class LoadNoteData extends AbstractFixture implements OrderedFixtureInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function load(ObjectManager $manager)
     {
-        $notesInfoArray = array (
+        $notesInfoArray = array(
             // C
-            array ('sharp_name' => 'C', 'flat_name' => 'C', 'accidental' => false, 'color' => '#006cb7'),
+            array('sharp_name' => 'C', 'flat_name' => 'C', 'accidental' => false, 'color' => '#006cb7'),
             // C♯ / D♭
-            array ('sharp_name' => 'C♯', 'flat_name' => 'D♭', 'accidental' => true, 'color' => '#008e83'),
+            array('sharp_name' => 'C♯', 'flat_name' => 'D♭', 'accidental' => true, 'color' => '#008e83'),
             // D
-            array ('sharp_name' => 'D', 'flat_name' => 'D', 'accidental' => false, 'color' => '#00854a'),
+            array('sharp_name' => 'D', 'flat_name' => 'D', 'accidental' => false, 'color' => '#00854a'),
             // D♯ / E♭
-            array ('sharp_name' => 'D♯', 'flat_name' => 'E♭', 'accidental' => true, 'color' => '#7fb439'),
+            array('sharp_name' => 'D♯', 'flat_name' => 'E♭', 'accidental' => true, 'color' => '#7fb439'),
             // E
-            array ('sharp_name' => 'E', 'flat_name' => 'E', 'accidental' => false, 'color' => '#fdb813'),
+            array('sharp_name' => 'E', 'flat_name' => 'E', 'accidental' => false, 'color' => '#fdb813'),
             // F
-            array ('sharp_name' => 'F', 'flat_name' => 'F', 'accidental' => false, 'color' => '#584742'),
+            array('sharp_name' => 'F', 'flat_name' => 'F', 'accidental' => false, 'color' => '#584742'),
             // F♯ / G♭
-            array ('sharp_name' => 'F♯', 'flat_name' => 'G♭', 'accidental' => true, 'color' => '#c15e20'),
+            array('sharp_name' => 'F♯', 'flat_name' => 'G♭', 'accidental' => true, 'color' => '#c15e20'),
             // G
-            array ('sharp_name' => 'G', 'flat_name' => 'G', 'accidental' => false, 'color' => '#f58220'),
+            array('sharp_name' => 'G', 'flat_name' => 'G', 'accidental' => false, 'color' => '#f58220'),
             // G♯ / A♭
-            array ('sharp_name' => 'G♯', 'flat_name' => 'A♭', 'accidental' => true, 'color' => '#f04e46'),
+            array('sharp_name' => 'G♯', 'flat_name' => 'A♭', 'accidental' => true, 'color' => '#f04e46'),
             // A
-            array ('sharp_name' => 'A', 'flat_name' => 'A', 'accidental' => false, 'color' => '#8f0000'),
+            array('sharp_name' => 'A', 'flat_name' => 'A', 'accidental' => false, 'color' => '#8f0000'),
             // A♯ / B♭
-            array ('sharp_name' => 'A♯', 'flat_name' => 'B♭', 'accidental' => true, 'color' => '#a23e97'),
+            array('sharp_name' => 'A♯', 'flat_name' => 'B♭', 'accidental' => true, 'color' => '#a23e97'),
             // B
-            array ('sharp_name' => 'B', 'flat_name' => 'B', 'accidental' => false, 'color' => '#6a489d'),
+            array('sharp_name' => 'B', 'flat_name' => 'B', 'accidental' => false, 'color' => '#6a489d'),
         );
 
         // Generate NoteInfo
-        $notesInfo = array ();
+        $notesInfo = array();
         foreach ($notesInfoArray as $noteInfoData) {
             $noteInfo = new NoteInfo();
 
@@ -73,19 +73,19 @@ class LoadNoteData extends AbstractFixture implements OrderedFixtureInterface
         $midi = 12;
 
         // A 440
-        $refFreq  = 440.000;
+        $refFreq = 440.000;
         $refValue = 57;
 
         // Generates notes
-        $notes = array ();
-        for ($octave = 0; $octave < 9; $octave++) {
+        $notes = array();
+        for ($octave = 0; $octave < 9; ++$octave) {
             // Generate octaves
-            for ($noteNum = 0; $noteNum < 12; $noteNum++) {
+            for ($noteNum = 0; $noteNum < 12; ++$noteNum) {
                 // Generate notes by octave
                 $note = new Note();
 
-                $value =  ($noteNum + ($octave * 12));
-                $frequency = $refFreq * (pow(2, ( ($value - $refValue) / 12)));
+                $value = ($noteNum + ($octave * 12));
+                $frequency = $refFreq * (pow(2, (($value - $refValue) / 12)));
                 $frequency = round($frequency, 3);
 
                 $note->setOctave($octave);
@@ -95,7 +95,7 @@ class LoadNoteData extends AbstractFixture implements OrderedFixtureInterface
                 $note->setInfo($notesInfo[$noteNum]);
 
                 // Link Note to the previous one
-                if ( !empty($notes[count($notes) - 1]) ) {
+                if (!empty($notes[count($notes) - 1])) {
                     $note->setPrevious($notes[count($notes) - 1]);
                 }
 
@@ -105,7 +105,7 @@ class LoadNoteData extends AbstractFixture implements OrderedFixtureInterface
                 $manager->persist($note);
 
                 // Increment midi number
-                $midi++;
+                ++$midi;
             }
         }
 

@@ -9,15 +9,17 @@ use Elorfin\JsonApiBundle\Response\JsonApiResponse;
 use InstrumentBundle\Entity\InstrumentType;
 
 /**
- * Tuning CRUD Controller
+ * Tuning CRUD Controller.
  *
  * @Route("/instrument_types/{instrumentType}/tunings")
  */
 class TuningController extends Controller
 {
     /**
-     * List all Templates
-     * @param  InstrumentType $instrumentType
+     * List all Templates.
+     *
+     * @param InstrumentType $instrumentType
+     *
      * @return array
      *
      * @Route("")
@@ -29,18 +31,20 @@ class TuningController extends Controller
             ->get('doctrine.orm.entity_manager')
             ->getRepository($instrumentType->getTemplate())
             ->findBy([
-                'type' => $instrumentType
+                'type' => $instrumentType,
             ], [
-                'name' => 'ASC'
+                'name' => 'ASC',
             ]);
 
         return new JsonApiResponse($entities);
     }
 
     /**
-     * Display an Template entity
-     * @param  InstrumentType $instrumentType
-     * @param  integer $id
+     * Display an Template entity.
+     *
+     * @param InstrumentType $instrumentType
+     * @param int            $id
+     *
      * @return mixed
      *
      * @Route("/{id}")
@@ -54,11 +58,13 @@ class TuningController extends Controller
     }
 
     /**
-     * Retrieve an Instrument entity
+     * Retrieve an Instrument entity.
      *
      * @param InstrumentType $instrumentType
-     * @param  string $id
+     * @param string         $id
+     *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+     *
      * @return AbstractTuning
      */
     private function getEntity(InstrumentType $instrumentType, $id)

@@ -7,25 +7,26 @@ use CommonBundle\Model\UniqueIdentifierTrait;
 use CommonBundle\Model\NameTrait;
 
 /**
- * Interval Entity
+ * Interval Entity.
  *
  * @ORM\Entity()
  * @ORM\Table(name="theory_interval")
  */
 class Interval implements \JsonSerializable
 {
-    /**
+    /*
      * ID
      */
     use UniqueIdentifierTrait;
 
-    /**
+    /*
      * Name
      */
     use NameTrait;
 
     /**
-     * Symbol of the Interval
+     * Symbol of the Interval.
+     *
      * @var string
      *
      * @ORM\Column(type="string")
@@ -33,15 +34,17 @@ class Interval implements \JsonSerializable
     protected $symbol;
 
     /**
-     * Number of the Interval
-     * @var integer
+     * Number of the Interval.
+     *
+     * @var int
      *
      * @ORM\Column(type="integer")
      */
     protected $number;
 
     /**
-     * Quality of the Interval (perfect, minor, major, diminished or augmented)
+     * Quality of the Interval (perfect, minor, major, diminished or augmented).
+     *
      * @var string
      *
      * @ORM\Column(type="string")
@@ -49,15 +52,17 @@ class Interval implements \JsonSerializable
     protected $quality;
 
     /**
-     * Value of the Interval (in semitones)
-     * @var integer
+     * Value of the Interval (in semitones).
+     *
+     * @var int
      *
      * @ORM\Column(type="integer")
      */
     protected $value;
 
     /**
-     * Get symbol
+     * Get symbol.
+     *
      * @return string
      */
     public function getSymbol()
@@ -66,8 +71,10 @@ class Interval implements \JsonSerializable
     }
 
     /**
-     * Set symbol
-     * @param  string $symbol
+     * Set symbol.
+     *
+     * @param string $symbol
+     *
      * @return $this
      */
     public function setSymbol($symbol)
@@ -78,8 +85,9 @@ class Interval implements \JsonSerializable
     }
 
     /**
-     * Get number
-     * @return integer
+     * Get number.
+     *
+     * @return int
      */
     public function getNumber()
     {
@@ -87,8 +95,10 @@ class Interval implements \JsonSerializable
     }
 
     /**
-     * Set number
-     * @param  integer $number
+     * Set number.
+     *
+     * @param int $number
+     *
      * @return $this
      */
     public function setNumber($number)
@@ -99,7 +109,8 @@ class Interval implements \JsonSerializable
     }
 
     /**
-     * Get quality
+     * Get quality.
+     *
      * @return string
      */
     public function getQuality()
@@ -108,8 +119,10 @@ class Interval implements \JsonSerializable
     }
 
     /**
-     * Set quality
-     * @param  string $quality
+     * Set quality.
+     *
+     * @param string $quality
+     *
      * @return $this
      */
     public function setQuality($quality)
@@ -120,8 +133,9 @@ class Interval implements \JsonSerializable
     }
 
     /**
-     * Get value (in semitones)
-     * @return integer
+     * Get value (in semitones).
+     *
+     * @return int
      */
     public function getValue()
     {
@@ -129,8 +143,10 @@ class Interval implements \JsonSerializable
     }
 
     /**
-     * Set value
-     * @param  integer $value
+     * Set value.
+     *
+     * @param int $value
+     *
      * @return $this
      */
     public function setValue($value)
@@ -141,21 +157,22 @@ class Interval implements \JsonSerializable
     }
 
     /**
-     * Serialize the Entity
+     * Serialize the Entity.
+     *
      * @return array
      */
     public function jsonSerialize()
     {
-        return array (
+        return array(
             'type' => 'intervals',
-            'id'   => $this->id,
-            'attributes'  => array (
-                'name'    => $this->name,
-                'symbol'  => $this->symbol,
-                'number'  => $this->number,
+            'id' => $this->id,
+            'attributes' => array(
+                'name' => $this->name,
+                'symbol' => $this->symbol,
+                'number' => $this->number,
                 'quality' => $this->quality,
-                'value'   => $this->value,
-            )
+                'value' => $this->value,
+            ),
         );
     }
 }

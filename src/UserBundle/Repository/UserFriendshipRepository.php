@@ -7,12 +7,13 @@ use UserBundle\Entity\User;
 use UserBundle\Entity\UserFriendship;
 
 /**
- * Fetches UserFriendship data from DB
+ * Fetches UserFriendship data from DB.
  */
 class UserFriendshipRepository extends EntityRepository
 {
     /**
-     * @param  User $user
+     * @param User $user
+     *
      * @return array
      */
     public function findFriends(User $user)
@@ -28,50 +29,54 @@ class UserFriendshipRepository extends EntityRepository
     }
 
     /**
-     * @param  User $user
+     * @param User $user
+     *
      * @return array
      */
     public function findPendingSentRequests(User $user)
     {
         return $this->findBy([
             'fromUser' => $user,
-            'status'   => UserFriendship::STATUS_PENDING
+            'status' => UserFriendship::STATUS_PENDING,
         ]);
     }
 
     /**
-     * @param  User $user
+     * @param User $user
+     *
      * @return array
      */
     public function findPendingReceivedRequests(User $user)
     {
         return $this->findBy([
             'toUser' => $user,
-            'status'   => UserFriendship::STATUS_PENDING
+            'status' => UserFriendship::STATUS_PENDING,
         ]);
     }
 
     /**
-     * @param  User $user
+     * @param User $user
+     *
      * @return array
      */
     public function findRejectedSentRequests(User $user)
     {
         return $this->findBy([
             'fromUser' => $user,
-            'status'   => UserFriendship::STATUS_REJECTED
+            'status' => UserFriendship::STATUS_REJECTED,
         ]);
     }
 
     /**
-     * @param  User $user
+     * @param User $user
+     *
      * @return array
      */
     public function findRejectedReceivedRequests(User $user)
     {
         return $this->findBy([
             'toUser' => $user,
-            'status'   => UserFriendship::STATUS_REJECTED
+            'status' => UserFriendship::STATUS_REJECTED,
         ]);
     }
 }

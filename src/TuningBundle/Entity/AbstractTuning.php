@@ -8,24 +8,25 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * AbstractTuning
- * Base class Tunings
+ * Base class Tunings.
  *
  * @ORM\MappedSuperclass
  */
 abstract class AbstractTuning implements \JsonSerializable
 {
-    /**
+    /*
      * Name
      */
     use NameTrait;
 
-    /**
+    /*
      * Is it the default Tuning of its category ?
      */
     use DefaultTrait;
 
     /**
-     * Category of the Tuning
+     * Category of the Tuning.
+     *
      * @var TuningCategory
      *
      * @ORM\ManyToOne(targetEntity="TuningBundle\Entity\TuningCategory")
@@ -34,7 +35,8 @@ abstract class AbstractTuning implements \JsonSerializable
     protected $category;
 
     /**
-     * Get category
+     * Get category.
+     *
      * @return TuningCategory
      */
     public function getCategory()
@@ -43,8 +45,10 @@ abstract class AbstractTuning implements \JsonSerializable
     }
 
     /**
-     * Set category
-     * @param  TuningCategory $category
+     * Set category.
+     *
+     * @param TuningCategory $category
+     *
      * @return AbstractTuning
      */
     public function setCategory(TuningCategory $category = null)

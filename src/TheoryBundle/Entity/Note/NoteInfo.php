@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use CommonBundle\Model\UniqueIdentifierTrait;
 
 /**
- * Note Info Entity
+ * Note Info Entity.
  *
  * @ORM\Entity()
  * @ORM\Table(name="theory_note_info")
@@ -14,15 +14,16 @@ use CommonBundle\Model\UniqueIdentifierTrait;
 class NoteInfo
 {
     const DISPLAY_SHARP = 'sharpName';
-    const DISPLAY_FLAT  = 'flatName';
+    const DISPLAY_FLAT = 'flatName';
 
-    /**
+    /*
      * ID
      */
     use UniqueIdentifierTrait;
 
     /**
-     * Sharp Name of the Note
+     * Sharp Name of the Note.
+     *
      * @var string
      *
      * @ORM\Column(name="sharp_name", type="string", length=10)
@@ -30,7 +31,8 @@ class NoteInfo
     protected $sharpName;
 
     /**
-     * Flat Name of the Note
+     * Flat Name of the Note.
+     *
      * @var string
      *
      * @ORM\Column(name="flat_name", type="string", length=10)
@@ -39,14 +41,16 @@ class NoteInfo
 
     /**
      * Is the Note accidental ?
-     * @var boolean
+     *
+     * @var bool
      *
      * @ORM\Column(type="boolean")
      */
     protected $accidental = false;
 
     /**
-     * Color of the Note
+     * Color of the Note.
+     *
      * @var string
      *
      * @ORM\Column(type="string")
@@ -54,8 +58,10 @@ class NoteInfo
     protected $color;
 
     /**
-     * Get name
-     * @param  string $displayType
+     * Get name.
+     *
+     * @param string $displayType
+     *
      * @return string
      */
     public function getName($displayType = self::DISPLAY_SHARP)
@@ -66,7 +72,8 @@ class NoteInfo
     }
 
     /**
-     * Get sharp name
+     * Get sharp name.
+     *
      * @return string
      */
     public function getSharpName()
@@ -75,8 +82,10 @@ class NoteInfo
     }
 
     /**
-     * Set sharp name
+     * Set sharp name.
+     *
      * @param string $sharpName
+     *
      * @return NoteInfo
      */
     public function setSharpName($sharpName)
@@ -87,7 +96,8 @@ class NoteInfo
     }
 
     /**
-     * Get flat name
+     * Get flat name.
+     *
      * @return string
      */
     public function getFlatName()
@@ -96,8 +106,10 @@ class NoteInfo
     }
 
     /**
-     * Set flat name
+     * Set flat name.
+     *
      * @param string $flatName
+     *
      * @return NoteInfo
      */
     public function setFlatName($flatName)
@@ -109,7 +121,8 @@ class NoteInfo
 
     /**
      * Is accidental ?
-     * @return boolean
+     *
+     * @return bool
      */
     public function isAccidental()
     {
@@ -117,8 +130,10 @@ class NoteInfo
     }
 
     /**
-     * Set accidental
-     * @param boolean $accidental
+     * Set accidental.
+     *
+     * @param bool $accidental
+     *
      * @return NoteInfo
      */
     public function setAccidental($accidental)
@@ -129,7 +144,8 @@ class NoteInfo
     }
 
     /**
-     * Get color
+     * Get color.
+     *
      * @return string
      */
     public function getColor()
@@ -138,8 +154,10 @@ class NoteInfo
     }
 
     /**
-     * Set color
-     * @param  string $color
+     * Set color.
+     *
+     * @param string $color
+     *
      * @return NoteInfo
      */
     public function setColor($color)

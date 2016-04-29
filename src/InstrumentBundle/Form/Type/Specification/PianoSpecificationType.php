@@ -6,12 +6,13 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Class PianoSpecificationType
+ * Class PianoSpecificationType.
  */
 class PianoSpecificationType extends AbstractSpecificationType
 {
     /**
-     * Create the Form definition
+     * Create the Form definition.
+     *
      * @param FormBuilderInterface $builder
      * @param array                $options
      */
@@ -27,7 +28,7 @@ class PianoSpecificationType extends AbstractSpecificationType
     {
         $resolver->setDefaults([
             'csrf_protection' => false,
-            'data_class'      => 'InstrumentBundle\Entity\Specification\PianoSpecification'
+            'data_class' => 'InstrumentBundle\Entity\Specification\PianoSpecification',
         ]);
     }
 }

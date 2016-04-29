@@ -12,7 +12,7 @@ use UserBundle\Model\OwnerTrait;
 
 /**
  * Instrument Entity
- * Used to store the common configuration of all types of instrument
+ * Used to store the common configuration of all types of instrument.
  *
  * @ORM\Entity()
  * @ORM\EntityListeners({"\InstrumentBundle\Listener\InstrumentListener"})
@@ -20,33 +20,34 @@ use UserBundle\Model\OwnerTrait;
  */
 class Instrument implements \JsonSerializable
 {
-    /**
+    /*
      * ID
      */
     use UniqueIdentifierTrait;
 
-    /**
+    /*
      * Name
      */
     use NameTrait;
 
-    /**
+    /*
      * Is the default User instrument ?
      */
     use DefaultTrait;
 
-    /**
+    /*
      * Favourite
      */
     use FavouriteTrait;
 
-    /**
+    /*
      * Owner
      */
     use OwnerTrait;
 
     /**
-     * Type of the Instrument
+     * Type of the Instrument.
+     *
      * @var InstrumentType
      *
      * @ORM\ManyToOne(targetEntity="InstrumentBundle\Entity\InstrumentType")
@@ -55,13 +56,15 @@ class Instrument implements \JsonSerializable
     protected $instrumentType;
 
     /**
-     * Specification of the Instrument
+     * Specification of the Instrument.
+     *
      * @var AbstractSpecification
      */
     protected $specification;
 
     /**
-     * Manufacturer of the Guitar
+     * Manufacturer of the Guitar.
+     *
      * @var string
      *
      * @ORM\Column(type="string", nullable=true)
@@ -69,7 +72,8 @@ class Instrument implements \JsonSerializable
     protected $manufacturer;
 
     /**
-     * Model of the Guitar
+     * Model of the Guitar.
+     *
      * @var string
      *
      * @ORM\Column(type="string", nullable=true)
@@ -77,7 +81,8 @@ class Instrument implements \JsonSerializable
     protected $model;
 
     /**
-     * Get type of the Instrument
+     * Get type of the Instrument.
+     *
      * @return InstrumentType
      */
     public function getInstrumentType()
@@ -86,8 +91,10 @@ class Instrument implements \JsonSerializable
     }
 
     /**
-     * Set type of the Instrument
+     * Set type of the Instrument.
+     *
      * @param InstrumentType $instrumentType
+     *
      * @return Instrument
      */
     public function setInstrumentType(InstrumentType $instrumentType)
@@ -98,7 +105,8 @@ class Instrument implements \JsonSerializable
     }
 
     /**
-     * Get specification
+     * Get specification.
+     *
      * @return AbstractSpecification
      */
     public function getSpecification()
@@ -107,8 +115,10 @@ class Instrument implements \JsonSerializable
     }
 
     /**
-     * Set specification
+     * Set specification.
+     *
      * @param AbstractSpecification $specification
+     *
      * @return Instrument
      */
     public function setSpecification(AbstractSpecification $specification)
@@ -122,7 +132,8 @@ class Instrument implements \JsonSerializable
     }
 
     /**
-     * Get manufacturer
+     * Get manufacturer.
+     *
      * @return string
      */
     public function getManufacturer()
@@ -131,8 +142,10 @@ class Instrument implements \JsonSerializable
     }
 
     /**
-     * Set manufacturer
+     * Set manufacturer.
+     *
      * @param string $manufacturer
+     *
      * @return Instrument
      */
     public function setManufacturer($manufacturer)
@@ -143,7 +156,8 @@ class Instrument implements \JsonSerializable
     }
 
     /**
-     * Get model
+     * Get model.
+     *
      * @return string
      */
     public function getModel()
@@ -152,8 +166,10 @@ class Instrument implements \JsonSerializable
     }
 
     /**
-     * Set model
+     * Set model.
+     *
      * @param string $model
+     *
      * @return Instrument
      */
     public function setModel($model)
@@ -164,7 +180,8 @@ class Instrument implements \JsonSerializable
     }
 
     /**
-     * Serialize the Entity
+     * Serialize the Entity.
+     *
      * @return array
      */
     public function jsonSerialize()
@@ -172,15 +189,15 @@ class Instrument implements \JsonSerializable
         return [
             // Identifier of the Resource
             'type' => 'instruments',
-            'id'   => $this->id,
+            'id' => $this->id,
 
             // Attributes of the Resource
-            'attributes'    => [
-                'name'         => $this->name,
-                'default'      => $this->default,
-                'favourite'    => $this->favourite,
+            'attributes' => [
+                'name' => $this->name,
+                'default' => $this->default,
+                'favourite' => $this->favourite,
                 'manufacturer' => $this->manufacturer,
-                'model'        => $this->model,
+                'model' => $this->model,
             ],
 
             // Relationships with other Resources
@@ -190,7 +207,7 @@ class Instrument implements \JsonSerializable
                 ],
                 'specification' => [
                     'data' => $this->specification,
-                ]
+                ],
             ],
         ];
     }

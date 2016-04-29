@@ -7,39 +7,42 @@ use CommonBundle\Model\UniqueIdentifierTrait;
 use UserBundle\Model\OwnerTrait;
 
 /**
- * Post
+ * Post.
  *
  * @ORM\Entity()
  * @ORM\Table(name="forum_post")
  */
 class Post
 {
-    /**
+    /*
      * ID
      */
     use UniqueIdentifierTrait;
 
     /**
-     * Content text of the Post
+     * Content text of the Post.
+     *
      * @var string
      *
      * @ORM\Column(type="text")
      */
     protected $content;
 
-    /**
+    /*
      * Owner
      */
     use OwnerTrait;
 
     /**
-     * Thread belongs the Post
+     * Thread belongs the Post.
+     *
      * @var Thread
      */
     protected $thread;
 
     /**
-     * Get id
+     * Get id.
+     *
      * @return string
      */
     public function getId()
@@ -48,7 +51,8 @@ class Post
     }
 
     /**
-     * Get content
+     * Get content.
+     *
      * @return string
      */
     public function getContent()
@@ -57,8 +61,10 @@ class Post
     }
 
     /**
-     * Set content
+     * Set content.
+     *
      * @param string $content
+     *
      * @return Post
      */
     public function setText($content)
@@ -69,7 +75,8 @@ class Post
     }
 
     /**
-     * Get thread
+     * Get thread.
+     *
      * @return Thread
      */
     public function getThread()
@@ -78,8 +85,10 @@ class Post
     }
 
     /**
-     * Set thread
-     * @param  Thread $thread
+     * Set thread.
+     *
+     * @param Thread $thread
+     *
      * @return Post
      */
     public function setThread(Thread $thread = null)

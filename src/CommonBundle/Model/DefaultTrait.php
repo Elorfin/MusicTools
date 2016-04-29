@@ -3,13 +3,14 @@
 namespace CommonBundle\Model;
 
 /**
- * Add a `default` field to an Entity class
+ * Add a `default` field to an Entity class.
  */
 trait DefaultTrait
 {
     /**
      * Is default ?
-     * @var boolean
+     *
+     * @var bool
      *
      * @ORM\Column(type="boolean", name="is_default")
      */
@@ -17,7 +18,8 @@ trait DefaultTrait
 
     /**
      * Is default ?
-     * @return boolean
+     *
+     * @return bool
      */
     public function isDefault()
     {
@@ -25,8 +27,10 @@ trait DefaultTrait
     }
 
     /**
-     * Set default
-     * @param  boolean $default
+     * Set default.
+     *
+     * @param bool $default
+     *
      * @return $this
      */
     public function setDefault($default)

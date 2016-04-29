@@ -5,12 +5,13 @@ namespace UserBundle\Model;
 use UserBundle\Entity\User;
 
 /**
- * Add a `owner` field to an Entity class
+ * Add a `owner` field to an Entity class.
  */
 trait OwnerTrait
 {
     /**
-     * User owner
+     * User owner.
+     *
      * @var User
      *
      * @ORM\ManyToOne(targetEntity="UserBundle\Entity\User")
@@ -19,7 +20,8 @@ trait OwnerTrait
     protected $owner;
 
     /**
-     * Get owner
+     * Get owner.
+     *
      * @return User
      */
     public function getOwner()
@@ -28,8 +30,10 @@ trait OwnerTrait
     }
 
     /**
-     * Set owner
-     * @param  User $owner
+     * Set owner.
+     *
+     * @param User $owner
+     *
      * @return $this
      */
     public function setOwner(User $owner)

@@ -3,12 +3,13 @@
 namespace CommonBundle\Model;
 
 /**
- * Add a `description` field to an Entity class
+ * Add a `description` field to an Entity class.
  */
 trait DescriptionTrait
 {
     /**
-     * Description of the Entity
+     * Description of the Entity.
+     *
      * @var string
      *
      * @ORM\Column(type="text", nullable=true)
@@ -16,7 +17,8 @@ trait DescriptionTrait
     protected $description;
 
     /**
-     * Get description
+     * Get description.
+     *
      * @return string
      */
     public function getDescription()
@@ -25,8 +27,10 @@ trait DescriptionTrait
     }
 
     /**
-     * Set description
-     * @param  string $description
+     * Set description.
+     *
+     * @param string $description
+     *
      * @return $this
      */
     public function setDescription($description)

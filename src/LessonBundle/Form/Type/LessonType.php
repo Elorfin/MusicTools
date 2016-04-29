@@ -12,7 +12,7 @@ class LessonType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
-     * @param array $options
+     * @param array                $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -33,7 +33,7 @@ class LessonType extends AbstractType
     {
         $resolver->setDefaults([
             'csrf_protection' => false,
-            'data_class' => 'LessonBundle\Entity\Lesson'
+            'data_class' => 'LessonBundle\Entity\Lesson',
         ]);
     }
 }

@@ -7,36 +7,39 @@ use CommonBundle\Model\UniqueIdentifierTrait;
 use TheoryBundle\Entity\Interval;
 
 /**
- * Note Entity
+ * Note Entity.
  *
  * @ORM\Entity()
  * @ORM\Table(name="theory_note")
  */
 class Note implements \JsonSerializable
 {
-    /**
+    /*
      * ID
      */
     use UniqueIdentifierTrait;
 
     /**
-     * Note relative value (in semitones) to C0
-     * @var integer
+     * Note relative value (in semitones) to C0.
+     *
+     * @var int
      *
      * @ORM\Column(name="note_value", type="integer")
      */
     protected $value;
 
     /**
-     * Octave of the Note
-     * @var integer
+     * Octave of the Note.
+     *
+     * @var int
      *
      * @ORM\Column(type="integer")
      */
     protected $octave;
 
     /**
-     * Frequency of the Note (in Hz)
+     * Frequency of the Note (in Hz).
+     *
      * @var float
      *
      * @ORM\Column(type="float", precision=3)
@@ -44,15 +47,17 @@ class Note implements \JsonSerializable
     protected $frequency;
 
     /**
-     * Midi number of the Note
-     * @var integer
+     * Midi number of the Note.
+     *
+     * @var int
      *
      * @ORM\Column(type="integer")
      */
     protected $midi;
 
     /**
-     * Info of the Note (name, color, etc.)
+     * Info of the Note (name, color, etc.).
+     *
      * @var NoteInfo
      *
      * @ORM\ManyToOne(targetEntity="TheoryBundle\Entity\Note\NoteInfo", cascade={"remove", "persist"})
@@ -61,7 +66,8 @@ class Note implements \JsonSerializable
     protected $info;
 
     /**
-     * Previous note
+     * Previous note.
+     *
      * @var Note
      *
      * @ORM\OneToOne(targetEntity="TheoryBundle\Entity\Note\Note")
@@ -70,7 +76,8 @@ class Note implements \JsonSerializable
     protected $previous;
 
     /**
-     * Next note
+     * Next note.
+     *
      * @var Note
      *
      * @ORM\OneToOne(targetEntity="TheoryBundle\Entity\Note\Note")
@@ -79,8 +86,9 @@ class Note implements \JsonSerializable
     protected $next;
 
     /**
-     * Get value
-     * @return integer
+     * Get value.
+     *
+     * @return int
      */
     public function getValue()
     {
@@ -88,8 +96,10 @@ class Note implements \JsonSerializable
     }
 
     /**
-     * Set value
-     * @param  integer $value
+     * Set value.
+     *
+     * @param int $value
+     *
      * @return Note
      */
     public function setValue($value)
@@ -100,8 +110,9 @@ class Note implements \JsonSerializable
     }
 
     /**
-     * Get octave
-     * @return integer
+     * Get octave.
+     *
+     * @return int
      */
     public function getOctave()
     {
@@ -109,8 +120,10 @@ class Note implements \JsonSerializable
     }
 
     /**
-     * Set octave
-     * @param  integer $octave
+     * Set octave.
+     *
+     * @param int $octave
+     *
      * @return Note
      */
     public function setOctave($octave)
@@ -121,8 +134,9 @@ class Note implements \JsonSerializable
     }
 
     /**
-     * Get frequency
-     * @return integer
+     * Get frequency.
+     *
+     * @return int
      */
     public function getFrequency()
     {
@@ -130,8 +144,10 @@ class Note implements \JsonSerializable
     }
 
     /**
-     * Set frequency
-     * @param  float $frequency
+     * Set frequency.
+     *
+     * @param float $frequency
+     *
      * @return Note
      */
     public function setFrequency($frequency)
@@ -142,8 +158,9 @@ class Note implements \JsonSerializable
     }
 
     /**
-     * Get midi
-     * @return integer
+     * Get midi.
+     *
+     * @return int
      */
     public function getMidi()
     {
@@ -151,8 +168,10 @@ class Note implements \JsonSerializable
     }
 
     /**
-     * Set midi
-     * @param  integer $midi
+     * Set midi.
+     *
+     * @param int $midi
+     *
      * @return Note
      */
     public function setMidi($midi)
@@ -163,7 +182,8 @@ class Note implements \JsonSerializable
     }
 
     /**
-     * Get info
+     * Get info.
+     *
      * @return NoteInfo
      */
     public function getInfo()
@@ -172,8 +192,10 @@ class Note implements \JsonSerializable
     }
 
     /**
-     * Set info
-     * @param  NoteInfo $info
+     * Set info.
+     *
+     * @param NoteInfo $info
+     *
      * @return Note
      */
     public function setInfo(NoteInfo $info)
@@ -184,7 +206,8 @@ class Note implements \JsonSerializable
     }
 
     /**
-     * Get previous Note
+     * Get previous Note.
+     *
      * @return Note
      */
     public function getPrevious()
@@ -193,8 +216,10 @@ class Note implements \JsonSerializable
     }
 
     /**
-     * Set previous Note
+     * Set previous Note.
+     *
      * @param Note $previous
+     *
      * @return Note
      */
     public function setPrevious(Note $previous)
@@ -209,7 +234,8 @@ class Note implements \JsonSerializable
     }
 
     /**
-     * Get next Note
+     * Get next Note.
+     *
      * @return Note
      */
     public function getNext()
@@ -218,8 +244,10 @@ class Note implements \JsonSerializable
     }
 
     /**
-     * Set next Note
+     * Set next Note.
+     *
      * @param Note $next
+     *
      * @return Note
      */
     public function setNext(Note $next)
@@ -234,8 +262,10 @@ class Note implements \JsonSerializable
     }
 
     /**
-     * Add Interval to the Note
-     * @param  Interval $interval
+     * Add Interval to the Note.
+     *
+     * @param Interval $interval
+     *
      * @return Note
      */
     public function addInterval(Interval $interval)
@@ -246,8 +276,10 @@ class Note implements \JsonSerializable
     }
 
     /**
-     * Add semitones to the Note
-     * @param  number $count
+     * Add semitones to the Note.
+     *
+     * @param number $count
+     *
      * @return Note
      */
     public function addSemitone($count)
@@ -255,7 +287,7 @@ class Note implements \JsonSerializable
         $newValue = ($this->value + $count) % 12;
 
         $next = $this;
-        for ($i = 0; $i < $newValue; $i++) {
+        for ($i = 0; $i < $newValue; ++$i) {
             $next = $next->getNext();
         }
 
@@ -263,27 +295,28 @@ class Note implements \JsonSerializable
     }
 
     /**
-     * Serialize the Entity
+     * Serialize the Entity.
+     *
      * @return array
      */
     public function jsonSerialize()
     {
         return array(
             'type' => 'notes',
-            'id'   => $this->id,
-            'attributes'     => array(
+            'id' => $this->id,
+            'attributes' => array(
                 // Note properties
-                'value'      => $this->value,
-                'octave'     => $this->octave,
-                'frequency'  => $this->frequency,
-                'midi'       => $this->midi,
+                'value' => $this->value,
+                'octave' => $this->octave,
+                'frequency' => $this->frequency,
+                'midi' => $this->midi,
 
                 // Flatten NoteInfo properties for simpler structure
                 'sharp_name' => $this->info->getSharpName(),
-                'flat_name'  => $this->info->getFlatName(),
+                'flat_name' => $this->info->getFlatName(),
                 'accidental' => $this->info->isAccidental(),
-                'color'      => $this->info->getColor(),
-            )
+                'color' => $this->info->getColor(),
+            ),
         );
     }
 }

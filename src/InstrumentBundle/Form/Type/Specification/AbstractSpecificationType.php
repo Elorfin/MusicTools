@@ -5,16 +5,16 @@ namespace InstrumentBundle\Form\Type\Specification;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 
 /**
- * Class AbstractSpecificationType
+ * Class AbstractSpecificationType.
  */
 class AbstractSpecificationType extends AbstractType
 {
     /**
-     * Create the Form definition
+     * Create the Form definition.
+     *
      * @param FormBuilderInterface $builder
      * @param array                $options
      */
@@ -32,7 +32,7 @@ class AbstractSpecificationType extends AbstractType
     {
         $resolver->setDefaults([
             'csrf_protection' => false,
-            'data_class'      => null
+            'data_class' => null,
         ]);
     }
 }

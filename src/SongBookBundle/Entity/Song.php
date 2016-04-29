@@ -10,25 +10,26 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Elorfin\ResourceBundle\Entity\Image;
 
 /**
- * Song
+ * Song.
  *
  * @ORM\Table(name="song")
  * @ORM\Entity()
  */
 class Song implements \JsonSerializable
 {
-    /**
+    /*
      * ID
      */
     use UniqueIdentifierTrait;
 
-    /**
+    /*
      * Name
      */
     use NameTrait;
 
     /**
-     * Artist of the Song
+     * Artist of the Song.
+     *
      * @var string
      *
      * @ORM\Column(name="artist", type="string", length=255, nullable=true)
@@ -36,23 +37,26 @@ class Song implements \JsonSerializable
     protected $artist;
 
     /**
-     * Rating of the Song
-     * @var integer
+     * Rating of the Song.
+     *
+     * @var int
      *
      * @ORM\Column(name="rating", type="integer", nullable=true)
      */
     protected $rating = 0;
 
     /**
-     * Level of mastery
-     * @var integer
+     * Level of mastery.
+     *
+     * @var int
      *
      * @ORM\Column(name="mastery", type="integer", nullable=true)
      */
     protected $mastery = 0;
 
     /**
-     * Start date of the learning
+     * Start date of the learning.
+     *
      * @var \DateTime
      *
      * @ORM\Column(name="started_at", type="date", nullable=true)
@@ -60,7 +64,8 @@ class Song implements \JsonSerializable
     protected $startedAt;
 
     /**
-     * Cover of the Song
+     * Cover of the Song.
+     *
      * @var \Elorfin\ResourceBundle\Entity\Image
      *
      * @ORM\ManyToOne(targetEntity="Elorfin\ResourceBundle\Entity\Image", cascade={"remove", "persist"})
@@ -69,20 +74,21 @@ class Song implements \JsonSerializable
     protected $cover;
 
     /**
-     * Scores of the Song
+     * Scores of the Song.
+     *
      * @var \Doctrine\Common\Collections\ArrayCollection
      *
      * @ORM\OneToMany(targetEntity="SongBookBundle\Entity\SheetMusic", mappedBy="song")
      */
     protected $scores;
 
-    /**
+    /*
      * Owner
      */
     use OwnerTrait;
 
     /**
-     * Entity constructor
+     * Entity constructor.
      */
     public function __construct()
     {
@@ -90,8 +96,10 @@ class Song implements \JsonSerializable
     }
 
     /**
-     * Set artist
+     * Set artist.
+     *
      * @param string $artist
+     *
      * @return Song
      */
     public function setArtist($artist)
@@ -102,8 +110,9 @@ class Song implements \JsonSerializable
     }
 
     /**
-     * Get artist
-     * @return string 
+     * Get artist.
+     *
+     * @return string
      */
     public function getArtist()
     {
@@ -111,8 +120,10 @@ class Song implements \JsonSerializable
     }
 
     /**
-     * Set rating
-     * @param integer $rating
+     * Set rating.
+     *
+     * @param int $rating
+     *
      * @return Song
      */
     public function setRating($rating)
@@ -123,8 +134,9 @@ class Song implements \JsonSerializable
     }
 
     /**
-     * Get rating
-     * @return integer 
+     * Get rating.
+     *
+     * @return int
      */
     public function getRating()
     {
@@ -132,8 +144,10 @@ class Song implements \JsonSerializable
     }
 
     /**
-     * Set mastery
-     * @param integer $mastery
+     * Set mastery.
+     *
+     * @param int $mastery
+     *
      * @return Song
      */
     public function setMastery($mastery)
@@ -144,8 +158,9 @@ class Song implements \JsonSerializable
     }
 
     /**
-     * Get mastery
-     * @return integer
+     * Get mastery.
+     *
+     * @return int
      */
     public function getMastery()
     {
@@ -153,7 +168,8 @@ class Song implements \JsonSerializable
     }
 
     /**
-     * Get cover
+     * Get cover.
+     *
      * @return Image
      */
     public function getCover()
@@ -162,8 +178,10 @@ class Song implements \JsonSerializable
     }
 
     /**
-     * Set cover
+     * Set cover.
+     *
      * @param Image $cover
+     *
      * @return $this
      */
     public function setCover(Image $cover)
@@ -174,7 +192,8 @@ class Song implements \JsonSerializable
     }
 
     /**
-     * Serialize the Entity
+     * Serialize the Entity.
+     *
      * @return array
      */
     public function jsonSerialize()
@@ -182,26 +201,26 @@ class Song implements \JsonSerializable
         return [
             // Identifier of the Resource
             'type' => 'songs',
-            'id'   => $this->id,
+            'id' => $this->id,
 
             // Attributes of the Resource
-            'attributes'    => [
-                'name'       => $this->name,
-                'artist'     => $this->artist,
-                'rating'     => $this->rating,
-                'mastery'    => $this->mastery,
+            'attributes' => [
+                'name' => $this->name,
+                'artist' => $this->artist,
+                'rating' => $this->rating,
+                'mastery' => $this->mastery,
                 'started_at' => $this->startedAt,
             ],
 
             // Relationships with other Resources
             'relationships' => [
-                'cover'  => [
-                    'data' => $this->cover
+                'cover' => [
+                    'data' => $this->cover,
                 ],
                 'scores' => [
-                    'data' => $this->scores
-                ]
-            ]
+                    'data' => $this->scores,
+                ],
+            ],
         ];
     }
 }

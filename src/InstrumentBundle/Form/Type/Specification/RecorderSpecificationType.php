@@ -6,12 +6,13 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Class RecorderSpecificationType
+ * Class RecorderSpecificationType.
  */
 class RecorderSpecificationType extends AbstractSpecificationType
 {
     /**
-     * Create the Form definition
+     * Create the Form definition.
+     *
      * @param FormBuilderInterface $builder
      * @param array                $options
      */
@@ -32,7 +33,7 @@ class RecorderSpecificationType extends AbstractSpecificationType
     {
         $resolver->setDefaults([
             'csrf_protection' => false,
-            'data_class'      => 'InstrumentBundle\Entity\Specification\RecorderSpecification'
+            'data_class' => 'InstrumentBundle\Entity\Specification\RecorderSpecification',
         ]);
     }
 }

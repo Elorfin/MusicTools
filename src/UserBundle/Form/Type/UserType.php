@@ -11,7 +11,7 @@ class UserType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
-     * @param array $options
+     * @param array                $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -22,7 +22,7 @@ class UserType extends AbstractType
             ->add('lastName')
             ->add('gender', 'choice', [
                 'choices' => [
-                    'male'   => 'Male',
+                    'male' => 'Male',
                     'female' => 'Female',
                 ],
                 'empty_value' => 'Choose a gender',
@@ -40,7 +40,7 @@ class UserType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'UserBundle\Entity\User'
+            'data_class' => 'UserBundle\Entity\User',
         ));
     }
 }

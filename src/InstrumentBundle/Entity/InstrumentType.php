@@ -8,25 +8,26 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * InstrumentType Entity
- * Stores the default configuration for each instrument type (e.g. guitar, bass, recorder, piano)
+ * Stores the default configuration for each instrument type (e.g. guitar, bass, recorder, piano).
  *
  * @ORM\Entity()
  * @ORM\Table(name="instrument_type")
  */
 class InstrumentType implements \JsonSerializable
 {
-    /**
+    /*
      * ID
      */
     use UniqueIdentifierTrait;
 
-    /**
+    /*
      * Name
      */
     use NameTrait;
 
     /**
-     * Icon of the Instrument Type
+     * Icon of the Instrument Type.
+     *
      * @var string
      *
      * @ORM\Column(type="string")
@@ -34,7 +35,8 @@ class InstrumentType implements \JsonSerializable
     protected $icon;
 
     /**
-     * Prefix used to retrieve corresponding Specification and Template class
+     * Prefix used to retrieve corresponding Specification and Template class.
+     *
      * @var string
      *
      * @ORM\Column(type="string")
@@ -42,15 +44,17 @@ class InstrumentType implements \JsonSerializable
     protected $prefix;
 
     /**
-     * Is the instrument can play several notes simultaneously ? (to play chords)
-     * @var boolean
+     * Is the instrument can play several notes simultaneously ? (to play chords).
+     *
+     * @var bool
      *
      * @ORM\Column(type="boolean")
      */
     protected $polyphonic = true;
 
     /**
-     * Get icon
+     * Get icon.
+     *
      * @return string
      */
     public function getIcon()
@@ -59,8 +63,10 @@ class InstrumentType implements \JsonSerializable
     }
 
     /**
-     * Set icon
-     * @param  string $icon
+     * Set icon.
+     *
+     * @param string $icon
+     *
      * @return $this
      */
     public function setIcon($icon)
@@ -71,7 +77,8 @@ class InstrumentType implements \JsonSerializable
     }
 
     /**
-     * Get prefix
+     * Get prefix.
+     *
      * @return string
      */
     public function getPrefix()
@@ -80,8 +87,10 @@ class InstrumentType implements \JsonSerializable
     }
 
     /**
-     * Set prefix
-     * @param  string $prefix
+     * Set prefix.
+     *
+     * @param string $prefix
+     *
      * @return $this
      */
     public function setPrefix($prefix)
@@ -92,26 +101,29 @@ class InstrumentType implements \JsonSerializable
     }
 
     /**
-     * Get Specification class name
+     * Get Specification class name.
+     *
      * @return string
      */
     public function getClass()
     {
-        return '\\InstrumentBundle\\Entity\\Specification\\' . $this->prefix . 'Specification';
+        return '\\InstrumentBundle\\Entity\\Specification\\'.$this->prefix.'Specification';
     }
 
     /**
-     * Get Template class name
+     * Get Template class name.
+     *
      * @return string
      */
     public function getTemplate()
     {
-        return '\\InstrumentBundle\\Entity\\Template\\' . $this->prefix . 'Template';
+        return '\\InstrumentBundle\\Entity\\Template\\'.$this->prefix.'Template';
     }
 
     /**
      * Is polyphonic ?
-     * @return boolean
+     *
+     * @return bool
      */
     public function isPolyphonic()
     {
@@ -119,8 +131,10 @@ class InstrumentType implements \JsonSerializable
     }
 
     /**
-     * Set polyphonic
-     * @param  boolean $polyphonic
+     * Set polyphonic.
+     *
+     * @param bool $polyphonic
+     *
      * @return $this
      */
     public function setPolyphonic($polyphonic)
@@ -131,7 +145,8 @@ class InstrumentType implements \JsonSerializable
     }
 
     /**
-     * Serialize the Entity
+     * Serialize the Entity.
+     *
      * @return array
      */
     public function jsonSerialize()
@@ -139,13 +154,13 @@ class InstrumentType implements \JsonSerializable
         return [
             // Identifier of the Resource
             'type' => 'instrument_types',
-            'id'   => $this->id,
+            'id' => $this->id,
 
             // Attributes of the Resource
             'attributes' => [
-                'name'       => $this->name,
-                'icon'       => $this->icon,
-                'prefix'     => $this->prefix,
+                'name' => $this->name,
+                'icon' => $this->icon,
+                'prefix' => $this->prefix,
                 'polyphonic' => $this->polyphonic,
             ],
         ];

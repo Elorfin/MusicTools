@@ -8,37 +8,39 @@ use CommonBundle\Model\UniqueIdentifierTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * Thread
+ * Thread.
  *
  * @ORM\Entity()
  * @ORM\Table(name="forum_thread")
  */
 class Thread
 {
-    /**
+    /*
      * ID
      */
     use UniqueIdentifierTrait;
 
-    /**
+    /*
      * Name
      */
     use NameTrait;
 
     /**
-     * Forum belongs the thread
+     * Forum belongs the thread.
+     *
      * @var Forum
      */
     protected $forum;
 
     /**
-     * Posts of the Thread
+     * Posts of the Thread.
+     *
      * @var ArrayCollection
      */
     protected $posts;
 
     /**
-     * Entity constructor
+     * Entity constructor.
      */
     public function __construct()
     {
@@ -46,7 +48,8 @@ class Thread
     }
 
     /**
-     * Get forum
+     * Get forum.
+     *
      * @return Forum
      */
     public function getForum()
@@ -55,8 +58,10 @@ class Thread
     }
 
     /**
-     * Set forum
-     * @param  Forum $forum
+     * Set forum.
+     *
+     * @param Forum $forum
+     *
      * @return Thread
      */
     public function setForum(Forum $forum)
@@ -70,7 +75,8 @@ class Thread
     }
 
     /**
-     * Get posts
+     * Get posts.
+     *
      * @return ArrayCollection
      */
     public function getPosts()
@@ -79,8 +85,10 @@ class Thread
     }
 
     /**
-     * Add post
-     * @param  Post $post
+     * Add post.
+     *
+     * @param Post $post
+     *
      * @return Thread
      */
     public function addPost(Post $post)
@@ -95,8 +103,10 @@ class Thread
     }
 
     /**
-     * Remove post
-     * @param  Post $post
+     * Remove post.
+     *
+     * @param Post $post
+     *
      * @return Thread
      */
     public function removePost(Post $post)

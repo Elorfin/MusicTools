@@ -8,25 +8,26 @@ use Doctrine\ORM\Mapping as ORM;
 use InstrumentBundle\Entity\InstrumentType;
 
 /**
- * Tuning Category Entity
+ * Tuning Category Entity.
  *
  * @ORM\Entity()
  * @ORM\Table(name="tuning_category")
  */
 class TuningCategory
 {
-    /**
+    /*
      * ID
      */
     use UniqueIdentifierTrait;
 
-    /**
+    /*
      * Name
      */
     use NameTrait;
 
     /**
-     * Type of the Instrument
+     * Type of the Instrument.
+     *
      * @var InstrumentType
      *
      * @ORM\ManyToOne(targetEntity="InstrumentBundle\Entity\InstrumentType")
@@ -35,7 +36,8 @@ class TuningCategory
     protected $instrumentType;
 
     /**
-     * Get type of the Instrument
+     * Get type of the Instrument.
+     *
      * @return InstrumentType
      */
     public function getInstrumentType()
@@ -44,8 +46,10 @@ class TuningCategory
     }
 
     /**
-     * Set type of the Instrument
+     * Set type of the Instrument.
+     *
      * @param InstrumentType $instrumentType
+     *
      * @return TuningCategory
      */
     public function setInstrumentType(InstrumentType $instrumentType)

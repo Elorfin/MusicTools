@@ -7,13 +7,15 @@ use UserBundle\Entity\UserFriendship;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * Fetches User data from DB
+ * Fetches User data from DB.
  */
 class UserRepository extends EntityRepository
 {
     /**
-     * Find all Musician except the specified one (used to list Users without display the current User in it)
-     * @param  UserInterface $user
+     * Find all Musician except the specified one (used to list Users without display the current User in it).
+     *
+     * @param UserInterface $user
+     *
      * @return array
      */
     public function findAllExceptMe(UserInterface $user)
@@ -27,9 +29,11 @@ class UserRepository extends EntityRepository
     }
 
     /**
-     * Count number of songs the Musician owns
-     * @param  UserInterface $user
-     * @return integer
+     * Count number of songs the Musician owns.
+     *
+     * @param UserInterface $user
+     *
+     * @return int
      */
     public function countSongs(UserInterface $user)
     {
@@ -41,9 +45,11 @@ class UserRepository extends EntityRepository
     }
 
     /**
-     * Count number of guitars the User owns
-     * @param  UserInterface $user
-     * @return integer
+     * Count number of guitars the User owns.
+     *
+     * @param UserInterface $user
+     *
+     * @return int
      */
     public function countGuitars(UserInterface $user)
     {
@@ -55,9 +61,11 @@ class UserRepository extends EntityRepository
     }
 
     /**
-     * Count number of friends the User have
-     * @param  UserInterface $user
-     * @return integer
+     * Count number of friends the User have.
+     *
+     * @param UserInterface $user
+     *
+     * @return int
      */
     public function countFriends(UserInterface $user)
     {

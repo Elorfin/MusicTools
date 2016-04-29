@@ -3,12 +3,13 @@
 namespace CommonBundle\Model;
 
 /**
- * Add an `ìd` field to an Entity class
+ * Add an `ìd` field to an Entity class.
  */
 trait UniqueIdentifierTrait
 {
     /**
-     * Unique identifier of the Entity
+     * Unique identifier of the Entity.
+     *
      * @var string
      *
      * @ORM\Column(type="guid")
@@ -18,7 +19,8 @@ trait UniqueIdentifierTrait
     private $id;
 
     /**
-     * Get id
+     * Get id.
+     *
      * @return string
      */
     public function getId()

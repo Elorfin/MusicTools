@@ -4,18 +4,18 @@ namespace InstrumentBundle\Form\Type\Specification;
 
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 
 /**
- * Class GuitarSpecificationType
+ * Class GuitarSpecificationType.
  */
 class GuitarSpecificationType extends AbstractSpecificationType
 {
     /**
-     * Create the Form definition
+     * Create the Form definition.
+     *
      * @param FormBuilderInterface $builder
      * @param array                $options
      */
@@ -41,7 +41,7 @@ class GuitarSpecificationType extends AbstractSpecificationType
     {
         $resolver->setDefaults([
             'csrf_protection' => false,
-            'data_class'      => 'InstrumentBundle\Entity\Specification\GuitarSpecification'
+            'data_class' => 'InstrumentBundle\Entity\Specification\GuitarSpecification',
         ]);
     }
 }

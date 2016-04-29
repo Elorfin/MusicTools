@@ -13,14 +13,15 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
 /**
- * Song CRUD Controller
+ * Song CRUD Controller.
  *
  * @Route("/songs")
  */
 class SongController extends Controller
 {
     /**
-     * List all Songs
+     * List all Songs.
+     *
      * @return JsonApiResponse
      *
      * @Route("")
@@ -37,8 +38,10 @@ class SongController extends Controller
     }
 
     /**
-     * Render a Song entity
-     * @param  Song $song
+     * Render a Song entity.
+     *
+     * @param Song $song
+     *
      * @return JsonApiResponse
      *
      * @Route("/{id}")
@@ -50,8 +53,10 @@ class SongController extends Controller
     }
 
     /**
-     * Create a new Song
+     * Create a new Song.
+     *
      * @param Request $request
+     *
      * @return JsonApiResponse|JsonErrorResponse
      *
      * @Route("")
@@ -77,9 +82,11 @@ class SongController extends Controller
     }
 
     /**
-     * Edit a Song
-     * @param  Song $song
-     * @param  Request $request
+     * Edit a Song.
+     *
+     * @param Song    $song
+     * @param Request $request
+     *
      * @return JsonApiResponse|JsonErrorResponse
      *
      * @Route("/{id}")
@@ -106,8 +113,10 @@ class SongController extends Controller
     }
 
     /**
-     * Delete a Song
-     * @param  Song $song
+     * Delete a Song.
+     *
+     * @param Song $song
+     *
      * @return JsonApiResponse
      *
      * @Route("/{id}")
@@ -123,6 +132,7 @@ class SongController extends Controller
 
     /**
      * @param $form
+     *
      * @return array
      */
     private function getFormErrors(FormInterface $form)

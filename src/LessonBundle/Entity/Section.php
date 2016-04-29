@@ -9,30 +9,31 @@ use CommonBundle\Model\NameTrait;
 use CommonBundle\Model\DescriptionTrait;
 
 /**
- * Section Entity
+ * Section Entity.
  *
  * @ORM\Entity()
  * @ORM\Table(name="lesson_section")
  */
 class Section
 {
-    /**
+    /*
      * ID
      */
     use UniqueIdentifierTrait;
 
-    /**
+    /*
      * Name
      */
     use NameTrait;
 
-    /**
+    /*
      * Description
      */
     use DescriptionTrait;
 
     /**
-     * Lesson
+     * Lesson.
+     *
      * @var Lesson
      *
      * @ORM\ManyToOne(targetEntity="LessonBundle\Entity\Lesson", inversedBy="sections")
@@ -41,7 +42,8 @@ class Section
     protected $lesson;
 
     /**
-     * Parent section
+     * Parent section.
+     *
      * @var Section
      *
      * @ORM\ManyToOne(targetEntity="LessonBundle\Entity\Section", inversedBy="children")
@@ -50,7 +52,8 @@ class Section
     protected $parent;
 
     /**
-     * Children of the Section
+     * Children of the Section.
+     *
      * @var \Doctrine\Common\Collections\ArrayCollection
      *
      * @ORM\OneToMany(targetEntity="LessonBundle\Entity\Section", mappedBy="parent")
@@ -58,7 +61,7 @@ class Section
     protected $children;
 
     /**
-     * Class constructor
+     * Class constructor.
      */
     public function __construct()
     {
@@ -66,7 +69,8 @@ class Section
     }
 
     /**
-     * Get Lesson
+     * Get Lesson.
+     *
      * @return Lesson
      */
     public function getLesson()
@@ -75,8 +79,10 @@ class Section
     }
 
     /**
-     * Set Lesson
+     * Set Lesson.
+     *
      * @param Lesson $lesson
+     *
      * @return $this
      */
     public function setLesson(Lesson $lesson = null)
@@ -92,7 +98,8 @@ class Section
     }
 
     /**
-     * Get parent Section
+     * Get parent Section.
+     *
      * @return Section
      */
     public function getParent()
@@ -101,7 +108,8 @@ class Section
     }
 
     /**
-     * Set parent section
+     * Set parent section.
+     *
      * @param Section $parent
      */
     public function setParent(Section $parent = null)
@@ -115,7 +123,8 @@ class Section
     }
 
     /**
-     * Get children
+     * Get children.
+     *
      * @return ArrayCollection
      */
     public function getChildren()
@@ -124,8 +133,10 @@ class Section
     }
 
     /**
-     * Add a child section
+     * Add a child section.
+     *
      * @param Section $section
+     *
      * @return $this
      */
     public function addChild(Section $section)
@@ -139,8 +150,10 @@ class Section
     }
 
     /**
-     * Remove a child section
+     * Remove a child section.
+     *
      * @param Section $section
+     *
      * @return $this
      */
     public function removeChild(Section $section)
@@ -154,21 +167,22 @@ class Section
     }
 
     /**
-     * Serialize the Entity
+     * Serialize the Entity.
+     *
      * @return array
      */
     public function jsonSerialize()
     {
         return [
             'type' => 'lesson_sections',
-            'id'   => $this->id,
-            'attributes'  => [
-                'name'        => $this->name,
+            'id' => $this->id,
+            'attributes' => [
+                'name' => $this->name,
                 'description' => $this->description,
             ],
             'relationships' => [
 
-            ]
+            ],
         ];
     }
 }

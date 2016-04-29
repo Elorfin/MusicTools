@@ -9,20 +9,21 @@ use TuningBundle\Entity\Strings\StringsTuning;
 
 /**
  * Guitar Entity
- * Used to store the configuration of a Guitar
+ * Used to store the configuration of a Guitar.
  *
  * @ORM\Entity()
  * @ORM\Table(name="instrument_guitar")
  */
 class GuitarSpecification extends AbstractSpecification
 {
-    /**
+    /*
      * ID
      */
     use UniqueIdentifierTrait;
 
     /**
-     * Shape of the guitar's headstock (in-line or top-bottom)
+     * Shape of the guitar's headstock (in-line or top-bottom).
+     *
      * @var string
      *
      * @ORM\Column(type="string")
@@ -34,7 +35,8 @@ class GuitarSpecification extends AbstractSpecification
     protected $headstock = 'top-bottom';
 
     /**
-     * Shape of the guitar's body (hollow, semi-hollow, solid)
+     * Shape of the guitar's body (hollow, semi-hollow, solid).
+     *
      * @var string
      *
      * @ORM\Column(type="string")
@@ -46,7 +48,8 @@ class GuitarSpecification extends AbstractSpecification
     protected $body = 'hollow';
 
     /**
-     * Amplification type of the Guitar (acoustic, electro-acoustic, electric)
+     * Amplification type of the Guitar (acoustic, electro-acoustic, electric).
+     *
      * @var string
      *
      * @ORM\Column(type="string")
@@ -58,8 +61,9 @@ class GuitarSpecification extends AbstractSpecification
     protected $amplification = 'acoustic';
 
     /**
-     * Number of strings
-     * @var integer
+     * Number of strings.
+     *
+     * @var int
      *
      * @ORM\Column(type="integer")
      * @Assert\Range(
@@ -72,8 +76,9 @@ class GuitarSpecification extends AbstractSpecification
     protected $strings = 6;
 
     /**
-     * Number of frets
-     * @var integer
+     * Number of frets.
+     *
+     * @var int
      *
      * @ORM\Column(type="integer")
      */
@@ -81,14 +86,16 @@ class GuitarSpecification extends AbstractSpecification
 
     /**
      * Is the Guitar left-handed ?
-     * @var boolean
+     *
+     * @var bool
      *
      * @ORM\Column(type="boolean")
      */
     protected $leftHanded = false;
 
     /**
-     * Tuning of the Guitar
+     * Tuning of the Guitar.
+     *
      * @var StringsTuning
      *
      * @ORM\OneToOne(targetEntity="TuningBundle\Entity\Strings\StringsTuning")
@@ -97,7 +104,8 @@ class GuitarSpecification extends AbstractSpecification
     protected $tuning;
 
     /**
-     * Get headstock
+     * Get headstock.
+     *
      * @return string
      */
     public function getHeadstock()
@@ -106,8 +114,10 @@ class GuitarSpecification extends AbstractSpecification
     }
 
     /**
-     * Set headstock
-     * @param  string $headstock
+     * Set headstock.
+     *
+     * @param string $headstock
+     *
      * @return $this
      */
     public function setHeadstock($headstock)
@@ -118,7 +128,8 @@ class GuitarSpecification extends AbstractSpecification
     }
 
     /**
-     * Get body
+     * Get body.
+     *
      * @return string
      */
     public function getBody()
@@ -127,8 +138,10 @@ class GuitarSpecification extends AbstractSpecification
     }
 
     /**
-     * Set body
-     * @param  string $body
+     * Set body.
+     *
+     * @param string $body
+     *
      * @return $this
      */
     public function setBody($body)
@@ -139,7 +152,8 @@ class GuitarSpecification extends AbstractSpecification
     }
 
     /**
-     * Get amplification
+     * Get amplification.
+     *
      * @return string
      */
     public function getAmplification()
@@ -148,8 +162,10 @@ class GuitarSpecification extends AbstractSpecification
     }
 
     /**
-     * Set amplification
-     * @param  string $amplification
+     * Set amplification.
+     *
+     * @param string $amplification
+     *
      * @return $this
      */
     public function setAmplification($amplification)
@@ -160,8 +176,9 @@ class GuitarSpecification extends AbstractSpecification
     }
 
     /**
-     * Get number of strings
-     * @return integer
+     * Get number of strings.
+     *
+     * @return int
      */
     public function getStrings()
     {
@@ -169,8 +186,10 @@ class GuitarSpecification extends AbstractSpecification
     }
 
     /**
-     * Set number of strings
-     * @param  integer $strings
+     * Set number of strings.
+     *
+     * @param int $strings
+     *
      * @return $this
      */
     public function setStrings($strings)
@@ -181,8 +200,9 @@ class GuitarSpecification extends AbstractSpecification
     }
 
     /**
-     * Get number of frets
-     * @return integer
+     * Get number of frets.
+     *
+     * @return int
      */
     public function getFrets()
     {
@@ -190,8 +210,10 @@ class GuitarSpecification extends AbstractSpecification
     }
 
     /**
-     * Get number of frets
-     * @param  integer $frets
+     * Get number of frets.
+     *
+     * @param int $frets
+     *
      * @return $this
      */
     public function setFrets($frets)
@@ -203,7 +225,8 @@ class GuitarSpecification extends AbstractSpecification
 
     /**
      * Is left handed ?
-     * @return boolean
+     *
+     * @return bool
      */
     public function isLeftHanded()
     {
@@ -211,8 +234,10 @@ class GuitarSpecification extends AbstractSpecification
     }
 
     /**
-     * Set left handed
-     * @param  boolean $leftHanded
+     * Set left handed.
+     *
+     * @param bool $leftHanded
+     *
      * @return $this
      */
     public function setLeftHanded($leftHanded)
@@ -223,7 +248,8 @@ class GuitarSpecification extends AbstractSpecification
     }
 
     /**
-     * Get tuning
+     * Get tuning.
+     *
      * @return StringsTuning
      */
     public function getTuning()
@@ -232,8 +258,10 @@ class GuitarSpecification extends AbstractSpecification
     }
 
     /**
-     * Set tuning
+     * Set tuning.
+     *
      * @param StringsTuning $tuning
+     *
      * @return $this
      */
     public function setTuning(StringsTuning $tuning = null)
@@ -244,27 +272,28 @@ class GuitarSpecification extends AbstractSpecification
     }
 
     /**
-     * Serialize the Entity
+     * Serialize the Entity.
+     *
      * @return array
      */
     public function jsonSerialize()
     {
         return [
             'type' => 'instrument_specifications',
-            'id'   => $this->id,
-            'attributes'  => [
-                'leftHanded'    => $this->leftHanded,
-                'headstock'     => $this->headstock,
-                'body'          => $this->body,
+            'id' => $this->id,
+            'attributes' => [
+                'leftHanded' => $this->leftHanded,
+                'headstock' => $this->headstock,
+                'body' => $this->body,
                 'amplification' => $this->amplification,
-                'strings'       => $this->strings,
-                'frets'         => $this->frets,
+                'strings' => $this->strings,
+                'frets' => $this->frets,
             ],
             'relationships' => [
                 'tuning' => [
-                    'data' => $this->tuning
-                ]
-            ]
+                    'data' => $this->tuning,
+                ],
+            ],
         ];
     }
 }

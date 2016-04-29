@@ -9,14 +9,15 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Elorfin\JsonApiBundle\Response\JsonApiResponse;
 
 /**
- * Instrument Type CRUD Controller
+ * Instrument Type CRUD Controller.
  *
  * @Route("/instrument_types")
  */
 class InstrumentTypeController extends Controller
 {
     /**
-     * List all Instrument Types
+     * List all Instrument Types.
+     *
      * @return JsonApiResponse
      *
      * @Route("")
@@ -28,15 +29,17 @@ class InstrumentTypeController extends Controller
             ->get('doctrine.orm.entity_manager')
             ->getRepository('InstrumentBundle:InstrumentType')
             ->findBy([], [
-                'name'    => 'ASC'
+                'name' => 'ASC',
             ]);
 
         return new JsonApiResponse($entities);
     }
 
     /**
-     * Display an Instrument Type entity
-     * @param  InstrumentType $instrumentType
+     * Display an Instrument Type entity.
+     *
+     * @param InstrumentType $instrumentType
+     *
      * @return JsonApiResponse
      *
      * @Route("/{id}")
@@ -48,8 +51,10 @@ class InstrumentTypeController extends Controller
     }
 
     /**
-     * List generic Instruments for an Instrument Type entity
-     * @param  InstrumentType $instrumentType
+     * List generic Instruments for an Instrument Type entity.
+     *
+     * @param InstrumentType $instrumentType
+     *
      * @return JsonApiResponse
      *
      * @Route("/{id}/instruments")
@@ -62,9 +67,9 @@ class InstrumentTypeController extends Controller
             ->getRepository('InstrumentBundle:Instrument')
             ->findBy([
                 'instrumentType' => $instrumentType,
-                'owner'          => null, // Only get the platform generic Instruments
+                'owner' => null, // Only get the platform generic Instruments
             ], [
-                'name'    => 'ASC'
+                'name' => 'ASC',
             ]);
 
         return new JsonApiResponse($entities);

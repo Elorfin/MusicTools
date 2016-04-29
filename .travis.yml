@@ -21,5 +21,8 @@ script:
   # Check the Coding Standards with PHP CS Fixer
   - php bin/php-cs-fixer fix src/ --dry-run --diff --verbose
 
+  # Run Sensio Insight analysis
+  - php bin/insight analysis 74bd74a9-b6fc-4b4e-9eb6-146748ab49db --no-interaction --verbose
+
   # Run tests suite vith PHPUnit
   - php bin/phpunit --verbose

@@ -4,6 +4,7 @@
 angular
     .module('Instrument', [
         'Utilities',
+        'InstrumentVisualization',
         'Tuning'
     ])
     .config([

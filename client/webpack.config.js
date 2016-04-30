@@ -17,9 +17,13 @@ module.exports = {
     module: {
         loaders: [
             {
-                test: /\.ts/,
-                loaders: ['ts-loader'],
+                test: /\.ts$/,
+                loader: 'ts',
                 exclude: /node_modules/
+            },
+            {
+                test: /\.html$/,
+                loader: 'html'
             }
         ]
     }

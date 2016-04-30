@@ -3,7 +3,7 @@ import {Component} from 'angular2/core';
 
 @Component({
     selector: 'music-tools',
-    template: '<h1>TEST</h1>'
+    template: require('./app.component.html')
     /*,*/
     /*directives: [ROUTER_DIRECTIVES]*/
 })

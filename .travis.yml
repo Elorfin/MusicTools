@@ -5,6 +5,12 @@ php:
   - 7.0
 
 install:
+  # Install API
+  - echo "INSTALLATION : api"
+
+  # Move into the api directory
+  - cd api
+
   # Create parameters file
   - cp app/config/parameters.yml.dist app/config/parameters.yml
 

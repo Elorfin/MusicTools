@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "es5",
     "module": "commonjs",
-    "outDir": "web/build",
+    "outDir": "public/dist",
     "moduleResolution": "node",
     "sourceMap": true,
     "emitDecoratorMetadata": true,
@@ -12,14 +12,8 @@
     "noImplicitAny": true
   },
   "exclude": [
-    "app",
     "bin",
     "bower_components",
-    "doc",
-    "src",
-    "tests",
-    "vendor",
-    "web",
     "node_modules",
     "typings/main",
     "typings/main.d.ts"

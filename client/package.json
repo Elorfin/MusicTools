@@ -24,6 +24,7 @@
         "angular2": "2.0.0-beta.17",
         "systemjs": "0.19.26",
         "es6-shim": "^0.35.0",
+        "es6-promise": "^3.0.2",
         "reflect-metadata": "0.1.2",
         "rxjs": "5.0.0-beta.6",
         "zone.js": "0.6.12"
@@ -41,6 +42,7 @@
 
         "webpack": "^1.12.11",
         "webpack-dev-server": "^1.14.1",
+        "ts-loader": "^0.7.2",
         "concurrently": "^2.0.0",
         "lite-server": "^2.2.0",
         "typescript": "^1.8.10",

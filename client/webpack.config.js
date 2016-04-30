@@ -4,14 +4,23 @@
  */
 module.exports = {
     entry: {
-        "app": "./web/build/main"
+        "app": "./app/browser"
     },
     output: {
         path: __dirname,
-        filename: "./web/dist/[name].bundle.js"
+        filename: "./public/dist/[name].bundle.js"
     },
     resolve: {
-        extensions: ['', '.js']
+        extensions: ['', '.js', '.ts']
     },
-    devtool: 'source-map'
+    devtool: 'source-map',
+    module: {
+        loaders: [
+            {
+                test: /\.ts/,
+                loaders: ['ts-loader'],
+                exclude: /node_modules/
+            }
+        ]
+    }
 };

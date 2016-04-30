@@ -6,7 +6,6 @@ php:
 
 install:
   # Install API
-  - echo "INSTALLATION : api"
 
   # Move into the api directory
   - cd api

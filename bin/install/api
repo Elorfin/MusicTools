@@ -1,6 +1,6 @@
 #!/bin/sh
 
-API_PATH = 'api'
+API_PATH='api'
 
 echo "INSTALL : API"
 
@@ -16,7 +16,7 @@ echo "Done"
 vi parameters.yml
 
 echo "Install dependencies..."
-composer update --prefers-source -o
+composer install
 echo "Done"
 
 echo "Create and populate api database..."

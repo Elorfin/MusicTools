@@ -1,0 +1,4 @@
+/public/dist/*
+!public/dist/.gitkeep
+/bower_components
+/node_modules

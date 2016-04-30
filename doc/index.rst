@@ -6,12 +6,15 @@ Summary
 -------
 
 - Overview
+
+- Project Architecture
+
 - API
   
-  * Third-party libraries
+  * `Dependencies<api/dependencies.rst>`_
+
 - Client
   
-  * Third-party libraries
-- `Development tools`_
+  * `Dependencies<client/dependencies.rst>`_
 
-.. _`Development tools`: development-tools.rst
+- `Development tools<development-tools.rst>`_

@@ -18,7 +18,7 @@ module.exports = function (grunt) {
             // Application styles
             app: {
                 src: [
-                    '<%= clientFolder %>/styles/app.less'
+                    '<%= clientFolder %>/back/styles/app.less'
                 ],
                 dest: '<%= distFolder %>/css/theme.min.css'
             }
@@ -37,9 +37,9 @@ module.exports = function (grunt) {
             css: {
                 src: [
                     // Loading bar
-                    '<%= libFolder %>/angular-loading-bar/build/loading-bar.css',
+                    /*'<%= libFolder %>/angular-loading-bar/build/loading-bar.css',*/
                     // AlphaTab
-                    '<%= libFolder %>/AlphaTab/Build/JavaScript/AlphaTab.css',
+                    /*'<%= libFolder %>/AlphaTab/Build/JavaScript/AlphaTab.css',*/
                     // Application styles
                     '<%= distFolder %>/css/theme.min.css'
                 ],

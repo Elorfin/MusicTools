@@ -1,6 +1,6 @@
 #!/bin/sh
 
-API_PATH='api'
+SRC_PATH='api'
 CURRENT_DIR="$(dirname "$0")"
 
 # Get colors
@@ -8,8 +8,8 @@ source $CURRENT_DIR/../shared/colors.sh
 
 echo -e "${BLUE}[API installation]${NC}"
 
-echo "Move into API directory ($API_PATH)"
-cd $API_PATH
+echo "Move into API directory ($SRC_PATH)"
+cd $SRC_PATH
 echo "Done"
 
 echo "Create application parameters..."

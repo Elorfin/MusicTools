@@ -1,0 +1,43 @@
+body,
+html,
+music-tools {
+  display: block;
+  position: relative;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+music-tools {
+  padding-top:  $header-height;
+  padding-left: $menu-width; // Add sidebar space
+
+  // For small screens
+  @include media-breakpoint-down(sm) {
+    padding-left: 0; // Remove sidebar space
+    padding-bottom: $menu-height;// Add bottom bar space
+  }
+}
+
+.app-loading {
+  text-align: center;
+
+  padding: floor($grid-gutter-width / 2);
+
+  .app-loading-spinner {
+
+  }
+
+  .app-loading-status {
+
+  }
+}
+
+.content {
+  position: relative;
+  height: 100%;
+  overflow-y: auto;
+  padding-top: floor($grid-gutter-width / 2);
+  padding-bottom: floor($grid-gutter-width / 2);
+  background: $content-bg;
+}

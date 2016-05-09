@@ -1,3 +1,14 @@
+
+import {Directive} from '@angular/core';
+
 /**
- * Created by Corum on 29/04/2016.
+ * Add a custom scrollbar instead of the default one of the browser
+ * @constructor
  */
+@Directive({
+    selector: '[scrollable]'
+})
+
+export class ScrollableDirective {
+
+}

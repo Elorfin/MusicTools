@@ -1,9 +1,12 @@
-import {Component} from 'angular2/core';
-import {MenuGroup} from './menu-group';
+import {Component}                           from '@angular/core';
+import {ROUTER_DIRECTIVES, ROUTER_PROVIDERS} from '@angular/router';
+import {Template}                            from '../../../library/layout/template.service';
+import {MenuGroup}                           from './menu-group';
 
 @Component({
-    selector: 'ui-menu',
-    template: require('./menu.component.html')
+    selector:    'ui-menu',
+    templateUrl: Template.getUrl('menu.component.html', 'common/menu'),
+    directives:  [ ROUTER_DIRECTIVES ],
 })
 
 /**
@@ -13,19 +16,25 @@ import {MenuGroup} from './menu-group';
  */
 export class MenuComponent {
     public groups: MenuGroup[] = [{
-        name: 'Library',
+        icon: 'fa fa-folder',
+        label: 'Library',
         items: [
-            { icon: '', label: '', url: '' }
+            { icon: 'mu mu-guitar-headstock', label: 'Instruments', route: '/instruments' },
+            { icon: 'mu mu-music-folder',     label: 'Songbook',    route: '/songs' }
         ]
     }, {
-        name: 'Theory',
+        icon: 'fa fa-graduation-cap',
+        label: 'Theory',
         items: [
-            { icon: '', label: '', url: '' }
+            { icon: 'fa fa-book',           label: 'References', route: '/references' },
+            { icon: 'fa fa-graduation-cap', label: 'Lessons',    route: '/lessons' },
+            { icon: 'fa fa-gamepad',        label: 'Games',      route: '/games' }
         ]
     }, {
-        name: 'Community',
+        icon: 'fa fa-users',
+        label: 'Community',
         items: [
-            { icon: '', label: '', url: '' }
+            { icon: 'fa fa-users', label: 'Users', route: '/users' }
         ]
     }];
 }

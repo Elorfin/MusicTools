@@ -1,0 +1,85 @@
+ui-menu {
+  position: fixed;
+  background: $menu-bg;
+
+  .menu-group-toggle {
+    font-size: $menu-font-size;
+  }
+
+  .menu-group-links {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+
+    a {
+      font-size: $menu-font-size;
+    }
+  }
+}
+
+// Large screens
+@include media-breakpoint-up(sm) {
+  ui-menu {
+    top: $header-height;
+    left: 0;
+    bottom: 0;
+    width: $menu-width;
+
+    .menu-group {
+      display: block;
+    }
+
+    .menu-group-toggle {
+      display: none;
+    }
+
+    .menu-group-links {
+      .menu-link-label {
+        display: none;
+      }
+    }
+  }
+}
+
+// For small screens
+@include media-breakpoint-down(sm) {
+  ui-menu {
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+
+    // Avoid extra vertical space because of inline-block children
+    /*font-size: 0;
+    white-space: nowrap;*/
+
+    display: table;
+
+    .menu-group {
+      display: table-cell;
+      text-align: center;
+    }
+
+    .menu-group-toggle {
+      display: inline-block;
+      position: relative;
+      width: 100%;
+      padding-top: 0;
+      padding-bottom: 0;
+      border: none;
+    }
+
+    .menu-group-links {
+      // Hide links (will be displayed by click on .menu-group-toggle)
+      display: none;
+
+      &.open {
+        display: block;
+      }
+
+      .menu-link-label {
+        display: inline-block;
+      }
+    }
+  }
+}

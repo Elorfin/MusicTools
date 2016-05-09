@@ -6,5 +6,5 @@ export class MenuItem {
 
     public label: String;
 
-    public url: String;
+    public route: String;
 }

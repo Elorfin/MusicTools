@@ -1,18 +1,38 @@
-import {Component} from 'angular2/core';
-import {RouteConfig, ROUTER_DIRECTIVES, ROUTER_PROVIDERS} from 'angular2/router';
-import {HeaderComponent, MenuComponent} from './common/common';
+import {Component}                                      from '@angular/core';
+import {Routes, ROUTER_DIRECTIVES}                      from '@angular/router';
+import {HeaderComponent, MenuComponent, AlertComponent} from './common/common';
 
-@RouteConfig([
-    /*{path:'/crisis-center', name: 'CrisisCenter', component: CrisisListComponent},
-     {path:'/heroes',        name: 'Heroes',       component: HeroListComponent},
-     {path:'/hero/:id',      name: 'HeroDetail',   component: HeroDetailComponent}*/
+import {Template} from '../library/layout/template.service';
+
+import {DashboardComponent}      from './dashboard/dashboard.component';
+import {InstrumentListComponent} from './instrument/list.component';
+import {SongListComponent}       from './song/list.component';
+import {TheorySummaryComponent}  from './theory/summary.component';
+import {LessonListComponent}     from './lesson/list.component';
+import {GameListComponent}       from './game/list.component';
+import {UserListComponent}       from './user/list.component';
+
+@Routes([
+    // Dashboard (default route)
+    { path: '/dashboard',   component: DashboardComponent },
+
+    // Libraries
+    { path: '/instruments', component: InstrumentListComponent },
+    { path: '/songs',       component: SongListComponent },
+
+    // Theory
+    { path: '/theory',      component: TheorySummaryComponent },
+    { path: '/lessons',     component: LessonListComponent },
+    { path: '/games',       component: GameListComponent },
+
+    // Community
+    { path: '/users',       component: UserListComponent }
 ])
 
 @Component({
-    selector  : 'music-tools',
-    template  : require('./app.component.html'),
-    directives: [ROUTER_DIRECTIVES, HeaderComponent, MenuComponent],
-    providers : [ROUTER_PROVIDERS]
+    selector  :  'music-tools',
+    templateUrl: Template.getUrl('app.component.html'),
+    directives:  [ROUTER_DIRECTIVES, HeaderComponent, MenuComponent, AlertComponent]
 })
 
 export class AppComponent {

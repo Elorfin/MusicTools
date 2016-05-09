@@ -1,3 +1,17 @@
-<header>
-    coucou
-</header>
+<!-- Toggle menus on small screens -->
+<button type="button" role="button" class="header-menu-toggle btn" (click)="toggleMenuBlock()">
+    <span class="fa fa-bars"></span>
+    <span class="sr-only">Toggle menus</span>
+</button>
+
+<!-- List of features menu -->
+<div class="header-menu-block" [ngClass]="{ opened: opened }" [onClickOut]="closeMenuBlock">
+    <!-- User menu -->
+    <user-menu class="header-menu"></user-menu>
+
+    <!-- Instrument menu -->
+    <instrument-menu class="header-menu"></instrument-menu>
+
+    <!-- Note format menu -->
+    <note-format-menu class="header-menu"></note-format-menu>
+</div>

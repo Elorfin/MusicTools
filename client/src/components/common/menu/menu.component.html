@@ -1,21 +1,18 @@
-<nav class="menu-component">
-    <!-- Library group -->
-    <div class="menu-group" *ngFor="let menuGroup of groups">
-        <div class="menu-group-header">
-            {{ menuGroup.name }}
-        </div>
+<!-- Library group -->
+<div class="menu-group" *ngFor="let menuGroup of groups">
+    <button type="button" role="button" class="menu-group-toggle btn">
+        <span class="{{ menuGroup.icon }}"></span>
+        <span class="sr-only">{{ menuGroup.label }}</span>
+    </button>
 
-        <ul>
-            <li role="presentation" *ngFor="let item of menuGroup.items">
-                <a href="#{{ item.url }}">
-                    <span class="{{ item.icon }}"></span>
-                    <span class="sr-only">
-                        {{ item.label }}
-                    </span>
-                </a>
-            </li>
-            <layout-sidebar-item data-current-path="currentPath" data-url="/instruments" data-label="link.instrument" data-icon="music-icon music-icon-guitar-headstock"></layout-sidebar-item>
-            <layout-sidebar-item data-current-path="currentPath" data-url="/songs"       data-label="link.song_book"  data-icon="music-icon music-icon-music-folder"></layout-sidebar-item>
-        </ul>
-    </div>
-</nav>
+    <ul class="menu-group-links">
+        <li role="presentation" *ngFor="let item of menuGroup.items">
+            <a role="link" [routerLink]="[ item.route ]">
+                <span class="{{ item.icon }}"></span>
+                <span class="menu-link-label">
+                    {{ item.label }}
+                </span>
+            </a>
+        </li>
+    </ul>
+</div>

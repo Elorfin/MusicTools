@@ -9,8 +9,7 @@
     "experimentalDecorators": true,
     "removeComments": false,
     "preserveConstEnums": true,
-    "noImplicitAny": true,
-    "declaration": true
+    "noImplicitAny": true
   },
   "exclude": [
     "bin",

@@ -1,0 +1,20 @@
+// Override Bootstrap variables
+@import '_variables';
+
+// Variables of the application
+@import '_variables.custom';
+
+// Import Bootstrap
+@import '../node_modules/bootstrap/scss/bootstrap';
+
+// Import FontAwesome
+@import '../bower_components/font-awesome/scss/font-awesome';
+
+// Import MusicFont
+@import 'music-font/scss/music-font';
+
+@import 'components/app';
+@import 'components/common/common';
+@import 'components/instrument/menu';
+@import 'components/theory/theory';
+@import 'components/user/menu';

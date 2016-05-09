@@ -1,5 +1,5 @@
 
-import {Directive, ElementRef, Input} from 'angular2/core';
+import {Directive, ElementRef, Input} from '@angular/core';
 
 /**
  * On Typing Stop Directive
@@ -20,7 +20,7 @@ export class OnTypingStopDirective {
 
     private typingTimer: number;
 
-    @Input('myHighlight') callback: Function;
+    @Input('onTypingStop') callback: Function;
 
     onKeyUp() {
         clearTimeout(this.typingTimer);

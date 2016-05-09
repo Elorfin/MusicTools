@@ -1,0 +1,23 @@
+$box-shadow-base: 0 0 2px rgba(0, 0, 0, 0.5);
+
+// Header
+//
+
+$header-height:  (($font-size-base * $line-height) + ($navbar-padding-vertical * 2)) !default;
+$header-bg:      $gray-lighter;
+$header-menu-bg: #FFF;
+
+// Menu
+//
+
+$menu-bg:        $gray-lighter;
+$menu-font-size: 2rem;
+// Defines the width of the menu for large screens (displayed fixed right)
+$menu-width:     60px;
+// Defines the height of the menu for small screens (displayed fixed bottom)
+$menu-height:    ($menu-font-size * $line-height) !default;
+
+// Content
+//
+
+$content-bg:     #FFF;

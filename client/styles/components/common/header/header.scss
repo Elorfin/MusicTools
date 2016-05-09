@@ -1,0 +1,53 @@
+ui-header {
+  position: fixed;
+  z-index: $zindex-navbar-fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  background: $header-bg;
+}
+
+// For large screens
+@include media-breakpoint-up(sm) {
+  ui-header {
+    // Hide toggle menus button
+    .header-menu-toggle {
+      display: none;
+    }
+
+    .header-menu-block {
+      .header-menu {
+        display: inline-block;
+      }
+    }
+  }
+}
+
+// For small screens
+@include media-breakpoint-down(sm) {
+  ui-header {
+    // Display toggle menus button
+    .header-menu-toggle {
+      display: block;
+    }
+
+    .header-menu-block {
+      display: none;
+      position: fixed; // Because if we use absolute, the parent ui-header which is fixed is used for position/size
+      top: 0;
+      bottom: 0;
+      width: 80%;
+      z-index: $zindex-navbar-fixed + 1; // Make the menu overlaps the fixed navbars
+      background: $header-menu-bg;
+      box-shadow: $box-shadow-base;
+
+      &.opened {
+        display: block;
+      }
+
+      .header-menu {
+        display: block;
+      }
+    }
+  }
+}

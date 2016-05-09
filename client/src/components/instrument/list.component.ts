@@ -1,3 +1,10 @@
-/**
- * Created by Corum on 30/04/2016.
- */
+import {Component} from '@angular/core';
+import {Template} from '../../library/layout/template.service';
+
+@Component({
+    templateUrl: Template.getUrl('list.component.html', 'instrument')
+})
+
+export class InstrumentListComponent {
+
+}

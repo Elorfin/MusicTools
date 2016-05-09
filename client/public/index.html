@@ -2,7 +2,7 @@
 
 <html>
     <head>
-        <base href="/MusicTools/client/public/">
+        <base href="/MusicTools/client/public/" />
 
         <meta charset="UTF-8" />
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'" />
@@ -12,13 +12,32 @@
         <!-- Favicon -->
         <link rel="icon" type="image/x-icon" href="favicon.png" />
 
-        <!-- Theme style -->
-        <!--<link type="text/css" rel="stylesheet" href="dist/css/app.min.css" />-->
+        <link type="text/css" rel="stylesheet" href="dist/css/app.css" />
+
+        <!-- 1. Old browsers polyfills -->
+        <script src="../node_modules/es6-shim/es6-shim.min.js"></script>
+        <script src="../node_modules/zone.js/dist/zone.js"></script>
+        <script src="../node_modules/reflect-metadata/Reflect.js"></script>
+
+        <!-- 2. Configure SystemJS -->
+        <script src="../node_modules/systemjs/dist/system.src.js"></script>
+        <script src="../systemjs.config.js"></script>
+        <script>
+            System.import('app').catch(function(err){ console.error(err);  });
+        </script>
     </head>
 
     <body>
-        <music-tools>Loading...</music-tools>
+        <music-tools>
+            <!--Display loading message while app is bootstrapping -->
+            <div class="app-loading">
+                <div class="app-loading-spinner">
+                    <span class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></span>
+                </div>
+                <div class="app-loading-status">
+                    Please wait while the application is loading...
+                </div>
+            </div>
+        </music-tools>
     </body>
-
-    <script src="dist/app.bundle.js"></script>
 </html>

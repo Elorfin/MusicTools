@@ -13,6 +13,7 @@ ui-menu {
 
     a {
       font-size: $menu-font-size;
+      display: block;
     }
   }
 }
@@ -34,8 +35,15 @@ ui-menu {
     }
 
     .menu-group-links {
-      .menu-link-label {
-        display: none;
+      a {
+        text-align: center;
+        padding-top: $grid-gutter-width / 2;
+        padding-bottom: $grid-gutter-width / 2;
+        line-height: 1;
+
+        .menu-link-label {
+          display: none;
+        }
       }
     }
   }
@@ -49,10 +57,6 @@ ui-menu {
     right: 0;
     width: 100%;
 
-    // Avoid extra vertical space because of inline-block children
-    /*font-size: 0;
-    white-space: nowrap;*/
-
     display: table;
 
     .menu-group {
@@ -64,8 +68,8 @@ ui-menu {
       display: inline-block;
       position: relative;
       width: 100%;
-      padding-top: 0;
-      padding-bottom: 0;
+      padding-top: $navbar-padding-vertical;
+      padding-bottom: $navbar-padding-vertical;
       border: none;
     }
 

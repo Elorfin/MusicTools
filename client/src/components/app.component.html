@@ -11,4 +11,7 @@
 <ui-alert></ui-alert>
 
 <!-- Current view -->
-<router-outlet id="content" class="content"></router-outlet>
+<div id="content" class="content">
+    <!-- Warning the content of the router target is bound AFTER the <router-outlet> tag (not inside) -->
+    <router-outlet></router-outlet>
+</div>

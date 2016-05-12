@@ -5,7 +5,7 @@
 </button>
 
 <!-- List of features menu -->
-<div class="header-menu-block" [ngClass]="{ opened: opened }" [onClickOut]="closeMenuBlock">
+<div class="header-menu-block" [ngClass]="{ opened: opened }" (onClickOut)="closeMenuBlock($event)">
     <!-- User menu -->
     <user-menu class="header-menu"></user-menu>
 

@@ -8,6 +8,9 @@ import {UserMenuComponent}       from '../../user/menu.component';
 import {InstrumentMenuComponent} from '../../instrument/menu.component';
 import {NoteFormatMenuComponent} from '../../theory/note/format-menu.component';
 
+/**
+ * Header of the application
+ */
 @Component({
     selector: 'ui-header',
     templateUrl: Template.getUrl('header.component.html', 'common/header'),
@@ -20,11 +23,8 @@ import {NoteFormatMenuComponent} from '../../theory/note/format-menu.component';
     ]
 })
 
-/**
- * Header of the application
- */
 export class HeaderComponent {
-    public opened: Boolean;
+    public opened: Boolean = false;
 
     toggleMenuBlock() {
         console.log('toggle header menu');
@@ -32,8 +32,10 @@ export class HeaderComponent {
     }
 
     closeMenuBlock() {
-        console.log('close header menu');
-        console.log(this.opened);
-        this.opened = false;
+        if (this.opened) {
+            console.log('close header menu');
+            console.log(this.opened);
+            this.opened = false;
+        }
     }
 }

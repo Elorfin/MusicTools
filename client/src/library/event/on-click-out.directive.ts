@@ -1,5 +1,5 @@
 
-import {Directive, ElementRef, Input} from '@angular/core';
+import {Directive, ElementRef, Input, Output, EventEmitter} from '@angular/core';
 
 /**
  * On Click Out Directive
@@ -15,7 +15,8 @@ import {Directive, ElementRef, Input} from '@angular/core';
 })
 
 export class OnClickOutDirective {
-    @Input('onClickOut') callback: Function;
+    /*@Input('onClickOut') callback: Function;*/
+    @Output('onClickOut') clickOut = new EventEmitter();
 
     private element: HTMLElement;
 
@@ -24,18 +25,20 @@ export class OnClickOutDirective {
     }
 
     onClick(event: MouseEvent) {
-        // Check if the User as click inside the element
+        // Check if the User has click inside the element
         let clickOut = false;
 
         const maxX = this.element.clientLeft + this.element.clientWidth;
         const maxY = this.element.clientTop + this.element.clientHeight;
-        if (event.clientX < this.element.clientLeft || event.clientX > maxX || event.clientY < this.element.clientTop || event.clientY > maxY ) {
+        if (event.clientX > this.element.clientLeft || event.clientX < maxX // Check horizontal position
+            || event.clientY > this.element.clientTop || event.clientY < maxY ) {  // Check vertical position
             clickOut = true;
         }
 
         if (clickOut) {
             // Execute the registered callback
-            this.callback();
+            /*this.callback();*/
+            this.clickOut.emit({});
         }
     }
 }

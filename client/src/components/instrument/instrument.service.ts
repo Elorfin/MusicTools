@@ -3,13 +3,17 @@ import {Http, Response} from '@angular/http';
 import {Instrument}     from './instrument';
 import {Observable}     from 'rxjs/Observable';
 
+import 'rxjs/add/observable/throw';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/catch';
+
 @Injectable()
 export class InstrumentService {
     constructor (private http: Http) {}
 
-    private url = 'app/instruments';  // URL to web api
+    private url = 'http://localhost/MusicTools/api/web/api_dev.php/instruments';  // URL to web api
 
-    getAll(): Observable<Instrument[]> {
+    public getAll(): Observable<Instrument[]> {
         return this.http.get(this.url)
             .map(this.extractData)
             .catch(this.handleError);
@@ -23,6 +27,7 @@ export class InstrumentService {
 
         return body.data || { };
     }
+
     private handleError (error: any) {
         // In a real world app, we might send the error to remote logging infrastructure
         let errMsg = error.message || 'Server error';

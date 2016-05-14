@@ -31,6 +31,7 @@ ui-menu {
   ui-menu {
     top: $header-height;
     left: 0;
+    right: auto;
     bottom: 0;
     width: $menu-width;
 
@@ -71,6 +72,7 @@ ui-menu {
 // For small screens
 @include media-breakpoint-down(sm) {
   ui-menu {
+    top: auto;
     bottom: 0;
     left: 0;
     right: 0;

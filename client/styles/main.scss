@@ -13,6 +13,7 @@
 // Import MusicFont
 @import 'music-font/scss/music-font';
 
+@import '_utilities';
 @import 'components/app';
 @import 'components/common/common';
 @import 'components/instrument/menu';

@@ -12,18 +12,16 @@ ui-alert {
 
     .alert-message,
     .alert-link {
-      line-height: 2em; /* Same as line-height of the .fa-stack */
       vertical-align: middle;
     }
 
     .alert-icon {
       color: rgba(0, 0, 0, 0.20);
-      margin-right: $grid-gutter-width;
+      margin-right: 5px;
     }
 
     .alert-link {
       color: rgba(0, 0, 0, 0.20);
-
     }
   }
 }

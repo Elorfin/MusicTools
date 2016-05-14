@@ -1,1 +1,36 @@
-Alerts
+<div *ngFor="let alert of alerts" (click)="removeAlert(alert)" class="alert alert-{{ alert.type }}" role="alert">
+    <div class="row">
+        <div class="col-md-4 col-md-offset-3">
+            <span class="alert-icon fa-stack">
+                <span class="fa fa-circle-thin fa-stack-2x"></span>
+                <span class="fa fa-stack-1x"
+                      [ngClass]="{
+                        'fa-check': 'success' == alert.type,
+                        'fa-minus': 'danger' == alert.type,
+                        'fa-exclamation': 'warning' == alert.type,
+                        'fa-info': 'info' == alert.type
+                      }"
+                ></span>
+            </span>
+
+            <span class="alert-message">{{ alert.message }}</span>
+        </div>
+
+        <div class="col-md-2">
+            <!-- Detail -->
+            <a href="" class="alert-link" (click)="openDetail(alert)" *ngIf="alert.detail">
+                <!--<span class="fa fa-fw fa-plus"></span>-->
+                DETAIL
+            </a>
+
+            <!-- Action button -->
+            <a href="" class="alert-link" (click)="openDetail(alert)" *ngIf="alert.cancel">
+                <!--<span class="fa fa-fw fa-plus"></span>-->
+                CANCEL
+            </a>
+        </div>
+    </div>
+
+
+
+</div>

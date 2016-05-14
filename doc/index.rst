@@ -9,11 +9,11 @@ Summary
 
 - Project Architecture
 
-- API
+- `API <api/index.rst>`_
   
   * `Dependencies <api/dependencies.rst>`_
 
-- Client
+- `Client <client/index.rst>`_
   
   * `Dependencies <client/dependencies.rst>`_
 

@@ -1,3 +1,29 @@
 ui-alert {
   position: absolute;
+  z-index: $zindex-ui-alert;
+  left: 0;
+  right: 0;
+  top: 50%;
+  transform: translate(0, -50%);
+
+  .alert {
+    /*text-align: center;*/
+    box-shadow: $box-shadow-base;
+
+    .alert-message,
+    .alert-link {
+      line-height: 2em; /* Same as line-height of the .fa-stack */
+      vertical-align: middle;
+    }
+
+    .alert-icon {
+      color: rgba(0, 0, 0, 0.20);
+      margin-right: $grid-gutter-width;
+    }
+
+    .alert-link {
+      color: rgba(0, 0, 0, 0.20);
+
+    }
+  }
 }

@@ -4,6 +4,7 @@ ui-menu {
 
   .menu-group-toggle {
     font-size: $menu-font-size;
+    background: none;
   }
 
   .menu-group-links {
@@ -12,8 +13,15 @@ ui-menu {
     margin: 0;
 
     a {
+      position: relative;
+      color: $menu-color;
       font-size: $menu-font-size;
       display: block;
+
+      /* Active route */
+      &.router-link-active {
+        color: $menu-active-color;
+      }
     }
   }
 }
@@ -35,11 +43,22 @@ ui-menu {
     }
 
     .menu-group-links {
+
       a {
         text-align: center;
         padding-top: $grid-gutter-width / 2;
         padding-bottom: $grid-gutter-width / 2;
         line-height: 1;
+
+        /* Active route */
+        &.router-link-active:after {
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          right: 2px;
+          content: " ";
+          border-right: 2px solid $menu-active-color;
+        }
 
         .menu-link-label {
           display: none;
@@ -79,6 +98,11 @@ ui-menu {
 
       &.open {
         display: block;
+      }
+
+      /* Active route */
+      .router-link-active {
+        border-left: 2px solid $menu-active-color;
       }
 
       .menu-link-label {

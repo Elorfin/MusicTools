@@ -208,9 +208,9 @@ $list-inline-padding:         5px !default;
 $line-height-lg:         (4 / 3) !default;
 $line-height-sm:         1.5 !default;
 
-$border-radius:          .25rem !default;
-$border-radius-lg:       .3rem !default;
-$border-radius-sm:       .2rem !default;
+$border-radius:          0 !default;
+$border-radius-lg:       0 !default;
+$border-radius-sm:       0 !default;
 
 $component-active-color: #fff !default;
 $component-active-bg:    $brand-primary !default;
@@ -457,21 +457,21 @@ $jumbotron-bg:                   $gray-lighter !default;
 //
 // Define colors for form feedback states and, by default, alerts.
 
-$state-success-text:             #3c763d !default;
-$state-success-bg:               #dff0d8 !default;
-$state-success-border:           darken($state-success-bg, 5%) !default;
+$state-success-text:             #dff0d8 !default;
+$state-success-bg:               #3c763d !default;
+$state-success-border:           $state-success-bg !default;
 
-$state-info-text:                #31708f !default;
-$state-info-bg:                  #d9edf7 !default;
-$state-info-border:              darken($state-info-bg, 7%) !default;
+$state-info-text:                #d9edf7 !default;
+$state-info-bg:                  #31708f !default;
+$state-info-border:              $state-info-bg !default;
 
-$state-warning-text:             #8a6d3b !default;
-$state-warning-bg:               #fcf8e3 !default;
-$state-warning-border:           darken($state-warning-bg, 5%) !default;
+$state-warning-text:             #fcf8e3 !default;
+$state-warning-bg:               #8a6d3b !default;
+$state-warning-border:           $state-warning-bg !default;
 
-$state-danger-text:              #a94442 !default;
-$state-danger-bg:                #f2dede !default;
-$state-danger-border:            darken($state-danger-bg, 5%) !default;
+$state-danger-text:              #f2dede !default;
+$state-danger-bg:                #a94442 !default;
+$state-danger-border:            $state-danger-bg !default;
 
 
 // Cards
@@ -553,9 +553,9 @@ $modal-sm:                    300px !default;
 //
 // Define alert colors, border radius, and padding.
 
-$alert-padding:               15px !default;
+$alert-padding:               5px !default;
 $alert-border-radius:         $border-radius !default;
-$alert-link-font-weight:      bold !default;
+$alert-link-font-weight:      normal !default;
 $alert-border-width:          $border-width !default;
 
 $alert-success-bg:            $state-success-bg !default;

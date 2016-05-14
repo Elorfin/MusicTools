@@ -9,6 +9,7 @@ music-tools {
 }
 
 music-tools {
+  background: url("../images/background.jpg") repeat scroll center top;
   padding-top:  $header-height;
   padding-left: $menu-width; // Add sidebar space
 
@@ -17,6 +18,10 @@ music-tools {
     padding-left: 0; // Remove sidebar space
     padding-bottom: $menu-height;// Add bottom bar space
   }
+
+  -webkit-transform-style: preserve-3d;
+  -moz-transform-style: preserve-3d;
+  transform-style: preserve-3d;
 }
 
 .app-loading {

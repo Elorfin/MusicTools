@@ -5,6 +5,10 @@ ui-header {
   right: 0;
   top: 0;
   background: $header-bg;
+
+  .header-menu-toggle {
+    background: none;
+  }
 }
 
 // For large screens

@@ -9,7 +9,7 @@ Summary
 
 - `Common <components/common/common.rst>`_
 
-  * `Alert <components/common/alerts.rst>`_
+  * `Alert <components/common/alert.rst>`_
 
 - Features
 

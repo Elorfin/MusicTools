@@ -1,5 +1,5 @@
 ==================
-API > Dependencies
+API - Dependencies
 ==================
 
 Production

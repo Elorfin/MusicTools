@@ -1,5 +1,5 @@
 =====================
-Client > Dependencies
+Client - Dependencies
 =====================
 
 Production

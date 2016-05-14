@@ -1,5 +1,5 @@
 =======================
-Client > Common > Alert
+Client - Common - Alert
 =======================
 
 The Alert component is used to give feedback to actions made by the users.

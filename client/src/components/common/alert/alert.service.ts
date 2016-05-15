@@ -7,6 +7,21 @@ import {Alert} from "./alert";
 @Injectable()
 export class AlertService
 {
+    public ERROR_TYPE:String   = 'danger';
+    public SUCCESS_TYPE:String = 'success';
+    public WARNING_TYPE:String = 'warning';
+    public INFO_TYPE:String    = 'info';
+
+    /**
+     * Display duration for the alert which are configured to be auto-hidden
+     * @type {number}
+     */
+    private displayDuration:Number = 10000;
+
+    /**
+     * List of all current active alerts
+     * @param alert
+     */
     private alerts: Alert[] = [
         {
             type: 'success',
@@ -44,15 +59,28 @@ export class AlertService
         }
     ];
 
+    /**
+     * Get active alerts
+     * @returns {Array}
+     */
     public getAlerts(): Alert[] {
         return this.alerts;
     }
 
+    /**
+     * Add a new Alert in the alerts stack
+     * @param {Alert} alert
+     */
     public add(alert: Alert) {
-
+        this.alerts.push(alert);
     }
 
-    public remove(alert: Alert) {
+    /**
+     * Remove an alert from the alerts stack
+     * @param {Object}  alert
+     * @param {boolean} [clearTimeout]
+     */
+    public remove(alert: Alert, clearTimeout: Boolean) {
         var pos = this.alerts.indexOf(alert);
         if (-1 !== pos) {
             this.alerts.splice(pos, 1);

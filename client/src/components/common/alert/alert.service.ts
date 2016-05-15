@@ -48,11 +48,14 @@ export class AlertService
         return this.alerts;
     }
 
-    public add() {
+    public add(alert: Alert) {
 
     }
 
-    public remove() {
-
+    public remove(alert: Alert) {
+        var pos = this.alerts.indexOf(alert);
+        if (-1 !== pos) {
+            this.alerts.splice(pos, 1);
+        }
     }
 }

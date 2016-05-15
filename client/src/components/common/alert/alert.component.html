@@ -19,12 +19,42 @@
     </a>
 
     <!-- Retry -->
-    <a href="" class="alert-link" (click)="openDetail()" *ngIf="alerts[0].retry">
+    <a href="" class="alert-link" (click)="alert.retry()" *ngIf="alerts[0].retry">
         RETRY
     </a>
 
     <!-- Cancel -->
-    <a href="" class="alert-link" (click)="openDetail()" *ngIf="alerts[0].cancel">
+    <a href="" class="alert-link" (click)="alert.cancel()" *ngIf="alerts[0].cancel">
         CANCEL
     </a>
+</div>
+
+<div *ngIf="alerts.length > 1" class="text-center">
+    <!-- Other success -->
+    <span class="alert-icon fa-stack">
+        <span class="fa fa-circle-thin fa-stack-2x"></span>
+        <span class="fa fa-stack-1x fa-check"></span>
+    </span>
+    <span class="alert-count">0</span>
+
+    <!-- Other danger -->
+    <span class="alert-icon fa-stack">
+        <span class="fa fa-circle-thin fa-stack-2x"></span>
+        <span class="fa fa-stack-1x fa-minus"></span>
+    </span>
+    <span class="alert-count">2</span>
+
+    <!-- Other warning -->
+    <span class="alert-icon fa-stack">
+        <span class="fa fa-circle-thin fa-stack-2x"></span>
+        <span class="fa fa-stack-1x fa-exclamation"></span>
+    </span>
+    <span class="alert-count">10</span>
+
+    <!-- Other info -->
+    <span class="alert-icon fa-stack">
+        <span class="fa fa-circle-thin fa-stack-2x"></span>
+        <span class="fa fa-stack-1x fa-info"></span>
+    </span>
+    <span class="alert-count">0</span>
 </div>

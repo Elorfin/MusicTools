@@ -10,7 +10,14 @@ import {SongListComponent}       from './song/list.component';
 import {TheorySummaryComponent}  from './theory/summary.component';
 import {LessonListComponent}     from './lesson/list.component';
 import {GameListComponent}       from './game/list.component';
+
+// Community
 import {UserListComponent}       from './user/list.component';
+import {MessageListComponent}    from './message/list.component';
+import {UserProfileComponent}    from './user/profile.component';
+
+// Settings
+import {SettingsComponent}       from './settings/settings.component';
 
 @Routes([
     // Dashboard (default route)
@@ -26,7 +33,12 @@ import {UserListComponent}       from './user/list.component';
     { path: '/games',       component: GameListComponent },
 
     // Community
-    { path: '/users',       component: UserListComponent }
+    { path: '/users',       component: UserListComponent },
+    { path: '/messages',    component: MessageListComponent },
+    { path: '/profile',     component: UserProfileComponent },
+
+    // Settings
+    { path: '/settings',    component: SettingsComponent }
 ])
 
 @Component({
@@ -36,5 +48,5 @@ import {UserListComponent}       from './user/list.component';
 })
 
 export class AppComponent {
-
+    public pushContent: Boolean = false;
 }

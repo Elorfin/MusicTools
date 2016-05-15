@@ -1,12 +1,12 @@
-import {Component}                           from '@angular/core';
-import {ROUTER_DIRECTIVES, ROUTER_PROVIDERS} from '@angular/router';
-import {Template}                            from '../../../library/layout/template.service';
-import {MenuGroup}                           from './menu-group';
+import {Component}         from '@angular/core';
+import {ROUTER_DIRECTIVES} from '@angular/router';
+import {Template}          from '../../../library/layout/template.service';
+import {MenuGroup}         from './menu-group';
 
 @Component({
     selector:    'ui-menu',
     templateUrl: Template.getUrl('menu.component.html', 'common/menu'),
-    directives:  [ ROUTER_DIRECTIVES ],
+    directives:  [ ROUTER_DIRECTIVES ]
 })
 
 /**
@@ -26,7 +26,7 @@ export class MenuComponent {
         icon: 'fa fa-graduation-cap',
         label: 'Theory',
         items: [
-            { icon: 'fa fa-book',           label: 'References', route: '/references' },
+            { icon: 'fa fa-book',           label: 'References', route: '/theory' },
             { icon: 'fa fa-graduation-cap', label: 'Lessons',    route: '/lessons' },
             { icon: 'fa fa-gamepad',        label: 'Games',      route: '/games' }
         ]

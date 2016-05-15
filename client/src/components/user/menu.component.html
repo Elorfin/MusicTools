@@ -1,1 +1,28 @@
-User menu
+<button type="button" class="btn" (click)="opened = !opened" [ngClass]="{ active: opened }" aria-haspopup="true" aria-expanded="false">
+    <!-- Display User avatar -->
+    <img class="user-avatar" src="{{ user.avatar }}" alt="User avatar" />
+</button>
+
+<div class="user-menu-block" [ngClass]="{ open: opened }">
+    <div class="user-menu-header">Elorfin</div>
+
+    <a class="user-menu-item" [routerLink]="[ '/profile' ]">
+        <span class="fa fa-fw fa-user"></span>
+        profile
+    </a>
+
+    <a class="user-menu-item" [routerLink]="[ '/messages' ]">
+        <span class="fa fa-fw fa-envelope"></span>
+        messages
+    </a>
+
+    <a class="user-menu-item" [routerLink]="[ '/settings' ]">
+        <span class="fa fa-fw fa-gears"></span>
+        settings
+    </a>
+
+    <a class="user-menu-item user-menu-logout" href="#logout">
+        <span class="fa fa-fw fa-power-off"></span>
+        sign out
+    </a>
+</div>

@@ -1,11 +1,15 @@
 $box-shadow-base: 0 0 2px 1px rgba(0, 0, 0, 0.5);
 
-$zindex-ui-alert: 1060 !default;
+$zindex-ui-alert: 999 !default;
+
+$user-avatar-size: 2.75rem;
+
+$push-menu-size: 200px;
 
 // Header
 //
 
-$header-height:  (($font-size-base * $line-height) + ($navbar-padding-vertical * 2)) !default;
+$header-height:  ($user-avatar-size + ($navbar-padding-vertical * 2)) !default;
 $header-bg:      rgba(0, 0, 0, 0.25);
 $header-menu-bg: rgba(0, 0, 0, 0.5);
 
@@ -17,6 +21,7 @@ $menu-bg:           rgba(0, 0, 0, 0.25);
 // Text styles
 $menu-font-size:    1.5rem;
 $menu-color:        $body-color !default;
+$menu-hover-color:  $gray-light !default;
 $menu-hover-color:  rgba(255,255,255,.75) !default;
 $menu-active-color: $brand-primary !default;
 

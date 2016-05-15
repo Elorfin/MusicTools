@@ -20,7 +20,7 @@ export class User {
 
     public gender: String;
 
-    public website: URL;
+    public website: String;
 
     public lastLogin: Date;
 }

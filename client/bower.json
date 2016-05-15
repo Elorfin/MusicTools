@@ -8,21 +8,7 @@
     "license": "MIT",
     "private": true,
     "dependencies": {
-        "jquery": "latest",
-        "bootstrap": "latest",
         "font-awesome": "latest",
-        "angular": "latest",
-        "angular-route": "latest",
-        "angular-animate": "latest",
-        "angular-sanitize": "latest",
-        "angular-bootstrap": "latest",
-        "angular-translate": "latest",
-        "messageformat": "latest",
-        "angular-translate-interpolation-messageformat": "latest",
-        "angular-loading-bar": "latest",
-        "angular-ui-tinymce": "latest",
-        "ng-file-upload": "latest",
-        "malihu-custom-scrollbar-plugin": "latest",
         "AlphaTab": "git://github.com/CoderLine/AlphaTab.git#master"
     }
 }

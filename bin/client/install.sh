@@ -15,14 +15,9 @@ echo "Done"
 # Get dependencies
 echo "Install dependencies..."
 npm install
-bower install
 echo "Done"
 
-# Build project
-echo "Build Angular 1 web application"
-grunt build
-echo "Done"
-
-echo "Build Angular 2 web application"
-npm run webpack
+# Build project (compile TypeScripts + dump assets)
+echo "Build Angular web application"
+npm run build
 echo "Done"

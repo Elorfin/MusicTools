@@ -60,24 +60,12 @@ module.exports = function (grunt) {
                 dest: '<%= distFolder %>/',
                 expand: true
             }
-        },
-
-        // Watcher
-        /*watch: {
-            html: {
-                files: [
-                    '<%= clientFolder %>/back/!**!/!*.html',
-                    '<%= clientFolder %>/images/!*'
-                ],
-                tasks: ['copy']
-            }
-        }*/
+        }
     });
 
     // Load Grunt task runners
     grunt.loadNpmTasks('grunt-contrib-sass');
     grunt.loadNpmTasks('grunt-contrib-copy');
-    grunt.loadNpmTasks('grunt-contrib-watch');
 
     // Register our own custom task alias.
     grunt.registerTask('build', ['sass', 'copy']);

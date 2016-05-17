@@ -15,7 +15,7 @@ import {InstrumentService} from "./instrument.service";
  * Instrument menu
  */
 export class InstrumentMenuComponent implements OnInit {
-    instruments:Instrument[];
+    public instruments:Instrument[];
 
     constructor (private instrumentService: InstrumentService) {}
 

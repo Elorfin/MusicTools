@@ -10,12 +10,16 @@
 // Import FontAwesome
 @import '../node_modules/font-awesome/scss/font-awesome';
 
+// Import Bootstrap overrides
+@import 'bootstrap/bootstrap';
+
 // Import MusicFont
 @import 'music-font/scss/music-font';
 
 @import '_utilities';
 @import 'components/app';
 @import 'components/common/common';
+@import 'components/instrument/main';
 @import 'components/instrument/menu';
 @import 'components/theory/theory';
 @import 'components/user/menu';

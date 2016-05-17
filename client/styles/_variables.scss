@@ -36,14 +36,14 @@ $brand-primary:             rgb(49, 112, 143) !default;
 $brand-success:             #5cb85c !default;
 $brand-info:                #5bc0de !default;
 $brand-warning:             #f0ad4e !default;
-$brand-danger:              #d9534f !default;
+$brand-danger:              #a31c2d !default;
 
 
 // Options
 //
 // Quickly modify global styling by enabling or disabling optional features.
 
-$enable-flex:               false !default;
+$enable-flex:               true !default;
 $enable-rounded:            true !default;
 $enable-shadows:            false !default;
 $enable-gradients:          false !default;
@@ -248,8 +248,8 @@ $btn-primary-bg:                 $brand-primary !default;
 $btn-primary-border:             $btn-primary-bg !default;
 
 $btn-secondary-color:            $gray-dark !default;
-$btn-secondary-bg:               #fff !default;
-$btn-secondary-border:           #ccc !default;
+$btn-secondary-bg:               $gray !default;
+$btn-secondary-border:           $btn-secondary-bg !default;
 
 $btn-info-color:                 #fff !default;
 $btn-info-bg:                    $brand-info !default;
@@ -458,11 +458,11 @@ $jumbotron-bg:                   $gray-lighter !default;
 // Define colors for form feedback states and, by default, alerts.
 
 $state-success-text:             #dff0d8 !default;
-$state-success-bg:               rgba(60, 118, 61, 0.75) !default;
+$state-success-bg:               rgba(60, 118, 61, 0.9) !default;
 $state-success-border:           transparent !default;
 
 $state-info-text:                #d9edf7 !default;
-$state-info-bg:                  rgba(49, 112, 143, 0.75) !default;
+$state-info-bg:                  rgba(49, 112, 143, 0.9) !default;
 $state-info-border:              transparent !default;
 
 $state-warning-text:             #fcf8e3 !default;
@@ -470,18 +470,18 @@ $state-warning-bg:               #8a6d3b !default;
 $state-warning-border:           transparent !default;
 
 $state-danger-text:              #f2dede !default;
-$state-danger-bg:                #a94442 !default;
+$state-danger-bg:                rgba(163, 28, 45, 0.9) !default;
 $state-danger-border:            transparent !default;
 
 
 // Cards
-$card-spacer-x:            1.25rem !default;
+$card-spacer-x:            .75rem !default;
 $card-spacer-y:            .75rem !default;
-$card-border-width:        0 !default;
+$card-border-width:        1px !default;
 $card-border-radius:       $border-radius !default;
-$card-border-color:        #e5e5e5 !default;
+$card-border-color:        $brand-primary !default;
 $card-border-radius-inner: $card-border-radius !default;
-$card-cap-bg:              #f5f5f5 !default;
+$card-cap-bg:              rgba(0, 0, 0, 0.3) !default;
 $card-bg:                  rgba(0, 0, 0, 0.25) !default;
 
 $card-link-hover-color:    #fff !default;

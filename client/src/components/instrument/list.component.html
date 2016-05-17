@@ -2,4 +2,22 @@
     <h1 class="content-header">
         Instruments
     </h1>
+
+    <div class="card-deck">
+        <a class="card instrument-item" *ngFor="let instrument of instruments" [routerLink]="['/instruments', instrument.id]">
+            <div class="card-header">
+                {{ instrument.attributes.name }}
+            </div>
+            <img class="card-img instrument-type" data-src="{{ 'dist/images/' + instrument.relationships.instrumentType.data.attributes.icon }}" alt="Card image cap" />
+
+                <!--<button type="button" class="btn btn-primary-outline">Primary</button>-->
+            <button type="button" class="card-btn-left btn btn-sm btn-secondary-outline">
+                <span class="fa fa-fw fa-check"></span>
+            </button>
+
+            <button type="button" class="card-btn-right btn btn-sm btn-secondary-outline">
+                <span class="fa fa-fw fa-trash-o"></span>
+            </button>
+        </a>
+    </div>
 </div>

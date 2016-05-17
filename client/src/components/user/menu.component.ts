@@ -1,7 +1,7 @@
-import {Component} from '@angular/core';
+import {Component}         from '@angular/core';
 import {ROUTER_DIRECTIVES} from '@angular/router';
-import {Template} from '../../library/layout/template.service';
-import {User} from "./user";
+import {Template}          from '../../library/layout/template.service';
+import {User}              from './user';
 
 @Component({
     selector: 'user-menu',
@@ -13,7 +13,7 @@ import {User} from "./user";
  * User menu
  */
 export class UserMenuComponent {
-    public opened: Boolean = false;
+    public opened: Boolean = true;
 
     public user: User = {
         username: 'Elorfin',

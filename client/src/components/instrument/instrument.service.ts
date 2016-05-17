@@ -14,7 +14,15 @@ export class InstrumentService {
     private url = 'http://localhost/MusicTools/api/web/api_dev.php/instruments';  // URL to web api
 
     public getAll(): Observable<Instrument[]> {
-        return this.http.get(this.url)
+        return this.http
+            .get(this.url)
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
+
+    public get(id: String): Observable<Instrument> {
+        return this.http
+            .get(this.url + '/' + id)
             .map(this.extractData)
             .catch(this.handleError);
     }

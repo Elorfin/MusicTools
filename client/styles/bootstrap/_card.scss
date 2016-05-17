@@ -10,6 +10,8 @@
 
   .card-header {
     color: $gray-light;
+    border-bottom: none;
+    border-top: 2px solid $card-border-color;
   }
 
   .card-img {

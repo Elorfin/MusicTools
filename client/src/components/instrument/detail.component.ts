@@ -3,6 +3,7 @@ import {Template}          from '../../library/layout/template.service';
 import {Instrument}        from './instrument';
 import {InstrumentService} from "./instrument.service";
 import {RouteSegment, OnActivate} from '@angular/router';
+
 @Component({
     selector: 'instrument-detail',
     templateUrl: Template.getUrl('detail.component.html', 'instrument'),

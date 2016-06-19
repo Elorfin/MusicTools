@@ -1,46 +1,43 @@
 <?php
 
-namespace TuningBundle\Entity\Strings;
+namespace TuningBundle\Entity;
 
 use CommonBundle\Model\UniqueIdentifierTrait;
 use Doctrine\ORM\Mapping as ORM;
 use TheoryBundle\Entity\Note\Note;
 
 /**
- * StringTuning Entity
- * Stores a String and its associated Note.
+ * TuningNote
  *
  * @ORM\Entity()
- * @ORM\Table(name="tuning_string")
+ * @ORM\Table(name="tuning_note")
  */
-class StringTuning implements \JsonSerializable
+class TuningNote implements \JsonSerializable
 {
-    /*
+    /**
      * ID
      */
     use UniqueIdentifierTrait;
 
     /**
-     * Number of the String.
+     * Order of the Note into the Tuning
      *
      * @var int
-     *
-     * @ORM\Column(type="integer")
      */
-    protected $number;
+    protected $order;
 
     /**
-     * Linked Tuning.
+     * Parent Tuning
      *
-     * @var StringsTuning
+     * @var Tuning
      *
-     * @ORM\ManyToOne(targetEntity="TuningBundle\Entity\Strings\StringsTuning", inversedBy="strings")
+     * @ORM\ManyToOne(targetEntity="TuningBundle\Entity\Tuning", inversedBy="notes")
      * @ORM\JoinColumn(name="tuning_id", referencedColumnName="id")
      */
     protected $tuning;
 
     /**
-     * Note of the String.
+     * Note
      *
      * @var Note
      *
@@ -50,25 +47,24 @@ class StringTuning implements \JsonSerializable
     protected $note;
 
     /**
-     * Get number.
+     * Get order.
      *
      * @return int
      */
-    public function getNumber()
+    public function getOrder()
     {
-        return $this->number;
+        return $this->order;
     }
 
     /**
-     * Set number.
+     * Set order.
      *
-     * @param int $number
-     *
-     * @return StringTuning
+     * @param  int $order
+     * @return TuningNote
      */
-    public function setNumber($number)
+    public function setOrder($order)
     {
-        $this->number = $number;
+        $this->order = $order;
 
         return $this;
     }
@@ -76,7 +72,7 @@ class StringTuning implements \JsonSerializable
     /**
      * Get Tuning.
      *
-     * @return StringsTuning
+     * @return Tuning
      */
     public function getTuning()
     {
@@ -86,11 +82,10 @@ class StringTuning implements \JsonSerializable
     /**
      * Set Tuning.
      *
-     * @param StringsTuning $tuning
-     *
-     * @return StringTuning
+     * @param Tuning $tuning
+     * @return TuningNote
      */
-    public function setTuning(StringsTuning $tuning)
+    public function setTuning(Tuning $tuning)
     {
         $this->tuning = $tuning;
 
@@ -111,8 +106,7 @@ class StringTuning implements \JsonSerializable
      * Set Note.
      *
      * @param Note $note
-     *
-     * @return StringTuning
+     * @return TuningNote
      */
     public function setNote(Note $note)
     {
@@ -121,29 +115,24 @@ class StringTuning implements \JsonSerializable
         return $this;
     }
 
-    /**
-     * Serialize the Entity.
-     *
-     * @return array
-     */
     public function jsonSerialize()
     {
         return [
             // Identifier of the Resource
-            'type' => 'strings',
+            'type' => 'tuning_notes',
             'id' => $this->id,
 
             // Attributes of the Resource
             'attributes' => [
-                'number' => $this->number,
+                'order' => $this->order,
             ],
 
-            // Relationships with other Resources
+            // Relationships of the Resources
             'relationships' => [
                 'note' => [
                     'data' => $this->note,
-                ],
-            ],
+                ]
+            ]
         ];
     }
 }

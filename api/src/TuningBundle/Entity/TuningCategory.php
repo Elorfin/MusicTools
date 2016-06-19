@@ -13,7 +13,7 @@ use InstrumentBundle\Entity\InstrumentType;
  * @ORM\Entity()
  * @ORM\Table(name="tuning_category")
  */
-class TuningCategory
+class TuningCategory implements \JsonSerializable
 {
     /*
      * ID
@@ -57,5 +57,19 @@ class TuningCategory
         $this->instrumentType = $instrumentType;
 
         return $this;
+    }
+
+    public function jsonSerialize()
+    {
+        return [
+            // Identifier of the Resource
+            'type' => 'tuning_categories',
+            'id' => $this->id,
+
+            // Attributes of the Resource
+            'attributes' => [
+                'name' => $this->name,
+            ],
+        ];
     }
 }

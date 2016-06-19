@@ -7,16 +7,17 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Elorfin\JsonApiBundle\Response\JsonApiResponse;
 use InstrumentBundle\Entity\InstrumentType;
+use TuningBundle\Entity\Tuning;
 
 /**
  * Tuning CRUD Controller.
  *
- * @Route("/instrument_types/{instrumentType}/tunings")
+ * @Route("/tunings")
  */
 class TuningController extends Controller
 {
     /**
-     * List all Templates.
+     * List all Tunings.
      *
      * @param InstrumentType $instrumentType
      *
@@ -65,7 +66,7 @@ class TuningController extends Controller
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      *
-     * @return AbstractTuning
+     * @return Tuning
      */
     private function getEntity(InstrumentType $instrumentType, $id)
     {

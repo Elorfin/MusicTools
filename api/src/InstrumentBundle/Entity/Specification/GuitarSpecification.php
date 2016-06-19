@@ -5,7 +5,8 @@ namespace InstrumentBundle\Entity\Specification;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use CommonBundle\Model\UniqueIdentifierTrait;
-use TuningBundle\Entity\Strings\StringsTuning;
+use TuningBundle\Entity\Tuning;
+use TuningBundle\Model\TuningTrait;
 
 /**
  * Guitar Entity
@@ -20,6 +21,11 @@ class GuitarSpecification extends AbstractSpecification
      * ID
      */
     use UniqueIdentifierTrait;
+
+    /**
+     * Tuning of the Guitar
+     */
+    use TuningTrait;
 
     /**
      * Shape of the guitar's headstock (in-line or top-bottom).
@@ -92,16 +98,6 @@ class GuitarSpecification extends AbstractSpecification
      * @ORM\Column(type="boolean")
      */
     protected $leftHanded = false;
-
-    /**
-     * Tuning of the Guitar.
-     *
-     * @var StringsTuning
-     *
-     * @ORM\OneToOne(targetEntity="TuningBundle\Entity\Strings\StringsTuning")
-     * @ORM\JoinColumn(name="tuning_id", referencedColumnName="id")
-     */
-    protected $tuning;
 
     /**
      * Get headstock.
@@ -243,30 +239,6 @@ class GuitarSpecification extends AbstractSpecification
     public function setLeftHanded($leftHanded)
     {
         $this->leftHanded = $leftHanded;
-
-        return $this;
-    }
-
-    /**
-     * Get tuning.
-     *
-     * @return StringsTuning
-     */
-    public function getTuning()
-    {
-        return $this->tuning;
-    }
-
-    /**
-     * Set tuning.
-     *
-     * @param StringsTuning $tuning
-     *
-     * @return $this
-     */
-    public function setTuning(StringsTuning $tuning = null)
-    {
-        $this->tuning = $tuning;
 
         return $this;
     }

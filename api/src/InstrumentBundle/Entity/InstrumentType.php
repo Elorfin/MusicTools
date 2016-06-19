@@ -111,16 +111,6 @@ class InstrumentType implements \JsonSerializable
     }
 
     /**
-     * Get Template class name.
-     *
-     * @return string
-     */
-    public function getTemplate()
-    {
-        return '\\InstrumentBundle\\Entity\\Template\\'.$this->prefix.'Template';
-    }
-
-    /**
      * Is polyphonic ?
      *
      * @return bool

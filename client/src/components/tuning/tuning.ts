@@ -1,9 +1,9 @@
 /**
- * Instrument definition
+ * Tuning definition
  */
-export class Instrument {
+export class Tuning {
     /**
-     * ID of the Instrument
+     * ID of the Tuning
      * @type {String}
      */
     public id: String;

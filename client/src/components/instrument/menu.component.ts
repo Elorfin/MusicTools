@@ -5,10 +5,7 @@ import {InstrumentService} from "./instrument.service";
 
 @Component({
     selector: 'instrument-menu',
-    templateUrl: Template.getUrl('menu.component.html', 'instrument'),
-    providers:  [
-        InstrumentService
-    ]
+    templateUrl: Template.getUrl('menu.component.html', 'instrument')
 })
 
 /**

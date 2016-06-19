@@ -7,10 +7,7 @@ import {InstrumentService} from './instrument.service';
 @Component({
     selector: 'instrument-list',
     templateUrl: Template.getUrl('list.component.html', 'instrument'),
-    directives:  [ ROUTER_DIRECTIVES ],
-    providers:  [
-        InstrumentService
-    ]
+    directives:  [ ROUTER_DIRECTIVES ]
 })
 
 export class InstrumentListComponent implements OnInit {

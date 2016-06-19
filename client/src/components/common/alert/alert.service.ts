@@ -23,7 +23,7 @@ export class AlertService
      * @param alert
      */
     private alerts: Alert[] = [
-        {
+        /*{
             type: 'success',
             message: 'Entity successfully created !',
             detail: null,
@@ -56,7 +56,7 @@ export class AlertService
             message: 'Ceci est une alerte',
             detail: 'ghergresg drfgr gsreg rsdegres gsdrgr sgsdgsdg',
             cancel: null
-        }
+        }*/
     ];
 
     /**

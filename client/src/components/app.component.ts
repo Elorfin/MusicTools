@@ -12,6 +12,8 @@ import {TheorySummaryComponent}    from './theory/summary.component';
 import {LessonListComponent}       from './lesson/list.component';
 import {GameListComponent}         from './game/list.component';
 
+import {InstrumentService}   from './instrument/instrument.service';
+
 // Community
 import {UserListComponent}       from './user/list.component';
 import {MessageListComponent}    from './message/list.component';
@@ -51,6 +53,9 @@ import {SettingsComponent}       from './settings/settings.component';
         HeaderComponent,
         MenuComponent,
         AlertComponent
+    ],
+    providers:  [
+        InstrumentService
     ]
 })
 

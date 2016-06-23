@@ -8,7 +8,7 @@ source $CURRENT_DIR/../shared/colors.sh
 
 echo -e "${BLUE}[Client installation]${NC}"
 
-echo "Move into API directory ($SRC_PATH)"
+echo "Move into Client directory ($SRC_PATH)"
 cd $SRC_PATH
 echo "Done"
 

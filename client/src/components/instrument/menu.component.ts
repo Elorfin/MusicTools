@@ -1,18 +1,19 @@
 import {Component, OnInit} from '@angular/core';
-import {Template} from '../../library/layout/template.service';
-import {Instrument} from "./instrument";
+import {Template}          from '../../library/layout/template.service';
+import {Instrument}        from "./instrument";
 import {InstrumentService} from "./instrument.service";
-
-@Component({
-    selector: 'instrument-menu',
-    templateUrl: Template.getUrl('menu.component.html', 'instrument')
-})
 
 /**
  * Instrument menu
  */
+@Component({
+    selector: 'instrument-menu',
+    templateUrl: Template.getUrl('menu.component.html', 'instrument')
+})
 export class InstrumentMenuComponent implements OnInit {
-    public instruments:Instrument[];
+    public instruments: Instrument[];
+
+    public opened: Boolean = false;
 
     constructor (private instrumentService: InstrumentService) {}
 
@@ -21,11 +22,14 @@ export class InstrumentMenuComponent implements OnInit {
     }
 
     getInstruments() {
-        console.log('test');
         this.instrumentService
             .getAll()
             .subscribe(
                 instruments => this.instruments = instruments
             );
+    }
+
+    selectInstrument(instrument: Instrument) {
+        this.instrumentService.setCurrent(instrument);
     }
 }

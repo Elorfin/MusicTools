@@ -15,8 +15,6 @@ It permits to register all your instruments to display notes, scales or chords o
 
 It also includes the possibility to organize all the music sheets and resources needed to learn a specific song.
 
-### Why do I need it ?
-
 ### Supported instruments
 - Guitar
 - Bass
@@ -31,40 +29,26 @@ It also includes the possibility to organize all the music sheets and resources 
 ## Contributing
 
 ### Requirements
-- PHP > 5.5
+- PHP > 5.6
 - composer
 - nodeJS
 - npm
 
 ### Installation
 
-#### Get the server sources
+#### Get the source code
 ```
 $ git clone git@github.com:Elorfin/MusicTools.git
-$ cd MusicTools
-$ composer update --prefer-source -o
 ```
 
-#### Configure application
+#### Install and configure API
 ```
-$ cp app/config/parameters.yml.dist app/config/parameters.yml
-$ vi parameters.yml
-```
-
-#### Create and populate database
-```
-$ php bin/console doctrine:database:create
-$ php bin/console doctrine:schema:update --force
-$ php bin/console doctrine:fixtures:load
+$ ./bin/api/install.sh
 ```
 
-#### Get the client sources
-```
-$ npm install
-$ bower install
-```
+At the end of the installation process, the file `api/app/config/parameters.yml` will be opened with `vi` to let you configure the app
 
-#### Build client
+#### Install client
 ```
-$ grunt build
+$ ./bin/client/install.sh
 ```

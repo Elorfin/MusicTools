@@ -1,3 +1,5 @@
+import {InstrumentType} from "./instrument-type";
+
 /**
  * Instrument definition
  */
@@ -12,5 +14,8 @@ export class Instrument {
 
     public attributes: Object;
 
-    public relationships: Object;
+    public relationships: {
+        instrumentType: InstrumentType,
+        specification: Object
+    };
 }

@@ -1,46 +1,70 @@
-import {Injectable}     from '@angular/core';
-import {Http, Response} from '@angular/http';
-import {Instrument}     from './instrument';
-import {Observable}     from 'rxjs/Observable';
+import {Injectable} from '@angular/core';
+import {Instrument} from './instrument';
+import {Observable} from 'rxjs/Observable';
+import {ApiService} from "../../library/api/api-service";
 
-import 'rxjs/add/observable/throw';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/catch';
-
+/**
+ * Instrument Service
+ * Manages user's Instruments
+ */
 @Injectable()
 export class InstrumentService {
-    constructor (private http: Http) {}
+    /**
+     * URL to access Instrument data.
+     *
+     * @type {string}
+     */
+    private url = 'http://localhost/MusicTools/api/web/api_dev.php/instruments';
 
-    private url = 'http://localhost/MusicTools/api/web/api_dev.php/instruments';  // URL to web api
+    /**
+     * Current selected Instrument.
+     *
+     * @type {Instrument}
+     */
+    protected current: Instrument;
 
+    /**
+     * Class constructor.
+     *
+     * @param {ApiService} apiService
+     */
+    constructor (private apiService: ApiService) {}
+
+    /**
+     * Sets the current Instrument.
+     *
+     * @param {Instrument} current
+     */
+    public setCurrent(current: Instrument): void {
+        this.current = current;
+    }
+
+    /**
+     * Gets the current Instrument.
+     *
+     * @return {Instrument}
+     */
+    public getCurrent(): Instrument {
+        return this.current;
+    }
+
+    /**
+     * Get all Instruments.
+     *
+     * @returns {Promise}
+     */
     public getAll(): Observable<Instrument[]> {
-        return this.http
-            .get(this.url)
-            .map(this.extractData)
-            .catch(this.handleError);
+        return this.apiService.call(this.url);
     }
 
+    /**
+     * Get an Instrument by its identifier.
+     *
+     * @param   {string} id
+     *
+     * @returns {Promise}
+     */
     public get(id: String): Observable<Instrument> {
-        return this.http
-            .get(this.url + '/' + id)
-            .map(this.extractData)
-            .catch(this.handleError);
-    }
-
-    private extractData(res: Response) {
-        if (res.status < 200 || res.status >= 300) {
-            throw new Error('Bad response status: ' + res.status);
-        }
-        let body = res.json();
-
-        return body.data || { };
-    }
-
-    private handleError (error: any) {
-        // In a real world app, we might send the error to remote logging infrastructure
-        let errMsg = error.message || 'Server error';
-        console.error(errMsg); // log to console instead
-
-        return Observable.throw(errMsg);
+        return this.apiService.call(this.url + '/' + id);
     }
 }

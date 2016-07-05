@@ -21,6 +21,7 @@ import {UserProfileComponent}    from './user/profile.component';
 
 // Settings
 import {SettingsComponent}       from './settings/settings.component';
+import {ApiService} from "../library/api/api-service";
 
 @Routes([
     // Dashboard (default route)
@@ -55,6 +56,7 @@ import {SettingsComponent}       from './settings/settings.component';
         AlertComponent
     ],
     providers:  [
+        ApiService,
         InstrumentService
     ]
 })

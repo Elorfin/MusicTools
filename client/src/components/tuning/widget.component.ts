@@ -1,7 +1,7 @@
 import {Component}     from '@angular/core';
 import {Template}      from '../../library/layout/template.service';
 import {Tuning}        from './tuning';
-import {TuningService} from "./runing.service";
+import {TuningService} from "./tuning.service";
 
 @Component({
     selector: 'tuning',

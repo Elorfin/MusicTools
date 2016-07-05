@@ -13,9 +13,9 @@ use Elorfin\ResourceBundle\Entity\Image;
  * @ORM\Entity(repositoryClass="UserBundle\Repository\UserRepository")
  * @ORM\Table(name="user")
  */
-class User
+class User implements \JsonSerializable
 {
-    /*
+    /**
      * ID
      */
     use UniqueIdentifierTrait;
@@ -117,6 +117,14 @@ class User
      * @ORM\Column(type="date", nullable=true)
      */
     protected $lastLogin;
+
+    /**
+     * Settings of the User
+     * @var Settings
+     *
+     *
+     */
+    protected $settings;
 
     /**
      * Get username.
@@ -380,5 +388,31 @@ class User
         $this->lastLogin = $lastLogin;
 
         return $this;
+    }
+
+    public function jsonSerialize()
+    {
+        return [
+            'id' => $this->id,
+            'type' => 'users',
+            'attributes' => [
+                'username' => $this->username,
+                'firstName' => $this->firstName,
+                'lastName' => $this->lastName,
+                'avatar' => $this->avatar,
+                'description' => $this->description,
+                'status' => $this->status,
+                'location' => $this->location,
+                'birthDate' => $this->birthDate,
+                'gender' => $this->gender,
+                'website' => $this->website,
+                'lastLogin' => $this->lastLogin,
+            ],
+            'relationships' => [
+                'settings' => [
+                    'data' => $this->settings,
+                ]
+            ]
+        ];
     }
 }

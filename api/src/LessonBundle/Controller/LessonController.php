@@ -84,10 +84,10 @@ class LessonController extends Controller
         $form->handleRequest($request);
         if ($form->isValid()) {
             // Save entity
-            $this->container->get('doctrine.orm.entity_manager')->persist($instrument);
+            $this->container->get('doctrine.orm.entity_manager')->persist($lesson);
             $this->container->get('doctrine.orm.entity_manager')->flush();
 
-            return new JsonApiResponse($instrument);
+            return new JsonApiResponse($lesson);
         }
 
         $errors = $this->getFormErrors($form);

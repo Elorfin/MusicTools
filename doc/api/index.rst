@@ -18,9 +18,7 @@ Summary
 
 - Data structure
 
-  * `Response format <client/dependencies.rst>`_
+  * `Response format <data/response.rst>`_
 
-    * Nested ?
-    
 - `Endpoints <endpoints.rst>`_
 - `Dependencies <dependencies.rst>`_

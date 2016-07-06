@@ -14,7 +14,6 @@ Summary
 -------
 
 - `Status code <status-code.rst>`_
-- `Data structure <data-structure.rst>`_
 
 - Data structure
 

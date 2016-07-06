@@ -13,6 +13,14 @@ The API follows the REST design
 Summary
 -------
 
-- `Status code <status-code.rst>`
+- `Status code <status-code.rst>`_
+- `Data structure <data-structure.rst>`_
+
+- Data structure
+
+  * `Response format <client/dependencies.rst>`_
+
+    * Nested ?
+    
 - `Endpoints <endpoints.rst>`_
 - `Dependencies <dependencies.rst>`_

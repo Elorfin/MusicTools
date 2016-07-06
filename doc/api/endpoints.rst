@@ -6,7 +6,12 @@ This section describes the available endpoints of the API
 
 .. code::
 
-/instruments
+**/instruments**
 
-- **GET** /     : returns the list of Instruments
-- **GET** /{id} : returns the Instrument referenced by `id`
++-------------+------------+-------------------------------------------+
+| HTTP method | URI        | Description                               |
++=============+============+===========================================+
+| **GET**     | /          | Returns the list of Instruments           |
++-------------+------------+-------------------------------------------+
+| **GET**     | /2         | returns the Instrument referenced by *2*  |
++-------------+------------+-------------------------------------------+

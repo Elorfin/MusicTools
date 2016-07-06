@@ -14,7 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class RecorderSpecification extends AbstractSpecification
 {
-    /*
+    /**
      * ID
      */
     use UniqueIdentifierTrait;

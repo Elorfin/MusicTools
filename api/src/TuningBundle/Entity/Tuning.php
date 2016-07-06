@@ -21,12 +21,12 @@ class Tuning implements \JsonSerializable
      */
     use UniqueIdentifierTrait;
 
-    /*
+    /**
      * Name
      */
     use NameTrait;
 
-    /*
+    /**
      * Is it the default Tuning of its category ?
      */
     use DefaultTrait;

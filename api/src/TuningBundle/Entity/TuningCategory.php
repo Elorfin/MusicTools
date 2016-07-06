@@ -15,12 +15,12 @@ use InstrumentBundle\Entity\InstrumentType;
  */
 class TuningCategory implements \JsonSerializable
 {
-    /*
+    /**
      * ID
      */
     use UniqueIdentifierTrait;
 
-    /*
+    /**
      * Name
      */
     use NameTrait;

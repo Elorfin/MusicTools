@@ -17,12 +17,12 @@ use Elorfin\ResourceBundle\Entity\Image;
  */
 class Song implements \JsonSerializable
 {
-    /*
+    /**
      * ID
      */
     use UniqueIdentifierTrait;
 
-    /*
+    /**
      * Name
      */
     use NameTrait;
@@ -82,7 +82,7 @@ class Song implements \JsonSerializable
      */
     protected $scores;
 
-    /*
+    /**
      * Owner
      */
     use OwnerTrait;
@@ -187,6 +187,45 @@ class Song implements \JsonSerializable
     public function setCover(Image $cover)
     {
         $this->cover = $cover;
+
+        return $this;
+    }
+
+    public function getScores()
+    {
+        return $this->scores;
+    }
+
+    /**
+     * Add a score file.
+     *
+     * @param SheetMusic $score
+     *
+     * @return $this
+     */
+    public function addScore(SheetMusic $score)
+    {
+        if (!$this->scores->contains($score)) {
+            $this->scores->add($score);
+
+            $score->setSong($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Remove a score file.
+     *
+     * @param SheetMusic $score
+     *
+     * @return $this
+     */
+    public function removeScore(SheetMusic $score)
+    {
+        if ($this->scores->contains($score)) {
+            $this->scores->removeElement($score);
+        }
 
         return $this;
     }

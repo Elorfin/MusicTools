@@ -14,7 +14,7 @@ use Elorfin\ResourceBundle\Entity\File;
  */
 class SheetMusic extends File
 {
-    /*
+    /**
      * ID
      */
     use UniqueIdentifierTrait;
@@ -46,18 +46,9 @@ class SheetMusic extends File
      *
      * @return SheetMusic
      */
-    public function setSong(Song $song = null)
+    public function setSong(Song $song)
     {
-        if (empty($song) && !empty($this->song)) {
-            $this->song->removeScore($this);
-        }
-
         $this->song = $song;
-
-        if (!empty($this->song)) {
-            // Update song
-            $this->song->addScore($this);
-        }
 
         return $this;
     }

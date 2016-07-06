@@ -9,7 +9,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 /**
  * Initializes Tunings.
  */
-class LoadTuningData extends AbstractFixture implements OrderedFixtureInterface
+class LoadTuningCategoryData extends AbstractFixture implements OrderedFixtureInterface
 {
     /**
      * {@inheritdoc}
@@ -24,5 +24,8 @@ class LoadTuningData extends AbstractFixture implements OrderedFixtureInterface
      */
     public function load(ObjectManager $manager)
     {
+        $categories = [
+            ''
+        ];
     }
 }

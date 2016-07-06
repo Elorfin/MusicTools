@@ -6,7 +6,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Elorfin\JsonApiBundle\Response\JsonApiResponse;
-use InstrumentBundle\Entity\InstrumentType;
 use TuningBundle\Entity\Tuning;
 
 /**
@@ -19,68 +18,33 @@ class TuningController extends Controller
     /**
      * List all Tunings.
      *
-     * @param InstrumentType $instrumentType
-     *
-     * @return array
+     * @return JsonApiResponse
      *
      * @Route("")
      * @Method("GET")
      */
-    public function listAction(InstrumentType $instrumentType)
+    public function listAction()
     {
         $entities = $this->container
             ->get('doctrine.orm.entity_manager')
-            ->getRepository($instrumentType->getTemplate())
-            ->findBy([
-                'type' => $instrumentType,
-            ], [
-                'name' => 'ASC',
-            ]);
+            ->getRepository('TuningBundle:Tuning')
+            ->findBy([]);
 
         return new JsonApiResponse($entities);
     }
 
     /**
-     * Display an Template entity.
+     * Display a Tuning entity.
      *
-     * @param InstrumentType $instrumentType
-     * @param int            $id
+     * @param Tuning $tuning
      *
-     * @return mixed
+     * @return JsonApiResponse
      *
      * @Route("/{id}")
      * @Method("GET")
      */
-    public function getAction(InstrumentType $instrumentType, $id)
+    public function getAction(Tuning $tuning)
     {
-        $entity = $this->getEntity($instrumentType, $id);
-
-        return new JsonApiResponse($entity);
-    }
-
-    /**
-     * Retrieve an Instrument entity.
-     *
-     * @param InstrumentType $instrumentType
-     * @param string         $id
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
-     *
-     * @return Tuning
-     */
-    private function getEntity(InstrumentType $instrumentType, $id)
-    {
-        $entity = $this->container
-            ->get('doctrine.orm.entity_manager')
-            ->getRepository($instrumentType->getTemplate())
-            ->findOneBy([
-                'id' => $id,
-            ]);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find InstrumentTemplate entity.');
-        }
-
-        return $entity;
+        return new JsonApiResponse($tuning);
     }
 }

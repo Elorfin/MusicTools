@@ -26,12 +26,12 @@ class LoadChordData extends AbstractFixture implements OrderedFixtureInterface
     public function load(ObjectManager $manager)
     {
         // List of Chords to insert into the DB
-        $chords = array(
-            array('notesCount' => 3, 'name' => 'major',      'symbol' => '',  'intervals' => array('M3', 'P5')),
-            array('notesCount' => 3, 'name' => 'minor',      'symbol' => 'm', 'intervals' => array('m3', 'P5')),
-            array('notesCount' => 3, 'name' => 'diminished', 'symbol' => '°', 'intervals' => array('m3', 'd5')),
-            array('notesCount' => 3, 'name' => 'augmented',  'symbol' => '+', 'intervals' => array('M3', 'A5')),
-        );
+        $chords = [
+            ['notesCount' => 3, 'name' => 'major', 'symbol' => '', 'intervals' => ['M3', 'P5']],
+            ['notesCount' => 3, 'name' => 'minor', 'symbol' => 'm', 'intervals' => ['m3', 'P5']],
+            ['notesCount' => 3, 'name' => 'diminished', 'symbol' => '°', 'intervals' => ['m3', 'd5']],
+            ['notesCount' => 3, 'name' => 'augmented', 'symbol' => '+', 'intervals' => ['M3', 'A5']],
+        ];
 
         foreach ($chords as $chord) {
             $entity = new Chord();

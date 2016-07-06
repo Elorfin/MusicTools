@@ -24,12 +24,12 @@ class GuitarSpecificationType extends AbstractSpecificationType
         parent::buildForm($builder, $options);
 
         $builder
-            ->add('leftHanded',    CheckboxType::class)
-            ->add('headstock',     TextType::class)
-            ->add('body',          TextType::class)
+            ->add('leftHanded', CheckboxType::class)
+            ->add('headstock', TextType::class)
+            ->add('body', TextType::class)
             ->add('amplification', TextType::class)
-            ->add('strings',       IntegerType::class)
-            ->add('frets',         IntegerType::class)
+            ->add('strings', IntegerType::class)
+            ->add('frets', IntegerType::class)
             ->add('tuning')
         ;
     }

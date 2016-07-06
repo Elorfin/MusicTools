@@ -26,16 +26,16 @@ class LoadDegreeData extends AbstractFixture implements OrderedFixtureInterface
     public function load(ObjectManager $manager)
     {
         // Full list of Degrees to insert into the DB
-        $degrees = array(
-            array('symbol' => 'I',    'name' => 'tonic'),
-            array('symbol' => 'II',   'name' => 'supertonic'),
-            array('symbol' => 'III',  'name' => 'mediant'),
-            array('symbol' => 'IV',   'name' => 'subdominant'),
-            array('symbol' => 'V',    'name' => 'dominant'),
-            array('symbol' => 'VI',   'name' => 'submediant'),
-            array('symbol' => 'VII',  'name' => 'leading-tone'),
-            array('symbol' => 'VIII', 'name' => 'octave'),
-        );
+        $degrees = [
+            ['symbol' => 'I', 'name' => 'tonic'],
+            ['symbol' => 'II', 'name' => 'supertonic'],
+            ['symbol' => 'III', 'name' => 'mediant'],
+            ['symbol' => 'IV', 'name' => 'subdominant'],
+            ['symbol' => 'V', 'name' => 'dominant'],
+            ['symbol' => 'VI', 'name' => 'submediant'],
+            ['symbol' => 'VII', 'name' => 'leading-tone'],
+            ['symbol' => 'VIII', 'name' => 'octave'],
+        ];
 
         foreach ($degrees as $degree) {
             $entity = new Degree();

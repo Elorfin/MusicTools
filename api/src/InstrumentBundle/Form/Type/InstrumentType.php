@@ -30,12 +30,12 @@ class InstrumentType extends AbstractType
         $builder->setRequestHandler(new JsonApiRequestHandler());
 
         $builder
-            ->add('id',             HiddenType::class)
-            ->add('name',           TextType::class)
-            ->add('default',        CheckboxType::class)
-            ->add('favourite',      CheckboxType::class)
-            ->add('manufacturer',   TextType::class)
-            ->add('model',          TextType::class)
+            ->add('id', HiddenType::class)
+            ->add('name', TextType::class)
+            ->add('default', CheckboxType::class)
+            ->add('favourite', CheckboxType::class)
+            ->add('manufacturer', TextType::class)
+            ->add('model', TextType::class)
             ->add('instrumentType', EntityType::class, [
                 'class' => 'InstrumentBundle:InstrumentType',
                 'choice_label' => 'name',
@@ -43,7 +43,7 @@ class InstrumentType extends AbstractType
         ;
 
         // Add specification
-        $formModifier = function (FormInterface $form, \InstrumentBundle\Entity\InstrumentType $instrumentType = null) {
+        $formModifier = function(FormInterface $form, \InstrumentBundle\Entity\InstrumentType $instrumentType = null) {
             $prefix = null === $instrumentType ? 'Abstract' : $instrumentType->getPrefix();
 
             $form->add('specification', 'InstrumentBundle\\Form\\Type\\Specification\\'.$prefix.'SpecificationType');
@@ -51,7 +51,7 @@ class InstrumentType extends AbstractType
 
         $builder->addEventListener(
             FormEvents::PRE_SET_DATA,
-            function (FormEvent $event) use ($formModifier) {
+            function(FormEvent $event) use ($formModifier) {
                 // Get Instrument Entity
                 $data = $event->getData();
 
@@ -61,7 +61,7 @@ class InstrumentType extends AbstractType
 
         $builder->get('instrumentType')->addEventListener(
             FormEvents::POST_SUBMIT,
-            function (FormEvent $event) use ($formModifier) {
+            function(FormEvent $event) use ($formModifier) {
                 // Get Instrument Entity
                 $instrumentType = $event->getForm()->getData();
 

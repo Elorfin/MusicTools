@@ -15,12 +15,12 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 class Thread
 {
-    /*
+    /**
      * ID
      */
     use UniqueIdentifierTrait;
 
-    /*
+    /**
      * Name
      */
     use NameTrait;
@@ -67,9 +67,6 @@ class Thread
     public function setForum(Forum $forum)
     {
         $this->forum = $forum;
-        if (null !== $this->forum) {
-            $this->forum->addThread($this);
-        }
 
         return $this;
     }
@@ -113,8 +110,6 @@ class Thread
     {
         if ($this->posts->contains($post)) {
             $this->posts->removeElement($post);
-
-            $post->setThread(null);
         }
 
         return $this;

@@ -14,7 +14,7 @@ use UserBundle\Model\OwnerTrait;
  */
 class Post
 {
-    /*
+    /**
      * ID
      */
     use UniqueIdentifierTrait;
@@ -28,7 +28,7 @@ class Post
      */
     protected $content;
 
-    /*
+    /**
      * Owner
      */
     use OwnerTrait;
@@ -91,12 +91,9 @@ class Post
      *
      * @return Post
      */
-    public function setThread(Thread $thread = null)
+    public function setThread(Thread $thread)
     {
         $this->thread = $thread;
-        if (null !== $this->thread) {
-            $this->thread->addPost($this);
-        }
 
         return $this;
     }

@@ -16,17 +16,17 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 class Forum
 {
-    /*
+    /**
      * ID
      */
     use UniqueIdentifierTrait;
 
-    /*
+    /**
      * Name
      */
     use NameTrait;
 
-    /*
+    /**
      * Description
      */
     use DescriptionTrait;
@@ -85,8 +85,6 @@ class Forum
     {
         if ($this->threads->contains($thread)) {
             $this->threads->removeElement($thread);
-
-            $thread->setForum(null);
         }
 
         return $this;

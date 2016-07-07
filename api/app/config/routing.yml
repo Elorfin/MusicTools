@@ -27,13 +27,3 @@ lesson:
 game:
     resource: "@GameBundle/Controller/"
     type:     annotation
-
-# Routes for Forum
-forum:
-    resource: "@ForumBundle/Controller/"
-    type:     annotation
-
-# Routes for Advertisement
-advertisement:
-    resource: "@AdvertisementBundle/Controller/"
-    type:     annotation

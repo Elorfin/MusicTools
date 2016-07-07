@@ -27,8 +27,6 @@ class AppKernel extends Kernel
             new SongBookBundle\SongBookBundle(),
             new BadgeBundle\BadgeBundle(),
             new GameBundle\GameBundle(),
-            new ForumBundle\ForumBundle(),
-            new AdvertisementBundle\AdvertisementBundle(),
             new LessonBundle\LessonBundle(),
         ];
 

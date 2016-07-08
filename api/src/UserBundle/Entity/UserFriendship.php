@@ -29,7 +29,7 @@ class UserFriendship
      */
     const STATUS_REJECTED = 2;
 
-    /*
+    /**
      * ID
      */
     use UniqueIdentifierTrait;
@@ -62,6 +62,23 @@ class UserFriendship
      * @ORM\Column(name="friendship_status", type="integer")
      */
     protected $status = self::STATUS_PENDING;
+
+    /**
+     * Date of the request
+     *
+     * @var \DateTime
+     *
+     * @ORM\Column(name="date_sent", type="datetime")
+     */
+    protected $date;
+
+    /**
+     * Entity constructor.
+     */
+    public function __construct()
+    {
+        $this->date = new \DateTime();
+    }
 
     /**
      * Get the User which has initiated the friendship.
@@ -131,6 +148,30 @@ class UserFriendship
     public function setStatus($status)
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * Get date.
+     *
+     * @return \DateTime
+     */
+    public function getDate()
+    {
+        return $this->date;
+    }
+
+    /**
+     * Set date.
+     * 
+     * @param \DateTime $date
+     *
+     * @return $this
+     */
+    public function setDate(\DateTime $date)
+    {
+        $this->date = $date;
 
         return $this;
     }

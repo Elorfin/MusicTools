@@ -36,7 +36,7 @@ trait TuningTrait
      *
      * @return $this
      */
-    public function setTuning(Tuning $tuning)
+    public function setTuning(Tuning $tuning = null)
     {
         $this->tuning = $tuning;
 

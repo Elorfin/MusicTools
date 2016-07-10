@@ -4,7 +4,7 @@
 module.exports = function (grunt) {
     // All upfront config goes in a massive nested object.
     grunt.initConfig({
-        libFolder    : 'bower_components',
+        libFolder    : 'node_modules',
         distFolder   : 'public/dist',
         clientFolder : '.',
 

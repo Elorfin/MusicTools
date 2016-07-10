@@ -1,0 +1,30 @@
+::-webkit-input-placeholder {
+  color: $input-color-placeholder;
+}
+
+:-moz-placeholder { /* Firefox 18- */
+  color: $input-color-placeholder;
+}
+
+::-moz-placeholder {  /* Firefox 19+ */
+  color: $input-color-placeholder;
+}
+
+:-ms-input-placeholder {
+  color: $input-color-placeholder;
+}
+
+.form-group {
+  > label {
+    color: $gray;
+    margin-bottom: 0;
+  }
+}
+
+.form-control {
+  border-bottom: 1px solid $body-color;
+
+  &:focus {
+    border-bottom: 1px solid $brand-primary;
+  }
+}

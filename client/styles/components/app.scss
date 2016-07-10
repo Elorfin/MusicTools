@@ -73,12 +73,19 @@ music-tools {
   box-shadow: $content-shadow;
 
   .content-header {
-    border-top: 1px solid $brand-primary;
-    color: $brand-primary;
+    border-top: 1px solid #094867;
+    color: #094867;
     font-size: 1.3rem;
     font-variant: small-caps;
+    font-weight: 900;
     padding-top: 5px;
     padding-left: 10px;
-    margin-bottom: $card-spacer-y;
+    margin-bottom: $spacer-y;
+
+    > small {
+      color: $gray;
+      font-variant: normal;
+      font-style: italic;
+    }
   }
 }

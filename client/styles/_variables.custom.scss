@@ -1,3 +1,5 @@
+$dark-base: rgba(0, 0, 0, 0.25);
+
 $box-shadow-base: 0 0 2px 1px rgba(0, 0, 0, 0.5);
 
 $zindex-ui-alert: 999 !default;
@@ -10,13 +12,13 @@ $push-menu-size: 200px;
 //
 
 $header-height:  ($user-avatar-size + ($navbar-padding-vertical * 2)) !default;
-$header-bg:      rgba(0, 0, 0, 0.25);
+$header-bg:      $dark-base;
 $header-menu-bg: rgba(0, 0, 0, 0.5);
 
 // Menu
 //
 
-$menu-bg:           rgba(0, 0, 0, 0.25);
+$menu-bg:           $dark-base;
 
 // Text styles
 $menu-font-size:    1.5rem;

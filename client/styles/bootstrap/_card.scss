@@ -18,22 +18,13 @@
     border-radius: 0;
   }
 
-  .card-btn-left,
-  .card-btn-right {
-    position: absolute;
-    bottom: 0;
-    border-bottom: none;
-  }
+  .card-btns {
+    display: table;
+    width: 100%;
 
-  .card-btn-left {
-    left: 0;
-    border-top-right-radius: 15px;
-    border-left: none;
-  }
-
-  .card-btn-right {
-    right: 0;
-    border-top-left-radius: 15px;
-    border-right: none;
+    .card-btn {
+      display: table-cell;
+      width: 50%;
+    }
   }
 }

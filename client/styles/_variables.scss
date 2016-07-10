@@ -26,6 +26,7 @@
 //
 // Grayscale and brand colors for use across Bootstrap.
 
+$gray-darker:               #2d3134 !default;
 $gray-dark:                 #373a3c !default;
 $gray:                      #55595c !default;
 $gray-light:                #818a91 !default;
@@ -247,9 +248,9 @@ $btn-primary-color:              #fff !default;
 $btn-primary-bg:                 $brand-primary !default;
 $btn-primary-border:             $btn-primary-bg !default;
 
-$btn-secondary-color:            $gray-dark !default;
-$btn-secondary-bg:               $gray !default;
-$btn-secondary-border:           $btn-secondary-bg !default;
+$btn-secondary-color:            $gray-darker !default;
+$btn-secondary-bg:               rgba(0, 0, 0, 0.25) !default;
+$btn-secondary-border:           transparent !default;
 
 $btn-info-color:                 #fff !default;
 $btn-info-bg:                    $brand-info !default;
@@ -286,10 +287,10 @@ $btn-border-radius-sm:           $border-radius-sm !default;
 $input-padding-x:                .75rem !default;
 $input-padding-y:                .375rem !default;
 
-$input-bg:                       rgba(255, 255, 255, 0.05) !default;
+$input-bg:                       transparent !default;
 $input-bg-disabled:              $gray-lighter !default;
 
-$input-color:                    $gray !default;
+$input-color:                    $gray-light !default;
 $input-border-color:             transparent !default;
 $input-btn-border-width:         $border-width !default; // For form controls and buttons
 $input-box-shadow:               inset 0 1px 1px rgba(0,0,0,.075) !default;
@@ -298,10 +299,10 @@ $input-border-radius:            $border-radius !default;
 $input-border-radius-lg:         $border-radius-lg !default;
 $input-border-radius-sm:         $border-radius-sm !default;
 
-$input-border-focus:             #66afe9 !default;
-$input-box-shadow-focus:         rgba(102,175,233,.6) !default;
+$input-border-focus:             transparent !default;
+$input-box-shadow-focus:         none !default;
 
-$input-color-placeholder:        #999 !default;
+$input-color-placeholder:        $gray-dark !default;
 
 $input-padding-x-sm:             .75rem !default;
 $input-padding-y-sm:             .275rem !default;

@@ -1,11 +1,12 @@
 <div class="container-fluid" *ngIf="instrument">
     <h1 class="content-header">
-        {{ instrument.attributes.name }}
+        Instruments
+        <small>{{ instrument.attributes.name }}</small>
     </h1>
 
     <div class="row">
         <div class="col-md-2">
-            <div class="card" style="margin-bottom: 20px;">
+            <div class="card instrument-item" style="margin-bottom: 20px;">
                 <div class="card-header">
                     {{ instrument.relationships.instrumentType.data.attributes.name }}
                 </div>
@@ -37,14 +38,14 @@
                     <div class="row">
                         <!-- Manufacturer of the Instrument -->
                         <div class="form-group col-md-6">
-                            <label class="control-label" for="instrument-manufacturer">Manufacturer</label>
-                            <input type="text" class="form-control" id="instrument-manufacturer" data-ng-model="instrument.attributes.manufacturer" data-on-typing-stop="showCtrl.save()" />
+                            <label for="instrument-manufacturer">Manufacturer</label>
+                            <input type="text" class="form-control" id="instrument-manufacturer" placeholder="type the manufacturer name" data-ng-model="instrument.attributes.manufacturer" data-on-typing-stop="showCtrl.save()" />
                         </div>
 
                         <!-- Model of the Instrument -->
                         <div class="form-group col-md-6">
-                            <label class="control-label" for="instrument-model">Model</label>
-                            <input type="text" class="form-control" id="instrument-model" data-ng-model="instrument.attributes.model" data-on-typing-stop="showCtrl.save()" />
+                            <label for="instrument-model">Model</label>
+                            <input type="text" class="form-control" id="instrument-model" placeholder="type the model name" data-ng-model="instrument.attributes.model" data-on-typing-stop="showCtrl.save()" />
                         </div>
                     </div>
                 </div>

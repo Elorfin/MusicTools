@@ -1,5 +1,8 @@
 import {Injectable} from '@angular/core';
+import {Router} from '@angular/router';
 import {Observable} from 'rxjs/Observable';
+
+/*import 'rxjs/add/observable/of';*/
 
 /**
  * Authentication Service
@@ -8,11 +11,11 @@ import {Observable} from 'rxjs/Observable';
 export class AuthenticationService {
     token: string;
 
-    constructor() {
+    constructor(private router: Router) {
         this.token = localStorage.getItem('token');
     }
 
-    login(username: String, password: String) {
+    login(username: String, password: String): Observable<string> {
         /*
          * If we had a login api, we would have done something like this
 
@@ -36,7 +39,7 @@ export class AuthenticationService {
         if (username === 'test' && password === 'test') {
             this.token = 'token';
             localStorage.setItem('token', this.token);
-            return Observable.of('token');
+            /*return Observable.of('token');*/
         }
 
         return Observable.throw('authentication failure');
@@ -60,6 +63,8 @@ export class AuthenticationService {
         this.token = undefined;
         localStorage.removeItem('token');
 
-        return Observable.of(true);
+        this.router.navigate(['/login']);
+
+        /*return Observable.of(true);*/
     }
 }

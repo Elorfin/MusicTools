@@ -1,34 +1,42 @@
 import {Component, ViewContainerRef, ReflectiveInjector}                from '@angular/core';
 import {NgIf}                     from '@angular/common';
-import {Template}                 from '../../library/layout/template.service';
-import {Instrument}               from './instrument';
-import {InstrumentService}        from "./instrument.service";
-import {RouteSegment, OnActivate} from '@angular/router';
-import {SpecificationFactory} from "../instrument-specification/factory";
+import {Template}                 from '../../../library/layout/template.service';
+import {Instrument}               from './../instrument';
+import {InstrumentService}        from "./../instrument.service";
+import {ActivatedRoute} from '@angular/router';
+import {SpecificationFactory} from "../../instrument-specification/factory";
 
 @Component({
     selector: 'instrument-detail',
-    templateUrl: Template.getUrl('detail.component.html', 'instrument'),
+    templateUrl: Template.getUrl('detail.component.html', 'instrument/detail'),
     directives: [NgIf],
     providers: [SpecificationFactory]
 })
 
-export class InstrumentDetailComponent implements OnActivate {
+export class InstrumentDetailComponent  {
+    private sub: any;
     public instrument: Instrument;
     public errorMessage: any;
 
     constructor (
+        private route: ActivatedRoute,
         private vcRef: ViewContainerRef,
         private instrumentService: InstrumentService,
         private specificationFactory: SpecificationFactory) {}
 
-    routerOnActivate(current: RouteSegment) {
-        return this.instrumentService
-            .get(current.getParam('id'))
-            .subscribe(
-                instrument => this.loadInstrument(instrument),
-                error      => this.errorMessage = <any>error
-            );
+    ngOnInit() {
+        this.sub = this.route.params.subscribe(params => {
+            this.instrumentService
+                .get(params['id'])
+                .subscribe(
+                    instrument => this.loadInstrument(instrument),
+                    error      => this.errorMessage = <any>error
+                );
+        });
+    }
+
+    ngOnDestroy() {
+        this.sub.unsubscribe();
     }
 
     loadInstrument(instrument: Instrument) {

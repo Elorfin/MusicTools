@@ -4,8 +4,8 @@ import {NgClass}   from '@angular/common';
 import {Template} from '../../../library/layout/template.service';
 import {OnClickOutDirective} from '../../../library/event/on-click-out.directive';
 
-import {UserMenuComponent}       from '../../user/menu.component';
-import {InstrumentMenuComponent} from '../../instrument/menu.component';
+import {UserMenuComponent}       from '../../user/menu/menu.component';
+import {InstrumentMenuComponent} from '../../instrument/menu/menu.component';
 import {NoteFormatMenuComponent} from '../../theory/note/format-menu.component';
 
 /**

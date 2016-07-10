@@ -7,7 +7,11 @@
 
     <ul class="menu-group-links">
         <li role="presentation" *ngFor="let item of menuGroup.items">
-            <a role="link" [routerLink]="[ item.route ]">
+            <a role="link"
+               [routerLink]="[item.route]"
+               [routerLinkActive]="['router-link-active']"
+               [routerLinkActiveOptions]="{exact: false}"
+            >
                 <span class="{{ item.icon }}"></span>
                 <span class="menu-link-label">
                     {{ item.label }}

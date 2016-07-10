@@ -1,14 +1,14 @@
 import {Component, OnInit} from '@angular/core';
-import {Template}          from '../../library/layout/template.service';
-import {Instrument}        from "./instrument";
-import {InstrumentService} from "./instrument.service";
+import {Template}          from '../../../library/layout/template.service';
+import {Instrument}        from "./../instrument";
+import {InstrumentService} from "./../instrument.service";
 
 /**
  * Instrument menu
  */
 @Component({
     selector: 'instrument-menu',
-    templateUrl: Template.getUrl('menu.component.html', 'instrument')
+    templateUrl: Template.getUrl('menu.component.html', 'instrument/menu')
 })
 export class InstrumentMenuComponent implements OnInit {
     public instruments: Instrument[];

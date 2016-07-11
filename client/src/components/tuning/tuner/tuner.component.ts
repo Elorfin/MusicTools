@@ -1,16 +1,34 @@
-import {Component}     from '@angular/core';
+import {Component, Input, ElementRef, ViewChild}     from '@angular/core';
 import {Template}      from '../../../library/layout/template.service';
-import {Tuning}        from './../tuning';
 import {TuningService} from "./../tuning.service";
+import {TunerDraw} from "../../../library/draw/tuning/tuner.draw";
+import {Instrument} from "../../instrument/instrument";
 
 @Component({
-    selector: 'tuning',
-    templateUrl: Template.getUrl('tuner.component.html', 'tuning/tuner')
+    selector: 'tuner',
+    templateUrl: Template.getUrl('tuner.component.html', 'tuning/tuner'),
+    providers: [
+        TuningService
+    ]
 })
 
+/**
+ * Display a Tuner for an Instrument
+ * if no Instrument passed, will take the current selected instrument
+ */
 export class TunerComponent {
-    public tuning: Tuning;
-    public errorMessage: any;
+    private tunerDraw: TunerDraw;
 
-    constructor (private tuningService: TuningService) {}
+    @Input() instrument: Instrument;
+
+    // Get access to the canvas to draw on
+    @ViewChild('tunerCanvas') tunerCanvas: ElementRef;
+
+    constructor(private tuningService: TuningService) {}
+
+    ngAfterViewInit() {
+        // Draw tuner
+        this.tunerDraw = new TunerDraw(this.tunerCanvas.nativeElement);
+        this.tunerDraw.draw();
+    }
 }

@@ -301,10 +301,10 @@ class Note implements \JsonSerializable
      */
     public function jsonSerialize()
     {
-        return array(
+        return [
             'type' => 'notes',
             'id' => $this->id,
-            'attributes' => array(
+            'attributes' => [
                 // Note properties
                 'value' => $this->value,
                 'octave' => $this->octave,
@@ -316,7 +316,7 @@ class Note implements \JsonSerializable
                 'flat_name' => $this->info->getFlatName(),
                 'accidental' => $this->info->isAccidental(),
                 'color' => $this->info->getColor(),
-            ),
-        );
+            ],
+        ];
     }
 }

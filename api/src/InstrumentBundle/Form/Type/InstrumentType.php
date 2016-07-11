@@ -11,7 +11,6 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 /**
@@ -32,8 +31,6 @@ class InstrumentType extends AbstractType
         $builder
             ->add('id', HiddenType::class)
             ->add('name', TextType::class)
-            ->add('default', CheckboxType::class)
-            ->add('favourite', CheckboxType::class)
             ->add('manufacturer', TextType::class)
             ->add('model', TextType::class)
             ->add('instrumentType', EntityType::class, [

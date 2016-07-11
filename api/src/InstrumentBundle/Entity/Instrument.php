@@ -4,8 +4,6 @@ namespace InstrumentBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use InstrumentBundle\Entity\Specification\AbstractSpecification;
-use CommonBundle\Model\DefaultTrait;
-use CommonBundle\Model\FavouriteTrait;
 use CommonBundle\Model\NameTrait;
 use CommonBundle\Model\UniqueIdentifierTrait;
 use UserBundle\Model\OwnerTrait;
@@ -29,16 +27,6 @@ class Instrument implements \JsonSerializable
      * Name
      */
     use NameTrait;
-
-    /*
-     * Is the default User instrument ?
-     */
-    use DefaultTrait;
-
-    /*
-     * Favourite
-     */
-    use FavouriteTrait;
 
     /*
      * Owner
@@ -194,8 +182,6 @@ class Instrument implements \JsonSerializable
             // Attributes of the Resource
             'attributes' => [
                 'name' => $this->name,
-                'default' => $this->default,
-                'favourite' => $this->favourite,
                 'manufacturer' => $this->manufacturer,
                 'model' => $this->model,
             ],

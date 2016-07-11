@@ -35,7 +35,7 @@ class InstrumentType implements \JsonSerializable
     protected $icon;
 
     /**
-     * Prefix used to retrieve corresponding Specification and Template class.
+     * Prefix used to retrieve corresponding Specification class.
      *
      * @var string
      *

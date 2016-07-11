@@ -1,13 +1,15 @@
 import {Component} from '@angular/core';
-/*import {CanActivate} from '@angular/router';*/
 import {Template} from '../../library/layout/template.service';
-import {isAuthenticated} from "../../library/security/is-authenticated";
+import {TunerComponent} from "../tuning/tuner/tuner.component";
 
 @Component({
-    templateUrl: Template.getUrl('dashboard.component.html', 'dashboard')
+    selector: 'dashboard',
+    templateUrl: Template.getUrl('dashboard.component.html', 'dashboard'),
+    directives:  [
+        TunerComponent
+    ],
 })
 
-/*@CanActivate(() => isAuthenticated())*/
 export class DashboardComponent {
 
 }

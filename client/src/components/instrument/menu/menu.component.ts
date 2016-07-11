@@ -13,6 +13,8 @@ import {InstrumentService} from "./../instrument.service";
 export class InstrumentMenuComponent implements OnInit {
     public instruments: Instrument[];
 
+    public current: Instrument;
+
     public opened: Boolean = false;
 
     constructor (private instrumentService: InstrumentService) {}
@@ -24,9 +26,10 @@ export class InstrumentMenuComponent implements OnInit {
     getInstruments() {
         this.instrumentService
             .getAll()
-            .subscribe(
-                instruments => this.instruments = instruments
-            );
+            .subscribe(instruments => {
+                this.instruments = instruments;
+                this.current = instruments[0];
+            });
     }
 
     selectInstrument(instrument: Instrument) {

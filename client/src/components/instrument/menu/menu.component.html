@@ -1,11 +1,14 @@
 <div class="dropdown" [ngClass]="{open: opened}">
     <a class="dropdown-toggle" role="button" id="instrumentDropdown" aria-haspopup="true" (click)="opened = !opened">
-        Dropdown
+        {{ current.attributes.name }}
     </a>
 
     <div class="dropdown-menu" aria-labelledby="instrumentDropdown">
         <a class="dropdown-item" href="#" *ngFor="let instrument of instruments">
-            <img class="instrument-type" data-src="{{ 'dist/images/' + instrument.relationships.instrumentType.data.attributes.icon }}" alt="Instrument icon" />
+            <img class="instrument-type"
+                 alt="Instrument icon"
+                 src=""
+                 data-src="{{ 'dist/images/' + instrument.relationships.instrumentType.data.attributes.icon }}" />
             {{ instrument.attributes.name }}
         </a>
     </div>

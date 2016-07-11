@@ -24,6 +24,11 @@ export class InstrumentService {
     protected current: Instrument;
 
     /**
+     *
+     */
+    protected instruments: Array<Instrument>;
+
+    /**
      * Class constructor.
      *
      * @param {ApiService} apiService
@@ -54,7 +59,15 @@ export class InstrumentService {
      * @returns {Promise}
      */
     public getAll(): Observable<Instrument[]> {
-        return this.apiService.call(this.url);
+        const observable: Observable<Instrument[]> = this.apiService.call(this.url);
+
+        observable.subscribe(instruments => {
+            if (!this.current && instruments.length !== 0) {
+                this.current = instruments[0];
+            }
+        });
+
+        return observable;
     }
 
     /**

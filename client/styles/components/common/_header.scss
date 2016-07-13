@@ -20,9 +20,12 @@ ui-header {
     }
 
     .header-menu-block {
+      display: table;
+      height: 100%;
+
       .header-menu {
-        display: inline-block;
-        vertical-align: middle;
+        display: table-cell;
+        height: 100%;
       }
     }
   }

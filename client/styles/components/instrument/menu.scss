@@ -1,3 +1,10 @@
-.instrument-menu {
+instrument-menu {
+  .instrument-type {
+    height: 48px;
+  }
 
+  .dropdown-menu {
+    border: none;
+    margin-top: 0;
+  }
 }

@@ -13,18 +13,6 @@
                 <img class="card-img instrument-type" data-src="{{ 'dist/images/' + instrument.relationships.instrumentType.data.attributes.icon }}" />
             </div>
 
-            <div style="margin-bottom: 20px;">
-                <ui-flag data-type="primary" data-value="isFavorite">
-                    <span class="fa fa-heart"></span>
-                    <span>Favorite</span>
-                </ui-flag>
-
-                <ui-flag data-type="info" data-value="isDefault">
-                    <span class="fa fa-check-square-o"></span>
-                    <span>Default</span>
-                </ui-flag>
-            </div>
-
             <a href="" class="btn btn-sm btn-block btn-danger">
                 <span class="fa fa-fw fa-trash-o"></span>
                 Delete instrument

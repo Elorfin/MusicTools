@@ -1,5 +1,5 @@
-import {Component, Input, ElementRef, ViewChild}     from '@angular/core';
-import {Template}      from '../../../library/layout/template.service';
+import {Component, Input, ElementRef, ViewChild} from '@angular/core';
+import {Template} from '../../../library/layout/template.service';
 import {TuningService} from "./../tuning.service";
 import {TunerDraw} from "../../../library/draw/tuning/tuner.draw";
 import {Instrument} from "../../instrument/instrument";

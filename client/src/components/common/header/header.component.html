@@ -4,8 +4,10 @@
     <span class="sr-only">Toggle menus</span>
 </button>
 
+<!--(onClickOut)="closeMenuBlock($event)"-->
+
 <!-- List of features menu -->
-<div class="header-menu-block" [ngClass]="{ opened: opened }" (onClickOut)="closeMenuBlock($event)">
+<div class="header-menu-block" [ngClass]="{ opened: opened }">
     <!-- User menu -->
     <user-menu class="header-menu"></user-menu>
 

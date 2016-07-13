@@ -1,14 +1,22 @@
-<div class="dropdown" [ngClass]="{open: opened}">
+<div class="dropdown" [ngClass]="{open: opened}" *ngIf="current" (onClickOut)="opened = false">
     <a class="dropdown-toggle" role="button" id="instrumentDropdown" aria-haspopup="true" (click)="opened = !opened">
-        {{ current.attributes.name }}
-    </a>
+        <span *ngIf="!current">no selected instrument</span>
 
-    <div class="dropdown-menu" aria-labelledby="instrumentDropdown">
-        <a class="dropdown-item" href="#" *ngFor="let instrument of instruments">
+        <span *ngIf="current">
             <img class="instrument-type"
                  alt="Instrument icon"
                  src=""
-                 data-src="{{ 'dist/images/' + instrument.relationships.instrumentType.data.attributes.icon }}" />
+                 [src]="'dist/images/' + current.relationships.instrumentType.data.attributes.icon" />
+            {{ current.attributes.name }}
+        </span>
+    </a>
+
+    <div class="dropdown-menu" aria-labelledby="instrumentDropdown">
+        <a class="dropdown-item" href="" (click)="selectInstrument(instrument)" *ngFor="let instrument of instruments">
+            <img class="instrument-type"
+                 alt="Instrument icon"
+                 src=""
+                 [src]="'dist/images/' + instrument.relationships.instrumentType.data.attributes.icon" />
             {{ instrument.attributes.name }}
         </a>
     </div>

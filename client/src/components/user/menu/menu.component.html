@@ -1,22 +1,39 @@
 <button type="button" class="btn" (click)="opened = !opened" [ngClass]="{ active: opened }" aria-haspopup="true" aria-expanded="false">
     <!-- Display User avatar -->
-    <img class="user-avatar" src="{{ user.avatar }}" alt="User avatar" />
+    <img class="user-avatar" alt="User avatar" src="" [src]="user.avatar" />
 </button>
 
 <div class="user-menu-block" [ngClass]="{ open: opened }">
     <div class="user-menu-header">Elorfin</div>
 
-    <a class="user-menu-item" [routerLink]="[ '/profile' ]">
+    <a class="user-menu-item"
+       [routerLink]="[ '/dashboard' ]"
+       [routerLinkActive]="['router-link-active']"
+       [routerLinkActiveOptions]="{exact: false}">
+        <span class="fa fa-fw fa-dashboard"></span>
+        dashboard
+    </a>
+
+    <a class="user-menu-item"
+       [routerLink]="[ '/profile' ]"
+       [routerLinkActive]="['router-link-active']"
+       [routerLinkActiveOptions]="{exact: false}">
         <span class="fa fa-fw fa-user"></span>
         profile
     </a>
 
-    <a class="user-menu-item" [routerLink]="[ '/messages' ]">
+    <a class="user-menu-item"
+       [routerLink]="[ '/messages' ]"
+       [routerLinkActive]="['router-link-active']"
+       [routerLinkActiveOptions]="{exact: false}">
         <span class="fa fa-fw fa-envelope"></span>
         messages
     </a>
 
-    <a class="user-menu-item" [routerLink]="[ '/settings' ]">
+    <a class="user-menu-item"
+       [routerLink]="[ '/settings' ]"
+       [routerLinkActive]="['router-link-active']"
+       [routerLinkActiveOptions]="{exact: false}">
         <span class="fa fa-fw fa-gears"></span>
         settings
     </a>

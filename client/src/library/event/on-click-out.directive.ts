@@ -10,12 +10,12 @@ import {Directive, ElementRef, Input, Output, EventEmitter} from '@angular/core'
 @Directive({
     selector: '[onClickOut]',
     host: {
-        '(window:click)': 'onClick($event)'
+        '(click)': 'onClick($event)',
+        '(window:click)': 'onClickOut($event)'
     }
 })
 
 export class OnClickOutDirective {
-    /*@Input('onClickOut') callback: Function;*/
     @Output('onClickOut') clickOut = new EventEmitter();
 
     private element: HTMLElement;
@@ -24,21 +24,16 @@ export class OnClickOutDirective {
         this.element = elementRef.nativeElement;
     }
 
-    onClick(event: MouseEvent) {
-        // Check if the User has click inside the element
-        let clickOut = false;
+    onClick(event: MouseEvent): void {
+        console.log('click on element');
 
-        const maxX = this.element.clientLeft + this.element.clientWidth;
-        const maxY = this.element.clientTop + this.element.clientHeight;
-        if (event.clientX > this.element.clientLeft || event.clientX < maxX // Check horizontal position
-            || event.clientY > this.element.clientTop || event.clientY < maxY ) {  // Check vertical position
-            clickOut = true;
-        }
+        // Avoid propagation of the event
+        event.stopPropagation();
+    }
 
-        if (clickOut) {
-            // Execute the registered callback
-            /*this.callback();*/
-            this.clickOut.emit({});
-        }
+    onClickOut(event: MouseEvent): void {
+        console.log('click out of element');
+
+        this.clickOut.emit({});
     }
 }

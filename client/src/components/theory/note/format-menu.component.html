@@ -1,9 +1,2 @@
-<div>
-    <a href="">
-        &#9837;
-    </a>
-
-    <a href="">
-        &#35;
-    </a>
-</div>
+<a [ngClass]="{active: displayFlat}"  (click)="setDisplayFlat(true)">&#9837;</a>
+<a [ngClass]="{active: !displayFlat}" (click)="setDisplayFlat(false)">&#35;</a>

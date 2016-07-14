@@ -14,6 +14,8 @@ import 'rxjs/add/operator/catch';
  */
 @Injectable()
 export class ApiService {
+    private serverUrl: String = 'http://localhost/MusicTools/api/web/api_dev.php';
+
     constructor (private http: Http) {}
 
     /**
@@ -32,7 +34,7 @@ export class ApiService {
         }
 
         return this.http
-            .request(url, options)
+            .request(this.serverUrl + url, options)
             .cache()
             .map(this.extractData)
             .catch(this.handleError);

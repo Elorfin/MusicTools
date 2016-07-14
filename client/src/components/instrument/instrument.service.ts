@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Instrument} from './instrument';
 import {Observable} from 'rxjs/Observable';
-import {ApiService} from "../../library/api/api-service";
+import {ApiService} from "../../library/api/api.service";
 
 /**
  * Instrument Service
@@ -14,7 +14,7 @@ export class InstrumentService {
      *
      * @type {string}
      */
-    private url = 'http://localhost/MusicTools/api/web/api_dev.php/instruments';
+    private url = '/instruments';
 
     /**
      * Current selected Instrument.

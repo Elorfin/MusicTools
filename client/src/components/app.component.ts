@@ -5,7 +5,7 @@ import {HeaderComponent, MenuComponent, AlertComponent} from './common/common';
 import {Template} from '../library/layout/template.service';
 
 import {InstrumentService}   from './instrument/instrument.service';
-import {ApiService} from "../library/api/api-service";
+import {ApiService} from "../library/api/api.service";
 
 @Component({
     selector  :  'music-tools',

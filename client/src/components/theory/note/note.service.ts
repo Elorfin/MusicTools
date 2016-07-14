@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Note}       from './note';
 import {Observable} from 'rxjs/Observable';
-import {ApiService} from "../../../library/api/api-service";
+import {ApiService} from "../../../library/api/api.service";
 
 /**
  * Note Service
@@ -13,7 +13,7 @@ export class NoteService {
      *
      * @type {string}
      */
-    private url = 'http://localhost/MusicTools/api/web/api_dev.php/notes';
+    private url = '/notes';
 
     /**
      * Display alteration with flat instead of sharp

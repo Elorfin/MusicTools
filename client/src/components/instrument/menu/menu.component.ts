@@ -4,6 +4,7 @@ import {Template}          from '../../../library/layout/template.service';
 import {Instrument}        from "./../instrument";
 import {InstrumentService} from "./../instrument.service";
 import {OnClickOutDirective} from "./../../../library/event/on-click-out.directive";
+import {InstrumentItemComponent} from "../item/item.component";
 
 /**
  * Instrument menu
@@ -13,23 +14,36 @@ import {OnClickOutDirective} from "./../../../library/event/on-click-out.directi
     templateUrl: Template.getUrl('menu.component.html', 'instrument/menu'),
     directives: [
         ROUTER_DIRECTIVES,
-        OnClickOutDirective
+        OnClickOutDirective,
+        InstrumentItemComponent
     ]
 })
+
 export class InstrumentMenuComponent implements OnInit {
+    /**
+     * List of available instruments.
+     *
+     * @type {Instrument[]}
+     */
     public instruments: Instrument[];
 
+    /**
+     * Current selected Instrument.
+     *
+     * @type {Instrument}
+     */
     public current: Instrument;
 
+    /**
+     * Is the menu opened ?
+     *
+     * @type {boolean}
+     */
     public opened: Boolean = false;
 
     constructor (private instrumentService: InstrumentService) {}
 
     ngOnInit() {
-        this.getInstruments();
-    }
-
-    protected getInstruments(): void {
         this.instrumentService
             .getAll()
             .subscribe(instruments => {
@@ -39,6 +53,12 @@ export class InstrumentMenuComponent implements OnInit {
     }
 
     public selectInstrument(instrument: Instrument): void {
+        this.current = instrument;
         this.instrumentService.setCurrent(instrument);
+        this.opened = false;
+    }
+
+    public createInstrument(): void {
+
     }
 }

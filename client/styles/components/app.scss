@@ -1,7 +1,6 @@
 body,
 html,
 music-tools,
-.app-wrapper,
 .app,
 .content-container{
   display: block;
@@ -31,9 +30,6 @@ music-tools {
   -moz-transform-style: preserve-3d;
   transform-style: preserve-3d;
 
-}
-
-.app-wrapper {
   &.push-content {
     padding-left: $push-menu-size;
   }

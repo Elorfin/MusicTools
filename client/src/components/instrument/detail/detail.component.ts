@@ -1,4 +1,4 @@
-import {Component, ViewContainerRef, ReflectiveInjector}                from '@angular/core';
+import {Component, ViewContainerRef, ReflectiveInjector, OnInit} from '@angular/core';
 import {NgIf}                     from '@angular/common';
 import {Template}                 from '../../../library/layout/template.service';
 import {Instrument}               from './../instrument';
@@ -13,7 +13,7 @@ import {SpecificationFactory} from "../../instrument-specification/factory";
     providers: [SpecificationFactory]
 })
 
-export class InstrumentDetailComponent  {
+export class InstrumentDetailComponent implements OnInit {
     private sub: any;
     public instrument: Instrument;
     public errorMessage: any;

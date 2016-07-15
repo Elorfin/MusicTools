@@ -13,8 +13,7 @@ import {AlertService} from "./alert.service";
 /**
  * Alert messages of the application
  */
-export class AlertComponent implements OnInit
-{
+export class AlertComponent implements OnInit {
     public alerts: Alert[];
 
     constructor(private alertService: AlertService) { }

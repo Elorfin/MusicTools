@@ -23,5 +23,5 @@ import {ApiService} from "../library/api/api.service";
 })
 
 export class AppComponent {
-    public pushContent: Boolean = false;
+    
 }

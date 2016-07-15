@@ -1,4 +1,4 @@
-import {Component}         from '@angular/core';
+import {Component, Output, EventEmitter} from '@angular/core';
 import {ROUTER_DIRECTIVES} from '@angular/router';
 import {Template}          from '../../../library/layout/template.service';
 import {User}              from './../user';
@@ -13,6 +13,8 @@ import {User}              from './../user';
  * User menu
  */
 export class UserMenuComponent {
+    @Output() toggleMenu = new EventEmitter();
+
     public opened: Boolean = true;
 
     public user: User = {
@@ -28,4 +30,13 @@ export class UserMenuComponent {
         website: 'https://github.com/Elorfin',
         lastLogin: new Date()
     };
+
+    public toggle(): void {
+        this.opened = !this.opened;
+
+        // Emit new menu state
+        this.toggleMenu.emit({
+            opened: this.opened
+        })
+    }
 }

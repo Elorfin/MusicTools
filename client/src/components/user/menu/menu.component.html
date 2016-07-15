@@ -1,4 +1,4 @@
-<button type="button" class="btn" (click)="opened = !opened" [ngClass]="{ active: opened }" aria-haspopup="true" aria-expanded="false">
+<button type="button" class="btn" (click)="toggle()" [ngClass]="{ active: opened }" aria-haspopup="true" aria-expanded="false">
     <!-- Display User avatar -->
     <img class="user-avatar" alt="User avatar" src="" [src]="user.avatar" />
 </button>

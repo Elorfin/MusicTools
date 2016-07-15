@@ -1,6 +1,6 @@
 <img class="instrument-type"
      alt="Instrument icon"
-     src="dist/images/empty.svg"
+     src="dist/images/instrument/empty.svg"
      [src]="'dist/images/' + instrument.relationships.instrumentType.data.attributes.icon" />
 <div>
     {{ instrument ? instrument.attributes.name : 'no instrument' }}

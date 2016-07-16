@@ -1,18 +1,13 @@
-
-import {Directive, ElementRef, Input, Output, EventEmitter} from '@angular/core';
+import { Directive, ElementRef, EventEmitter, HostListener, Output } from '@angular/core';
 
 /**
- * On Click Out Directive
+ * On Click Out Directive.
  *
  * Executes a callback when the User click outside the observed HTML element
  * Uses click and element position to catch the click out to not interfere with other click events (This is also more efficient)
  */
 @Directive({
-    selector: '[onClickOut]',
-    host: {
-        '(click)': 'onClick($event)',
-        '(window:click)': 'onClickOut($event)'
-    }
+    selector: '[onClickOut]'
 })
 
 export class OnClickOutDirective {
@@ -24,16 +19,13 @@ export class OnClickOutDirective {
         this.element = elementRef.nativeElement;
     }
 
-    onClick(event: MouseEvent): void {
-        console.log('click on element');
-
+    @HostListener('click', ['$event']) onClick(event: MouseEvent): void {
         // Avoid propagation of the event
         event.stopPropagation();
     }
 
-    onClickOut(event: MouseEvent): void {
-        console.log('click out of element');
-
+    @HostListener('window:click') onClickOut(): void {
+        // Emit event for other components
         this.clickOut.emit({});
     }
 }

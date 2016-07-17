@@ -1,4 +1,4 @@
-import {InstrumentType} from "./../instrument-type/instrument-type";
+import { InstrumentType } from './../../instrument-type/index';
 
 /**
  * Instrument definition

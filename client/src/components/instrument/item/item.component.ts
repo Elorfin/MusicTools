@@ -1,6 +1,7 @@
-import {Component, Input}  from '@angular/core';
-import {Template}   from '../../../library/layout/template.service';
-import {Instrument} from "./../instrument";
+import { Component, Input }  from '@angular/core';
+
+import { Template }   from '../../../library/layout/template.service';
+import { Instrument } from './../shared/instrument';
 
 /**
  * Instrument item

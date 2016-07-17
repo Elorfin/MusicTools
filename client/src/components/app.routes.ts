@@ -1,31 +1,24 @@
-import {provideRouter, RouterConfig} from '@angular/router';
+import { provideRouter, RouterConfig } from '@angular/router';
 
-import {LoginComponent} from "./user/login/login.component";
-
-import {DashboardComponent}        from './dashboard/dashboard.component';
-import {InstrumentListComponent}   from './instrument/list/list.component';
-import {InstrumentDetailComponent} from './instrument/detail/detail.component';
-import {SongListComponent}         from './song/list.component';
-import {TheorySummaryComponent}    from './theory/summary.component';
-import {LessonListComponent}       from './lesson/list.component';
-import {GameListComponent}         from './game/list.component';
-
-// Community
-import {UserListComponent}       from './user/list/list.component';
-import {MessageListComponent}    from './message/list.component';
-import {UserProfileComponent}    from './user/profile/profile.component';
-
-// Settings
-import {SettingsComponent}       from './settings/settings.component';
+import { LoginComponent }            from "./user/login/login.component";
+import { DashboardComponent }        from './dashboard/dashboard.component';
+import { InstrumentListComponent }   from './instrument/list/list.component';
+import { InstrumentDetailComponent } from './instrument/detail/detail.component';
+import { SongListComponent }         from './song/list/list.component';
+import { TheorySummaryComponent }    from './theory/summary.component';
+import { LessonListComponent }       from './lesson/list/list.component';
+import { GameListComponent }         from './game/list/list.component';
+import { UserListComponent }         from './user/list/list.component';
+import { MessageListComponent }      from './message/list/list.component';
+import { UserProfileComponent }      from './user/profile/profile.component';
+import { SettingsComponent }         from './settings/settings.component';
 
 export const routes: RouterConfig = [
-    { path: '', redirectTo: 'dashboard' },
+    // Dashboard (default route)
+    { path: '',                component: DashboardComponent },
 
     // Login
     { path: 'login',           component: LoginComponent },
-
-    // Dashboard (default route)
-    { path: 'dashboard',       component: DashboardComponent },
 
     // Libraries
     { path: 'instruments/:id', component: InstrumentDetailComponent },

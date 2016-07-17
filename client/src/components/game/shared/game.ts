@@ -1,0 +1,6 @@
+/**
+ * Game.
+ */
+export class Game {
+
+}

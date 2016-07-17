@@ -1,7 +1,8 @@
-import {Component, Output, EventEmitter} from '@angular/core';
-import {ROUTER_DIRECTIVES} from '@angular/router';
-import {Template}          from '../../../library/layout/template.service';
-import {User}              from './../user';
+import { Component, EventEmitter, Output } from '@angular/core';
+import { ROUTER_DIRECTIVES } from '@angular/router';
+
+import { Template } from './../../../library/layout/template.service';
+import { User } from './../shared/user';
 
 @Component({
     selector: 'user-menu',
@@ -10,12 +11,12 @@ import {User}              from './../user';
 })
 
 /**
- * User menu
+ * User menu.
  */
 export class UserMenuComponent {
-    @Output() toggleMenu = new EventEmitter();
+    @Output() toggleMenu = new EventEmitter<boolean>();
 
-    public opened: Boolean = true;
+    public opened: boolean = true;
 
     public user: User = {
         username: 'Elorfin',
@@ -32,11 +33,11 @@ export class UserMenuComponent {
     };
 
     public toggle(): void {
+        console.log('toggle menu');
+        
         this.opened = !this.opened;
 
         // Emit new menu state
-        this.toggleMenu.emit({
-            opened: this.opened
-        })
+        this.toggleMenu.emit(this.opened);
     }
 }

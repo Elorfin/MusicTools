@@ -1,21 +1,23 @@
-<!-- Skip navigation for accessibility -->
-<a href="#content" class="sr-only">Skip navigation and go to content</a>
+<div class="app-container" [ngClass]="{'push-content': userMenuOpened}" (^toggleMenu)="toggleMenu($event)">
+    <!-- Skip navigation for accessibility -->
+    <a href="#content" class="sr-only">Skip navigation and go to content</a>
 
-<div class="app" [ngClass]="{'push-content': pushContent}">
-    <!-- Top bar of the application -->
-    <ui-header></ui-header>
+    <div class="app">
+        <!-- Top bar of the application -->
+        <ui-header></ui-header>
 
-    <!-- Alerts -->
-    <ui-alert></ui-alert>
+        <!-- Alerts -->
+        <ui-alert></ui-alert>
 
-    <div class="content-container">
-        <!-- Menu of the application -->
-        <ui-menu></ui-menu>
+        <div class="content-container">
+            <!-- Menu of the application -->
+            <ui-menu></ui-menu>
 
-        <!-- Current view -->
-        <div id="content" class="content">
-            <!-- Warning the content of the router target is bound AFTER the <router-outlet> tag (not inside) -->
-            <router-outlet></router-outlet>
+            <!-- Current view -->
+            <div id="content" class="content">
+                <!-- Warning the content of the router target is bound AFTER the <router-outlet> tag (not inside) -->
+                <router-outlet></router-outlet>
+            </div>
         </div>
     </div>
 </div>

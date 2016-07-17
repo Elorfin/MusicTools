@@ -1,13 +1,14 @@
-import {Component} from '@angular/core';
-import {Router} from '@angular/router';
-import {FORM_DIRECTIVES, FormBuilder, Validators, ControlGroup, NgIf} from '@angular/common'
-import {Template}  from '../../../library/layout/template.service';
-import {AuthenticationService}  from '../../../library/security/authentication.service';
+import { Component } from '@angular/core';
+import { Router }    from '@angular/router';
+import { FORM_DIRECTIVES, FormBuilder, Validators, ControlGroup } from '@angular/common'
+
+import { Template } from './../../../library/layout/template.service';
+import { AuthenticationService } from './../../../library/security/authentication.service';
 
 @Component({
     selector: 'login',
     templateUrl: Template.getUrl('login.component.html', 'user/login'),
-    directives:  [ FORM_DIRECTIVES, NgIf ]
+    directives:  [ FORM_DIRECTIVES ]
 })
 
 /**

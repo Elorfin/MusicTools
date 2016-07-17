@@ -1,10 +1,11 @@
-import {Component, OnInit} from '@angular/core';
-import {ROUTER_DIRECTIVES} from '@angular/router';
-import {Template}          from '../../../library/layout/template.service';
-import {Instrument}        from "./../instrument";
-import {InstrumentService} from "./../instrument.service";
-import {OnClickOutDirective} from "./../../../library/event/on-click-out.directive";
-import {InstrumentItemComponent} from "../item/item.component";
+import { Component, OnInit } from '@angular/core';
+import { ROUTER_DIRECTIVES } from '@angular/router';
+
+import { Template }                from '../../../library/layout/template.service';
+import { Instrument }              from './../shared/instrument';
+import { InstrumentService }       from './../shared/instrument.service';
+import { OnClickOutDirective }     from './../../../library/event/on-click-out.directive';
+import { InstrumentItemComponent } from '../item/item.component';
 
 /**
  * Instrument menu

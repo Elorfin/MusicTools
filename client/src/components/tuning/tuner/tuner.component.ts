@@ -1,8 +1,9 @@
-import {Component, Input, ElementRef, ViewChild} from '@angular/core';
-import {Template} from '../../../library/layout/template.service';
-import {TuningService} from "./../tuning.service";
-import {TunerDraw} from "../../../library/draw/tuning/tuner.draw";
-import {Instrument} from "../../instrument/instrument";
+import { Component, ElementRef, Input, ViewChild } from '@angular/core';
+
+import { Template }      from './../../../library/layout/template.service';
+import { TuningService } from './../shared/tuning.service';
+import { TunerDraw }     from './../../../library/draw/tuning/tuner.draw';
+import { Instrument }    from './../../instrument/index';
 
 @Component({
     selector: 'tuner',

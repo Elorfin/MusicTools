@@ -1,7 +1,7 @@
 /**
- * Recorder definition
+ * Flute definition
  */
-export class Recorder {
+export class Flute {
     /**
      * ID of the Instrument
      * @type {String}

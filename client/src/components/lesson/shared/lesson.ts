@@ -1,0 +1,6 @@
+/**
+ * Lesson.
+ */
+export class Lesson {
+
+}

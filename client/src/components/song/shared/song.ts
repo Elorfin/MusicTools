@@ -1,0 +1,6 @@
+/**
+ * Song.
+ */
+export class Song {
+
+}

@@ -1,8 +1,9 @@
-import {Component, OnInit} from '@angular/core';
-import {ROUTER_DIRECTIVES} from '@angular/router';
-import {Template}          from '../../../library/layout/template.service';
-import {Instrument}        from './../instrument';
-import {InstrumentService} from './../instrument.service';
+import { Component, OnInit } from '@angular/core';
+import { ROUTER_DIRECTIVES } from '@angular/router';
+
+import { Template }          from '../../../library/layout/template.service';
+import { Instrument }        from './../shared/instrument';
+import { InstrumentService } from './../shared/instrument.service';
 
 @Component({
     selector: 'instrument-list',
@@ -21,7 +22,7 @@ export class InstrumentListComponent implements OnInit {
             .getAll()
             .subscribe(
                 instruments => this.instruments = instruments,
-                error =>  this.errorMessage = <any>error
+                error       =>  this.errorMessage = <any>error
             );
     }
 }

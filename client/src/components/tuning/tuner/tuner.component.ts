@@ -1,13 +1,17 @@
 import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 
-import { Template }      from './../../../library/layout/template.service';
-import { TuningService } from './../shared/tuning.service';
-import { TunerDraw }     from './../../../library/draw/tuning/tuner.draw';
-import { Instrument }    from './../../instrument/index';
+import { Template }           from './../../../library/layout/template.service';
+import { TuningService }      from './../shared/tuning.service';
+import { TunerDraw }          from './../../../library/draw/tuning/tuner.draw';
+import { Instrument }         from './../../instrument/index';
+import { NoteInputComponent } from './../../theory/note/input/input.component';
 
 @Component({
     selector: 'tuner',
     templateUrl: Template.getUrl('tuner.component.html', 'tuning/tuner'),
+    directives: [
+        NoteInputComponent
+    ],
     providers: [
         TuningService
     ]

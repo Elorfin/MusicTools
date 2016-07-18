@@ -106,6 +106,9 @@ class LoadNoteData extends AbstractFixture implements OrderedFixtureInterface
 
                 // Increment midi number
                 ++$midi;
+
+                // Store reference for use in other DataFixtures
+                $this->addReference('note-'.$note->getInfo()->getSharpName().$octave, $note);
             }
         }
 

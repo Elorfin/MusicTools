@@ -73,8 +73,7 @@ class LoadInstrumentTypeData extends AbstractFixture implements OrderedFixtureIn
             $manager->persist($entity);
 
             // Store reference for use in other DataFixtures
-            $name = strtolower($type['name']);
-            $this->addReference($name, $entity);
+            $this->addReference(strtolower($type['name']), $entity);
         }
 
         $manager->flush();

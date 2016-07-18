@@ -7,6 +7,7 @@ use CommonBundle\Model\NameTrait;
 use CommonBundle\Model\UniqueIdentifierTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use InstrumentBundle\Entity\InstrumentType;
 
 /**
  * Tuning
@@ -16,27 +17,27 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Tuning implements \JsonSerializable
 {
-    /**
+    /*
      * ID
      */
     use UniqueIdentifierTrait;
 
-    /**
+    /*
      * Name
      */
     use NameTrait;
 
-    /**
-     * Is it the default Tuning of its category ?
+    /*
+     * Is it the default Tuning of the Instrument ?
      */
     use DefaultTrait;
 
     /**
-     * Notes that compose the Tuning
+     * Notes that compose the Tuning.
      *
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="TuningBundle\Entity\TuningNote", mappedBy="tuning", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="TuningBundle\Entity\TuningNote", mappedBy="tuning", orphanRemoval=true, cascade={"persist", "remove"})
      * @ORM\OrderBy({"order" = "ASC"})
      */
     protected $notes;
@@ -50,6 +51,16 @@ class Tuning implements \JsonSerializable
      * @ORM\JoinColumn(name="category_id", referencedColumnName="id", nullable=true)
      */
     protected $category;
+
+    /**
+     * Type of the Instrument.
+     *
+     * @var InstrumentType
+     *
+     * @ORM\ManyToOne(targetEntity="InstrumentBundle\Entity\InstrumentType")
+     * @ORM\JoinColumn(name="type_id", referencedColumnName="id")
+     */
+    protected $instrumentType;
 
     /**
      * Tuning constructor.
@@ -73,6 +84,7 @@ class Tuning implements \JsonSerializable
      * Add a Note.
      *
      * @param TuningNote $tuningNote
+     *
      * @return Tuning
      */
     public function addNote(TuningNote $tuningNote)
@@ -90,6 +102,7 @@ class Tuning implements \JsonSerializable
      * Remove a Note.
      *
      * @param TuningNote $tuningNote
+     *
      * @return Tuning
      */
     public function removeNote(TuningNote $tuningNote)
@@ -121,6 +134,30 @@ class Tuning implements \JsonSerializable
     public function setCategory(TuningCategory $category = null)
     {
         $this->category = $category;
+
+        return $this;
+    }
+
+    /**
+     * Get type of the Instrument.
+     *
+     * @return InstrumentType
+     */
+    public function getInstrumentType()
+    {
+        return $this->instrumentType;
+    }
+
+    /**
+     * Set type of the Instrument.
+     *
+     * @param InstrumentType $instrumentType
+     *
+     * @return Tuning
+     */
+    public function setInstrumentType(InstrumentType $instrumentType)
+    {
+        $this->instrumentType = $instrumentType;
 
         return $this;
     }

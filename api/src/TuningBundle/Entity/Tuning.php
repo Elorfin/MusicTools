@@ -58,7 +58,7 @@ class Tuning implements \JsonSerializable
      * @var InstrumentType
      *
      * @ORM\ManyToOne(targetEntity="InstrumentBundle\Entity\InstrumentType")
-     * @ORM\JoinColumn(name="type_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="type_id", referencedColumnName="id", onDelete="CASCADE")
      */
     protected $instrumentType;
 
@@ -181,7 +181,7 @@ class Tuning implements \JsonSerializable
                     'data' => $this->category,
                 ],
                 'notes' => [
-                    'data' => $this->notes,
+                    'data' => $this->notes->toArray(),
                 ]
             ],
         ];

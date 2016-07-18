@@ -26,67 +26,59 @@ class LoadInstrumentData extends AbstractFixture implements OrderedFixtureInterf
      */
     public function load(ObjectManager $manager)
     {
-        $instruments = array(
-            array(
+        $instruments = [
+            [
                 'type' => 'guitar',
                 'name' => 'Classic guitar',
-                'specification' => array(
+                'specification' => [
                     'leftHanded' => false,
                     'headstock' => 'top-bottom',
                     'body' => 'hollow',
                     'amplification' => 'acoustic',
                     'strings' => 6,
                     'frets' => 19,
-                    'tuning' => null,
-                ),
-            ),
-
-            array(
+                    'tuning' => $this->getReference('guitar-standard'),
+                ],
+            ], [
                 'type' => 'guitar',
                 'name' => 'Folk guitar',
-                'specification' => array(
+                'specification' => [
                     'leftHanded' => false,
                     'headstock' => 'top-bottom',
                     'body' => 'hollow',
                     'amplification' => 'acoustic',
                     'strings' => 6,
                     'frets' => 20,
-                    'tuning' => null,
-                ),
-            ),
-
-            array(
+                    'tuning' => $this->getReference('guitar-standard'),
+                ],
+            ], [
                 'type' => 'guitar',
                 'name' => 'Electric guitar',
-                'specification' => array(
+                'specification' => [
                     'leftHanded' => false,
                     'headstock' => 'in-line',
                     'body' => 'solid',
                     'amplification' => 'electric',
                     'strings' => 6,
                     'frets' => 24,
-                    'tuning' => null,
-                ),
-            ),
-
-            array(
+                    'tuning' => $this->getReference('guitar-standard'),
+                ],
+            ], [
                 'type' => 'bass',
                 'name' => 'Bass 4 strings',
-                'specification' => array(
+                'specification' => [
                     'leftHanded' => false,
                     'headstock' => 'in-line',
                     'body' => 'solid',
                     'amplification' => 'electric',
                     'strings' => 4,
                     'frets' => 24,
-                    'tuning' => null,
-                ),
-            ),
-
-            array(
+                    'tuning' => $this->getReference('bass-standard'),
+                ],
+            ], [
                 'type' => 'bass',
                 'name' => 'Bass 5 strings',
-                'specification' => array(
+                'specification' => [
                     'leftHanded' => false,
                     'headstock' => 'in-line',
                     'body' => 'solid',
@@ -94,9 +86,9 @@ class LoadInstrumentData extends AbstractFixture implements OrderedFixtureInterf
                     'strings' => 5,
                     'frets' => 24,
                     'tuning' => null,
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
 
         foreach ($instruments as $instrument) {
             /** @var \InstrumentBundle\Entity\InstrumentType $type */

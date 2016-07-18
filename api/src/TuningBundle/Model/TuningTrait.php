@@ -15,7 +15,7 @@ trait TuningTrait
      * @var Tuning
      *
      * @ORM\ManyToOne(targetEntity="TuningBundle\Entity\Tuning")
-     * @ORM\JoinColumn(name="tuning_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="tuning_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
      */
     protected $tuning;
 

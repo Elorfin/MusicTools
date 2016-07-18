@@ -34,6 +34,11 @@ class LoadTuningData extends AbstractFixture implements OrderedFixtureInterface
                 'default' => true,
                 'name' => 'Standard',
                 'notes' => ['E2', 'A2', 'D3', 'G3', 'B3', 'E4']
+            ], [
+                'instrumentType' => 'bass',
+                'default' => true,
+                'name' => 'Standard',
+                'notes' => ['E1', 'A1', 'D2', 'G2']
             ]
         ];
 
@@ -60,6 +65,9 @@ class LoadTuningData extends AbstractFixture implements OrderedFixtureInterface
             }
 
             $manager->persist($entity);
+
+            // Store reference for use in other DataFixtures
+            $this->addReference($tuning['instrumentType'].'-'.strtolower($tuning['name']), $entity);
         }
 
         $manager->flush();

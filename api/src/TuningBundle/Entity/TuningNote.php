@@ -23,6 +23,8 @@ class TuningNote implements \JsonSerializable
      * Order of the Note into the Tuning
      *
      * @var int
+     *
+     * @ORM\Column(name="note_order", type="integer")
      */
     protected $order;
 
@@ -32,7 +34,7 @@ class TuningNote implements \JsonSerializable
      * @var Tuning
      *
      * @ORM\ManyToOne(targetEntity="TuningBundle\Entity\Tuning", inversedBy="notes")
-     * @ORM\JoinColumn(name="tuning_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="tuning_id", referencedColumnName="id", onDelete="CASCADE")
      */
     protected $tuning;
 
@@ -42,7 +44,7 @@ class TuningNote implements \JsonSerializable
      * @var Note
      *
      * @ORM\ManyToOne(targetEntity="TheoryBundle\Entity\Note\Note")
-     * @ORM\JoinColumn(name="note_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="note_id", referencedColumnName="id", onDelete="CASCADE")
      */
     protected $note;
 
@@ -117,22 +119,6 @@ class TuningNote implements \JsonSerializable
 
     public function jsonSerialize()
     {
-        return [
-            // Identifier of the Resource
-            'type' => 'tuning_notes',
-            'id' => $this->id,
-
-            // Attributes of the Resource
-            'attributes' => [
-                'order' => $this->order,
-            ],
-
-            // Relationships of the Resources
-            'relationships' => [
-                'note' => [
-                    'data' => $this->note,
-                ]
-            ]
-        ];
+        return $this->note;
     }
 }

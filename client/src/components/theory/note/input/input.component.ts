@@ -6,7 +6,7 @@ import { Note }        from './../note';
 
 @Component({
     selector: 'note-input',
-    templateUrl: Template.getUrl('input.component.html', 'theory/note'),
+    templateUrl: Template.getUrl('input.component.html', 'theory/note/input'),
     providers: [
         NoteService
     ]

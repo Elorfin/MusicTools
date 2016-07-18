@@ -18,7 +18,7 @@ abstract class AbstractSpecification implements \JsonSerializable
      * @var Instrument
      *
      * @ORM\OneToOne(targetEntity="InstrumentBundle\Entity\Instrument")
-     * @ORM\JoinColumn(name="instrument_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="instrument_id", referencedColumnName="id", onDelete="CASCADE")
      */
     protected $instrument;
 

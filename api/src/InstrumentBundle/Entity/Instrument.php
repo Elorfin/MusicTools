@@ -39,7 +39,7 @@ class Instrument implements \JsonSerializable
      * @var InstrumentType
      *
      * @ORM\ManyToOne(targetEntity="InstrumentBundle\Entity\InstrumentType")
-     * @ORM\JoinColumn(name="type_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="type_id", referencedColumnName="id", onDelete="CASCADE")
      */
     protected $instrumentType;
 

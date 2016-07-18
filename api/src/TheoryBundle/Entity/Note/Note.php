@@ -71,7 +71,7 @@ class Note implements \JsonSerializable
      * @var Note
      *
      * @ORM\OneToOne(targetEntity="TheoryBundle\Entity\Note\Note")
-     * @ORM\JoinColumn(name="previous_id", referencedColumnName="id", nullable=true)
+     * @ORM\JoinColumn(name="previous_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
      */
     protected $previous;
 
@@ -81,7 +81,7 @@ class Note implements \JsonSerializable
      * @var Note
      *
      * @ORM\OneToOne(targetEntity="TheoryBundle\Entity\Note\Note")
-     * @ORM\JoinColumn(name="next_id", referencedColumnName="id", nullable=true)
+     * @ORM\JoinColumn(name="next_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
      */
     protected $next;
 

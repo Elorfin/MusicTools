@@ -177,6 +177,9 @@ class Tuning implements \JsonSerializable
 
             // Relationships with other Resources
             'relationships' => [
+                'instrumentType' => [
+                    'data' => $this->instrumentType,
+                ],
                 'category' => [
                     'data' => $this->category,
                 ],

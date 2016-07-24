@@ -5,8 +5,9 @@ import {RequestOptions} from '@angular/http';
 
 import 'rxjs/add/observable/throw';
 import 'rxjs/add/operator/cache';
-import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/share';
 
 /**
  * Api Service
@@ -36,6 +37,7 @@ export class ApiService {
         return this.http
             .request(this.serverUrl + url, options)
             .cache()
+            .share() // Share a single subscription with subscribers
             .map(this.extractData)
             .catch(this.handleError);
     }

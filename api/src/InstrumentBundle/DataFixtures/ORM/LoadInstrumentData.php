@@ -87,6 +87,18 @@ class LoadInstrumentData extends AbstractFixture implements OrderedFixtureInterf
                     'frets' => 24,
                     'tuning' => null,
                 ],
+            ], [
+                'type' => 'ukulele',
+                'name' => 'Soprano Ukulele',
+                'specification' => [
+                    'leftHanded' => false,
+                    'headstock' => 'top-bottom',
+                    'body' => 'hollow',
+                    'amplification' => 'acoustic',
+                    'strings' => 4,
+                    'frets' => 15,
+                    'tuning' => $this->getReference('ukulele-c-tuning'),
+                ],
             ],
         ];
 

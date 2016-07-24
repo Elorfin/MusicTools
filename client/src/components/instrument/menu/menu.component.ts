@@ -5,7 +5,7 @@ import { Template }                from '../../../library/layout/template.servic
 import { Instrument }              from './../shared/instrument';
 import { InstrumentService }       from './../shared/instrument.service';
 import { OnClickOutDirective }     from './../../../library/event/on-click-out.directive';
-import { InstrumentItemComponent } from '../item/item.component';
+import { InstrumentItemComponent } from './../item/item.component';
 
 /**
  * Instrument menu
@@ -45,17 +45,13 @@ export class InstrumentMenuComponent implements OnInit {
     constructor (private instrumentService: InstrumentService) {}
 
     ngOnInit() {
-        this.instrumentService
-            .getAll()
-            .subscribe(instruments => {
-                this.instruments = instruments;
-                this.current     = instruments[0];
-            });
+        this.instrumentService.instruments.subscribe(instruments => this.instruments = instruments);
+        this.instrumentService.current.subscribe(current => this.current = current);
     }
 
     public selectInstrument(instrument: Instrument): void {
-        this.current = instrument;
         this.instrumentService.setCurrent(instrument);
+        
         this.opened = false;
     }
 

@@ -4,6 +4,22 @@
         My tuner
     </div>-->
 
+    <div class="dropdown">
+
+    </div>
+
+    <div class="dropdown" [ngClass]="{open: opened}" (onClickOut)="opened = false">
+        <a class="dropdown-toggle" role="button" id="tuningDropdown" aria-haspopup="true" (click)="opened = !opened">
+            select tuning
+        </a>
+
+        <div class="dropdown-menu" aria-labelledby="tuningDropdown">
+            <a class="dropdown-item" *ngFor="let tuning of tunings">
+                {{ tuning.attributes.name }}
+            </a>
+        </div>
+    </div>
+
     <div class="card-block tuner-block">
         <div class="tuner-col tuner-notes">
             <div class="tuner-cell">

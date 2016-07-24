@@ -1,46 +1,39 @@
-import { Injectable }     from '@angular/core';
-import { Http, Response } from '@angular/http';
-import { Observable }     from 'rxjs/Observable';
-import 'rxjs/add/observable/throw';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/catch';
+import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs/Rx';
 
-import { Tuning }         from './tuning';
+import { Tuning }     from './tuning';
+import { ApiService } from '../../../library/api/api.service';
 
 @Injectable()
 export class TuningService {
-    constructor (private http: Http) {}
+    /**
+     * URL to access Tuning data.
+     *
+     * @type {string}
+     */
+    private url = '/tunings';
 
-    private url = 'http://localhost/MusicTools/api/web/api_dev.php/tuning';  // URL to web api
+    private _tunings: BehaviorSubject<Tuning[]> = new BehaviorSubject([]);
 
+    /**
+     * Class constructor.
+     *
+     * @param {ApiService} apiService
+     */
+    constructor (private apiService: ApiService) {
+        this.getAll().subscribe(tunings => this._tunings.next(tunings));
+    }
+
+    public get tunings() {
+        return this._tunings.asObservable();
+    }
+
+    /**
+     * Get all Instruments.
+     *
+     * @returns {Promise}
+     */
     public getAll(): Observable<Tuning[]> {
-        return this.http
-            .get(this.url)
-            .map(this.extractData)
-            .catch(this.handleError);
-    }
-
-    public get(id: String): Observable<Tuning> {
-        return this.http
-            .get(this.url + '/' + id)
-            .map(this.extractData)
-            .catch(this.handleError);
-    }
-
-    private extractData(res: Response) {
-        if (res.status < 200 || res.status >= 300) {
-            throw new Error('Bad response status: ' + res.status);
-        }
-        let body = res.json();
-
-        return body.data || { };
-    }
-
-    private handleError (error: any) {
-        // In a real world app, we might send the error to remote logging infrastructure
-        let errMsg = error.message || 'Server error';
-        console.error(errMsg); // log to console instead
-
-        return Observable.throw(errMsg);
+        return this.apiService.call(this.url);
     }
 }

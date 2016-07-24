@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject, Observable } from 'rxjs/Rx';
 
 import { Instrument } from './instrument';
 import { ApiService } from "./../../../library/api/api.service";
@@ -22,27 +22,27 @@ export class InstrumentService {
      *
      * @type {Instrument}
      */
-    protected current: Instrument;
+    private _current: BehaviorSubject<Instrument> = new BehaviorSubject(null);
 
-    /**
-     *
-     */
-    protected instruments: Array<Instrument>;
+    private _instruments: BehaviorSubject<Instrument[]> = new BehaviorSubject([]);
 
     /**
      * Class constructor.
      *
      * @param {ApiService} apiService
      */
-    constructor (private apiService: ApiService) {}
+    constructor (private apiService: ApiService) {
+        this.getAll().subscribe(instruments => {
+            this._instruments.next(instruments);
 
-    /**
-     * Sets the current Instrument.
-     *
-     * @param {Instrument} current
-     */
-    public setCurrent(current: Instrument): void {
-        this.current = current;
+            if (null === this._current.getValue() && instruments.length > 0) {
+                this._current.next(instruments[0]);
+            }
+        });
+    }
+
+    public get instruments() {
+        return this._instruments.asObservable();
     }
 
     /**
@@ -50,8 +50,17 @@ export class InstrumentService {
      *
      * @return {Instrument}
      */
-    public getCurrent(): Instrument {
-        return this.current;
+    public get current(): Observable<Instrument> {
+        return this._current.asObservable();
+    }
+
+    /**
+     * Sets the current Instrument.
+     *
+     * @param {Instrument} current
+     */
+    public setCurrent(current: Instrument) {
+        this._current.next(current);
     }
 
     /**
@@ -60,15 +69,7 @@ export class InstrumentService {
      * @returns {Promise}
      */
     public getAll(): Observable<Instrument[]> {
-        const observable: Observable<Instrument[]> = this.apiService.call(this.url);
-
-        observable.subscribe(instruments => {
-            if (!this.current && instruments.length !== 0) {
-                this.current = instruments[0];
-            }
-        });
-
-        return observable;
+        return this.apiService.call(this.url);
     }
 
     /**

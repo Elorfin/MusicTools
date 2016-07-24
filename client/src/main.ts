@@ -3,10 +3,6 @@ import {HTTP_PROVIDERS, RequestOptions} from '@angular/http';
 import {provide}                        from '@angular/core';
 import {bootstrap}                      from '@angular/platform-browser-dynamic';
 
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/operator/toPromise';
-
 // Load root component
 import {AppComponent}         from './components/app.component';
 import {APP_ROUTER_PROVIDERS} from './components/app.routes';

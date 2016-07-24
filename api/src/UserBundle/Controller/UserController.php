@@ -3,9 +3,7 @@
 namespace UserBundle\Controller;
 
 use Elorfin\JsonApiBundle\Response\JsonApiResponse;
-use Symfony\Component\HttpFoundation\Request;
 use UserBundle\Entity\User;
-use UserBundle\Form\Type\UserType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;

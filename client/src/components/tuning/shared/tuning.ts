@@ -1,3 +1,6 @@
+import { InstrumentType } from '../../instrument-type/shared/instrument-type';
+import { Note }           from '../../theory/note/note';
+
 /**
  * Tuning definition
  */
@@ -12,5 +15,13 @@ export class Tuning {
 
     public attributes: Object;
 
-    public relationships: Object;
+    public relationships: {
+        instrumentType: {
+            data: InstrumentType
+        }
+
+        notes: {
+            data: Note[]
+        }
+    };
 }

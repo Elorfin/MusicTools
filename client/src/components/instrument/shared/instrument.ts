@@ -15,7 +15,9 @@ export class Instrument {
     public attributes: Object;
 
     public relationships: {
-        instrumentType: InstrumentType,
+        instrumentType: {
+            data: InstrumentType
+        },
         specification: Object
     };
 }

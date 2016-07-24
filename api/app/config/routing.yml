@@ -8,6 +8,11 @@ instrument:
     resource: "@InstrumentBundle/Controller/"
     type:     annotation
 
+# Routes for Tuning
+tuning:
+    resource: "@TuningBundle/Controller/"
+    type:     annotation
+
 # Routes for SongBook
 song_book:
     resource: "@SongBookBundle/Controller/"

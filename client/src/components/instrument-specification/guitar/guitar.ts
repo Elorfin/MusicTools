@@ -1,16 +1,13 @@
+import { AbstractSpecification } from '../shared/specification';
+import { Tuning } from '../../tuning/shared/tuning';
+
 /**
  * Guitar definition
  */
-export class Guitar {
-    /**
-     * ID of the Instrument
-     * @type {String}
-     */
-    public id: String;
-
-    public type: String;
-
-    public attributes: Object;
-
-    public relationships: Object;
+export class Guitar extends AbstractSpecification {
+    public relationships: {
+        tuning: {
+            data: Tuning
+        }
+    };
 }

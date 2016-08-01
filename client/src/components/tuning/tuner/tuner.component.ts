@@ -2,6 +2,7 @@ import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 
 import { Observable } from 'rxjs/Rx';
 
+import { OnClickOutDirective }     from './../../../library/event/on-click-out.directive';
 import { Template }           from './../../../library/layout/template.service';
 import { TuningService }      from './../shared/tuning.service';
 import { TunerDraw }          from './../../../library/draw/tuning/tuner.draw';
@@ -13,6 +14,7 @@ import { Tuning } from './../shared/tuning';
     selector: 'tuner',
     templateUrl: Template.getUrl('tuner.component.html', 'tuning/tuner'),
     directives: [
+        OnClickOutDirective,
         NoteInputComponent
     ],
     providers: [
@@ -36,6 +38,8 @@ export class TunerComponent implements OnInit {
 
     @Input() instrument: Instrument;
 
+    public tuning: Tuning;
+
     public tunings: Tuning[];
 
     // Get access to the canvas to draw on
@@ -51,6 +55,8 @@ export class TunerComponent implements OnInit {
             data => {
                 this.instrument = data[0];
                 this.tunings = data[1];
+
+                this.tuning = this.tunings[0];
             }
         );
     }
@@ -59,5 +65,10 @@ export class TunerComponent implements OnInit {
         // Draw tuner
         this.tunerDraw = new TunerDraw(this.tunerCanvas.nativeElement);
         this.tunerDraw.draw();
+    }
+
+    public selectTuning(tuning: Tuning) {
+        this.tuning = tuning;
+        this.opened = false;
     }
 }

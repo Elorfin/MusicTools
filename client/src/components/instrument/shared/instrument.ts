@@ -1,4 +1,5 @@
 import { InstrumentType } from './../../instrument-type/index';
+import { AbstractSpecification } from './../../instrument-specification/shared/specification';
 
 /**
  * Instrument definition
@@ -18,6 +19,8 @@ export class Instrument {
         instrumentType: {
             data: InstrumentType
         },
-        specification: Object
+        specification: {
+            data: AbstractSpecification
+        }
     };
 }

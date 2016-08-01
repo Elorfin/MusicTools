@@ -1,55 +1,48 @@
 <div class="card tuner">
-    <!--<div class="card-header">
-        <span class="mu mu-tuning"></span>
-        My tuner
-    </div>-->
-
-    <div class="dropdown">
-
-    </div>
-
-    <div class="dropdown" [ngClass]="{open: opened}" (onClickOut)="opened = false">
-        <a class="dropdown-toggle" role="button" id="tuningDropdown" aria-haspopup="true" (click)="opened = !opened">
-            select tuning
-        </a>
-
-        <div class="dropdown-menu" aria-labelledby="tuningDropdown">
-            <a class="dropdown-item" *ngFor="let tuning of tunings">
-                {{ tuning.attributes.name }}
+    <div class="card-block">
+        <div class="dropdown" [ngClass]="{open: opened}" (onClickOut)="opened = false">
+            <a class="dropdown-toggle" role="button" id="tuningDropdown" aria-haspopup="true" (click)="opened = !opened">
+                <em>-- select tuning --</em>
             </a>
-        </div>
-    </div>
 
-    <div class="card-block tuner-block">
-        <div class="tuner-col tuner-notes">
-            <div class="tuner-cell">
-                <input type="text" class="form-control" name="" value="D" />
-            </div>
-
-            <div class="tuner-cell">
-                <input type="text" class="form-control" name="" value="A" />
-            </div>
-
-            <div class="tuner-cell">
-                <input type="text" class="form-control" name="" value="E" />
+            <div class="dropdown-menu" aria-labelledby="tuningDropdown">
+                <a class="dropdown-item" *ngFor="let tuning of tunings" (click)="selectTuning(tuning)">
+                    {{ tuning.attributes.name }}
+                </a>
             </div>
         </div>
 
-        <div class="tuner-col tuner-headstock">
-            <canvas #tunerCanvas class="tuning-headstock"></canvas>
-        </div>
+        <div class="tuner-block">
+            <div class="tuner-col tuner-notes" *ngIf="tuning">
+                <div class="tuner-cell">
+                    <note-input [note]="tuning.relationships.notes.data[2]"></note-input>
+                </div>
 
-        <div class="tuner-col tuner-notes">
-            <div class="tuner-cell">
-                <input type="text" class="form-control" name="" value="G" />
+                <div class="tuner-cell">
+                    <note-input [note]="tuning.relationships.notes.data[1]"></note-input>
+                </div>
+
+                <div class="tuner-cell">
+                    <note-input [note]="tuning.relationships.notes.data[0]"></note-input>
+                </div>
             </div>
 
-            <div class="tuner-cell">
-                <input type="text" class="form-control" name="" value="B" />
+            <div class="tuner-col tuner-headstock">
+                <canvas #tunerCanvas class="tuning-headstock"></canvas>
             </div>
 
-            <div class="tuner-cell">
-                <input type="text" class="form-control" name="" value="E" />
+            <div class="tuner-col tuner-notes" *ngIf="tuning">
+                <div class="tuner-cell">
+                    <note-input [note]="tuning.relationships.notes.data[3]"></note-input>
+                </div>
+
+                <div class="tuner-cell">
+                    <note-input [note]="tuning.relationships.notes.data[4]"></note-input>
+                </div>
+
+                <div class="tuner-cell">
+                    <note-input [note]="tuning.relationships.notes.data[5]"></note-input>
+                </div>
             </div>
         </div>
     </div>

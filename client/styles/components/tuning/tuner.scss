@@ -1,4 +1,11 @@
 .tuner {
+  .dropdown-toggle {
+    display: block;
+    background: $dark-base;
+    padding: $card-spacer-x $card-spacer-y;
+    margin-bottom: $card-spacer-y;
+  }
+
   .tuner-block {
     display: table;
     width: 100%;
@@ -18,6 +25,10 @@
 
       &.tuner-headstock {
         width: 50%;
+      }
+
+      .tuner-cell {
+        text-align: center;
       }
     }
   }

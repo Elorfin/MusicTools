@@ -5,7 +5,7 @@ import { DashboardComponent }        from './dashboard/dashboard.component';
 import { InstrumentListComponent }   from './instrument/list/list.component';
 import { InstrumentDetailComponent } from './instrument/detail/detail.component';
 import { SongListComponent }         from './song/list/list.component';
-import { TheorySummaryComponent }    from './theory/summary.component';
+import { TheorySummaryComponent }    from './theory/summary/summary.component';
 import { LessonListComponent }       from './lesson/list/list.component';
 import { GameListComponent }         from './game/list/list.component';
 import { UserListComponent }         from './user/list/list.component';

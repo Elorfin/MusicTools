@@ -1,6 +1,7 @@
-import {Component, OnInit} from '@angular/core';
-import {Template} from '../../../library/layout/template.service';
-import {NoteService} from "./note.service";
+import { Component, OnInit } from '@angular/core';
+
+import { Template } from './../../../../library/layout/template.service';
+import { NoteService } from './../shared/note.service';
 
 @Component({
     selector: 'note-format-menu',

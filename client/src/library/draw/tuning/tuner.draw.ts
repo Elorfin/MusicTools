@@ -53,6 +53,14 @@ export class TunerDraw extends CanvasDraw {
         ]
     };
 
+    constructor(canvas: HTMLCanvasElement, config: Object = null) {
+        super(canvas);
+
+        /*if (config) {
+            this.config = config;
+        }*/
+    }
+    
     /**
      * Redraw tuner.
      */
@@ -107,23 +115,16 @@ export class TunerDraw extends CanvasDraw {
 
         // Finish headstock
         this.context.closePath();
-
-        this.context.fillStyle = 'rgba(0, 0, 0, 0.25)';
-        this.context.fill();
+        
+        this.fillContext('rgba(0, 0, 0, 0.25)');
     }
 
     /**
      * Draw : Nut
      */
     private drawNut(): void {
-        // Set Nut color
-        this.context.fillStyle = '#777';
-
         // Set shadow
-        this.context.shadowOffsetX = 0;
-        this.context.shadowOffsetY = 0;
-        this.context.shadowBlur    = 10;
-        this.context.shadowColor   = "black";
+        this.setContextShadow(0, 0, 10, 'black');
 
         this.context.beginPath();
 
@@ -132,12 +133,8 @@ export class TunerDraw extends CanvasDraw {
 
         this.context.closePath();
 
-        this.context.fillStyle = '#555';
-        this.context.fill();
-
-        this.context.lineWidth = 2;
-        this.context.strokeStyle = '#666';
-        this.context.stroke();
+        this.fillContext('#555');
+        this.strokeContext('#666', 2);
     }
 
     /**
@@ -215,14 +212,8 @@ export class TunerDraw extends CanvasDraw {
     }
 
     private drawTuningPeg(tuningPegPosition: TuningPegPosition): void {
-        // Set Tuning Pegs color
-        this.context.fillStyle = 'rgba(255, 255, 255, 0.25)';
-
         // Set shadow
-        this.context.shadowOffsetX = 0;
-        this.context.shadowOffsetY = 0;
-        this.context.shadowBlur    = 10;
-        this.context.shadowColor   = "black";
+        this.setContextShadow(0, 0, 10, 'black');
 
         // Draw first circle
         this.context.beginPath();
@@ -242,22 +233,16 @@ export class TunerDraw extends CanvasDraw {
         }
         this.context.closePath();
 
-        this.context.fillStyle = '#777';
-        this.context.fill();
-
-        this.context.lineWidth = 1;
-        this.context.strokeStyle = 'rgba(0, 0, 0, 0.5)';
-        this.context.stroke();
+        this.fillContext('#777');
+        this.strokeContext('rgba(0, 0, 0, 0.5)', 1);
     }
 
     private drawString(startX: number, stringNum: number, stringWidth: number, tuningPegPosition: TuningPegPosition): void {
         // Set shadow
-        this.context.shadowOffsetX = 0;
-        this.context.shadowOffsetY = 0;
-        this.context.shadowBlur    = 5;
-        this.context.shadowColor   = "black";
+        this.setContextShadow(0, 0, 5, 'black');
 
         this.context.beginPath();
+
         // Start from nut
         this.context.moveTo(startX, 860);
 
@@ -269,21 +254,12 @@ export class TunerDraw extends CanvasDraw {
 
         this.context.lineTo(tuningPegX, tuningPegPosition.y);
 
-        this.context.lineWidth = stringWidth;
-        this.context.strokeStyle = '#bbb';
-
-        this.context.stroke();
+        this.strokeContext('#BBBBBB', stringWidth);
     }
 
     private drawTuningPegCap(tuningPegPosition: TuningPegPosition): void {
-        // Set Tuning Pegs color
-        this.context.fillStyle = 'rgba(255, 255, 255, 0.25)';
-
         // Set shadow
-        this.context.shadowOffsetX = 0;
-        this.context.shadowOffsetY = 0;
-        this.context.shadowBlur    = 10;
-        this.context.shadowColor   = "black";
+        this.setContextShadow(0, 0, 10, 'black');
 
         // Draw second circle
         this.context.beginPath();
@@ -291,16 +267,10 @@ export class TunerDraw extends CanvasDraw {
         this.context.closePath();
 
         var gradient = this.context.createRadialGradient(tuningPegPosition.x, tuningPegPosition.y, 3, tuningPegPosition.x, tuningPegPosition.y, 17);
-        gradient.addColorStop(0, "#aaa");
-        gradient.addColorStop(1, "#666");
+        gradient.addColorStop(0, '#AAAAAA');
+        gradient.addColorStop(1, '#666666');
 
-        // Fill with gradient
-        this.context.fillStyle = gradient;
-
-        this.context.fill();
-
-        this.context.lineWidth = 1;
-        this.context.strokeStyle = '#333';
-        this.context.stroke();
+        this.fillContext(gradient);
+        this.strokeContext('#333333', 1);
     }
 }

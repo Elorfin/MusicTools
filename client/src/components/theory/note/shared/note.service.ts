@@ -1,7 +1,8 @@
-import {Injectable} from '@angular/core';
-import {Note}       from './note';
-import {Observable} from 'rxjs/Observable';
-import {ApiService} from "../../../library/api/api.service";
+import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs/Rx';
+
+import { Note }       from './note';
+import { ApiService } from './../../../../library/api/api.service';
 
 /**
  * Note Service
@@ -21,12 +22,20 @@ export class NoteService {
      */
     private displayFlat: boolean = false;
 
+    private _notes: BehaviorSubject<Note[]> = new BehaviorSubject([]);
+
     /**
      * Class constructor.
      *
      * @param {ApiService} apiService
      */
-    constructor (private apiService: ApiService) {}
+    constructor (private apiService: ApiService) {
+        this.getAll().subscribe(notes => this._notes.next(notes));
+    }
+
+    public get notes() {
+        return this._notes.asObservable();
+    }
 
     /**
      * Get all Notes.
@@ -77,9 +86,14 @@ export class NoteService {
      * @returns {Note|null}
      */
     public static previous(notes: Array<Note>, current: Note): Note {
+        console.log(notes);
+        console.log(current);
+
         let previous: Note = null;
 
         const pos: number = notes.indexOf(current);
+
+        console.log(pos);
         if (-1 !== pos && notes[pos - 1]) {
             previous = notes[pos - 1];
         }

@@ -1,12 +1,11 @@
 import {Component} from '@angular/core';
-import {NgClass}   from '@angular/common';
 
 import {Template} from '../../../library/layout/template.service';
 import {OnClickOutDirective} from '../../../library/event/on-click-out.directive';
 
 import {UserMenuComponent}       from '../../user/menu/menu.component';
 import {InstrumentMenuComponent} from '../../instrument/menu/menu.component';
-import {NoteFormatMenuComponent} from '../../theory/note/format-menu.component';
+import {NoteFormatMenuComponent} from '../../theory/note/format-menu/format-menu.component';
 
 /**
  * Header of the application
@@ -15,7 +14,6 @@ import {NoteFormatMenuComponent} from '../../theory/note/format-menu.component';
     selector: 'ui-header',
     templateUrl: Template.getUrl('header.component.html', 'common/header'),
     directives: [
-        NgClass,
         OnClickOutDirective,
         UserMenuComponent,
         InstrumentMenuComponent,

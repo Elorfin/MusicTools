@@ -1,5 +1,5 @@
 import { InstrumentType } from '../../instrument-type/shared/instrument-type';
-import { Note }           from '../../theory/note/note';
+import { Note }           from '../../theory/note/shared/note';
 
 /**
  * Tuning definition

@@ -1,1 +1,17 @@
-<input type="text" class="form-control" name="" value="E" />
+<!-- Next note -->
+<button type="button" class="btn btn-secondary" (click)="next()">
+    <span class="fa fa-fw fa-caret-up"></span>
+    <span class="sr-only">next</span>
+</button>
+
+<!-- Display and Play note -->
+<div class="note" [style.color]="note.attributes.color" (click)="play()">
+    {{ note.attributes.flat_name }}
+    <small>{{ note.attributes.octave }}</small>
+</div>
+
+<!-- Previous note -->
+<button type="button" class="btn btn-secondary" (click)="previous()">
+    <span class="fa fa-fw fa-caret-down"></span>
+    <span class="sr-only">previous</span>
+</button>

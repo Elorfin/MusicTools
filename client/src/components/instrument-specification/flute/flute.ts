@@ -1,16 +1,13 @@
+import { AbstractSpecification } from '../shared/specification';
+import { Tuning } from '../../tuning/shared/tuning';
+
 /**
  * Flute definition
  */
-export class Flute {
-    /**
-     * ID of the Instrument
-     * @type {String}
-     */
-    public id: String;
-
-    public type: String;
-
-    public attributes: Object;
-
-    public relationships: Object;
+export class Flute extends AbstractSpecification {
+    public relationships: {
+        tuning: {
+            data: Tuning
+        }
+    };
 }

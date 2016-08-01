@@ -1,16 +1,8 @@
+import { AbstractSpecification } from '../shared/specification';
+
 /**
  * Piano definition
  */
-export class Piano {
-    /**
-     * ID of the Instrument
-     * @type {String}
-     */
-    public id: String;
+export class Piano extends AbstractSpecification {
 
-    public type: String;
-
-    public attributes: Object;
-
-    public relationships: Object;
 }

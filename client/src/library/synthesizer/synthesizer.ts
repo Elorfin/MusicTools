@@ -1,8 +1,6 @@
 import { AbstractProfile } from './profile/abstract.profile';
 
 export class Synthesizer {
-    private _debug: boolean = false;
-
     private _bitsPerSample: number = 16;
 
     private _channels: number = 1;
@@ -95,8 +93,6 @@ export class Synthesizer {
 
         var blob = new Blob(out, {type: 'audio/wav'});
         var dataURI = URL.createObjectURL(blob);
-
-        if (this._debug) { console.log((new Date).valueOf() - t, 'ms to generate'); }
 
         this.profile.clear();
 

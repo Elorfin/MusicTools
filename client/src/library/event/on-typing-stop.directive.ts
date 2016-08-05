@@ -1,5 +1,4 @@
-
-import {Directive, ElementRef, Input} from '@angular/core';
+import { Directive, EventEmitter, HostListener, Output } from '@angular/core';
 
 /**
  * On Typing Stop Directive
@@ -16,20 +15,21 @@ import {Directive, ElementRef, Input} from '@angular/core';
 })
 
 export class OnTypingStopDirective {
+    @Output('onTypingStop') typingStop = new EventEmitter();
+
     private stopDelay = 1000; // There is an average of 160ms split-time between key press when someone type
 
     private typingTimer: number;
 
-    @Input('onTypingStop') callback: Function;
-
-    onKeyUp() {
+    @HostListener('keyup') onKeyUp() {
         clearTimeout(this.typingTimer);
+        
         this.typingTimer = setTimeout(function () {
-            this.callback.call();
+            this.typingStop.emit({});
         }, this.stopDelay);
     }
 
-    onKeyDown() {
+    @HostListener('keydown') onKeyDown() {
         clearTimeout(this.typingTimer);
     }
 }

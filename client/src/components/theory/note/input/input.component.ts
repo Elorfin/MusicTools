@@ -1,19 +1,14 @@
 import { Component, Input, OnInit } from '@angular/core';
 
-import { Template }     from './../../../../library/layout/template.service';
-import { NoteService }  from './../shared/note.service';
-import { Note }         from './../shared/note';
-import { SoundService } from '../../../../library/audio/sound.service';
-import {Synthesizer} from "../../../../library/synthesizer/synthesizer";
-import {GuitarProfile} from "../../../../library/synthesizer/profile/guitar.profile";
+import { Template }      from './../../../../library/layout/template.service';
+import { NoteService }   from './../shared/note.service';
+import { Note }          from './../shared/note';
+import { Synthesizer }   from './../../../../library/synthesizer/synthesizer';
+import { GuitarProfile } from './../../../../library/synthesizer/profile/guitar.profile';
 
 @Component({
     selector: 'note-input',
-    templateUrl: Template.getUrl('input.component.html', 'theory/note/input'),
-    providers: [
-        NoteService,
-        SoundService
-    ]
+    templateUrl: Template.getUrl('input.component.html', 'theory/note/input')
 })
 
 export class NoteInputComponent implements OnInit {
@@ -31,7 +26,7 @@ export class NoteInputComponent implements OnInit {
      */
     public notes: Note[];
 
-    constructor(private noteService: NoteService, private soundService: SoundService) {}
+    constructor(private noteService: NoteService) {}
 
     ngOnInit() {
         this.noteService.notes.subscribe(notes => this.notes = notes);
@@ -53,7 +48,5 @@ export class NoteInputComponent implements OnInit {
         const synthesizer = new Synthesizer(new GuitarProfile());
 
         synthesizer.play(this.note.attributes.frequency);
-
-        /*this.soundService.playNote(this.note, 1);*/
     }
 }

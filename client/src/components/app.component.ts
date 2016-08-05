@@ -6,6 +6,7 @@ import { Template }                                       from './../library/lay
 import { InstrumentService }                              from './instrument/index';
 import { ApiService }                                     from './../library/api/api.service';
 import { UserMenuComponent }                              from './user/menu/menu.component';
+import { NoteService }                                    from './theory/note/shared/note.service';
 
 @Component({
     selector: 'music-tools',
@@ -19,6 +20,7 @@ import { UserMenuComponent }                              from './user/menu/menu
     ],
     providers: [
         ApiService,
+        NoteService,
         InstrumentService
     ]
 })

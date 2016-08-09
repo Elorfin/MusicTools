@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs/Rx';
+import 'rxjs/add/operator/find';
 
 import { Note }       from './note';
 import { ApiService } from './../../../../library/api/api.service';
@@ -47,7 +48,7 @@ export class NoteService {
     }
 
     /**
-     * Get an Note by its identifier.
+     * Get a Note by its identifier.
      *
      * @param   {string} id
      *
@@ -80,20 +81,19 @@ export class NoteService {
     /**
      * Get the previous Note of current.
      *
-     * @param   {Array} notes
-     * @param   {Note}  current
+     * @param {Note}   current
+     * @param {Note[]} notes
      *
      * @returns {Note|null}
      */
-    public static previous(notes: Array<Note>, current: Note): Note {
-        console.log(notes);
-        console.log(current);
-
+    public previous(current: Note, notes: Note[] = null): Note {
         let previous: Note = null;
 
-        const pos: number = notes.indexOf(current);
+        if (null === notes) {
+            notes = this._notes.getValue();
+        }
 
-        console.log(pos);
+        const pos: number = this.indexOf(current, notes);
         if (-1 !== pos && notes[pos - 1]) {
             previous = notes[pos - 1];
         }
@@ -104,19 +104,36 @@ export class NoteService {
     /**
      * Get the next Note of current.
      *
-     * @param   {Array}  notes
-     * @param   {Object} current
+     * @param {Note}   current
+     * @param {Note[]} notes
      *
-     * @returns {Object|null}
+     * @returns {Note|null}
      */
-    public static next(notes: Array<Note>, current: Note): Note {
+    public next(current: Note, notes: Note[] = null): Note {
         let next: Note = null;
 
-        const pos: number = notes.indexOf(current);
+        if (null === notes) {
+            notes = this._notes.getValue();
+        }
+
+        const pos: number = this.indexOf(current, notes);
         if (-1 !== pos && notes[pos + 1]) {
             next = notes[pos + 1];
         }
 
         return next;
+    }
+
+    private indexOf(search: Note, notes: Note[]): number {
+        let index = -1;
+
+        for (var i = 0; i < notes.length; i++) {
+            if (search.id === notes[i].id) {
+                index = i;
+                break;
+            }
+        }
+
+        return index;
     }
 }

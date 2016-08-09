@@ -60,10 +60,11 @@ export abstract class Resource implements ResourceData {
             for (let relationship in data.relationships) {
                 if (data.relationships.hasOwnProperty(relationship)) {
                     if (this.relationships[relationship]) {
-                        this.relationships[relationship].load(data.relationships[relationship].data);
+                        if (data.relationships[relationship].data) {
+                            this.relationships[relationship].load(data.relationships[relationship].data);
+                        }
                     } else {
                         console.log(this);
-                        console.log(this.relationships);
                         console.error('Resource : Unknown relationship "' + relationship + '" found.');
                     }
                 }

@@ -16,12 +16,12 @@ use TuningBundle\Model\TuningTrait;
  */
 class GuitarSpecification extends AbstractSpecification
 {
-    /**
+    /*
      * ID
      */
     use UniqueIdentifierTrait;
 
-    /**
+    /*
      * Tuning of the Guitar
      */
     use TuningTrait;

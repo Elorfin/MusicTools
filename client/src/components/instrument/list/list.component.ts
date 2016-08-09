@@ -18,11 +18,9 @@ export class InstrumentListComponent implements OnInit {
     constructor (private instrumentService: InstrumentService) {}
 
     ngOnInit() {
-        this.instrumentService
-            .getAll()
-            .subscribe(
-                instruments => this.instruments = instruments,
-                error       =>  this.errorMessage = <any>error
-            );
+        this.instrumentService.data.subscribe(
+            (data: Instrument[]) => this.instruments = data,
+            error => this.errorMessage = <any>error
+        );
     }
 }

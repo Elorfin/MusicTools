@@ -1,10 +1,12 @@
+import {Resource} from "../../../../library/data/resource/resource";
+
 /**
  * Note
  */
-export class Note {
-    public type: string = 'notes';
-
+export class Note extends Resource {
     public id: string;
+
+    public type: string = 'notes';
 
     public attributes: {
         value: number,

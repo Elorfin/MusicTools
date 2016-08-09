@@ -1,0 +1,16 @@
+<div class="dropdown" [ngClass]="{open: opened}" (onClickOut)="opened = false">
+    <a class="dropdown-toggle" role="button" id="tuningDropdown" aria-haspopup="true" (click)="opened = !opened">
+        <em *ngIf="!tuning">-- select tuning --</em>
+        <div *ngIf="tuning">
+            {{ tuning.attributes.name }}
+            <small>{{ tuning.toString() }}</small>
+        </div>
+    </a>
+
+    <div class="dropdown-menu" aria-labelledby="tuningDropdown">
+        <a class="dropdown-item" *ngFor="let tuning of tunings" (click)="selectTuning(tuning)">
+            {{ tuning.attributes.name }}
+            <small>{{ tuning.toString() }}</small>
+        </a>
+    </div>
+</div>

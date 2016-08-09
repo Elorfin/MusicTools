@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 import { Template }      from './../../../../library/layout/template.service';
 import { NoteService }   from './../shared/note.service';
@@ -11,39 +11,43 @@ import { GuitarProfile } from './../../../../library/synthesizer/profile/guitar.
     templateUrl: Template.getUrl('input.component.html', 'theory/note/input')
 })
 
-export class NoteInputComponent implements OnInit {
+export class NoteInputComponent {
     /**
-     * Current note
+     * Current note.
      *
      * @type {Note}
      */
     @Input() note: Note;
 
-    /**
-     * List of notes.
-     *
-     * @type {Note[]}
-     */
-    public notes: Note[];
+    @Output() change = new EventEmitter();
 
     constructor(private noteService: NoteService) {}
 
-    ngOnInit() {
-        this.noteService.notes.subscribe(notes => this.notes = notes);
-    }
-
+    /**
+     * Get the previous Note.
+     */
     public previous(): void {
-        let note = NoteService.previous(this.notes, this.note)
-
-        console.log(note);
-
-        this.note = note;
+        const previous: Note = this.noteService.previous(this.note);
+        if (previous) {
+            this.note = previous;
+            this.change.emit(this.note);
+        }
     }
 
+    /**
+     * Get the next Note.
+     */
     public next(): void {
-        this.note = NoteService.next(this.notes, this.note);
+        const next: Note = this.noteService.next(this.note);
+        if (next) {
+            this.note = next;
+            this.change.emit(this.note);
+        }
     }
 
+    /**
+     * Play the Note.
+     */
     public play(): void {
         const synthesizer = new Synthesizer(new GuitarProfile());
 

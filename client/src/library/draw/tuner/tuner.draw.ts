@@ -1,4 +1,5 @@
 import {CanvasDraw} from "../canvas.draw";
+import {Instrument} from "../../../components/instrument/shared/instrument";
 
 class TuningPegPosition {
     public x: number;
@@ -52,19 +53,11 @@ export class TunerDraw extends CanvasDraw {
             { x: 315, y: 535, clockwise: false }
         ]
     };
-
-    constructor(canvas: HTMLCanvasElement, config: Object = null) {
-        super(canvas);
-
-        /*if (config) {
-            this.config = config;
-        }*/
-    }
     
     /**
      * Redraw tuner.
      */
-    public draw(): void {
+    public draw(instrument: Instrument): void {
         // Calculate Height of the Canvas from it's width (ratio=2.15)
         this.canvas.height = this.canvas.width * 2.15;
 

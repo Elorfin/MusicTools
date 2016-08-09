@@ -1,4 +1,3 @@
-import { CanvasDraw } from "./../../canvas.draw";
 import { Note } from './../../../../components/theory/note/shared/note';
 
 export class GuitarTunerDraw {

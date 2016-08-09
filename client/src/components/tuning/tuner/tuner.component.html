@@ -2,28 +2,33 @@
     <div class="card-block">
         <div class="dropdown" [ngClass]="{open: opened}" (onClickOut)="opened = false">
             <a class="dropdown-toggle" role="button" id="tuningDropdown" aria-haspopup="true" (click)="opened = !opened">
-                <em>-- select tuning --</em>
+                <em *ngIf="!instrument || !instrument.relationships.tuning">-- select tuning --</em>
+                <div *ngIf="instrument && instrument.relationships.tuning">
+                    {{ instrument.relationships.tuning.data.attributes.name }}
+                    <small>{{ instrument.relationships.tuning.data.displayNotes() }}</small>
+                </div>
             </a>
 
             <div class="dropdown-menu" aria-labelledby="tuningDropdown">
                 <a class="dropdown-item" *ngFor="let tuning of tunings" (click)="selectTuning(tuning)">
                     {{ tuning.attributes.name }}
+                    <small>{{ tuning.displayNotes() }}</small>
                 </a>
             </div>
         </div>
 
         <div class="tuner-block">
-            <div class="tuner-col tuner-notes" *ngIf="tuning">
+            <div class="tuner-col tuner-notes" *ngIf="instrument">
                 <div class="tuner-cell">
-                    <note-input [note]="tuning.relationships.notes.data[2]"></note-input>
+                    <note-input [note]="instrument.relationships.tuning.data.relationships.notes.data[2]"></note-input>
                 </div>
 
                 <div class="tuner-cell">
-                    <note-input [note]="tuning.relationships.notes.data[1]"></note-input>
+                    <note-input [note]="instrument.relationships.tuning.data.relationships.notes.data[1]"></note-input>
                 </div>
 
                 <div class="tuner-cell">
-                    <note-input [note]="tuning.relationships.notes.data[0]"></note-input>
+                    <note-input [note]="instrument.relationships.tuning.data.relationships.notes.data[0]"></note-input>
                 </div>
             </div>
 
@@ -31,17 +36,17 @@
                 <canvas #tunerCanvas class="tuning-headstock"></canvas>
             </div>
 
-            <div class="tuner-col tuner-notes" *ngIf="tuning">
+            <div class="tuner-col tuner-notes" *ngIf="instrument">
                 <div class="tuner-cell">
-                    <note-input [note]="tuning.relationships.notes.data[3]"></note-input>
+                    <note-input [note]="instrument.relationships.tuning.data.relationships.notes.data[3]"></note-input>
                 </div>
 
                 <div class="tuner-cell">
-                    <note-input [note]="tuning.relationships.notes.data[4]"></note-input>
+                    <note-input [note]="instrument.relationships.tuning.data.relationships.notes.data[4]"></note-input>
                 </div>
 
                 <div class="tuner-cell">
-                    <note-input [note]="tuning.relationships.notes.data[5]"></note-input>
+                    <note-input [note]="instrument.relationships.tuning.data.relationships.notes.data[5]"></note-input>
                 </div>
             </div>
         </div>

@@ -27,7 +27,7 @@ export class ApiService {
      *
      * @returns {Observable}
      */
-    public call(url: string, options?: RequestOptions) {
+    public call(url: string, options?: RequestOptions): Observable<any> {
         if (!options) {
             options = new RequestOptions({
                 method: 'GET'

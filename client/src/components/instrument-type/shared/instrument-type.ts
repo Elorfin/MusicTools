@@ -1,21 +1,21 @@
+import {Resource} from "../../../library/data/resource/resource";
+
 /**
  * InstrumentType definition
  */
-export class InstrumentType {
+export class InstrumentType extends Resource {
     /**
      * ID of the InstrumentType
      * @type {String}
      */
-    public id: String;
+    public id: string;
 
-    public type: String;
+    public type: string = 'instrument_types';
 
     public attributes: {
-        name: String,
-        icon: String,
-        prefix: String,
-        polyphonic: Boolean
+        name: string,
+        icon: string,
+        prefix: string,
+        polyphonic: boolean
     };
-
-    public relationships: Object;
 }

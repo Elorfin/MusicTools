@@ -22,7 +22,7 @@ export class InstrumentDetailComponent implements OnInit {
             this.instrumentService
                 .get(params['id'])
                 .subscribe(
-                    instrument => this.instrument = instrument,
+                    (instrument: Instrument) => this.instrument = instrument,
                     error      => this.errorMessage = <any>error
                 );
         });

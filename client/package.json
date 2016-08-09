@@ -26,7 +26,7 @@
     "tsc": "tsc",
     "tsc:w": "tsc -w",
     "typings": "typings",
-    "build": "tsc && grunt build"
+    "build": "grunt build && tsc"
   },
   "dependencies": {
     "bootstrap": "^4.0.0-alpha.2",

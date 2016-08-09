@@ -1,7 +1,11 @@
-<img class="instrument-type"
+<img *ngIf="instrument"
+     class="instrument-type"
      alt="Instrument icon"
      src="dist/images/instrument/empty.svg"
      [src]="'dist/images/' + instrument.relationships.instrumentType.data.attributes.icon" />
+
+<img *ngIf="!instrument" class="instrument-type" alt="No instrument icon" src="dist/images/instrument/empty.svg" />
+
 <div>
     {{ instrument ? instrument.attributes.name : 'no instrument' }}
     <small *ngIf="instrument">E A D G B E</small>

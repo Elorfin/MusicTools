@@ -13,6 +13,13 @@ import {ApiService} from "../../../library/api/api.service";
 @Injectable()
 export class InstrumentService extends ResourceService {
     /**
+     * Current selected Instrument.
+     *
+     * @type {Instrument}
+     */
+    private _current: BehaviorSubject<Instrument> = new BehaviorSubject(null);
+    
+    /**
      * Class constructor.
      *
      * @param {ApiService} apiService
@@ -30,16 +37,9 @@ export class InstrumentService extends ResourceService {
         return '/instruments';
     }
 
-    public getResource(): { new(): Instrument} {
+    public getResource(): {new(): Instrument} {
         return Instrument;
     }
-
-    /**
-     * Current selected Instrument.
-     *
-     * @type {Instrument}
-     */
-    private _current: BehaviorSubject<Instrument> = new BehaviorSubject(null);
 
     /**
      * Gets the current Instrument.
@@ -58,8 +58,4 @@ export class InstrumentService extends ResourceService {
     public setCurrent(current: Instrument) {
         this._current.next(current);
     }
-
-    /*public dataToResource(data: ResourceData): Instrument {
-        return new Instrument(data);
-    }*/
 }

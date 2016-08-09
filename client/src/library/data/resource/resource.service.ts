@@ -7,8 +7,19 @@ import { ResourceData } from './resource-data';
 
 @Injectable()
 export abstract class ResourceService {
+    /**
+     *
+     * @type {BehaviorSubject<Resource[]>}
+     * @private
+     */
     private _data: BehaviorSubject<Resource[]> = new BehaviorSubject([]);
 
+    /**
+     * Are the service data already loaded ?
+     *
+     * @type {boolean}
+     * @private
+     */
     private loaded: boolean = false;
 
     /**
@@ -25,14 +36,12 @@ export abstract class ResourceService {
      */
     public abstract getUrl(): string;
 
-    public abstract getResource(): { new(): Resource};
-
     /**
-     * Convert HTTP data into the correction Resource class instance.
+     * Get the class of the Resource.
      *
-     * @param {ResourceData} data
+     * @returns {function}
      */
-    /*public abstract dataToResource(data: ResourceData): Resource;*/
+    public abstract getResource(): { new(): Resource};
 
     /**
      * Access service data.
@@ -41,7 +50,7 @@ export abstract class ResourceService {
      */
     public get data(): Observable<Resource[]> {
         if (!this.loaded) {
-            this.load().subscribe(data => this._data.next(data));
+            this.load().subscribe((data: Resource[]) => this._data.next(data));
             this.loaded = true;
         }
 
@@ -54,15 +63,12 @@ export abstract class ResourceService {
      * @returns {Observable<Resource[]>}
      */
     protected load(): Observable<Resource[]> {
-        return this.apiService
+        const service = this;
+
+        return <Observable<Resource[]>> this.apiService
             .call(this.getUrl())
-            .map((results: Array<ResourceData>) => results.map(this.loadResource));
-    }
-
-    protected loadResource(data: ResourceData): Resource {
-        const resourceName = this.getResource();
-
-        return (new resourceName()).load(data);
+            .map((results: Array<ResourceData>) => results.map(this.loadResource.bind(service)))
+        ;
     }
 
     /**
@@ -73,11 +79,25 @@ export abstract class ResourceService {
      * @returns {Observable<Resource>}
      */
     public get(id: String): Observable<Resource> {
-        const observable = this.apiService.call(this.getUrl() + '/' + id);
+        const service = this;
 
-        // Convert HTTP data to Resource instances
-        observable.map((result: ResourceData) => this.loadResource);
+        return <Observable<Resource>> this.apiService
+            .call(this.getUrl() + '/' + id)
+            .map((result: ResourceData) => this.loadResource.bind(service))
+        ;
+    }
 
-        return observable;
+    /**
+     * Loads API data into Resource instances.
+     *
+     * @param   {ResourceData} data
+     *
+     * @returns {Resource}
+     */
+    protected loadResource(data: ResourceData): Resource {
+        const resourceName = this.getResource();
+        const resource = new resourceName();
+
+        return resource.load(data);
     }
 }

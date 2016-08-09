@@ -1,4 +1,4 @@
-<div class="dropdown" [ngClass]="{open: opened}" *ngIf="current" (onClickOut)="opened = false">
+<div class="dropdown" [ngClass]="{open: opened}" (onClickOut)="opened = false">
     <a class="dropdown-toggle" role="button" id="instrumentDropdown" aria-haspopup="true" (click)="opened = !opened">
         <instrument-item [instrument]="current"></instrument-item>
     </a>
@@ -8,7 +8,7 @@
             <instrument-item [instrument]="instrument"></instrument-item>
         </a>
 
-        <a class="btn btn-link text-center" (click)="selectInstrument(instrument)">
+        <a class="btn btn-link text-center" (click)="createInstrument()">
             <span class="fa fa-plus"></span>
             add an instrument
         </a>

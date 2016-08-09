@@ -45,7 +45,7 @@ export class InstrumentMenuComponent implements OnInit {
     constructor (private instrumentService: InstrumentService) {}
 
     ngOnInit() {
-        this.instrumentService.instruments.subscribe(instruments => this.instruments = instruments);
+        this.instrumentService.data.subscribe((data: Instrument[]) => this.instruments = data);
         this.instrumentService.current.subscribe(current => this.current = current);
     }
 

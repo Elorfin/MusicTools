@@ -2,20 +2,37 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs/Rx';
 
 import { Instrument } from './instrument';
-import { ApiService } from "./../../../library/api/api.service";
+import { ResourceService } from './../../../library/data/resource/resource.service';
+import { ResourceData } from "../../../library/data/resource/resource-data";
+import {ApiService} from "../../../library/api/api.service";
 
 /**
  * Instrument Service
  * Manages user's Instruments
  */
 @Injectable()
-export class InstrumentService {
+export class InstrumentService extends ResourceService {
+    /**
+     * Class constructor.
+     *
+     * @param {ApiService} apiService
+     */
+    constructor (protected apiService: ApiService) {
+        super(apiService);
+    }
+
     /**
      * URL to access Instrument data.
      *
      * @type {string}
      */
-    private url = '/instruments';
+    public getUrl(): string {
+        return '/instruments';
+    }
+
+    public getResource(): { new(): Instrument} {
+        return Instrument;
+    }
 
     /**
      * Current selected Instrument.
@@ -23,27 +40,6 @@ export class InstrumentService {
      * @type {Instrument}
      */
     private _current: BehaviorSubject<Instrument> = new BehaviorSubject(null);
-
-    private _instruments: BehaviorSubject<Instrument[]> = new BehaviorSubject([]);
-
-    /**
-     * Class constructor.
-     *
-     * @param {ApiService} apiService
-     */
-    constructor (private apiService: ApiService) {
-        this.getAll().subscribe(instruments => {
-            this._instruments.next(instruments);
-
-            if (null === this._current.getValue() && instruments.length > 0) {
-                this._current.next(instruments[0]);
-            }
-        });
-    }
-
-    public get instruments() {
-        return this._instruments.asObservable();
-    }
 
     /**
      * Gets the current Instrument.
@@ -63,23 +59,7 @@ export class InstrumentService {
         this._current.next(current);
     }
 
-    /**
-     * Get all Instruments.
-     *
-     * @returns {Promise}
-     */
-    public getAll(): Observable<Instrument[]> {
-        return this.apiService.call(this.url);
-    }
-
-    /**
-     * Get an Instrument by its identifier.
-     *
-     * @param   {string} id
-     *
-     * @returns {Promise}
-     */
-    public get(id: String): Observable<Instrument> {
-        return this.apiService.call(this.url + '/' + id);
-    }
+    /*public dataToResource(data: ResourceData): Instrument {
+        return new Instrument(data);
+    }*/
 }

@@ -18,8 +18,6 @@ export abstract class CanvasDraw {
         this.context = this.canvas.getContext('2d');
     }
 
-    public abstract draw(): void;
-
     /**
      * Creates even position to avoid blur effect on lines.
      *

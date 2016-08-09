@@ -47,10 +47,8 @@ export class Synthesizer {
     }
 
     public generate(frequency: number = 440, duration: number = 1) {
-        var t = (new Date).valueOf();
-
-        var attack = this.profile.attack(this._sampleRate, frequency, this._volume);
-        var dampen = this.profile.dampen(this._sampleRate, frequency, this._volume);
+        const attack = this.profile.attack(this._sampleRate, frequency, this._volume);
+        const dampen = this.profile.dampen(this._sampleRate, frequency, this._volume);
 
         var val = 0;
 

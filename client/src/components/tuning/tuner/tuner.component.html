@@ -5,14 +5,14 @@
                 <em *ngIf="!instrument || !instrument.relationships.tuning">-- select tuning --</em>
                 <div *ngIf="instrument && instrument.relationships.tuning">
                     {{ instrument.relationships.tuning.data.attributes.name }}
-                    <small>{{ instrument.relationships.tuning.data.displayNotes() }}</small>
+                    <small>{{ instrument.relationships.tuning.data }}</small>
                 </div>
             </a>
 
             <div class="dropdown-menu" aria-labelledby="tuningDropdown">
                 <a class="dropdown-item" *ngFor="let tuning of tunings" (click)="selectTuning(tuning)">
                     {{ tuning.attributes.name }}
-                    <small>{{ tuning.displayNotes() }}</small>
+                    <small>{{ tuning }}</small>
                 </a>
             </div>
         </div>

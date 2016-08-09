@@ -18,8 +18,8 @@ export class RelationToOne<Resource> extends Relation<Resource> {
      * @param {Array<ResourceData>} data
      */
     public load(data: ResourceData): void {
-        const resource = new this.targetResource();
-        
+        const resource: Resource = new (this.targetResource)();
+
         this.data = resource.load(data);
     }
 }

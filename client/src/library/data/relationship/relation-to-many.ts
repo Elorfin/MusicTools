@@ -18,6 +18,10 @@ export class RelationToMany<Resource> extends Relation<Resource> {
      * @param {Array<ResourceData>} data
      */
     public load(data: Array<ResourceData>): void {
-        this.data = data.map((element: ResourceData) => (new this.targetResource()).load(element));
+        this.data = data.map((element: ResourceData) => {
+            const resource: Resource = new (this.targetResource)();
+
+            return resource.load(element)
+        });
     }
 }

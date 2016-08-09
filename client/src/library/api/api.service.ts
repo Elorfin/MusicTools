@@ -1,7 +1,7 @@
-import {Injectable}     from '@angular/core';
-import {Http, Response} from '@angular/http';
-import {Observable}     from 'rxjs/Observable';
-import {RequestOptions} from '@angular/http';
+import { Injectable }      from '@angular/core';
+import { Http, Response, RequestOptions } from '@angular/http';
+import { Observable }      from 'rxjs/Observable';
+import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 
 import 'rxjs/add/observable/throw';
 import 'rxjs/add/operator/cache';
@@ -17,7 +17,7 @@ import 'rxjs/add/operator/share';
 export class ApiService {
     private serverUrl: String = 'http://localhost/MusicTools/api/web/api_dev.php';
 
-    constructor (private http: Http) {}
+    constructor(private http: Http) {}
 
     /**
      * Calls the API server through HTTP.
@@ -25,7 +25,7 @@ export class ApiService {
      * @param   {String} url
      * @param   {RequestOptions} [options]
      *
-     * @returns {Promise}
+     * @returns {Observable}
      */
     public call(url: string, options?: RequestOptions) {
         if (!options) {
@@ -47,7 +47,7 @@ export class ApiService {
      *
      * @param   {Response} res
      *
-     * @returns {Object}
+     * @returns {Object|Array}
      */
     protected extractData(res: Response) {
         if (res.status < 200 || res.status >= 300) {
@@ -66,7 +66,7 @@ export class ApiService {
      *
      * @returns {ErrorObservable}
      */
-    protected handleError (error: any) {
+    protected handleError (error: any): ErrorObservable {
         // In a real world app, we might send the error to remote logging infrastructure
         let errMsg = error.message || 'Server error';
         console.error(errMsg); // log to console instead

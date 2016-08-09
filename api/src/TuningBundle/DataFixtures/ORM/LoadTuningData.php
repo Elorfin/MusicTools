@@ -35,6 +35,16 @@ class LoadTuningData extends AbstractFixture implements OrderedFixtureInterface
                 'name' => 'Standard',
                 'notes' => ['E2', 'A2', 'D3', 'G3', 'B3', 'E4']
             ], [
+                'instrumentType' => 'guitar',
+                'default' => false,
+                'name' => 'Down 1 step',
+                'notes' => ['D2', 'G2', 'C3', 'F3', 'A3', 'D4']
+            ], [
+                'instrumentType' => 'guitar',
+                'default' => false,
+                'name' => 'Down 2 steps',
+                'notes' => ['C2', 'F2', 'A♯2', 'D♯3', 'G3', 'C4']
+            ], [
                 'instrumentType' => 'bass',
                 'default' => true,
                 'name' => 'Standard',

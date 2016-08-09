@@ -174,27 +174,26 @@ class Instrument implements \JsonSerializable
      */
     public function jsonSerialize()
     {
+        $specification = $this->specification->jsonSerialize();
+
         return [
             // Identifier of the Resource
             'type' => 'instruments',
             'id' => $this->id,
 
             // Attributes of the Resource
-            'attributes' => [
+            'attributes' => array_merge($specification['attributes'], [
                 'name' => $this->name,
                 'manufacturer' => $this->manufacturer,
                 'model' => $this->model,
-            ],
+            ]),
 
             // Relationships with other Resources
-            'relationships' => [
+            'relationships' => array_merge($specification['relationships'], [
                 'instrumentType' => [
                     'data' => $this->instrumentType,
                 ],
-                'specification' => [
-                    'data' => $this->specification,
-                ],
-            ],
+            ]),
         ];
     }
 }

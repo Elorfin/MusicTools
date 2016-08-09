@@ -7,6 +7,7 @@ import { InstrumentService }                              from './instrument/ind
 import { ApiService }                                     from './../library/api/api.service';
 import { UserMenuComponent }                              from './user/menu/menu.component';
 import { NoteService }                                    from './theory/note/shared/note.service';
+import { TuningService }                                  from './tuning/shared/tuning.service';
 
 @Component({
     selector: 'music-tools',
@@ -21,7 +22,8 @@ import { NoteService }                                    from './theory/note/sh
     providers: [
         ApiService,
         NoteService,
-        InstrumentService
+        InstrumentService,
+        TuningService
     ]
 })
 

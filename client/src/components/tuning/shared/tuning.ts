@@ -1,8 +1,9 @@
-import { InstrumentType } from '../../instrument-type/shared/instrument-type';
-import { Note }           from '../../theory/note/shared/note';
-import { RelationToMany } from "../../../library/data/relationship/relation-to-many";
-import { RelationToOne }  from "../../../library/data/relationship/relation-to-one";
-import {Resource} from "../../../library/data/resource/resource";
+import { Resource }       from './../../../library/data/resource/resource';
+import { RelationToMany } from './../../../library/data/relationship/relation-to-many';
+import { RelationToOne }  from './../../../library/data/relationship/relation-to-one';
+import { InstrumentType } from './../../instrument-type/shared/instrument-type';
+import { Note }           from './../../theory/note/shared/note';
+import { TuningCategory } from './tuning-category';
 
 /**
  * Tuning definition
@@ -14,22 +15,27 @@ export class Tuning extends Resource {
      */
     public id: string;
 
-    public type: string;
+    public type: string = 'tunings';
 
-    public attributes: Object;
-
-    public relationships: {
-        instrumentType: RelationToOne<InstrumentType>
-        notes: RelationToMany<Note>
+    public attributes: {
+        name: string
     };
 
-    public displayNotes(): string {
+    public relationships: {
+        category: RelationToOne<TuningCategory>
+        instrumentType: RelationToOne<InstrumentType>
+        notes: RelationToMany<Note>
+    } = {
+        category: new RelationToOne(TuningCategory),
+        instrumentType: new RelationToOne(InstrumentType),
+        notes: new RelationToMany(Note)
+    };
+
+    public toString(): string {
         var notes: string = '';
         for (var i = 0; i < this.relationships.notes.data.length; i++) {
-            notes += ' ' + this.relationships.notes.data[0].attributes.flat_name;
+            notes += ' ' + this.relationships.notes.data[i].attributes.flat_name;
         }
-
-        console.log(notes);
 
         return notes;
     }

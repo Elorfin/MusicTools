@@ -3,8 +3,7 @@ import { BehaviorSubject, Observable } from 'rxjs/Rx';
 
 import { Instrument } from './instrument';
 import { ResourceService } from './../../../library/data/resource/resource.service';
-import { ResourceData } from "../../../library/data/resource/resource-data";
-import {ApiService} from "../../../library/api/api.service";
+import { ApiService } from './../../../library/api/api.service';
 
 /**
  * Instrument Service

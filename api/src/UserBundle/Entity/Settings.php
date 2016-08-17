@@ -15,41 +15,22 @@ use UserBundle\Model\OwnerTrait;
  */
 class Settings implements \JsonSerializable
 {
-    /**
+    /*
      * ID
      */
     use UniqueIdentifierTrait;
 
-    /**
+    /*
      * Linked User
      */
     use OwnerTrait;
 
     /**
-     * Language
-     *
-     * @var string
-     */
-    protected $language;
-
-    /**
-     * Date format
-     *
-     * @var string
-     */
-    protected $dateFormat;
-
-    /**
-     * List format
-     *
-     * @var string
-     */
-    protected $listFormat;
-
-    /**
      * Volume
      *
      * @var integer
+     *
+     * @ORM\Column(type="integer")
      */
     protected $volume;
 
@@ -57,6 +38,8 @@ class Settings implements \JsonSerializable
      * Note format
      *
      * @var string
+     *
+     * @ORM\Column(type="string")
      */
     protected $noteFormat;
 
@@ -66,15 +49,9 @@ class Settings implements \JsonSerializable
             'id' => $this->id,
             'type' => 'settings',
             'attributes' => [
-                'language' => $this->language,
-                'dateFormat' => $this->dateFormat,
-                'listFormat' => $this->listFormat,
                 'noteFormat' => $this->noteFormat,
                 'volume' => $this->volume,
             ],
-            'relationships' => [
-
-            ]
         ];
     }
 }

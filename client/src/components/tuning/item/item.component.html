@@ -1,0 +1,6 @@
+<img *ngIf="!tuning" class="instrument-type" alt="No instrument icon" src="dist/images/instrument/empty.svg" />
+
+<div>
+    {{ tuning ? tuning.attributes.name : 'no tuning' }}
+    <small *ngIf="tuning">{{ tuning }}</small>
+</div>

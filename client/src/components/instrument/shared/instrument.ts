@@ -2,7 +2,6 @@ import { Resource }       from './../../../library/data/resource/resource';
 import { RelationToOne }  from './../../../library/data/relationship/relation-to-one';
 import { InstrumentType } from './../../instrument-type/index';
 import { Tuning }         from './../../tuning/shared/tuning';
-import {ResourceData} from "../../../library/data/resource/resource-data";
 
 /**
  * Instrument definition

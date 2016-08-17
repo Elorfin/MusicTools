@@ -1,4 +1,5 @@
-import {ResourceData} from "../resource/resource-data";
+import { ResourceData } from './../resource/resource-data';
+
 /**
  * Relation
  */

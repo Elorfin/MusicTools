@@ -6,8 +6,7 @@ use Elorfin\JsonApiBundle\Response\JsonApiResponse;
 use Elorfin\JsonApiBundle\Response\JsonErrorResponse;
 use LessonBundle\Form\Type\LessonType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration as EXT;
 use LessonBundle\Entity\Lesson;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,7 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
 /**
  * Lesson controller.
  *
- * @Route("/lessons")
+ * @EXT\Route("/lessons")
  */
 class LessonController extends Controller
 {
@@ -24,8 +23,8 @@ class LessonController extends Controller
      *
      * @return JsonApiResponse
      *
-     * @Route("")
-     * @Method("GET")
+     * @EXT\Route("")
+     * @EXT\Method("GET")
      */
     public function listAction()
     {
@@ -44,8 +43,8 @@ class LessonController extends Controller
      *
      * @return JsonApiResponse
      *
-     * @Route("/{id}")
-     * @Method("GET")
+     * @EXT\Route("/{id}")
+     * @EXT\Method("GET")
      */
     public function getAction(Lesson $lesson)
     {
@@ -57,8 +56,8 @@ class LessonController extends Controller
      *
      * @return JsonApiResponse
      *
-     * @Route("")
-     * @Method("POST")
+     * @EXT\Route("")
+     * @EXT\Method("POST")
      */
     public function createAction()
     {
@@ -72,8 +71,8 @@ class LessonController extends Controller
      *
      * @return JsonApiResponse
      *
-     * @Route("/{id}")
-     * @Method("PUT")
+     * @EXT\Route("/{id}")
+     * @EXT\Method("PUT")
      */
     public function updateAction(Lesson $lesson, Request $request)
     {
@@ -102,8 +101,8 @@ class LessonController extends Controller
      *
      * @return JsonApiResponse
      *
-     * @Route("/{id}")
-     * @Method("DELETE")
+     * @EXT\Route("/{id}")
+     * @EXT\Method("DELETE")
      */
     public function deleteAction(Lesson $lesson)
     {

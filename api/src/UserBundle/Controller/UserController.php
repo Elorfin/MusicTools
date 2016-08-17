@@ -5,13 +5,12 @@ namespace UserBundle\Controller;
 use Elorfin\JsonApiBundle\Response\JsonApiResponse;
 use UserBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration as EXT;
 
 /**
  * User controller.
  *
- * @Route("/users")
+ * @EXT\Route("/users")
  */
 class UserController extends Controller
 {
@@ -20,15 +19,12 @@ class UserController extends Controller
      *
      * @return JsonApiResponse
      *
-     * @Route("/", name="user")
-     * @Method("GET")
+     * @EXT\Route("/", name="user")
+     * @EXT\Method("GET")
      */
     public function indexAction()
     {
-        // Get current User logged in session
-        $user = $this->container->get('security.token_storage')->getToken()->getUser();
-
-        $entities = $this->container->get('doctrine.orm.entity_manager')->getRepository('UserBundle:User')->findAllExceptMe($user);
+        $entities = $this->container->get('doctrine.orm.entity_manager')->getRepository('UserBundle:User')->findAll();
 
         return new JsonApiResponse($entities);
     }
@@ -40,8 +36,8 @@ class UserController extends Controller
      *
      * @return JsonApiResponse
      *
-     * @Route("/{username}", name="user_show")
-     * @Method("GET")
+     * @EXT\Route("/{username}", name="user_show")
+     * @EXT\Method("GET")
      */
     public function showAction(User $user)
     {

@@ -3,15 +3,14 @@
 namespace TheoryBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration as EXT;
 use Elorfin\JsonApiBundle\Response\JsonApiResponse;
 use TheoryBundle\Entity\Scale;
 
 /**
  * Scale CRUD Controller.
  *
- * @Route("/scales")
+ * @EXT\Route("/scales")
  */
 class ScaleController extends Controller
 {
@@ -20,8 +19,8 @@ class ScaleController extends Controller
      *
      * @return array
      *
-     * @Route("")
-     * @Method("GET")
+     * @EXT\Route("")
+     * @EXT\Method("GET")
      */
     public function listAction()
     {
@@ -39,8 +38,8 @@ class ScaleController extends Controller
      *
      * @return array
      *
-     * @Route("/{id}")
-     * @Method("GET")
+     * @EXT\Route("/{id}")
+     * @EXT\Method("GET")
      */
     public function getAction(Scale $scale)
     {

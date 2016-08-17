@@ -4,23 +4,22 @@ namespace GameBundle\Controller;
 
 use Elorfin\JsonApiBundle\Response\JsonApiResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration as EXT;
 
 /**
  * Game controller.
  *
- * @Route("/games")
+ * @EXT\Route("/games")
  */
 class GameController extends Controller
 {
     /**
      * List all games.
      *
-     * @return array
+     * @return JsonApiResponse
      *
-     * @Route("")
-     * @Method("GET")
+     * @EXT\Route("")
+     * @EXT\Method("GET")
      */
     public function listAction()
     {

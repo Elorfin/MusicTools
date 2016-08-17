@@ -4,14 +4,13 @@ namespace InstrumentBundle\Controller;
 
 use InstrumentBundle\Entity\InstrumentType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration as EXT;
 use Elorfin\JsonApiBundle\Response\JsonApiResponse;
 
 /**
  * Instrument Type CRUD Controller.
  *
- * @Route("/instrument_types")
+ * @EXT\Route("/instrument_types")
  */
 class InstrumentTypeController extends Controller
 {
@@ -20,8 +19,8 @@ class InstrumentTypeController extends Controller
      *
      * @return JsonApiResponse
      *
-     * @Route("")
-     * @Method("GET")
+     * @EXT\Route("")
+     * @EXT\Method("GET")
      */
     public function listAction()
     {
@@ -42,8 +41,8 @@ class InstrumentTypeController extends Controller
      *
      * @return JsonApiResponse
      *
-     * @Route("/{id}")
-     * @Method("GET")
+     * @EXT\Route("/{id}")
+     * @EXT\Method("GET")
      */
     public function getAction(InstrumentType $instrumentType)
     {
@@ -57,8 +56,8 @@ class InstrumentTypeController extends Controller
      *
      * @return JsonApiResponse
      *
-     * @Route("/{id}/instruments")
-     * @Method("GET")
+     * @EXT\Route("/{id}/instruments")
+     * @EXT\Method("GET")
      */
     public function listInstrumentsAction(InstrumentType $instrumentType)
     {

@@ -3,14 +3,13 @@
 namespace TheoryBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration as EXT;
 use Elorfin\JsonApiBundle\Response\JsonApiResponse;
 
 /**
  * Degree CRUD Controller.
  *
- * @Route("/degrees")
+ * @EXT\Route("/degrees")
  */
 class DegreeController extends Controller
 {
@@ -19,8 +18,8 @@ class DegreeController extends Controller
      *
      * @return array
      *
-     * @Route("")
-     * @Method("GET")
+     * @EXT\Route("")
+     * @EXT\Method("GET")
      */
     public function listAction()
     {

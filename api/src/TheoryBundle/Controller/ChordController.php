@@ -3,15 +3,14 @@
 namespace TheoryBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration as EXT;
 use Elorfin\JsonApiBundle\Response\JsonApiResponse;
 use TheoryBundle\Entity\Chord;
 
 /**
  * Chord CRUD Controller.
  *
- * @Route("/chords")
+ * @EXT\Route("/chords")
  */
 class ChordController extends Controller
 {
@@ -20,8 +19,8 @@ class ChordController extends Controller
      *
      * @return array
      *
-     * @Route("")
-     * @Method("GET")
+     * @EXT\Route("")
+     * @EXT\Method("GET")
      */
     public function listAction()
     {
@@ -39,8 +38,8 @@ class ChordController extends Controller
      *
      * @return JsonApiResponse
      *
-     * @Route("/{id}")
-     * @Method("GET")
+     * @EXT\Route("/{id}")
+     * @EXT\Method("GET")
      */
     public function getAction(Chord $chord)
     {

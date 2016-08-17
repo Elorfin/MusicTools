@@ -3,8 +3,7 @@
 namespace InstrumentBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration as EXT;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\FormInterface;
 use Elorfin\JsonApiBundle\Response\JsonApiResponse;
@@ -15,7 +14,7 @@ use InstrumentBundle\Form\Type\InstrumentType;
 /**
  * Instrument CRUD Controller.
  *
- * @Route("/instruments")
+ * @EXT\Route("/instruments")
  */
 class InstrumentController extends Controller
 {
@@ -24,8 +23,8 @@ class InstrumentController extends Controller
      *
      * @return JsonApiResponse
      *
-     * @Route("/generic")
-     * @Method("GET")
+     * @EXT\Route("/generic")
+     * @EXT\Method("GET")
      */
     public function listGenericAction()
     {
@@ -36,8 +35,8 @@ class InstrumentController extends Controller
      *
      * @return JsonApiResponse
      *
-     * @Route("")
-     * @Method("GET")
+     * @EXT\Route("")
+     * @EXT\Method("GET")
      */
     public function listAction()
     {
@@ -56,8 +55,8 @@ class InstrumentController extends Controller
      *
      * @return JsonApiResponse
      *
-     * @Route("/{id}")
-     * @Method("GET")
+     * @EXT\Route("/{id}")
+     * @EXT\Method("GET")
      */
     public function getAction(Instrument $instrument)
     {
@@ -71,8 +70,8 @@ class InstrumentController extends Controller
      *
      * @return JsonApiResponse
      *
-     * @Route("")
-     * @Method("POST")
+     * @EXT\Route("")
+     * @EXT\Method("POST")
      */
     public function createAction(Request $request)
     {
@@ -101,8 +100,8 @@ class InstrumentController extends Controller
      *
      * @return array
      *
-     * @Route("/{id}")
-     * @Method("PUT")
+     * @EXT\Route("/{id}")
+     * @EXT\Method("PUT")
      */
     public function updateAction(Instrument $instrument, Request $request)
     {
@@ -131,8 +130,8 @@ class InstrumentController extends Controller
      *
      * @return array
      *
-     * @Route("/{id}")
-     * @Method("DELETE")
+     * @EXT\Route("/{id}")
+     * @EXT\Method("DELETE")
      */
     public function deleteAction(Instrument $instrument)
     {

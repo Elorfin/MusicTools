@@ -3,15 +3,14 @@
 namespace TuningBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration as EXT;
 use Elorfin\JsonApiBundle\Response\JsonApiResponse;
 use TuningBundle\Entity\Tuning;
 
 /**
  * Tuning CRUD Controller.
  *
- * @Route("/tunings")
+ * @EXT\Route("/tunings")
  */
 class TuningController extends Controller
 {
@@ -20,8 +19,8 @@ class TuningController extends Controller
      *
      * @return JsonApiResponse
      *
-     * @Route("")
-     * @Method("GET")
+     * @EXT\Route("")
+     * @EXT\Method("GET")
      */
     public function listAction()
     {
@@ -40,8 +39,8 @@ class TuningController extends Controller
      *
      * @return JsonApiResponse
      *
-     * @Route("/{id}")
-     * @Method("GET")
+     * @EXT\Route("/{id}")
+     * @EXT\Method("GET")
      */
     public function getAction(Tuning $tuning)
     {

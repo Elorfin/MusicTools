@@ -9,13 +9,12 @@ use SongBookBundle\Entity\Song;
 use SongBookBundle\Form\Type\SongType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration as EXT;
 
 /**
  * Song CRUD Controller.
  *
- * @Route("/songs")
+ * @EXT\Route("/songs")
  */
 class SongController extends Controller
 {
@@ -24,8 +23,8 @@ class SongController extends Controller
      *
      * @return JsonApiResponse
      *
-     * @Route("")
-     * @Method("GET")
+     * @EXT\Route("")
+     * @EXT\Method("GET")
      */
     public function listAction()
     {
@@ -44,8 +43,8 @@ class SongController extends Controller
      *
      * @return JsonApiResponse
      *
-     * @Route("/{id}")
-     * @Method("GET")
+     * @EXT\Route("/{id}")
+     * @EXT\Method("GET")
      */
     public function getAction(Song $song)
     {
@@ -59,8 +58,8 @@ class SongController extends Controller
      *
      * @return JsonApiResponse|JsonErrorResponse
      *
-     * @Route("")
-     * @Method("POST")
+     * @EXT\Route("")
+     * @EXT\Method("POST")
      */
     public function createAction(Request $request)
     {
@@ -89,8 +88,8 @@ class SongController extends Controller
      *
      * @return JsonApiResponse|JsonErrorResponse
      *
-     * @Route("/{id}")
-     * @Method("PUT")
+     * @EXT\Route("/{id}")
+     * @EXT\Method("PUT")
      */
     public function updateAction(Song $song, Request $request)
     {
@@ -119,8 +118,8 @@ class SongController extends Controller
      *
      * @return JsonApiResponse
      *
-     * @Route("/{id}")
-     * @Method("DELETE")
+     * @EXT\Route("/{id}")
+     * @EXT\Method("DELETE")
      */
     public function deleteAction(Song $song)
     {

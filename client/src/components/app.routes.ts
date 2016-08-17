@@ -11,7 +11,7 @@ import { GameListComponent }         from './game/list/list.component';
 import { UserListComponent }         from './user/list/list.component';
 import { MessageListComponent }      from './message/list/list.component';
 import { UserProfileComponent }      from './user/profile/profile.component';
-import { SettingsComponent }         from './settings/settings.component';
+import { SettingsShowComponent }     from './settings/show/show.component';
 
 export const routes: RouterConfig = [
     // Dashboard (default route)
@@ -36,7 +36,7 @@ export const routes: RouterConfig = [
     { path: 'profile',         component: UserProfileComponent },
 
     // Settings
-    { path: 'settings',        component: SettingsComponent }
+    { path: 'settings',        component: SettingsShowComponent }
 ];
 
 export const APP_ROUTER_PROVIDERS = [
